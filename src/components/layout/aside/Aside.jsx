@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 
 import './Aside.css'
 
@@ -28,27 +28,27 @@ export const Aside = () => {
                 </li>
 
                 <li className="nav-item">
-                  <Link className="nav-link" to="/">
+                  <Link className="nav-link" to="/report">
                   <i className="fas fa-file"></i> Report
                   </Link>
                 </li>
 
                 <li className="nav-item">
-                  <Link className="nav-link" to="/">
+                  <Link className="nav-link" to="/user">
                   <i className="fas fa-user"></i> User
                   </Link>
                 </li>
 
                 <li className="nav-item">
-                  <Link className="nav-link" to="/">
+                  <Link className="nav-link" to="/register">
                   <i className="fas fa-box"></i> Ovens
                   </Link>
                 </li>
 
                 <li className="nav-item">
-                  <a className="nav-link">
+                  <Link className="nav-link" to="/login">
                     <i className="fas fa-pen"></i> LogOut
-                  </a>
+                  </Link>
                 </li>
 
                 {/* <li className="nav-item">
@@ -136,6 +136,9 @@ export const Aside = () => {
               height={380}
             /> */}
             <h2>Section title</h2>
+            <section>
+              <Outlet />
+            </section>
             {/* <div className="table-responsive">
               <table className="table table-striped table-sm">
                 <thead>
