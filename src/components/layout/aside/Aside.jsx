@@ -135,7 +135,6 @@ export const Aside = () => {
               width={900}
               height={380}
             /> */}
-            <h2>Section title</h2>
             <section>
               <Outlet />
             </section>
