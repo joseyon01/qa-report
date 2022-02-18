@@ -1,0 +1,9 @@
+#root{
+  height: 100vh;
+  display: flex;
+}
+
+
+.container{
+  padding: 1rem;
+}
