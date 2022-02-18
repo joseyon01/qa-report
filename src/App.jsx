@@ -1,35 +1,19 @@
-import { Fragment } from 'react'
-import {
-  BrowserRouter,
-  Routes,
-  Route
-} from "react-router-dom";
+import React from "react";
+import { render } from "react-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import {Login} from './components/auth/Login';
-import { Register } from './components/auth/Register';
-import { User } from './components/pages/user/User';
-import { Dashboard } from './components/layout/dashboard/Dashboard';
-import { Report } from './components/pages/report/Report';
+import { Dashboard } from "./components/dashboard/Dashboard";
+import { Login } from "./components/auth/Login";
+import { Register } from "./components/register/Register";
+import { User } from "./components/pages/user/User";
 
-function App() {
-
+export default function App() {
   return (
-    <Fragment>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Dashboard />}>
-            {/* <Route index element={<Login />}></Route> */}
-            <Route path="register" element={<Register/>}></Route>
-            <Route path="user" element={<User />}></Route> 
-            <Route path="report" element={<Report />}></Route>
-            {/* <Route path="*" element={<Navigation replace to="/" />} />  */}
-          </Route>
-          <Route path="/login" element={<Login />}></Route>
-
-        </Routes>
-      </BrowserRouter>
-    </Fragment>
+    <Router>
+      <Routes>
+        <Route path="register/*" element={<Register />} />
+        <Route path="/" element={<Dashboard />} />
+      </Routes>
+    </Router>
   );
 }
-
-export default App
