@@ -2,9 +2,9 @@ import React from "react";
 import { render } from "react-dom";
 import { Link, Routes, Route } from "react-router-dom";
 import { FormTop } from "../formtop/FormTop";
-import { Oven1 } from "./oven1/Oven1";
-import { Oven2 } from "./oven2/Oven2";
-import { Oven3 } from "./oven3/Oven3";
+import { Oven1 } from "../oven1/Oven1";
+import { Oven2 } from "../oven2/Oven2";
+import { Oven3 } from "../oven3/Oven3";
 
 export const Register = (props) => {
   const [serial, setSerial] = React.useState("S/N");
