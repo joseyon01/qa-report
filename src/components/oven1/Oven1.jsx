@@ -14,6 +14,8 @@ import {
 const { Title } = Typography;
 import TurboChef from "../../assets/img/turboChefLogo.png";
 
+const { Text, Link } = Typography;
+
 export const Oven1 = (props) => {
   const [form] = Form.useForm();
   return (
@@ -75,15 +77,15 @@ export const Oven1 = (props) => {
       </Divider>
       <Row justify="center">
         <Col xs={16} style={{ fontSize: "1.25em" }}>
-          <span>
+          <Text type="secondary">
             A) Check Consumables and Accessories to comply with proper Packaging
             Kit.
-          </span>
+          </Text>
           <br />
-          <span>
+          <Text>
             Remove Rack, Left, Right and Top panels. Confirm proper Schematic is
             on RS Panel.
-          </span>
+          </Text>
         </Col>
         <Col xs={4}>
           <Radio.Group name="oneA" defaultValue={"bad"}>

@@ -1,15 +1,17 @@
 import React from "react";
-import { render } from "react-dom";
-import { Link, Routes, Route } from "react-router-dom";
-import { Row, Col, Layout, Table, Tag, Space, Typography } from "antd";
+import { Routes, Route } from "react-router-dom";
+import { Col, Layout, Typography, Row } from "antd";
 import { Button } from "antd";
 import { FormTop } from "../formtop/FormTop";
 import { Oven1 } from "../oven1/Oven1";
 import { Oven2 } from "../oven2/Oven2";
 import { Oven3 } from "../oven3/Oven3";
 
+import { Container } from "../layout/Container";
+import { Header } from '../layout/Headet';
+
 const { Title } = Typography;
-const { Header, Footer, Content } = Layout;
+const { Footer, Content } = Layout;
 
 export const Register = (props) => {
   const [serial, setSerial] = React.useState("");
@@ -26,37 +28,26 @@ export const Register = (props) => {
   }
   return (
     <Layout>
-      <Header
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <Title style={{ color: "#fff", textAlign: "center", margin: "0px" }}>
-          QA-Report
-        </Title>
-        <Button style={{ color: "#eee", backgroundColor: "#051721" }}>
-          Log Out
-        </Button>
-      </Header>
+      <Header />
       <Content style={{ paddingTop: "2em" }}>
-        <FormTop
-          onChangeCN={onChangeSerial}
-          onChangeName={onChangeName}
-          onChangeDate={onChangeDate}
-          serial={serial}
-          name={name}
-          date={date}
-        />
-        <Routes>
-          <Route
-            path="Oven1"
-            element={<Oven1 serial={serial} name={name} date={date} />}
+        <Container>
+            <FormTop
+            onChangeCN={onChangeSerial}
+            onChangeName={onChangeName}
+            onChangeDate={onChangeDate}
+            serial={serial}
+            name={name}
+            date={date}
           />
-          <Route path="Oven2" element={<Oven2 serial={serial} />} />
-          <Route path="Oven3" element={<Oven3 serial={serial} />} />
-        </Routes>
+          <Routes>
+            <Route
+              path="Oven1"
+              element={<Oven1 serial={serial} name={name} date={date} />}
+            />
+            <Route path="Oven2" element={<Oven2 serial={serial} />} />
+            <Route path="Oven3" element={<Oven3 serial={serial} />} />
+          </Routes>
+        </Container>
       </Content>
       <Footer style={{ backgroundColor: "#ccc" }}>Qa Turbochef, 2022</Footer>
     </Layout>
