@@ -1,20 +1,29 @@
 import React from "react";
 import { render } from "react-dom";
 import { Link, Routes, Route } from "react-router-dom";
-import { Row, Col, Layout, Table, Tag, Space } from "antd";
+import { Row, Col, Layout, Table, Tag, Space, Typography } from "antd";
 import { Button } from "antd";
 import { FormTop } from "../formtop/FormTop";
 import { Oven1 } from "../oven1/Oven1";
 import { Oven2 } from "../oven2/Oven2";
 import { Oven3 } from "../oven3/Oven3";
 
+const { Title } = Typography;
 const { Header, Footer, Content } = Layout;
 
 export const Register = (props) => {
   const [serial, setSerial] = React.useState("");
-  const onChange = (event) => {
+  const [name, setName] = React.useState("");
+  const [date, setDate] = React.useState("");
+  const onChangeSerial = (event) => {
     setSerial(event.target.value);
   };
+  const onChangeName = (event) => {
+    setName(event.target.value);
+  };
+  function onChangeDate(date, dateString) {
+    setDate(dateString);
+  }
   return (
     <Layout>
       <Header
@@ -24,17 +33,27 @@ export const Register = (props) => {
           alignItems: "center",
         }}
       >
-        <h1 style={{ color: "#fff", textAlign: "center", margin: "0px" }}>
+        <Title style={{ color: "#fff", textAlign: "center", margin: "0px" }}>
           QA-Report
-        </h1>
+        </Title>
         <Button style={{ color: "#eee", backgroundColor: "#051721" }}>
           Log Out
         </Button>
       </Header>
-      <Content>
-        <FormTop onChangeCN={onChange} serial={serial} />
+      <Content style={{ paddingTop: "2em" }}>
+        <FormTop
+          onChangeCN={onChangeSerial}
+          onChangeName={onChangeName}
+          onChangeDate={onChangeDate}
+          serial={serial}
+          name={name}
+          date={date}
+        />
         <Routes>
-          <Route path="Oven1" element={<Oven1 serial={serial} />} />
+          <Route
+            path="Oven1"
+            element={<Oven1 serial={serial} name={name} date={date} />}
+          />
           <Route path="Oven2" element={<Oven2 serial={serial} />} />
           <Route path="Oven3" element={<Oven3 serial={serial} />} />
         </Routes>

@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Row, Col, Layout, Table, Tag, Space } from "antd";
+import { Row, Col, Layout, Table, Tag, Space, Typography } from "antd";
 import { AiFillDelete } from "react-icons/ai";
 import { AiFillEdit } from "react-icons/ai";
 import { Button } from "antd";
 
 const { Header, Footer, Content } = Layout;
+const { Title } = Typography;
 
 const columns = [
   {
@@ -74,9 +75,9 @@ export const Dashboard = () => {
           alignItems: "center",
         }}
       >
-        <h1 style={{ color: "#fff", textAlign: "center", margin: "0px" }}>
+        <Title style={{ color: "#fff", textAlign: "center", margin: "0px" }}>
           QA-Report
-        </h1>
+        </Title>
         <Button style={{ color: "#eee", backgroundColor: "#051721" }}>
           Log Out
         </Button>
