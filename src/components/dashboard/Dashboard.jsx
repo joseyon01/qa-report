@@ -1,53 +1,43 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Row, Col, Layout, Table, Tag, Space } from 'antd';
+import { Row, Col, Layout, Table, Tag, Space } from "antd";
+import { AiFillDelete } from "react-icons/ai";
+import { AiFillEdit } from "react-icons/ai";
+import { Button } from "antd";
 
 const { Header, Footer, Content } = Layout;
 
 const columns = [
   {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <a>{text}</a>,
+    title: "Serial Number",
+    dataIndex: "serialNumber",
+    key: "serialNumber",
+    render: (text) => <a>{text}</a>,
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
+    title: "Date",
+    dataIndex: "date",
+    key: "date",
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
+    title: "Status",
+    dataIndex: "status",
+    key: "status",
   },
   {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: tags => (
-      <>
-        {tags.map(tag => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
-  },
-  {
-    title: 'Action',
-    key: 'action',
+    title: "Actions",
+    key: "actions",
     render: (text, record) => (
-      <Space size="middle">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
+      <Space
+        size="middle"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        <a>
+          <AiFillDelete />
+        </a>
+        <a>
+          <AiFillEdit />
+        </a>
       </Space>
     ),
   },
@@ -55,50 +45,61 @@ const columns = [
 
 const data = [
   {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
+    key: "1",
+    serialNumber: "1",
+    date: "20/02/2022",
+    status: "Aprove",
   },
   {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
+    key: "2",
+    serialNumber: "2",
+    date: "18/11/2021",
+    status: "Denied",
   },
   {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
+    key: "3",
+    serialNumber: "3",
+    date: "15/01/2022",
+    status: "Aproove",
   },
 ];
-
 
 export const Dashboard = () => {
   return (
     <Layout className="app-layout">
-      <Header>
-        <span style={{ color: '#fff' }}>
-         My header mover esto a su respectivo componente Header.jsx
-        </span>
+      <Header
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <h1 style={{ color: "#fff", textAlign: "center", margin: "0px" }}>
+          QA-Report
+        </h1>
+        <Button style={{ color: "#eee", backgroundColor: "#051721" }}>
+          Log Out
+        </Button>
       </Header>
       <Content>
         <div className="container">
           <Row justify="end">
             <Col xs={3}>
-              <Link to="register">Formulario</Link>
+              <Button
+                style={{
+                  marginBottom: "1em",
+                  background: "#051721",
+                  color: "#fff",
+                }}
+              >
+                <Link to="register">Formulario</Link>
+              </Button>
             </Col>
           </Row>
           <Table columns={columns} dataSource={data} />
         </div>
       </Content>
-      <Footer>
-        My Footer mover esto a su respectivo componente Footer.jsx
-      </Footer>
+      <Footer style={{ backgroundColor: "#ccc" }}>Qa Turbochef, 2022</Footer>
     </Layout>
   );
 };

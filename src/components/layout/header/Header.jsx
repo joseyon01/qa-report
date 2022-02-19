@@ -1,15 +1,20 @@
-import React, { Fragment } from 'react';
-import './Header.css'
-export const Header = () => {
+import React, { Fragment } from "react";
+import "./Header.css";
+{
+  /*export*/
+}
+const Header = () => {
   const handleLogout = () => {
-    console.log('Logout');
-  }
+    console.log("Logout");
+  };
   return (
     <div>
       <Fragment>
-      {/* <header className="navbar navbar-light sticky-top  flex-md-nowrap p-0 shadow" style={{'background-color': '#e3f2fd'}}> */}
+        {/* <header className="navbar navbar-light sticky-top  flex-md-nowrap p-0 shadow" style={{'background-color': '#e3f2fd'}}> */}
         <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-          <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3" /* href="#" */>
+          <a
+            className="navbar-brand col-md-3 col-lg-2 me-0 px-3" /* href="#" */
+          >
             Qa - Turbochef
           </a>
           <button
@@ -30,14 +35,14 @@ export const Header = () => {
             aria-label="Search"
           /> */}
 
-          <span className='color-name nav-item nav-link text-info'>
+          <span className="color-name nav-item nav-link text-info">
             Hola, usuario
           </span>
 
           <div className="navbar-nav">
             <div className="nav-item text-nowrap">
               <a className="nav-link px-3" onClick={handleLogout}>
-              Sign out
+                Sign out
               </a>
             </div>
           </div>
