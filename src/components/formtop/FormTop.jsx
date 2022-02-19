@@ -1,40 +1,58 @@
-import React, { useState } from "react";
-import { Form, Input, Button, Radio } from "antd";
-import { DatePicker, Space } from "antd";
-import { Link, Routes, Route } from "react-router-dom";
+import React from "react";
+import { Form, Input, DatePicker, Row, Col } from "antd";
+import { useNavigate } from "react-router-dom";
 import { Select } from "antd";
 const { Option } = Select;
 
 export const FormTop = (props) => {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
+
   function handleChange(value) {
-    console.log(value);
+    navigate(`/register/${value}`);
   }
   return (
-    <Form>
-      <Form.Item label="Serial Number">
-        <Input
-          onChange={props.onChangeCN}
-          value={props.serial}
-          placeholder="Serial Number"
-          type="text"
-        />
-      </Form.Item>
-      <Form.Item label="Date">
-        <DatePicker onChange={props.onChangeDate} value={props.date} />
-      </Form.Item>
-      <Form.Item label="Name">
-        <Input type="text" placeholder="Name" />
-      </Form.Item>
-      <Select
-        defaultValue="Oven"
-        style={{ width: 120 }}
-        onChange={handleChange}
-      >
-        <Option value="Oven1">Oven1</Option>
-        <Option value="Oven2">Oven2</Option>
-        <Option value="Oven3">Oven3</Option>
-      </Select>
+    <Form  labelCol={{ span: 4 }}>
+      <Row justify="center">
+        <Col xs={18}>
+          <Row >
+          <Col xs={12}>
+            <Form.Item label="Serial Number">
+            <Input
+              size="large"
+              onChange={props.onChangeCN}
+              value={props.serial}
+              placeholder="Serial Number"
+              type="text"
+            />
+          </Form.Item>
+          </Col>
+          <Col xs={12}>
+            <Form.Item label="Date">
+              <DatePicker style={{ width: '100%' }} size="large" onChange={props.onChangeDate} value={props.date} />
+            </Form.Item>
+          </Col>
+          <Col xs={12}>
+            <Form.Item label="Name">
+              <Input size="large" type="text" placeholder="Name" />
+            </Form.Item>
+          </Col>
+          <Col xs={12}>
+            <Form.Item label="Date">
+              <Select
+                size="large"  
+                defaultValue="Oven"
+                onChange={handleChange}
+              >
+                <Option value="Oven1">Oven1</Option>
+                <Option value="Oven2">Oven2</Option>
+                <Option value="Oven3">Oven3</Option>
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
+        </Col>
+      </Row>
     </Form>
   );
 };
