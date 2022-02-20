@@ -1,16 +1,17 @@
 import React from "react";
 import {
   Form,
-  Image,
   Space,
   Input,
-  DatePicker,
   Row,
   Col,
   Typography,
   Radio,
   Divider,
+  Button,
+  Switch,
 } from "antd";
+import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
 const { Title } = Typography;
 const { Text } = Typography;
 const { TextArea } = Input;
@@ -64,6 +65,7 @@ export const Oven1 = (props) => {
           </Row>
         </Col>
       </Row>
+      <br />
       <Divider orientation="rigth">
         1) VISUAL INSPECTION: DO NOT APPLY POWER TO OVEN!!!
       </Divider>
@@ -80,8 +82,8 @@ export const Oven1 = (props) => {
         </Col>
         <Col xs={4}>
           <Radio.Group name="oneA" defaultValue={"false"}>
-            <Radio value={"true"}>true</Radio>
-            <Radio value={"false"}>false</Radio>
+            <Radio value={"true"}>ACC</Radio>
+            <Radio value={"false"}>NO ACC</Radio>
           </Radio.Group>
         </Col>
       </Row>
@@ -101,8 +103,8 @@ export const Oven1 = (props) => {
         </Col>
         <Col xs={4}>
           <Radio.Group name="oneB" defaultValue={"false"}>
-            <Radio value={"true"}>true</Radio>
-            <Radio value={"false"}>false</Radio>
+            <Radio value={"true"}>ACC</Radio>
+            <Radio value={"false"}>NO ACC</Radio>
           </Radio.Group>
         </Col>
       </Row>
@@ -116,8 +118,8 @@ export const Oven1 = (props) => {
         </Col>
         <Col xs={4}>
           <Radio.Group name="oneC" defaultValue={"false"}>
-            <Radio value={"true"}>true</Radio>
-            <Radio value={"false"}>false</Radio>
+            <Radio value={"true"}>ACC</Radio>
+            <Radio value={"false"}>NO ACC</Radio>
           </Radio.Group>
         </Col>
       </Row>
@@ -130,8 +132,8 @@ export const Oven1 = (props) => {
         </Col>
         <Col xs={4}>
           <Radio.Group name="oneD" defaultValue={"false"}>
-            <Radio value={"true"}>true</Radio>
-            <Radio value={"false"}>false</Radio>
+            <Radio value={"true"}>ACC</Radio>
+            <Radio value={"false"}>NO ACC</Radio>
           </Radio.Group>
         </Col>
       </Row>
@@ -145,8 +147,8 @@ export const Oven1 = (props) => {
         </Col>
         <Col xs={4}>
           <Radio.Group name="oneE" defaultValue={"false"}>
-            <Radio value={"true"}>true</Radio>
-            <Radio value={"false"}>false</Radio>
+            <Radio value={"true"}>ACC</Radio>
+            <Radio value={"false"}>NO ACC</Radio>
           </Radio.Group>
         </Col>
       </Row>
@@ -160,8 +162,8 @@ export const Oven1 = (props) => {
         </Col>
         <Col xs={4}>
           <Radio.Group name="oneF" defaultValue={"false"}>
-            <Radio value={"true"}>true</Radio>
-            <Radio value={"false"}>false</Radio>
+            <Radio value={"true"}>ACC</Radio>
+            <Radio value={"false"}>NO ACC</Radio>
           </Radio.Group>
         </Col>
       </Row>
@@ -175,8 +177,8 @@ export const Oven1 = (props) => {
         </Col>
         <Col xs={4}>
           <Radio.Group name="oneG" defaultValue={"false"}>
-            <Radio value={"true"}>true</Radio>
-            <Radio value={"false"}>false</Radio>
+            <Radio value={"true"}>ACC</Radio>
+            <Radio value={"false"}>NO ACC</Radio>
           </Radio.Group>
         </Col>
       </Row>
@@ -191,8 +193,8 @@ export const Oven1 = (props) => {
         </Col>
         <Col xs={4}>
           <Radio.Group name="oneA" defaultValue={"false"}>
-            <Radio value={"true"}>true</Radio>
-            <Radio value={"false"}>false</Radio>
+            <Radio value={"true"}>ACC</Radio>
+            <Radio value={"false"}>NO ACC</Radio>
           </Radio.Group>
         </Col>
       </Row>
@@ -378,8 +380,8 @@ export const Oven1 = (props) => {
         </Col>
         <Col xs={4}>
           <Radio.Group name="oneB" defaultValue={"false"}>
-            <Radio value={"true"}>true</Radio>
-            <Radio value={"false"}>false</Radio>
+            <Radio value={"true"}>ACC</Radio>
+            <Radio value={"false"}>NO ACC</Radio>
           </Radio.Group>
         </Col>
       </Row>
@@ -436,8 +438,8 @@ export const Oven1 = (props) => {
         </Col>
         <Col xs={4}>
           <Radio.Group name="oneB" defaultValue={"false"}>
-            <Radio value={"true"}>YES</Radio>
-            <Radio value={"false"}>NO</Radio>
+            <Radio value={"true"}>ACC</Radio>
+            <Radio value={"false"}>NO ACC</Radio>
           </Radio.Group>
         </Col>
       </Row>
@@ -469,8 +471,8 @@ export const Oven1 = (props) => {
         </Col>
         <Col xs={4}>
           <Radio.Group name="oneB" defaultValue={"false"}>
-            <Radio value={"true"}>Pass</Radio>
-            <Radio value={"false"}>Fail</Radio>
+            <Radio value={"true"}>ACC</Radio>
+            <Radio value={"false"}>NO ACC</Radio>
           </Radio.Group>
         </Col>
       </Row>
@@ -668,8 +670,8 @@ export const Oven1 = (props) => {
         </Col>
         <Col xs={4}>
           <Radio.Group name="oneB" defaultValue={"false"}>
-            <Radio value={"true"}>YES</Radio>
-            <Radio value={"false"}>NO</Radio>
+            <Radio value={"true"}>ACC</Radio>
+            <Radio value={"false"}>NO ACC</Radio>
           </Radio.Group>
         </Col>
       </Row>
@@ -696,6 +698,187 @@ export const Oven1 = (props) => {
         </Col>
         <Col xs={1} style={{ fontSize: "1.25em" }}>
           <Text>?</Text>
+        </Col>
+      </Row>
+      <br />
+      <Divider orientation="rigth">3) Hot Oven Operational Checkout:</Divider>
+      <br />
+      <Row justify="center">
+        <Col xs={20} style={{ fontSize: "1.25em" }}>
+          <Text>
+            The equipment needed to complete the Oven inspection is, a moder
+            1501 Survey Meter, three 500 ml beakers with 275 ml +/- 15ml of cold
+            water, spring loaded tongs
+          </Text>
+        </Col>
+      </Row>
+      <br />
+      <Row justify="center">
+        <Col xs={20} style={{ fontSize: "1.25em" }}>
+          <Text>A) Door Closed Microwave Leakege Test:</Text>
+        </Col>
+      </Row>
+      <br />
+      <Row justify="center">
+        <Col xs={20} style={{ fontSize: "1.25em" }}>
+          <Text>
+            B) Repeat process checking the IR Element exits, around the
+            Magnetrons and waveguide ends, left and right sides. Maximum
+            allowale leakage is 0.8mW/cm surrounding the perimeter of the door
+            and 0.2mW/cm<sup>2</sup> around the EC and left and right side IR
+            Element through hole.
+          </Text>
+        </Col>
+      </Row>
+      <Row justify="center">
+        <Col
+          xs={3}
+          style={{ fontSize: "1.25em", display: "flex", justifyContent: "end" }}
+        >
+          <Text>DOOR</Text>
+        </Col>
+        <Col xs={3}>
+          <Input
+            type="number"
+            style={{ width: "100%", height: "1.5em" }}
+            required
+          />
+        </Col>
+        <Col xs={3}></Col>
+        <Col
+          xs={3}
+          style={{ fontSize: "1.25em", display: "flex", justifyContent: "end" }}
+        >
+          <Text>Rt & Lt Sides</Text>
+        </Col>
+        <Col xs={3}>
+          <Input
+            type="number"
+            style={{ width: "100%", height: "1.5em" }}
+            required
+          />
+        </Col>
+        <Col xs={3} style={{ fontSize: "1.25em" }}>
+          <Text>
+            mW/cm<sup>2</sup>
+          </Text>
+        </Col>
+      </Row>
+      <br />
+      <Row justify="spaceAround">
+        <Col xs={3} offset={5}>
+          <Input
+            type="number"
+            style={{ width: "100%", height: "1.5em" }}
+            required
+          />
+        </Col>
+        <Col xs={3} offset={8}>
+          <Input
+            type="number"
+            style={{ width: "100%", height: "1.5em" }}
+            required
+          />
+        </Col>
+      </Row>
+      <Row justify="center">
+        <Col
+          xs={8}
+          style={{
+            height: "8em",
+            border: "dashed 3px #ccc",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text>Mark and record peak levels.</Text>
+        </Col>
+      </Row>
+      <Row justify="spaceAround">
+        <Col xs={3} offset={5}>
+          <Input
+            type="number"
+            style={{ width: "100%", height: "1.5em" }}
+            required
+          />
+        </Col>
+        <Col xs={3} offset={8}>
+          <Input
+            type="number"
+            style={{ width: "100%", height: "1.5em" }}
+            required
+          />
+        </Col>
+      </Row>
+      <br />
+      <Row justify="center">
+        <Col xs={16} style={{ fontSize: "1.3em" }}>
+          <Text>
+            Recheck Waveguide Covers ! Reset Cook Count and Accumulation
+            Settings !
+          </Text>
+        </Col>
+        <Col xs={4} style={{ fontSize: "1.3em" }}>
+          <Radio.Group name="oneB" defaultValue={"false"}>
+            <Radio value={"true"}>ACC</Radio>
+            <Radio value={"false"}>NO ACC</Radio>
+          </Radio.Group>
+        </Col>
+      </Row>
+      <br />
+      <Row>
+        <Col xs={10} offset={2}>
+          <Row>
+            <Col xs={10} style={{ fontSize: "1.3em" }}>
+              <Text>C) Cook time count</Text>
+            </Col>
+            <Col xs={4} style={{ fontSize: "1.3em" }}>
+              <Input
+                type="number"
+                style={{ width: "100%", height: "1.5em" }}
+                required
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={10} style={{ fontSize: "1.3em" }}>
+              <Text>D) Survey meter #</Text>
+            </Col>
+            <Col xs={4} style={{ fontSize: "1.3em" }}>
+              <Input
+                type="number"
+                style={{ width: "100%", height: "1.5em" }}
+                required
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={10} style={{ fontSize: "1.3em" }}>
+              <Text>E) Clear Cook time foults</Text>
+            </Col>
+            <Col xs={4} style={{ fontSize: "1.3em" }}>
+              <Input
+                type="number"
+                style={{ width: "100%", height: "1.5em" }}
+                required
+              />
+            </Col>
+          </Row>
+        </Col>
+        <Col xs={10}>
+          <Row justify="end">
+            <Switch
+              checkedChildren={<CheckOutlined />}
+              unCheckedChildren={<CloseOutlined />}
+            />
+          </Row>
+          <br />
+          <Row justify="end">
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Row>
         </Col>
       </Row>
     </Form>
