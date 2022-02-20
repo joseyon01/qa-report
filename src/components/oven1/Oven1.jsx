@@ -13,6 +13,7 @@ import {
 } from "antd";
 const { Title } = Typography;
 const { Text } = Typography;
+const { TextArea } = Input;
 
 export const Oven1 = (props) => {
   const [form] = Form.useForm();
@@ -66,6 +67,7 @@ export const Oven1 = (props) => {
       <Divider orientation="rigth">
         1) VISUAL INSPECTION: DO NOT APPLY POWER TO OVEN!!!
       </Divider>
+      <br />
       <Row justify="center">
         <Col xs={16} style={{ fontSize: "1.25em" }}>
           <Text>
@@ -83,6 +85,7 @@ export const Oven1 = (props) => {
           </Radio.Group>
         </Col>
       </Row>
+      <br />
       <Row justify="center">
         <Col xs={16} style={{ fontSize: "1.25em" }}>
           <Text>
@@ -103,6 +106,7 @@ export const Oven1 = (props) => {
           </Radio.Group>
         </Col>
       </Row>
+      <br />
       <Row justify="center">
         <Col xs={16} style={{ fontSize: "1.25em" }}>
           <Text>
@@ -117,6 +121,7 @@ export const Oven1 = (props) => {
           </Radio.Group>
         </Col>
       </Row>
+      <br />
       <Row justify="center">
         <Col xs={16} style={{ fontSize: "1.25em" }}>
           <Text>
@@ -130,6 +135,7 @@ export const Oven1 = (props) => {
           </Radio.Group>
         </Col>
       </Row>
+      <br />
       <Row justify="center">
         <Col xs={16} style={{ fontSize: "1.25em" }}>
           <Text>
@@ -144,6 +150,7 @@ export const Oven1 = (props) => {
           </Radio.Group>
         </Col>
       </Row>
+      <br />
       <Row justify="center">
         <Col xs={16} style={{ fontSize: "1.25em" }}>
           <Text>
@@ -158,6 +165,7 @@ export const Oven1 = (props) => {
           </Radio.Group>
         </Col>
       </Row>
+      <br />
       <Row justify="center">
         <Col xs={16} style={{ fontSize: "1.25em" }}>
           <Text>
@@ -172,6 +180,7 @@ export const Oven1 = (props) => {
           </Radio.Group>
         </Col>
       </Row>
+      <br />
       <Row justify="center">
         <Col xs={16} style={{ fontSize: "1.25em" }}>
           <Text>
@@ -187,9 +196,11 @@ export const Oven1 = (props) => {
           </Radio.Group>
         </Col>
       </Row>
+      <br />
       <Divider orientation="rigth">
         2) OPERATIONAL INSPECTION: DO NOT APPLY POWER TO OVEN.
       </Divider>
+      <br />
       <Row justify="center">
         <Col xs={20} style={{ fontSize: "1.25em" }}>
           <Text>
@@ -210,6 +221,7 @@ export const Oven1 = (props) => {
           />
         </Col>
       </Row>
+      <br />
       <Row justify="center">
         <Col xs={20} style={{ fontSize: "1.25em" }}>
           <Text>
@@ -356,6 +368,7 @@ export const Oven1 = (props) => {
           />
         </Col>
       </Row>
+      <br />
       <Row justify="center">
         <Col xs={16} style={{ fontSize: "1.25em" }}>
           <Text>
@@ -370,6 +383,7 @@ export const Oven1 = (props) => {
           </Radio.Group>
         </Col>
       </Row>
+      <br />
       <Row justify="center">
         <Col xs={16} style={{ fontSize: "1.25em" }}>
           <Text>
@@ -427,6 +441,7 @@ export const Oven1 = (props) => {
           </Radio.Group>
         </Col>
       </Row>
+      <br />
       <Row justify="center">
         <Col xs={16} style={{ fontSize: "1.25em" }}>
           <Text>
@@ -443,6 +458,7 @@ export const Oven1 = (props) => {
           />
         </Col>
       </Row>
+      <br />
       <Row justify="center">
         <Col xs={16} style={{ fontSize: "1.25em" }}>
           <Text>
@@ -458,6 +474,7 @@ export const Oven1 = (props) => {
           </Radio.Group>
         </Col>
       </Row>
+      <br />
       <Row justify="center">
         <Col xs={20} style={{ fontSize: "1.25em" }}>
           <Text>
@@ -564,13 +581,14 @@ export const Oven1 = (props) => {
       <Row justify="center">
         <Col xs={16} style={{ fontSize: "1.25em" }}>
           <Text type="danger">
-            Output Power must be >= 1600 W. But it's more than 2000 W, repeat
-            this test.
+            Output Power must be {">="} 1600 W. But it's more than 2000 W,
+            repeat this test.
           </Text>
         </Col>
       </Row>
+      <br />
       <Row justify="center">
-        <Col xs={16} style={{ fontSize: "1.25em" }}>
+        <Col xs={20} style={{ fontSize: "1.25em" }}>
           <Text>
             I) Push "BACK" until display reads: "OVEN OFF" and then push the
             "OVEN ON" smart key and let the oven warm to its preset temperature.
@@ -632,6 +650,7 @@ export const Oven1 = (props) => {
           <Text>This time should be 15 minutes or less!</Text>
         </Col>
       </Row>
+      <br />
       <Row justify="center">
         <Col xs={20} style={{ fontSize: "1.25em" }}>
           <Text>NOTES</Text>
@@ -639,11 +658,44 @@ export const Oven1 = (props) => {
       </Row>
       <Row justify="center">
         <Col xs={20}>
+          <TextArea autoSize={{ minRows: 3, maxRows: 4 }} />
+        </Col>
+      </Row>
+      <br />
+      <Row justify="center">
+        <Col xs={16} style={{ fontSize: "1.25em" }}>
+          <Text>J) Is there actuator rotation if door is closed slowly?</Text>
+        </Col>
+        <Col xs={4}>
+          <Radio.Group name="oneB" defaultValue={"false"}>
+            <Radio value={"true"}>YES</Radio>
+            <Radio value={"false"}>NO</Radio>
+          </Radio.Group>
+        </Col>
+      </Row>
+      <Row justify="center">
+        <Col xs={10} style={{ fontSize: "1.25em" }}>
+          <Text>Slowly opening the Door, the order of the indicators are</Text>
+        </Col>
+        <Col xs={3}>
           <Input
-            type="textArea"
+            type="text"
             style={{ width: "100%", height: "1.5em" }}
             required
           />
+        </Col>
+        <Col xs={3} style={{ fontSize: "1.25em" }}>
+          <Text>? Closing</Text>
+        </Col>
+        <Col xs={3}>
+          <Input
+            type="text"
+            style={{ width: "100%", height: "1.5em" }}
+            required
+          />
+        </Col>
+        <Col xs={1} style={{ fontSize: "1.25em" }}>
+          <Text>?</Text>
         </Col>
       </Row>
     </Form>
