@@ -19,7 +19,7 @@ const { TextArea } = Input;
 export const Oven1 = (props) => {
   const [form] = Form.useForm();
   return (
-    <Form labelCol={{ span: 4 }} style={{ padding: "7em" }}>
+    <Form labelCol={{ span: 4 }} style={{ padding: "7em 0" }}>
       <Row justify="center">
         <Col xs={18}>
           <Row justify="center">
@@ -69,14 +69,11 @@ export const Oven1 = (props) => {
       <Divider orientation="rigth">
         1) VISUAL INSPECTION: DO NOT APPLY POWER TO OVEN!!!
       </Divider>
-      <br />
-      <Row justify="center">
-        <Col xs={16} style={{ fontSize: "1.25em" }}>
+      <Row justify="space-between" gutter={3}>
+        <Col xs={18}>
           <Text>
             A) Check Consumables and Accessories to comply with proper Packaging
-            Kit.
-            <br />
-            Remove Rack, Left, Right and Top panels. Confirm proper Schematic is
+            Kit. Remove Rack, Left, Right and Top panels. Confirm proper Schematic is
             on RS Panel.
           </Text>
         </Col>
@@ -88,15 +85,13 @@ export const Oven1 = (props) => {
         </Col>
       </Row>
       <br />
-      <Row justify="center">
-        <Col xs={16} style={{ fontSize: "1.25em" }}>
+      <Row justify="space-between">
+        <Col xs={18} >
           <Text>
             B) Remove the Bubble wrap and insert the Oven Rack insuring flush
             contact with all surfaces.
-            <br />
             Check IR Element lies flat and Clips/Standoffs are tight and in
             correct position.
-            <br />
             Check Waveguide Covers (ar the ends only) by squeezing with hands
             for looseness.
           </Text>
@@ -109,8 +104,8 @@ export const Oven1 = (props) => {
         </Col>
       </Row>
       <br />
-      <Row justify="center">
-        <Col xs={16} style={{ fontSize: "1.25em" }}>
+      <Row justify="space-between">
+        <Col xs={18}>
           <Text>
             C) Check wiring CC & IR Heaters, Mag1 & 2, Dual SSR, Mag, EC Fans,
             Convection Blower, Hi-Limit and Control circuits.
