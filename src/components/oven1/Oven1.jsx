@@ -111,7 +111,7 @@ export const Oven1 = (props) => {
             Convection Blower, Hi-Limit and Control circuits.
           </Text>
         </Col>
-        <Col xs={4}>
+        <Col xs={4} justify="end">
           <Radio.Group name="oneC" defaultValue={"false"}>
             <Radio value={"true"}>ACC</Radio>
             <Radio value={"false"}>NO ACC</Radio>
@@ -198,29 +198,31 @@ export const Oven1 = (props) => {
         2) OPERATIONAL INSPECTION: DO NOT APPLY POWER TO OVEN.
       </Divider>
       <br />
-      <Row justify="center">
-        <Col xs={20} style={{ fontSize: "1.25em" }}>
+      <Row>
+        <Col span={24}>
           <Text>
             A) Using the OHMS function on your meter Measure and Record the
             resistance between the:
           </Text>
         </Col>
-      </Row>
-      <Row justify="center">
-        <Col xs={16} style={{ fontSize: "1.25em" }}>
-          <Text>i) Frame and the Ground Pin on the plug:</Text>
-        </Col>
-        <Col xs={4}>
-          <Input
-            type="number"
-            style={{ width: "100%", height: "1.5em" }}
-            required
-          />
+        <Col span={24}>
+          <Row className="sub-question">
+            <Col xs={10}>
+              <Text>i) Frame and the Ground Pin on the plug:</Text>
+            </Col>
+            <Col xs={4}>
+              <Input
+                type="number"
+                style={{ width: "100%", height: "1.5em" }}
+                required
+              />
+            </Col>
+          </Row>
         </Col>
       </Row>
       <br />
-      <Row justify="center">
-        <Col xs={20} style={{ fontSize: "1.25em" }}>
+      <Row>
+        <Col xs={24}>
           <Text>
             B) Remove the fastons from the Primary and the secondary of the of
             Voltage and the Filament XFMRs.
@@ -229,50 +231,54 @@ export const Oven1 = (props) => {
           </Text>
         </Col>
       </Row>
-      <Row justify="center">
-        <Col xs={8} style={{ fontSize: "1.25em" }}>
-          <Text>i) HV XFMR #1 Primary (terminals 1 & 2)</Text>
-        </Col>
-        <Col xs={4}>
-          <Input
-            type="number"
-            style={{ width: "100%", height: "1.5em" }}
-            required
-          />
-        </Col>
-        <Col xs={4} style={{ fontSize: "1.25em" }}>
-          <Text>(terminals 1 & 3)</Text>
-        </Col>
-        <Col xs={4}>
-          <Input
-            type="number"
-            style={{ width: "100%", height: "1.5em" }}
-            required
-          />
-        </Col>
-      </Row>
-      <Row justify="center">
-        <Col xs={8} style={{ fontSize: "1.25em" }}>
-          <Text>ii) HV XFMR #1 Primary (terminals 1 & 2)</Text>
-        </Col>
-        <Col xs={4}>
-          <Input
-            type="number"
-            style={{ width: "100%", height: "1.5em" }}
-            required
-          />
-        </Col>
-        <Col xs={4} style={{ fontSize: "1.25em" }}>
-          <Text>(terminals 1 & 3)</Text>
-        </Col>
-        <Col xs={4}>
-          <Input
-            type="number"
-            style={{ width: "100%", height: "1.5em" }}
-            required
-          />
-        </Col>
-      </Row>
+      <div style={{ padding: 16 }}>
+        <Row>
+          <Col xs={24}>
+            <Text>i) HV XFMR #1 Primary</Text>
+          </Col>
+          <Col xs={24 }>
+            <Form.Item label="terminals 1 & 2">
+              <Input
+                style={{ width: 250 }}
+                size="middle"
+                type="number"
+                required
+              />
+            </Form.Item>
+            <Form.Item label="terminals 1 & 3">
+              <Input  
+                style={{ width: 250 }}
+                size="middle"
+                type="number"
+                required
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row justify="center">
+          <Col xs={8} style={{ fontSize: "1.25em" }}>
+            <Text>ii) HV XFMR #1 Primary (terminals 1 & 2)</Text>
+          </Col>
+          <Col xs={4}>
+            <Input
+              type="number"
+              style={{ width: "100%", height: "1.5em" }}
+              required
+            />
+          </Col>
+          <Col xs={4} style={{ fontSize: "1.25em" }}>
+            <Text>(terminals 1 & 3)</Text>
+          </Col>
+          <Col xs={4}>
+            <Input
+              type="number"
+              style={{ width: "100%", height: "1.5em" }}
+              required
+            />
+          </Col>
+        </Row>
+      </div>
+      
       <Row justify="center">
         <Col xs={16} style={{ fontSize: "1.25em" }}>
           <Text>iii) HV XFMR #1 Secondary (terminal #4 and the frame)</Text>
