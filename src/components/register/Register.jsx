@@ -8,7 +8,7 @@ import { Oven2 } from "../oven2/Oven2";
 import { Oven3 } from "../oven3/Oven3";
 
 import { Container } from "../layout/Container";
-import { Header } from '../layout/Headet';
+import { Header } from "../layout/Headet";
 
 const { Title } = Typography;
 const { Footer, Content } = Layout;
@@ -31,7 +31,7 @@ export const Register = (props) => {
       <Header />
       <Content style={{ paddingTop: "2em" }}>
         <Container>
-            <FormTop
+          <FormTop
             onChangeCN={onChangeSerial}
             onChangeName={onChangeName}
             onChangeDate={onChangeDate}
@@ -49,7 +49,16 @@ export const Register = (props) => {
           </Routes>
         </Container>
       </Content>
-      <Footer style={{ backgroundColor: "#ccc" }}>Qa Turbochef, 2022</Footer>
+      <Footer
+        style={{
+          backgroundColor: "#ccc",
+          position: "fixed",
+          bottom: "0",
+          width: "100%",
+        }}
+      >
+        Qa Turbochef, 2022
+      </Footer>
     </Layout>
   );
 };

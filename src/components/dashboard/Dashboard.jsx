@@ -4,8 +4,11 @@ import { Row, Col, Layout, Table, Tag, Space, Typography } from "antd";
 import { AiFillDelete } from "react-icons/ai";
 import { AiFillEdit } from "react-icons/ai";
 import { Button } from "antd";
+import { Header } from "../layout/Headet";
 
-const { Header, Footer, Content } = Layout;
+import { Container } from "../layout/Container";
+
+const { Footer, Content } = Layout;
 const { Title } = Typography;
 
 const columns = [
@@ -68,39 +71,33 @@ const data = [
 export const Dashboard = () => {
   return (
     <Layout className="app-layout">
-      <Header
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <Title style={{ color: "#fff", textAlign: "center", margin: "0px" }}>
-          QA-Report
-        </Title>
-        <Button style={{ color: "#eee", backgroundColor: "#051721" }}>
-          Log Out
-        </Button>
-      </Header>
+      <Header />
       <Content>
-        <div className="container">
-          <Row justify="end">
-            <Col xs={3}>
-              <Button
-                style={{
-                  marginBottom: "1em",
-                  background: "#051721",
-                  color: "#fff",
-                }}
-              >
-                <Link to="register">Formulario</Link>
-              </Button>
-            </Col>
-          </Row>
-          <Table columns={columns} dataSource={data} />
-        </div>
+        <Container>
+          <div className="container">
+            <Row justify="end">
+              <Col xs={4}>
+                <Button
+                  style={{
+                    marginBottom: "1em",
+                    background: "#051721",
+                    color: "#fff",
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Link to="register">Form</Link>
+                </Button>
+              </Col>
+            </Row>
+            <Table columns={columns} dataSource={data} />
+          </div>
+        </Container>
       </Content>
-      <Footer style={{ backgroundColor: "#ccc" }}>Qa Turbochef, 2022</Footer>
+      <Footer style={{ backgroundColor: "#ccc", position: "relative" }}>
+        Qa Turbochef, 2022
+      </Footer>
     </Layout>
   );
 };

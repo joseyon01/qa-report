@@ -1,6 +1,7 @@
 import React from "react";
-import { Form, Input, DatePicker, Row, Col, Select } from "antd";
+import { Form, Input, DatePicker, Row, Col, Select, Layout } from "antd";
 import { useNavigate } from "react-router-dom";
+
 const { Option } = Select;
 
 export const FormTop = (props) => {
@@ -57,8 +58,6 @@ export const FormTop = (props) => {
               required
             >
               <Option value="Oven1">Oven1</Option>
-              <Option value="Oven2">Oven2</Option>
-              <Option value="Oven3">Oven3</Option>
             </Select>
           </Form.Item>
         </Col>
