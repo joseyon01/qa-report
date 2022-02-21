@@ -1,11 +1,28 @@
 import React from "react";
 import { Form, Row, Col, Typography, Radio, Divider, Button } from "antd";
 const { Text } = Typography;
+import {
+  VISUALQA,
+  VISUALQB,
+  VISUALQC,
+  VISUALQD,
+  VISUALQE,
+  VISUALQF,
+  VISUALQG,
+  VISUALQH,
+} from "../constants/ConstVisualInspection";
 
 export const VisualInspection = (props) => {
   const [form] = Form.useForm();
+  const onFinish = () => {
+    console.log("Success:");
+  };
   return (
-    <Form labelCol={{ span: 7 }} style={{ paddingBottom: "5em" }}>
+    <Form
+      labelCol={{ span: 7 }}
+      style={{ paddingBottom: "5em" }}
+      onFinish={onFinish}
+    >
       <Divider orientation="rigth">
         1) VISUAL INSPECTION: DO NOT APPLY POWER TO OVEN!!!
       </Divider>
@@ -19,7 +36,7 @@ export const VisualInspection = (props) => {
         </Col>
         <Col xs={4}>
           <Form.Item>
-            <Radio.Group name="oneA" required>
+            <Radio.Group name={VISUALQA} required>
               <Radio value={"true"}>ACC</Radio>
               <Radio value={"false"}>NO ACC</Radio>
             </Radio.Group>
@@ -38,7 +55,7 @@ export const VisualInspection = (props) => {
         </Col>
         <Col xs={4}>
           <Form.Item>
-            <Radio.Group name="oneB" required>
+            <Radio.Group name={VISUALQB} required>
               <Radio value={"true"}>ACC</Radio>
               <Radio value={"false"}>NO ACC</Radio>
             </Radio.Group>
@@ -55,7 +72,7 @@ export const VisualInspection = (props) => {
         </Col>
         <Col xs={4} justify="end">
           <Form.Item>
-            <Radio.Group name="oneC" required>
+            <Radio.Group name={VISUALQC} required>
               <Radio value={"true"}>ACC</Radio>
               <Radio value={"false"}>NO ACC</Radio>
             </Radio.Group>
@@ -71,7 +88,7 @@ export const VisualInspection = (props) => {
         </Col>
         <Col xs={4}>
           <Form.Item>
-            <Radio.Group name="oneD" required>
+            <Radio.Group name={VISUALQD} required>
               <Radio value={"true"}>ACC</Radio>
               <Radio value={"false"}>NO ACC</Radio>
             </Radio.Group>
@@ -88,7 +105,7 @@ export const VisualInspection = (props) => {
         </Col>
         <Col xs={4}>
           <Form.Item>
-            <Radio.Group name="oneE" required>
+            <Radio.Group name={VISUALQE} required>
               <Radio value={"true"}>ACC</Radio>
               <Radio value={"false"}>NO ACC</Radio>
             </Radio.Group>
@@ -105,7 +122,7 @@ export const VisualInspection = (props) => {
         </Col>
         <Col xs={4}>
           <Form.Item>
-            <Radio.Group name="oneF" required>
+            <Radio.Group name={VISUALQF} required>
               <Radio value={"true"}>ACC</Radio>
               <Radio value={"false"}>NO ACC</Radio>
             </Radio.Group>
@@ -122,7 +139,7 @@ export const VisualInspection = (props) => {
         </Col>
         <Col xs={4}>
           <Form.Item>
-            <Radio.Group name="oneG" required>
+            <Radio.Group name={VISUALQG} required>
               <Radio value={"true"}>ACC</Radio>
               <Radio value={"false"}>NO ACC</Radio>
             </Radio.Group>
@@ -140,7 +157,7 @@ export const VisualInspection = (props) => {
         </Col>
         <Col xs={4}>
           <Form.Item>
-            <Radio.Group name="oneA" required>
+            <Radio.Group name={VISUALQH} required>
               <Radio value={"true"}>ACC</Radio>
               <Radio value={"false"}>NO ACC</Radio>
             </Radio.Group>
@@ -149,11 +166,13 @@ export const VisualInspection = (props) => {
       </Row>
       <Row justify="center">
         <Col xs={24}>
-          <Form.Item wrapperCol={{ offset: 10, span: 16 }}>
-            <Button size="middle" type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
+          <div style={{ paddingTop: "1em" }}>
+            <Form.Item>
+              <Button size="large" type="primary" htmlType="submit" block>
+                Submit
+              </Button>
+            </Form.Item>
+          </div>
         </Col>
       </Row>
     </Form>

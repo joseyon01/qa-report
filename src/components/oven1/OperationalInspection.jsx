@@ -11,13 +11,46 @@ import {
 } from "antd";
 const { Text } = Typography;
 const { TextArea } = Input;
+import {
+  OPERATIONAL_A_I,
+  OPERATIONAL_B_I_I,
+  OPERATIONAL_B_I_II,
+  OPERATIONAL_B_II_I,
+  OPERATIONAL_B_II_II,
+  OPERATIONAL_B_III,
+  OPERATIONAL_B_IV,
+  OPERATIONAL_B_V_I,
+  OPERATIONAL_B_V_II,
+  OPERATIONAL_B_VI_I,
+  OPERATIONAL_B_VI_II,
+  OPERATIONAL_B_VII,
+  OPERATIONAL_B_VIII,
+  OPERATIONAL_C,
+  OPERATIONAL_D_I,
+  OPERATIONAL_D_II,
+  OPERATIONAL_D_III,
+  OPERATIONAL_D_IV,
+  OPERATIONAL_E,
+  OPERATIONAL_F,
+  OPERATIONAL_H_I,
+  OPERATIONAL_H_IV,
+  OPERATIONAL_H_V,
+  OPERATIONAL_H_VI,
+  OPERATIONAL_I_I,
+  OPERATIONAL_I_II,
+  OPERATIONAL_I_III,
+  OPERATIONAL_NOTE,
+  OPERATIONAL_J,
+  OPERATIONAL_OPENING,
+  OPERATIONAL_CLOSING,
+} from "../constants/ConstOperational";
 
 export const OperationalInspection = (props) => {
   const [form] = Form.useForm();
   return (
     <Form labelCol={{ span: 7 }} style={{ paddingBottom: "5em" }}>
       <Divider orientation="rigth">
-        2) OPERATIONAL INSPECTION: DO NOT APPLY POWER TO OVEN.
+        2) OPERATIONAL_ INSPECTION: DO NOT APPLY POWER TO OVEN.
       </Divider>
       <Row>
         <Col span={24}>
@@ -32,7 +65,7 @@ export const OperationalInspection = (props) => {
               <Text>i) Frame and the Ground Pin on the plug:</Text>
             </Col>
             <Col xs={4}>
-              <Form.Item>
+              <Form.Item name={OPERATIONAL_A_I}>
                 <Input style={{ width: 150 }} size="small" required />
               </Form.Item>
             </Col>
@@ -55,7 +88,7 @@ export const OperationalInspection = (props) => {
                   <Text>i) HV XFMR #1 Primary</Text>
                 </Col>
                 <Col xs={24}>
-                  <Form.Item label="terminals 1 & 2">
+                  <Form.Item name={OPERATIONAL_B_I_I} label="terminals 1 & 2">
                     <Input
                       style={{ width: 150 }}
                       size="small"
@@ -63,7 +96,7 @@ export const OperationalInspection = (props) => {
                       required
                     />
                   </Form.Item>
-                  <Form.Item label="terminals 1 & 3">
+                  <Form.Item name={OPERATIONAL_B_I_II} label="terminals 1 & 3">
                     <Input
                       style={{ width: 150 }}
                       size="small"
@@ -78,7 +111,7 @@ export const OperationalInspection = (props) => {
                   <Text>ii) HV XFMR #1 Primary</Text>
                 </Col>
                 <Col xs={24}>
-                  <Form.Item label="terminals 1 & 2">
+                  <Form.Item name={OPERATIONAL_B_II_I} label="terminals 1 & 2">
                     <Input
                       style={{ width: 150 }}
                       size="small"
@@ -86,7 +119,7 @@ export const OperationalInspection = (props) => {
                       required
                     />
                   </Form.Item>
-                  <Form.Item label="terminals 1 & 3">
+                  <Form.Item name={OPERATIONAL_B_II_II} label="terminals 1 & 3">
                     <Input
                       style={{ width: 150 }}
                       size="small"
@@ -102,7 +135,10 @@ export const OperationalInspection = (props) => {
                   <Text>iii) HV XFMR #1 Secondary</Text>
                 </Col>
                 <Col xs={24}>
-                  <Form.Item label="terminal #4 and the frame">
+                  <Form.Item
+                    name={OPERATIONAL_B_III}
+                    label="terminal #4 and the frame"
+                  >
                     <Input
                       style={{ width: 150 }}
                       size="small"
@@ -117,7 +153,7 @@ export const OperationalInspection = (props) => {
                   <Text>iv) HV XFMR #2</Text>
                 </Col>
                 <Col xs={24}>
-                  <Form.Item>
+                  <Form.Item name={OPERATIONAL_B_IV}>
                     <Input
                       style={{ width: 150 }}
                       size="small"
@@ -132,7 +168,7 @@ export const OperationalInspection = (props) => {
                   <Text>v) Filament XFMR #1 Primary </Text>
                 </Col>
                 <Col xs={24}>
-                  <Form.Item label="terminal 1 & 2">
+                  <Form.Item name={OPERATIONAL_B_V_I} label="terminal 1 & 2">
                     <Input
                       style={{ width: 150 }}
                       size="small"
@@ -140,7 +176,7 @@ export const OperationalInspection = (props) => {
                       required
                     />
                   </Form.Item>
-                  <Form.Item label="terminal 1 & 3">
+                  <Form.Item name={OPERATIONAL_B_V_II} label="terminal 1 & 3">
                     <Input
                       style={{ width: 150 }}
                       size="small"
@@ -155,7 +191,7 @@ export const OperationalInspection = (props) => {
                   <Text>vi) Filament XFMR #2 Primary </Text>
                 </Col>
                 <Col xs={24}>
-                  <Form.Item label="terminal 1 & 2">
+                  <Form.Item name={OPERATIONAL_B_VI_I} label="terminal 1 & 2">
                     <Input
                       style={{ width: 150 }}
                       size="small"
@@ -163,7 +199,7 @@ export const OperationalInspection = (props) => {
                       required
                     />
                   </Form.Item>
-                  <Form.Item label="terminal 1 & 3">
+                  <Form.Item name={OPERATIONAL_B_VI_II} label="terminal 1 & 3">
                     <Input
                       style={{ width: 150 }}
                       size="small"
@@ -178,7 +214,7 @@ export const OperationalInspection = (props) => {
                   <Text>vii) Filament XFMR #1 Secondary</Text>
                 </Col>
                 <Col xs={24}>
-                  <Form.Item label="terminal 4 & 5">
+                  <Form.Item name={OPERATIONAL_B_VII} label="terminal 4 & 5">
                     <Input
                       style={{ width: 150 }}
                       size="small"
@@ -195,7 +231,7 @@ export const OperationalInspection = (props) => {
                   </Text>
                 </Col>
                 <Col xs={24}>
-                  <Form.Item label="terminal 4 & 5">
+                  <Form.Item name={OPERATIONAL_B_VIII} label="terminal 4 & 5">
                     <Input
                       style={{ width: 150 }}
                       size="small"
@@ -217,7 +253,7 @@ export const OperationalInspection = (props) => {
           </Text>
         </Col>
         <Col xs={4}>
-          <Form.Item>
+          <Form.Item name={OPERATIONAL_C}>
             <Radio.Group name="Q-C" required>
               <Radio value={"true"}>ACC</Radio>
               <Radio value={"false"}>NO ACC</Radio>
@@ -237,7 +273,7 @@ export const OperationalInspection = (props) => {
                   <Text>i) Displayed software version</Text>
                 </Col>
                 <Col xs={24}>
-                  <Form.Item>
+                  <Form.Item name={OPERATIONAL_D_I}>
                     <Input
                       placeholder="Version"
                       style={{ width: 150 }}
@@ -251,7 +287,7 @@ export const OperationalInspection = (props) => {
                   <Text>ii) Display voltage</Text>
                 </Col>
                 <Col xs={24}>
-                  <Form.Item>
+                  <Form.Item name={OPERATIONAL_D_II}>
                     <Input
                       placeholder="VAC"
                       style={{ width: 150 }}
@@ -265,7 +301,7 @@ export const OperationalInspection = (props) => {
                   <Text>iii) Serial Number</Text>
                 </Col>
                 <Col xs={24}>
-                  <Form.Item label="">
+                  <Form.Item name={OPERATIONAL_D_III}>
                     <Input
                       placeholder="S/N"
                       style={{ width: 150 }}
@@ -283,7 +319,7 @@ export const OperationalInspection = (props) => {
                       </Text>
                     </Col>
                     <Col xs={4}>
-                      <Form.Item>
+                      <Form.Item name={OPERATIONAL_D_IV}>
                         <Radio.Group name="oneB" required>
                           <Radio value={"true"}>ACC</Radio>
                           <Radio value={"false"}>NO ACC</Radio>
@@ -305,7 +341,7 @@ export const OperationalInspection = (props) => {
           </Text>
         </Col>
         <Col xs={4}>
-          <Form.Item>
+          <Form.Item name={OPERATIONAL_E}>
             <Input type="number" size="small" placeholder="VAC" required />
           </Form.Item>
         </Col>
@@ -320,7 +356,7 @@ export const OperationalInspection = (props) => {
           </Text>
         </Col>
         <Col xs={4}>
-          <Form.Item>
+          <Form.Item name={OPERATIONAL_F}>
             <Radio.Group name="">
               <Radio value={"true"}>ACC</Radio>
               <Radio value={"false"}>NO ACC</Radio>
@@ -348,7 +384,10 @@ export const OperationalInspection = (props) => {
                   </Text>
                 </Col>
                 <Col xs={24}>
-                  <Form.Item label="enter T inicial via Keypad">
+                  <Form.Item
+                    name={OPERATIONAL_H_I}
+                    label="enter T inicial via Keypad"
+                  >
                     <Input
                       type="number"
                       size="small"
@@ -386,7 +425,7 @@ export const OperationalInspection = (props) => {
                   </Text>
                 </Col>
                 <Col xs={3}>
-                  <Form.Item>
+                  <Form.Item name={OPERATIONAL_H_IV}>
                     <Input
                       type="number"
                       size="small"
@@ -406,7 +445,10 @@ export const OperationalInspection = (props) => {
                   </Text>
                 </Col>
                 <Col xs={24}>
-                  <Form.Item label="enter T final via Keypad">
+                  <Form.Item
+                    name={OPERATIONAL_H_V}
+                    label="enter T final via Keypad"
+                  >
                     <Input
                       type="number"
                       size="small"
@@ -425,7 +467,7 @@ export const OperationalInspection = (props) => {
                   </Text>
                 </Col>
                 <Col xs={4}>
-                  <Form.Item>
+                  <Form.Item name={OPERATIONAL_H_VI}>
                     <Input
                       type="number"
                       size="small"
@@ -463,7 +505,7 @@ export const OperationalInspection = (props) => {
                   <Text>i) Record time oven starts warm up:</Text>
                 </Col>
                 <Col xs={24}>
-                  <Form.Item>
+                  <Form.Item name={OPERATIONAL_I_I}>
                     <Input
                       type="time"
                       size="small"
@@ -476,12 +518,12 @@ export const OperationalInspection = (props) => {
               <Row>
                 <Col xs={24}>
                   <Text>
-                    ii) Once the oven reaches the Operational Temperature, the
+                    ii) Once the oven reaches the OPERATIONAL Temperature, the
                     menu is displayed, record the displayed menu
                   </Text>
                 </Col>
                 <Col xs={24}>
-                  <Form.Item>
+                  <Form.Item name={OPERATIONAL_I_II}>
                     <Input
                       type="text"
                       size="small"
@@ -497,7 +539,7 @@ export const OperationalInspection = (props) => {
                   <Text>iii) And then record the time</Text>
                 </Col>
                 <Col xs={24}>
-                  <Form.Item>
+                  <Form.Item name={OPERATIONAL_I_III}>
                     <Input
                       type="time"
                       size="small"
@@ -525,7 +567,7 @@ export const OperationalInspection = (props) => {
           <Text>NOTES</Text>
         </Col>
         <Col xs={20}>
-          <Form.Item>
+          <Form.Item name={OPERATIONAL_NOTE}>
             <TextArea autoSize={{ minRows: 3, maxRows: 4 }} />
           </Form.Item>
         </Col>
@@ -537,7 +579,7 @@ export const OperationalInspection = (props) => {
         </Col>
         <Col xs={4}>
           <Form.Item>
-            <Radio.Group name="">
+            <Radio.Group name={OPERATIONAL_J}>
               <Radio value={"true"}>ACC</Radio>
               <Radio value={"false"}>NO ACC</Radio>
             </Radio.Group>
@@ -553,7 +595,7 @@ export const OperationalInspection = (props) => {
               </Text>
             </Col>
             <Col xs={24}>
-              <Form.Item>
+              <Form.Item name={OPERATIONAL_OPENING}>
                 <Input
                   type="text"
                   size="small"
@@ -568,7 +610,7 @@ export const OperationalInspection = (props) => {
               </Text>
             </Col>
             <Col xs={24}>
-              <Form.Item>
+              <Form.Item name={OPERATIONAL_CLOSING}>
                 <Input
                   type="text"
                   size="small"
@@ -580,10 +622,10 @@ export const OperationalInspection = (props) => {
           </Row>
         </Col>
       </Row>
-      <Row justify="center">
+      <Row justify="end">
         <Col xs={24}>
-          <Form.Item wrapperCol={{ offset: 10, span: 16 }}>
-            <Button size="middle" type="primary" htmlType="submit">
+          <Form.Item>
+            <Button size="large" type="primary" htmlType="submit" block>
               Submit
             </Button>
           </Form.Item>

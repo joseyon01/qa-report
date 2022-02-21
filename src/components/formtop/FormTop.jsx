@@ -1,15 +1,7 @@
 import React from "react";
-import {
-  Form,
-  Input,
-  DatePicker,
-  Row,
-  Col,
-  Select,
-  Layout,
-  Button,
-} from "antd";
+import { Form, Input, DatePicker, Row, Col, Select, Button } from "antd";
 import { useNavigate } from "react-router-dom";
+import { SERIAL, DATE, NAME, OVEN } from "../constants/ConstFormTop";
 
 const { Option } = Select;
 
@@ -20,12 +12,14 @@ export const FormTop = (props) => {
   function handleChange(value) {
     navigate(`/register/${value}`);
   }
-
+  const onFinish = () => {
+    console.log("Success:");
+  };
   return (
-    <Form labelCol={{ span: 4 }}>
+    <Form labelCol={{ span: 4 }} onFinish={onFinish}>
       <Row>
         <Col xs={12}>
-          <Form.Item label="S/N">
+          <Form.Item label="S/N" name={SERIAL}>
             <Input
               size="large"
               onChange={props.onChangeCN}
@@ -37,7 +31,7 @@ export const FormTop = (props) => {
           </Form.Item>
         </Col>
         <Col xs={12}>
-          <Form.Item label="Date">
+          <Form.Item label="Date" name={DATE}>
             <DatePicker
               style={{ width: "100%" }}
               size="large"
@@ -47,7 +41,7 @@ export const FormTop = (props) => {
           </Form.Item>
         </Col>
         <Col xs={12}>
-          <Form.Item label="Name">
+          <Form.Item label="Name" name={NAME}>
             <Input
               size="large"
               onChange={props.onChangeName}
@@ -59,7 +53,7 @@ export const FormTop = (props) => {
           </Form.Item>
         </Col>
         <Col xs={12}>
-          <Form.Item label="Type">
+          <Form.Item label="Type" name={OVEN}>
             <Select
               size="large"
               placeholder="Oven"

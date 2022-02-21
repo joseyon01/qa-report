@@ -10,7 +10,19 @@ import {
   Button,
   Switch,
 } from "antd";
-
+import {
+  HOT_OVEN_B_DOOR,
+  HOT_OVEN_B_SIDES,
+  HOT_OVEN_TOP_R,
+  HOT_OVEN_TOP_L,
+  HOT_OVEN_BOT_R,
+  HOT_OVEN_BOT_L,
+  HOT_OVEN_RECHECK,
+  HOT_OVEN_C,
+  HOT_OVEN_D,
+  HOT_OVEN_E,
+  OVEN_APROVE_OR_NOT,
+} from "../constants/ConstantHotOven";
 import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
 const { Text } = Typography;
 
@@ -48,12 +60,12 @@ export const HotOven = (props) => {
       </Row>
       <Row>
         <Col xs={12}>
-          <Form.Item label="DOOR">
+          <Form.Item name={HOT_OVEN_B_DOOR} label="DOOR">
             <Input type="number" size="small" style={{ width: 150 }} required />
           </Form.Item>
         </Col>
         <Col xs={12}>
-          <Form.Item label="Rt & Lt Sides">
+          <Form.Item name={HOT_OVEN_B_SIDES} label="Rt & Lt Sides">
             <Input
               type="number"
               placeholder={"mW/cm2"}
@@ -67,12 +79,12 @@ export const HotOven = (props) => {
       <br />
       <Row justify="spaceAround">
         <Col xs={3} offset={3}>
-          <Form.Item>
+          <Form.Item name={HOT_OVEN_TOP_L}>
             <Input type="number" size="small" style={{ width: 150 }} required />
           </Form.Item>
         </Col>
         <Col xs={3} offset={10}>
-          <Form.Item>
+          <Form.Item name={HOT_OVEN_TOP_R}>
             <Input type="number" size="small" style={{ width: 150 }} required />
           </Form.Item>
         </Col>
@@ -86,6 +98,7 @@ export const HotOven = (props) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            padding: "0",
           }}
         >
           <Text>Mark and record peak levels.</Text>
@@ -93,12 +106,12 @@ export const HotOven = (props) => {
       </Row>
       <Row justify="spaceAround">
         <Col xs={3} offset={3}>
-          <Form.Item>
+          <Form.Item name={HOT_OVEN_BOT_L}>
             <Input type="number" size="small" style={{ width: 150 }} required />
           </Form.Item>
         </Col>
         <Col xs={3} offset={10}>
-          <Form.Item>
+          <Form.Item name={HOT_OVEN_BOT_R}>
             <Input type="number" size="small" style={{ width: 150 }} required />
           </Form.Item>
         </Col>
@@ -112,7 +125,7 @@ export const HotOven = (props) => {
           </Text>
         </Col>
         <Col xs={4}>
-          <Form.Item>
+          <Form.Item name={HOT_OVEN_RECHECK}>
             <Radio.Group name="oneB">
               <Radio value={"true"}>ACC</Radio>
               <Radio value={"false"}>NO ACC</Radio>
@@ -124,7 +137,7 @@ export const HotOven = (props) => {
         <Col xs={24}>
           <Row>
             <Col xs={24}>
-              <Form.Item label="C) Cook time Count">
+              <Form.Item label="C) Cook time Count" name={HOT_OVEN_C}>
                 <Input
                   type="number"
                   size="small"
@@ -136,7 +149,7 @@ export const HotOven = (props) => {
           </Row>
           <Row>
             <Col xs={24}>
-              <Form.Item label="D) Survey meter #">
+              <Form.Item label="D) Survey meter #" name={HOT_OVEN_D}>
                 <Input
                   type="number"
                   size="small"
@@ -148,7 +161,7 @@ export const HotOven = (props) => {
           </Row>
           <Row>
             <Col xs={24}>
-              <Form.Item label="E) Clear Cook time foults">
+              <Form.Item label="E) Clear Cook time foults" name={HOT_OVEN_E}>
                 <Input
                   type="number"
                   size="small"
@@ -160,20 +173,21 @@ export const HotOven = (props) => {
           </Row>
         </Col>
       </Row>
-      <Row>
-        <Col xs={12}>
-          <Form.Item label="Denied/Aprove">
-            <Switch
-              checkedChildren={<CheckOutlined />}
-              unCheckedChildren={<CloseOutlined />}
-            />
+      <Row justify="center">
+        <Col xs={3}>
+          <Form.Item name={OVEN_APROVE_OR_NOT}>
+            <Switch checkedChildren={"APROVED"} unCheckedChildren={"DENIED"} />
           </Form.Item>
         </Col>
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
+      </Row>
+      <Row>
+        <Col xs={24}>
+          <Form.Item>
+            <Button size="large" type="primary" htmlType="submit" block>
+              Submit
+            </Button>
+          </Form.Item>
+        </Col>
       </Row>
     </Form>
   );
