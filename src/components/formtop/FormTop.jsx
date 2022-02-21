@@ -1,5 +1,14 @@
 import React from "react";
-import { Form, Input, DatePicker, Row, Col, Select, Layout } from "antd";
+import {
+  Form,
+  Input,
+  DatePicker,
+  Row,
+  Col,
+  Select,
+  Layout,
+  Button,
+} from "antd";
 import { useNavigate } from "react-router-dom";
 
 const { Option } = Select;
@@ -53,12 +62,21 @@ export const FormTop = (props) => {
           <Form.Item label="Type">
             <Select
               size="large"
-              defaultValue="Oven"
+              placeholder="Oven"
               onChange={handleChange}
               required
             >
               <Option value="Oven1">Oven1</Option>
             </Select>
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row justify="center">
+        <Col xs={24}>
+          <Form.Item wrapperCol={{ offset: 10, span: 16 }}>
+            <Button size="middle" type="primary" htmlType="submit">
+              Submit
+            </Button>
           </Form.Item>
         </Col>
       </Row>
