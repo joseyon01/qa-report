@@ -473,6 +473,7 @@ export const OperationalInspection = (props) => {
                       size="small"
                       style={{ width: 150 }}
                       placeholder="W"
+                      disabled
                       required
                     />
                   </Form.Item>

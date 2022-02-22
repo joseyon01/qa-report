@@ -24,6 +24,7 @@ import {
   OVEN_APROVE_OR_NOT,
 } from "../constants/ConstantHotOven";
 import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
+
 const { Text } = Typography;
 
 export const HotOven = (props) => {
