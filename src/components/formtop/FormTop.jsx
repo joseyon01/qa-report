@@ -26,7 +26,7 @@ export const FormTop = (props) => {
       date: date,
       name: name,
       oven: oven,
-      userID: userID,
+      userId: userID,
     });
   }
   const [globalUser, setGlobalUser] = useState(null);
@@ -56,9 +56,7 @@ export const FormTop = (props) => {
     const name = values.NAME;
     const oven = values.OVEN;
     console.log(serialNumber, userUID, date, name, oven);
-    {
-      /*onClickF(serialNumber, date, name, userUID);*/
-    }
+    onClickF(serialNumber, date, name, oven, userUID);
     handleChange(oven);
   }
 
