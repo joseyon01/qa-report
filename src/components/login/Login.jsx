@@ -18,35 +18,39 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  onAuthStateChanged,
 } from "firebase/auth";
 const auth = getAuth(QaReportFirebase);
 
 export const Login = () => {
+  const [globalUser, setGlobalUser] = useState(null);
+  onAuthStateChanged(auth, (fireBaseUser) => {
+    if (fireBaseUser) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      const uid = fireBaseUser.uid;
+      setGlobalUser(uid);
+      return uid;
+      // ...
+    }
+  });
   const navigate = useNavigate();
-
   async function onLogin(values) {
     const email = values.email;
     const password = values.password;
-    signInWithEmailAndPassword(auth, email, password);
-
-    navigate(`/`);
+    const logIn = await signInWithEmailAndPassword(auth, email, password);
+    navigate(`/dashboard`);
   }
   const onLoginFailed = (errorInfo) => {
-    alert(errorInfo);
+    alert("error");
   };
 
   async function onRegister(values) {
     const email = values.email;
     const password = values.password;
-    const user = values.name;
+    Tabs.key = 1;
+    const usuario = await createUserWithEmailAndPassword(auth, email, password);
 
-    const usuario = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password,
-      user
-    );
-    console.log(usuario);
     navigate(`/`);
   }
   const onRegisterFailed = (errorInfo) => {
@@ -144,20 +148,6 @@ export const Login = () => {
                     type: "email",
                     required: true,
                     message: "Please input your email!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                id="registerName"
-                label="Name"
-                name="name"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your name!",
                   },
                 ]}
               >

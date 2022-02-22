@@ -13,22 +13,31 @@ const { Header: ANTDHeader } = Layout;
 const LoginButton = () => {
   return (
     <Button>
-      <Link to="/LogIn">Login</Link>
+      <Link to="/">Login</Link>
     </Button>
   );
 };
 const LogOutButton = () => {
-  return <Button onClick={() => signOut(auth)}>logout</Button>;
+  return (
+    <Button
+      onClick={() => {
+        signOut(auth);
+      }}
+    >
+      <Link to="/">logout</Link>
+    </Button>
+  );
 };
 
 export const Header = (props) => {
   const [globalUser, setGlobalUser] = useState(null);
-
   onAuthStateChanged(auth, (fireBaseUser) => {
     if (fireBaseUser) {
-      setGlobalUser(fireBaseUser);
-    } else {
-      setGlobalUser(null);
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      const uid = fireBaseUser.uid;
+      setGlobalUser(uid);
+      // ...
     }
   });
 

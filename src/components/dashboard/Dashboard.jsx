@@ -1,51 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Row, Col, Layout, Table, Tag, Space, Typography } from "antd";
+import { Row, Col, Layout, Table, Tag, Button, Space, Typography } from "antd";
 import { AiFillDelete } from "react-icons/ai";
 import { AiFillEdit } from "react-icons/ai";
-import { Button } from "antd";
 import { Header } from "../layout/Headet";
-
 import { Container } from "../layout/Container";
+import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import QaReportFirebase from "../../../Credentials";
+const firestore = getFirestore(QaReportFirebase);
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { async } from "@firebase/util";
+const auth = getAuth(QaReportFirebase);
 
 const { Footer, Content } = Layout;
 const { Title } = Typography;
-
-const columns = [
-  {
-    title: "Serial Number",
-    dataIndex: "serialNumber",
-    key: "serialNumber",
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: "Date",
-    dataIndex: "date",
-    key: "date",
-  },
-  {
-    title: "Status",
-    dataIndex: "status",
-    key: "status",
-  },
-  {
-    title: "Actions",
-    key: "actions",
-    render: (text, record) => (
-      <Space
-        size="middle"
-        style={{ display: "flex", justifyContent: "center" }}
-      >
-        <a>
-          <AiFillDelete />
-        </a>
-        <a>
-          <AiFillEdit />
-        </a>
-      </Space>
-    ),
-  },
-];
 
 const data = [
   {
@@ -67,8 +35,53 @@ const data = [
     status: "Aproove",
   },
 ];
-
 export const Dashboard = () => {
+  const [arrayOvens, setArrayOvens] = useState(null);
+
+  const columns = [
+    {
+      title: "Serial Number",
+      dataIndex: "serialNumber",
+      key: "serialNumber",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+    },
+    {
+      title: "Actions",
+      key: "actions",
+      render: (text, record) => (
+        <Space
+          size="middle"
+          style={{ display: "flex", justifyContent: "center" }}
+        >
+          <Button
+            onClick={() => {
+              console.log(arrayOvens);
+            }}
+          >
+            <a>
+              <AiFillDelete />
+            </a>
+          </Button>
+          <Button>
+            <a>
+              <AiFillEdit />
+            </a>
+          </Button>
+        </Space>
+      ),
+    },
+  ];
+
   return (
     <Layout className="app-layout">
       <Header />
@@ -87,11 +100,11 @@ export const Dashboard = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <Link to="register">Form</Link>
+                  <Link to="/register">Form</Link>
                 </Button>
               </Col>
             </Row>
-            <Table columns={columns} dataSource={data} />
+            <Table columns={columns} dataSource={arrayOvens} />{" "}
           </div>
         </Container>
       </Content>

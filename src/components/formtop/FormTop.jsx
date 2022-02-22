@@ -1,22 +1,69 @@
-import React from "react";
 import { Form, Input, DatePicker, Row, Col, Select, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { SERIAL, DATE, NAME, OVEN } from "../constants/ConstFormTop";
 
+import QaReportFirebase from "../../../Credentials";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import {
+  getFirestore,
+  updateDoc,
+  doc,
+  getDoc,
+  setDoc,
+  addDoc,
+  collection,
+} from "firebase/firestore";
+import { useState, useEffect } from "react";
+const firestore = getFirestore(QaReportFirebase);
+const auth = getAuth(QaReportFirebase);
 const { Option } = Select;
+const db = getFirestore();
 
 export const FormTop = (props) => {
+  async function onClickF(serial, date, name, oven, userID) {
+    const docRef = await addDoc(collection(db, "oven"), {
+      serial: serial,
+      date: date,
+      name: name,
+      oven: oven,
+      userID: userID,
+    });
+  }
+  const [globalUser, setGlobalUser] = useState(null);
+  useEffect(() => {
+    onAuthStateChanged(auth, (fireBaseUser) => {
+      if (fireBaseUser) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = fireBaseUser;
+        setGlobalUser(uid);
+        // ...
+      }
+    });
+  });
+
   const [form] = Form.useForm();
   const navigate = useNavigate();
-
   function handleChange(value) {
     navigate(`/register/${value}`);
   }
-  const onFinish = () => {
-    console.log("Success:");
-  };
+
+  const [startDate, setStartDate] = useState(new Date());
+  async function addOven(values, arrayOvens) {
+    const userUID = globalUser.uid;
+    const serialNumber = values.SERIAL;
+    const date = startDate.format("YYYY-MM-DD").toString();
+    const name = values.NAME;
+    const oven = values.OVEN;
+    console.log(serialNumber, userUID, date, name, oven);
+    {
+      /*onClickF(serialNumber, date, name, userUID);*/
+    }
+    handleChange(oven);
+  }
+
   return (
-    <Form labelCol={{ span: 4 }} onFinish={onFinish}>
+    <Form labelCol={{ span: 4 }} onFinish={addOven}>
       <Row>
         <Col xs={12}>
           <Form.Item label="S/N" name={SERIAL}>
@@ -35,7 +82,8 @@ export const FormTop = (props) => {
             <DatePicker
               style={{ width: "100%" }}
               size="large"
-              onChange={props.onChangeDate}
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
               required
             />
           </Form.Item>
@@ -54,12 +102,7 @@ export const FormTop = (props) => {
         </Col>
         <Col xs={12}>
           <Form.Item label="Type" name={OVEN}>
-            <Select
-              size="large"
-              placeholder="Oven"
-              onChange={handleChange}
-              required
-            >
+            <Select size="large" placeholder="Oven" required>
               <Option value="Oven1">Oven1</Option>
             </Select>
           </Form.Item>
