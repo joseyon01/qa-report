@@ -55,7 +55,6 @@ export const FormTop = (props) => {
     const date = startDate.format("YYYY-MM-DD").toString();
     const name = values.NAME;
     const oven = values.OVEN;
-    console.log(serialNumber, userUID, date, name, oven);
     onClickF(serialNumber, date, name, oven, userUID);
     handleChange(oven);
   }

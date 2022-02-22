@@ -5,13 +5,25 @@ import { AiFillDelete } from "react-icons/ai";
 import { AiFillEdit } from "react-icons/ai";
 import { Header } from "../layout/Headet";
 import { Container } from "../layout/Container";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  query,
+  where,
+} from "firebase/firestore";
 import QaReportFirebase from "../../../Credentials";
 const firestore = getFirestore(QaReportFirebase);
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { async } from "@firebase/util";
 const auth = getAuth(QaReportFirebase);
 
+const db = getFirestore();
+
+const ovenRef = collection(db, "oven");
 const { Footer, Content } = Layout;
 const { Title } = Typography;
 
@@ -37,6 +49,26 @@ const data = [
 ];
 export const Dashboard = () => {
   const [arrayOvens, setArrayOvens] = useState(null);
+  const [globalUser, setGlobalUser] = useState(null);
+
+  onAuthStateChanged(auth, (fireBaseUser) => {
+    if (fireBaseUser) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      const uid = fireBaseUser;
+      setGlobalUser(uid);
+      // ...
+    }
+  });
+  console.log(globalUser);
+
+  console.log(globalUser.uid);
+
+  const userId = globalUser.uid;
+  const getData = async () => {
+    const q = query(ovenRef, where("userId", "==", userId));
+  };
+  getData();
 
   const columns = [
     {
