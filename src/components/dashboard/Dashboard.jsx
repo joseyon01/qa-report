@@ -9,7 +9,7 @@ import { Container } from "../layout/Container";
 import {
   getFirestore,
   doc,
-  getDoc,
+  getDocs,
   setDoc,
   collection,
   query,
@@ -17,10 +17,10 @@ import {
 } from "firebase/firestore";
 import QaReportFirebase from "../../../Credentials";
 const firestore = getFirestore(QaReportFirebase);
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import { async } from "@firebase/util";
-const auth = getAuth(QaReportFirebase);
 
+// const auth = getAuth(QaReportFirebase);
 const db = getFirestore();
 
 const ovenRef = collection(db, "oven");
@@ -47,72 +47,80 @@ const data = [
     status: "Aproove",
   },
 ];
+
+const columns = [
+  {
+    title: "Serial Number",
+    dataIndex: "serialNumber",
+    key: "serialNumber",
+    render: (text) => <a>{text}</a>,
+  },
+  {
+    title: "Date",
+    dataIndex: "date",
+    key: "date",
+  },
+  {
+    title: "Status",
+    dataIndex: "status",
+    key: "status",
+  },
+  {
+    title: "Actions",
+    key: "actions",
+    render: (text, record) => (
+      <Space
+        size="middle"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        <Button
+          onClick={() => {
+            console.log(arrayOvens);
+          }}
+        >
+          <a>
+            <AiFillDelete />
+          </a>
+        </Button>
+        <Button>
+          <a>
+            <AiFillEdit />
+          </a>
+        </Button>
+      </Space>
+    ),
+  },
+];
+
 export const Dashboard = () => {
   const [arrayOvens, setArrayOvens] = useState(null);
-  const [globalUser, setGlobalUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 
-  onAuthStateChanged(auth, (fireBaseUser) => {
-    if (fireBaseUser) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      const uid = fireBaseUser;
-      setGlobalUser(uid);
-      // ...
+  const getUser = async () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if(user){
+      try {
+        const q = query(ovenRef, where("userId", "==", user.uid));
+        const data  = await getDocs(q);
+        console.log(data.empty);
+        if(!data.empty){
+          data.docs.forEach(e => console.log(e.data()))
+         
+          // hacer set state de la data aqui >> setData(data) por ejemplo
+        }
+        setCurrentUser(user);
+      } catch (error) {
+        console.error('error', error);
+      }
     }
-  });
-  console.log(globalUser);
-
-  console.log(globalUser.uid);
-
-  const userId = globalUser.uid;
-  const getData = async () => {
-    const q = query(ovenRef, where("userId", "==", userId));
   };
-  getData();
+ 
+  useEffect(() => {
+    getUser();
+  }, []);
 
-  const columns = [
-    {
-      title: "Serial Number",
-      dataIndex: "serialNumber",
-      key: "serialNumber",
-      render: (text) => <a>{text}</a>,
-    },
-    {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-    },
-    {
-      title: "Actions",
-      key: "actions",
-      render: (text, record) => (
-        <Space
-          size="middle"
-          style={{ display: "flex", justifyContent: "center" }}
-        >
-          <Button
-            onClick={() => {
-              console.log(arrayOvens);
-            }}
-          >
-            <a>
-              <AiFillDelete />
-            </a>
-          </Button>
-          <Button>
-            <a>
-              <AiFillEdit />
-            </a>
-          </Button>
-        </Space>
-      ),
-    },
-  ];
+  
 
   return (
     <Layout className="app-layout">
