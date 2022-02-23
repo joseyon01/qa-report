@@ -12,16 +12,107 @@ import {
   VISUALQH,
 } from "../constants/ConstVisualInspection";
 
+import QaReportFirebase from "../../../Credentials";
+import { getAuth } from "firebase/auth";
+import {
+  getFirestore,
+  updateDoc,
+  doc,
+  getDoc,
+  setDoc,
+  addDoc,
+  collection,
+} from "firebase/firestore";
+import { useState, useEffect } from "react";
+const firestore = getFirestore(QaReportFirebase);
+const auth = getAuth(QaReportFirebase);
+
+const db = getFirestore();
+
 export const VisualInspection = (props) => {
+  async function onClickF(
+    VISUALQA,
+    VISUALQB,
+    VISUALQC,
+    VISUALQD,
+    VISUALQE,
+    VISUALQF,
+    VISUALQG,
+    VISUALQH
+  ) {
+    const docRef = await addDoc(collection(db, "visualInspection"), {
+      VISUALQA: VISUALQA,
+      VISUALQB: VISUALQB,
+      VISUALQC: VISUALQC,
+      VISUALQD: VISUALQD,
+      VISUALQE: VISUALQE,
+      VISUALQF: VISUALQF,
+      VISUALQG: VISUALQG,
+      VISUALQH: VISUALQH,
+    });
+  }
+
   const [form] = Form.useForm();
-  const onFinish = () => {
-    console.log("Success:");
+  const [valueA, setValueA] = useState(null);
+  const onChangeA = (e) => {
+    setValueA(e.target.value);
+  };
+  const [valueB, setValueB] = useState(null);
+  const onChangeB = (e) => {
+    setValueB(e.target.value);
+  };
+  const [valueC, setValueC] = useState(null);
+  const onChangeC = (e) => {
+    setValueC(e.target.value);
+  };
+  const [valueD, setValueD] = useState(null);
+  const onChangeD = (e) => {
+    setValueD(e.target.value);
+  };
+  const [valueE, setValueE] = useState(null);
+  const onChangeE = (e) => {
+    setValueE(e.target.value);
+  };
+  const [valueF, setValueF] = useState(null);
+  const onChangeF = (e) => {
+    setValueF(e.target.value);
+  };
+  const [valueG, setValueG] = useState(null);
+  const onChangeG = (e) => {
+    setValueG(e.target.value);
+  };
+  const [valueH, setValueH] = useState(null);
+  const onChangeH = (e) => {
+    setValueH(e.target.value);
+  };
+  async function addVisualInspection() {
+    const VISUALQA = valueA;
+    const VISUALQB = valueB;
+    const VISUALQC = valueC;
+    const VISUALQD = valueD;
+    const VISUALQE = valueE;
+    const VISUALQF = valueF;
+    const VISUALQG = valueG;
+    const VISUALQH = valueH;
+    onClickF(
+      VISUALQA,
+      VISUALQB,
+      VISUALQC,
+      VISUALQD,
+      VISUALQE,
+      VISUALQF,
+      VISUALQG,
+      VISUALQH
+    );
+  }
+  const onFail = () => {
+    alert("pleace complite the form");
   };
   return (
     <Form
       labelCol={{ span: 7 }}
       style={{ paddingBottom: "5em" }}
-      onFinish={onFinish}
+      onFinish={addVisualInspection}
     >
       <Divider orientation="rigth">
         1) VISUAL INSPECTION: DO NOT APPLY POWER TO OVEN!!!
@@ -35,12 +126,10 @@ export const VisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={4}>
-          <Form.Item>
-            <Radio.Group name={VISUALQA} required>
-              <Radio value={"true"}>ACC</Radio>
-              <Radio value={"false"}>NO ACC</Radio>
-            </Radio.Group>
-          </Form.Item>
+          <Radio.Group required name={VISUALQA} onChange={onChangeA}>
+            <Radio value={true}>ACC</Radio>
+            <Radio value={false}>NO ACC</Radio>
+          </Radio.Group>
         </Col>
       </Row>
       <br />
@@ -55,9 +144,9 @@ export const VisualInspection = (props) => {
         </Col>
         <Col xs={4}>
           <Form.Item>
-            <Radio.Group name={VISUALQB} required>
-              <Radio value={"true"}>ACC</Radio>
-              <Radio value={"false"}>NO ACC</Radio>
+            <Radio.Group name={VISUALQB} required onChange={onChangeB}>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
           </Form.Item>
         </Col>
@@ -72,9 +161,9 @@ export const VisualInspection = (props) => {
         </Col>
         <Col xs={4} justify="end">
           <Form.Item>
-            <Radio.Group name={VISUALQC} required>
-              <Radio value={"true"}>ACC</Radio>
-              <Radio value={"false"}>NO ACC</Radio>
+            <Radio.Group name={VISUALQC} required onChange={onChangeC}>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
           </Form.Item>
         </Col>
@@ -88,9 +177,9 @@ export const VisualInspection = (props) => {
         </Col>
         <Col xs={4}>
           <Form.Item>
-            <Radio.Group name={VISUALQD} required>
-              <Radio value={"true"}>ACC</Radio>
-              <Radio value={"false"}>NO ACC</Radio>
+            <Radio.Group name={VISUALQD} required onChange={onChangeD}>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
           </Form.Item>
         </Col>
@@ -105,9 +194,9 @@ export const VisualInspection = (props) => {
         </Col>
         <Col xs={4}>
           <Form.Item>
-            <Radio.Group name={VISUALQE} required>
-              <Radio value={"true"}>ACC</Radio>
-              <Radio value={"false"}>NO ACC</Radio>
+            <Radio.Group name={VISUALQE} required onChange={onChangeE}>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
           </Form.Item>
         </Col>
@@ -122,9 +211,9 @@ export const VisualInspection = (props) => {
         </Col>
         <Col xs={4}>
           <Form.Item>
-            <Radio.Group name={VISUALQF} required>
-              <Radio value={"true"}>ACC</Radio>
-              <Radio value={"false"}>NO ACC</Radio>
+            <Radio.Group name={VISUALQF} required onChange={onChangeF}>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
           </Form.Item>
         </Col>
@@ -139,9 +228,9 @@ export const VisualInspection = (props) => {
         </Col>
         <Col xs={4}>
           <Form.Item>
-            <Radio.Group name={VISUALQG} required>
-              <Radio value={"true"}>ACC</Radio>
-              <Radio value={"false"}>NO ACC</Radio>
+            <Radio.Group name={VISUALQG} required onChange={onChangeG}>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
           </Form.Item>
         </Col>
@@ -157,9 +246,9 @@ export const VisualInspection = (props) => {
         </Col>
         <Col xs={4}>
           <Form.Item>
-            <Radio.Group name={VISUALQH} required>
-              <Radio value={"true"}>ACC</Radio>
-              <Radio value={"false"}>NO ACC</Radio>
+            <Radio.Group name={VISUALQH} required onChange={onChangeH}>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
           </Form.Item>
         </Col>

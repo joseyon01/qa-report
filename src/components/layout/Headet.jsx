@@ -5,8 +5,6 @@ import QaReportFirebase from "../../../Credentials";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { Link } from "react-router-dom";
 const auth = getAuth(QaReportFirebase);
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { FormProvider } from "rc-field-form";
 
 const { Title } = Typography;
 const { Header: ANTDHeader } = Layout;

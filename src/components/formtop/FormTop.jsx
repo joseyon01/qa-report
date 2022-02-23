@@ -1,7 +1,6 @@
 import { Form, Input, DatePicker, Row, Col, Select, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { SERIAL, DATE, NAME, OVEN } from "../constants/ConstFormTop";
-
 import QaReportFirebase from "../../../Credentials";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import {
@@ -20,16 +19,32 @@ const { Option } = Select;
 const db = getFirestore();
 
 export const FormTop = (props) => {
-  async function onClickF(serial, date, name, oven, userID) {
+  const [globalUser, setGlobalUser] = useState(null);
+  const [startDate, setStartDate] = useState(new Date());
+  const [ovenSerial, setOvenSerial] = useState(null);
+  const [ovenName, setOvenName] = useState(null);
+  const [ovenDate, setOvenDate] = useState(null);
+  const [ovenUserId, setOvenUserId] = useState(null);
+  const [ovenId, setOvenId] = useState(null);
+  const [form] = Form.useForm();
+  const navigate = useNavigate();
+
+  async function onClickF(serial, date, name, oven, userId) {
     const docRef = await addDoc(collection(db, "oven"), {
       serial: serial,
       date: date,
       name: name,
       oven: oven,
-      userId: userID,
+      userId: userId,
     });
+    setOvenSerial(docRef.serial);
+    setOvenName(docRef.name);
+    setOvenDate(docRef.date);
+    setOvenUserId(docRef.userId);
+    setOvenId(docRef.id);
+    handleChange(oven);
   }
-  const [globalUser, setGlobalUser] = useState(null);
+
   useEffect(() => {
     onAuthStateChanged(auth, (fireBaseUser) => {
       if (fireBaseUser) {
@@ -42,13 +57,10 @@ export const FormTop = (props) => {
     });
   });
 
-  const [form] = Form.useForm();
-  const navigate = useNavigate();
   function handleChange(value) {
     navigate(`/register/${value}`);
   }
 
-  const [startDate, setStartDate] = useState(new Date());
   async function addOven(values, arrayOvens) {
     const userUID = globalUser.uid;
     const serialNumber = values.SERIAL;
@@ -56,7 +68,6 @@ export const FormTop = (props) => {
     const name = values.NAME;
     const oven = values.OVEN;
     onClickF(serialNumber, date, name, oven, userUID);
-    handleChange(oven);
   }
 
   return (

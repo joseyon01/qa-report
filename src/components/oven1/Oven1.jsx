@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Row, Col, Typography, Tabs } from "antd";
+import { Form, Input, Typography, Tabs } from "antd";
 import { VisualInspection } from "./VisualInspection";
 import { Fragment } from "react/cjs/react.production.min";
 import { OperationalInspection } from "./OperationalInspection";
@@ -10,6 +10,11 @@ const { TextArea } = Input;
 const { TabPane } = Tabs;
 
 export const Oven1 = (props) => {
+  const serial = props.serial;
+  const name = props.name;
+  const date = props.date;
+  const oven = props.oven;
+
   const [form] = Form.useForm();
   return (
     <Fragment>

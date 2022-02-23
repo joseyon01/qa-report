@@ -9,6 +9,22 @@ import {
   Divider,
   Button,
 } from "antd";
+
+import QaReportFirebase from "../../../Credentials";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import {
+  getFirestore,
+  updateDoc,
+  doc,
+  getDoc,
+  setDoc,
+  addDoc,
+  collection,
+} from "firebase/firestore";
+import { useState, useEffect } from "react";
+const firestore = getFirestore(QaReportFirebase);
+const auth = getAuth(QaReportFirebase);
+const db = getFirestore();
 const { Text } = Typography;
 const { TextArea } = Input;
 import {
@@ -46,9 +62,172 @@ import {
 } from "../constants/ConstOperational";
 
 export const OperationalInspection = (props) => {
+  async function onClickF(
+    OPERATIONAL_A_I,
+    OPERATIONAL_B_I_I,
+    OPERATIONAL_B_I_II,
+    OPERATIONAL_B_II_I,
+    OPERATIONAL_B_II_II,
+    OPERATIONAL_B_III,
+    OPERATIONAL_B_IV,
+    OPERATIONAL_B_V_I,
+    OPERATIONAL_B_V_II,
+    OPERATIONAL_B_VI_I,
+    OPERATIONAL_B_VI_II,
+    OPERATIONAL_B_VII,
+    OPERATIONAL_B_VIII,
+    OPERATIONAL_C,
+    OPERATIONAL_D_I,
+    OPERATIONAL_D_II,
+    OPERATIONAL_D_III,
+    OPERATIONAL_D_IV,
+    OPERATIONAL_E,
+    OPERATIONAL_F,
+    OPERATIONAL_H_I,
+    OPERATIONAL_H_IV,
+    OPERATIONAL_H_V,
+    OPERATIONAL_H_VI,
+    OPERATIONAL_I_I,
+    OPERATIONAL_I_II,
+    OPERATIONAL_I_III,
+    OPERATIONAL_NOTE,
+    OPERATIONAL_J,
+    OPERATIONAL_OPENING,
+    OPERATIONAL_CLOSING
+  ) {
+    const docRef = await addDoc(collection(db, "OperationalInspection"), {
+      OPERATIONAL_A_I: OPERATIONAL_A_I,
+      OPERATIONAL_B_I_I: OPERATIONAL_B_I_I,
+      OPERATIONAL_B_I_II: OPERATIONAL_B_I_II,
+      OPERATIONAL_B_II_I: OPERATIONAL_B_II_I,
+      OPERATIONAL_B_II_II: OPERATIONAL_B_II_II,
+      OPERATIONAL_B_III: OPERATIONAL_B_III,
+      OPERATIONAL_B_IV: OPERATIONAL_B_IV,
+      OPERATIONAL_B_V_I: OPERATIONAL_B_V_I,
+      OPERATIONAL_B_V_II: OPERATIONAL_B_V_II,
+      OPERATIONAL_B_VI_I: OPERATIONAL_B_VI_I,
+      OPERATIONAL_B_VI_II: OPERATIONAL_B_VI_II,
+      OPERATIONAL_B_VII: OPERATIONAL_B_VII,
+      OPERATIONAL_B_VIII: OPERATIONAL_B_VIII,
+      OPERATIONAL_C: OPERATIONAL_C,
+      OPERATIONAL_D_I: OPERATIONAL_D_I,
+      OPERATIONAL_D_II: OPERATIONAL_D_II,
+      OPERATIONAL_D_III: OPERATIONAL_D_III,
+      OPERATIONAL_D_IV: OPERATIONAL_D_IV,
+      OPERATIONAL_E: OPERATIONAL_E,
+      OPERATIONAL_F: OPERATIONAL_F,
+      OPERATIONAL_H_I: OPERATIONAL_H_I,
+      OPERATIONAL_H_IV: OPERATIONAL_H_IV,
+      OPERATIONAL_H_V: OPERATIONAL_H_V,
+      OPERATIONAL_H_VI: OPERATIONAL_H_VI,
+      OPERATIONAL_I_I: OPERATIONAL_I_I,
+      OPERATIONAL_I_II: OPERATIONAL_I_II,
+      OPERATIONAL_I_III: OPERATIONAL_I_III,
+      OPERATIONAL_NOTE: OPERATIONAL_NOTE,
+      OPERATIONAL_J: OPERATIONAL_J,
+      OPERATIONAL_OPENING: OPERATIONAL_OPENING,
+      OPERATIONAL_CLOSING: OPERATIONAL_CLOSING,
+    });
+  }
+  const [valueC, setValueC] = useState(null);
+  const onChangeC = (e) => {
+    setValueC(e.target.value);
+  };
+  const [valueD, setValueD] = useState(null);
+  const onChangeD = (e) => {
+    setValueD(e.target.value);
+  };
+  const [valueF, setValueF] = useState(null);
+  const onChangeF = (e) => {
+    setValueF(e.target.value);
+  };
+  const [valueJ, setValueJ] = useState(null);
+  const onChangeJ = (e) => {
+    setValueJ(e.target.value);
+  };
+  onChangeJ;
+
+  async function addOperational(values) {
+    const OPERATIONAL_A_I = values.OPERATIONAL_A_I;
+    const OPERATIONAL_B_I_I = values.OPERATIONAL_B_I_I;
+    const OPERATIONAL_B_I_II = values.OPERATIONAL_B_I_II;
+    const OPERATIONAL_B_II_I = values.OPERATIONAL_B_II_I;
+    const OPERATIONAL_B_II_II = values.OPERATIONAL_B_II_II;
+    const OPERATIONAL_B_III = values.OPERATIONAL_B_III;
+    const OPERATIONAL_B_IV = values.OPERATIONAL_B_IV;
+    const OPERATIONAL_B_V_I = values.OPERATIONAL_B_V_I;
+    const OPERATIONAL_B_V_II = values.OPERATIONAL_B_V_II;
+    const OPERATIONAL_B_VI_I = values.OPERATIONAL_B_VI_I;
+    const OPERATIONAL_B_VI_II = values.OPERATIONAL_B_VI_II;
+    const OPERATIONAL_B_VII = values.OPERATIONAL_B_VII;
+    const OPERATIONAL_B_VIII = values.OPERATIONAL_B_VIII;
+    const OPERATIONAL_C = valueC;
+    const OPERATIONAL_D_I = values.OPERATIONAL_D_I;
+    const OPERATIONAL_D_II = values.OPERATIONAL_D_II;
+    const OPERATIONAL_D_III = values.OPERATIONAL_D_III;
+    const OPERATIONAL_D_IV = valueD;
+    const OPERATIONAL_E = values.OPERATIONAL_E;
+    const OPERATIONAL_F = valueF;
+    const OPERATIONAL_H_I = values.OPERATIONAL_H_I;
+    const OPERATIONAL_H_IV = values.OPERATIONAL_H_IV;
+    const OPERATIONAL_H_V = values.OPERATIONAL_H_V;
+
+    const value = (a, b) => {
+      let result = (a - b) * (4187 / 30);
+      return result;
+    };
+
+    const OPERATIONAL_H_VI = value(OPERATIONAL_H_I, OPERATIONAL_H_V);
+    const OPERATIONAL_I_I = values.OPERATIONAL_I_I;
+    const OPERATIONAL_I_II = values.OPERATIONAL_I_II;
+    const OPERATIONAL_I_III = values.OPERATIONAL_I_III;
+    const OPERATIONAL_NOTE = values.OPERATIONAL_NOTE;
+    const OPERATIONAL_J = valueJ;
+    const OPERATIONAL_OPENING = values.OPERATIONAL_OPENING;
+    const OPERATIONAL_CLOSING = values.OPERATIONAL_CLOSING;
+
+    onClickF(
+      OPERATIONAL_A_I,
+      OPERATIONAL_B_I_I,
+      OPERATIONAL_B_I_II,
+      OPERATIONAL_B_II_I,
+      OPERATIONAL_B_II_II,
+      OPERATIONAL_B_III,
+      OPERATIONAL_B_IV,
+      OPERATIONAL_B_V_I,
+      OPERATIONAL_B_V_II,
+      OPERATIONAL_B_VI_I,
+      OPERATIONAL_B_VI_II,
+      OPERATIONAL_B_VII,
+      OPERATIONAL_B_VIII,
+      OPERATIONAL_C,
+      OPERATIONAL_D_I,
+      OPERATIONAL_D_II,
+      OPERATIONAL_D_III,
+      OPERATIONAL_D_IV,
+      OPERATIONAL_E,
+      OPERATIONAL_F,
+      OPERATIONAL_H_I,
+      OPERATIONAL_H_IV,
+      OPERATIONAL_H_V,
+      OPERATIONAL_H_VI,
+      OPERATIONAL_I_I,
+      OPERATIONAL_I_II,
+      OPERATIONAL_I_III,
+      OPERATIONAL_NOTE,
+      OPERATIONAL_J,
+      OPERATIONAL_OPENING,
+      OPERATIONAL_CLOSING
+    );
+  }
+
   const [form] = Form.useForm();
   return (
-    <Form labelCol={{ span: 7 }} style={{ paddingBottom: "5em" }}>
+    <Form
+      labelCol={{ span: 7 }}
+      style={{ paddingBottom: "5em" }}
+      onFinish={addOperational}
+    >
       <Divider orientation="rigth">
         2) OPERATIONAL_ INSPECTION: DO NOT APPLY POWER TO OVEN.
       </Divider>
@@ -253,12 +432,10 @@ export const OperationalInspection = (props) => {
           </Text>
         </Col>
         <Col xs={4}>
-          <Form.Item name={OPERATIONAL_C}>
-            <Radio.Group name="Q-C" required>
-              <Radio value={"true"}>ACC</Radio>
-              <Radio value={"false"}>NO ACC</Radio>
-            </Radio.Group>
-          </Form.Item>
+          <Radio.Group required name={OPERATIONAL_C} onChange={onChangeC}>
+            <Radio value={true}>ACC</Radio>
+            <Radio value={false}>NO ACC</Radio>
+          </Radio.Group>
         </Col>
       </Row>
       <Row>
@@ -319,12 +496,14 @@ export const OperationalInspection = (props) => {
                       </Text>
                     </Col>
                     <Col xs={4}>
-                      <Form.Item name={OPERATIONAL_D_IV}>
-                        <Radio.Group name="oneB" required>
-                          <Radio value={"true"}>ACC</Radio>
-                          <Radio value={"false"}>NO ACC</Radio>
-                        </Radio.Group>
-                      </Form.Item>
+                      <Radio.Group
+                        required
+                        name={OPERATIONAL_D_IV}
+                        onChange={onChangeD}
+                      >
+                        <Radio value={true}>ACC</Radio>
+                        <Radio value={false}>NO ACC</Radio>
+                      </Radio.Group>
                     </Col>
                   </Row>
                 </Col>
@@ -356,12 +535,10 @@ export const OperationalInspection = (props) => {
           </Text>
         </Col>
         <Col xs={4}>
-          <Form.Item name={OPERATIONAL_F}>
-            <Radio.Group name="">
-              <Radio value={"true"}>ACC</Radio>
-              <Radio value={"false"}>NO ACC</Radio>
-            </Radio.Group>
-          </Form.Item>
+          <Radio.Group name={OPERATIONAL_F} onChange={onChangeF}>
+            <Radio value={true}>ACC</Radio>
+            <Radio value={false}>NO ACC</Radio>
+          </Radio.Group>
         </Col>
       </Row>
       <br />
@@ -579,12 +756,10 @@ export const OperationalInspection = (props) => {
           <Text>J) Is there actuator rotation if door is closed slowly?</Text>
         </Col>
         <Col xs={4}>
-          <Form.Item>
-            <Radio.Group name={OPERATIONAL_J}>
-              <Radio value={"true"}>ACC</Radio>
-              <Radio value={"false"}>NO ACC</Radio>
-            </Radio.Group>
-          </Form.Item>
+          <Radio.Group name={OPERATIONAL_J} onChange={onChangeJ}>
+            <Radio value={true}>ACC</Radio>
+            <Radio value={false}>NO ACC</Radio>
+          </Radio.Group>
         </Col>
       </Row>
       <Row>

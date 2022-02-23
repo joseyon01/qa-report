@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Row, Col, Layout, Table, Tag, Button, Space, Typography } from "antd";
+import { Row, Col, Layout, Table, Button, Space, Typography } from "antd";
 import { AiFillDelete } from "react-icons/ai";
 import { AiFillEdit } from "react-icons/ai";
 import { Header } from "../layout/Headet";
@@ -27,32 +27,11 @@ const ovenRef = collection(db, "oven");
 const { Footer, Content } = Layout;
 const { Title } = Typography;
 
-const data = [
-  {
-    key: "1",
-    serialNumber: "1",
-    date: "20/02/2022",
-    status: "Aprove",
-  },
-  {
-    key: "2",
-    serialNumber: "2",
-    date: "18/11/2021",
-    status: "Denied",
-  },
-  {
-    key: "3",
-    serialNumber: "3",
-    date: "15/01/2022",
-    status: "Aproove",
-  },
-];
-
 const columns = [
   {
     title: "Serial Number",
-    dataIndex: "serialNumber",
-    key: "serialNumber",
+    dataIndex: "serial",
+    key: "serial",
     render: (text) => <a>{text}</a>,
   },
   {
@@ -75,14 +54,18 @@ const columns = [
       >
         <Button
           onClick={() => {
-            console.log(arrayOvens);
+            alert("Oven Deleted");
           }}
         >
           <a>
             <AiFillDelete />
           </a>
         </Button>
-        <Button>
+        <Button
+          onClick={() => {
+            alert("Edit Oven");
+          }}
+        >
           <a>
             <AiFillEdit />
           </a>
@@ -99,29 +82,32 @@ export const Dashboard = () => {
   const getUser = async () => {
     const auth = getAuth();
     const user = auth.currentUser;
-    if(user){
+    if (user) {
       try {
         const q = query(ovenRef, where("userId", "==", user.uid));
-        const data  = await getDocs(q);
-        console.log(data.empty);
-        if(!data.empty){
-          data.docs.forEach(e => console.log(e.data()))
-         
+        const data = await getDocs(q);
+        if (!data.empty) {
+          let _data = [];
+          data.docs.forEach((e) => {
+            if (e.data()) {
+              _data.push(e.data());
+            }
+          });
+          console.log("data: " + _data);
           // hacer set state de la data aqui >> setData(data) por ejemplo
+          setArrayOvens(_data);
         }
         setCurrentUser(user);
       } catch (error) {
-        console.error('error', error);
+        console.error("error", error);
       }
     }
   };
- 
+
+  console.log(arrayOvens);
   useEffect(() => {
     getUser();
   }, []);
-
-  
-
   return (
     <Layout className="app-layout">
       <Header />
