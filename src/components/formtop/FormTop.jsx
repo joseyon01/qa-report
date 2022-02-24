@@ -19,6 +19,8 @@ const { Option } = Select;
 const db = getFirestore();
 
 export const FormTop = (props) => {
+  const [buttonDisabled, setButtonDisabled] = useState(null);
+
   const [globalUser, setGlobalUser] = useState(null);
   const [startDate, setStartDate] = useState(new Date());
   const [ovenSerial, setOvenSerial] = useState(null);
@@ -36,15 +38,17 @@ export const FormTop = (props) => {
       name: name,
       oven: oven,
       userId: userId,
+      key: serial,
     });
+
     setOvenSerial(docRef.serial);
     setOvenName(docRef.name);
     setOvenDate(docRef.date);
     setOvenUserId(docRef.userId);
     setOvenId(docRef.id);
+    setButtonDisabled(true);
     handleChange(oven);
   }
-
   useEffect(() => {
     onAuthStateChanged(auth, (fireBaseUser) => {
       if (fireBaseUser) {
@@ -67,7 +71,9 @@ export const FormTop = (props) => {
     const date = startDate.format("YYYY-MM-DD").toString();
     const name = values.NAME;
     const oven = values.OVEN;
-    onClickF(serialNumber, date, name, oven, userUID);
+    const key = values.SERIAL;
+    setOvenId(serialNumber);
+    onClickF(serialNumber, date, name, oven, userUID, key);
   }
 
   return (
@@ -80,6 +86,7 @@ export const FormTop = (props) => {
               onChange={props.onChangeCN}
               value={props.serial}
               placeholder="Serial Number"
+              disabled={buttonDisabled}
               type="text"
               required
             />
@@ -92,6 +99,7 @@ export const FormTop = (props) => {
               size="large"
               selected={startDate}
               onChange={(date) => setStartDate(date)}
+              disabled={buttonDisabled}
               required
             />
           </Form.Item>
@@ -104,13 +112,19 @@ export const FormTop = (props) => {
               value={props.name}
               type="text"
               placeholder="Name"
+              disabled={buttonDisabled}
               required
             />
           </Form.Item>
         </Col>
         <Col xs={12}>
           <Form.Item label="Type" name={OVEN}>
-            <Select size="large" placeholder="Oven" required>
+            <Select
+              size="large"
+              placeholder="Oven"
+              required
+              disabled={buttonDisabled}
+            >
               <Option value="Oven1">Oven1</Option>
             </Select>
           </Form.Item>
@@ -119,7 +133,12 @@ export const FormTop = (props) => {
       <Row justify="center">
         <Col xs={24}>
           <Form.Item wrapperCol={{ offset: 10, span: 16 }}>
-            <Button size="middle" type="primary" htmlType="submit">
+            <Button
+              size="middle"
+              type="primary"
+              htmlType="submit"
+              disabled={buttonDisabled}
+            >
               Submit
             </Button>
           </Form.Item>

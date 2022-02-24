@@ -1,9 +1,9 @@
 import React from "react";
 import { Form, Input, Typography, Tabs } from "antd";
-import { VisualInspection } from "./VisualInspection";
+import { VisualInspection } from "./EditVisualInspection";
 import { Fragment } from "react/cjs/react.production.min";
-import { OperationalInspection } from "./OperationalInspection";
-import { HotOven } from "./HotOven";
+import { OperationalInspection } from "./EditOperationalInspection";
+import { HotOven } from "./EditHotOven";
 const { Title } = Typography;
 const { Text } = Typography;
 const { TextArea } = Input;

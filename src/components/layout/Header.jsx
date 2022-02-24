@@ -1,6 +1,5 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { Layout, Typography, Button } from "antd";
+import React, { useState } from "react";
+import { Layout, Typography, Button, Row, Col } from "antd";
 import QaReportFirebase from "../../../Credentials";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { Link } from "react-router-dom";
@@ -40,17 +39,20 @@ export const Header = (props) => {
   });
 
   return (
-    <ANTDHeader
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <Title style={{ color: "#fff", textAlign: "center", margin: "0px" }}>
-        QA-Report
-      </Title>
-      {!globalUser ? <LoginButton /> : <LogOutButton />}
+    <ANTDHeader>
+      <Row>
+        <Col xs={8}>
+          <Title style={{ color: "#fff", margin: "0px" }}>QA-Report</Title>
+        </Col>
+        <Col xs={3} offset={10}>
+          {!globalUser ? <LoginButton /> : <LogOutButton />}
+        </Col>
+        <Col xs={3}>
+          <Button>
+            <Link to="/dashboard">dasboard</Link>
+          </Button>
+        </Col>
+      </Row>
     </ANTDHeader>
   );
 };

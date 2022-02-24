@@ -1,4 +1,4 @@
-import react, { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Row,
   Col,
@@ -19,10 +19,28 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  setPersistence,
+  browserSessionPersistence,
 } from "firebase/auth";
 const auth = getAuth(QaReportFirebase);
 
 export const Login = () => {
+  const persistenceLocal = (auth, email, password) =>
+    setPersistence(auth, browserSessionPersistence)
+      .then(() => {
+        // Existing and future Auth states are now persisted in the current
+        // session only. Closing the window would clear any existing state even
+        // if a user forgets to sign out.
+        // ...
+        // New sign-in will be persisted with session persistence.
+        return signInWithEmailAndPassword(auth, email, password);
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+
   const [globalUser, setGlobalUser] = useState(null);
   onAuthStateChanged(auth, (fireBaseUser) => {
     if (fireBaseUser) {
@@ -38,7 +56,7 @@ export const Login = () => {
   async function onLogin(values) {
     const email = values.email;
     const password = values.password;
-    const logIn = await signInWithEmailAndPassword(auth, email, password);
+    const logIn = await persistenceLocal(auth, email, password);
     navigate(`/dashboard`);
   }
   const onLoginFailed = (errorInfo) => {
@@ -122,7 +140,8 @@ export const Login = () => {
           </Row>
         </Form>
       </TabPane>
-      <TabPane tab="Register" key="2">
+
+      {/* <TabPane tab="Register" key="2" >
         <Form
           name="register"
           labelCol={{ span: 8 }}
@@ -184,7 +203,7 @@ export const Login = () => {
             </Col>
           </Row>
         </Form>
-      </TabPane>
+      </TabPane>*/}
     </Tabs>
   );
 };
