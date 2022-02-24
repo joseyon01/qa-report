@@ -6,10 +6,13 @@ import { AiFillEdit } from "react-icons/ai";
 import { Header } from "../layout/Header";
 import { Container } from "../layout/Container";
 
+import { useNavigate } from "react-router-dom";
+
 import {
   getFirestore,
   doc,
   getDocs,
+  getDoc,
   collection,
   deleteDoc,
   query,
@@ -27,6 +30,10 @@ const { Footer, Content } = Layout;
 const { Title } = Typography;
 
 export const Dashboard = () => {
+  const navigate = useNavigate();
+  function handleChange() {
+    navigate(`/register`);
+  }
   const columns = [
     {
       title: "Serial Number",
@@ -76,7 +83,15 @@ export const Dashboard = () => {
           </Button>
           <Button
             onClick={async () => {
-              alert("Edit Oven");
+              const docRef = doc(db, "oven", record.id);
+              const docSnap = await getDoc(docRef);
+
+              if (docSnap.exists()) {
+                setEditData(docSnap);
+                console.log("Document data:", editData.id);
+              } else {
+                console.log("No such document!");
+              }
             }}
           >
             <a>
@@ -87,6 +102,7 @@ export const Dashboard = () => {
       ),
     },
   ];
+  const [editData, setEditData] = useState(null);
   const [arrayOvens, setArrayOvens] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [dataId, setDataId] = useState([]);

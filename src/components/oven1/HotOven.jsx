@@ -35,12 +35,10 @@ import {
   addDoc,
   collection,
 } from "firebase/firestore";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 const firestore = getFirestore(QaReportFirebase);
 const auth = getAuth(QaReportFirebase);
 const db = getFirestore();
-import { CloseOutlined, CheckOutlined } from "@ant-design/icons";
-
 const { Text } = Typography;
 
 export const HotOven = (props) => {
@@ -48,6 +46,10 @@ export const HotOven = (props) => {
   const [valueRC, setValueRC] = useState(null);
   const onChangeRC = (e) => {
     setValueRC(e.target.value);
+  };
+  const [valueAON, setValueAON] = useState(null);
+  const onChangeAON = (e) => {
+    setValueAON(e.target.value);
   };
   async function onClickF(
     serial,
@@ -81,7 +83,6 @@ export const HotOven = (props) => {
         OVEN_APROVE_OR_NOT: OVEN_APROVE_OR_NOT,
       }
     );
-    setButtonDisabled(true);
   }
   const [form] = Form.useForm();
   async function addHotOven(values, arrayOvens) {
@@ -95,7 +96,7 @@ export const HotOven = (props) => {
     const HOT_OVEN_C = values.HOT_OVEN_C;
     const HOT_OVEN_D = values.HOT_OVEN_D;
     const HOT_OVEN_E = values.HOT_OVEN_E;
-    const OVEN_APROVE_OR_NOT = values.OVEN_APROVE_OR_NOT;
+    const OVEN_APROVE_OR_NOT = valueAON;
     console.log(
       HOT_OVEN_B_DOOR,
       HOT_OVEN_B_SIDES,
@@ -109,20 +110,24 @@ export const HotOven = (props) => {
       HOT_OVEN_E,
       OVEN_APROVE_OR_NOT
     );
-    onClickF(
-      props.serial,
-      HOT_OVEN_B_DOOR,
-      HOT_OVEN_B_SIDES,
-      HOT_OVEN_TOP_R,
-      HOT_OVEN_TOP_L,
-      HOT_OVEN_BOT_R,
-      HOT_OVEN_BOT_L,
-      HOT_OVEN_RECHECK,
-      HOT_OVEN_C,
-      HOT_OVEN_D,
-      HOT_OVEN_E,
-      OVEN_APROVE_OR_NOT
-    );
+    if (HOT_OVEN_RECHECK == null || OVEN_APROVE_OR_NOT == null) {
+      alert("pleace finish the form before you submit it");
+    } else {
+      onClickF(
+        props.serial,
+        HOT_OVEN_B_DOOR,
+        HOT_OVEN_B_SIDES,
+        HOT_OVEN_TOP_R,
+        HOT_OVEN_TOP_L,
+        HOT_OVEN_BOT_R,
+        HOT_OVEN_BOT_L,
+        HOT_OVEN_RECHECK,
+        HOT_OVEN_C,
+        HOT_OVEN_D,
+        HOT_OVEN_E,
+        OVEN_APROVE_OR_NOT
+      );
+    }
   }
   return (
     <Form
@@ -272,13 +277,12 @@ export const HotOven = (props) => {
         </Col>
       </Row>
       <Row justify="center">
-        <Col xs={3}>
-          <Form.Item name={OVEN_APROVE_OR_NOT}>
-            <Switch
-              checkedChildren={"APROVED"}
-              unCheckedChildren={"DENIED"}
-              defaultChecked
-            />
+        <Col xs={10}>
+          <Form.Item label="APROVED">
+            <Radio.Group name={OVEN_APROVE_OR_NOT} onChange={onChangeAON}>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
+            </Radio.Group>
           </Form.Item>
         </Col>
       </Row>

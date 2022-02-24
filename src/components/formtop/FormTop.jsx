@@ -19,6 +19,7 @@ const { Option } = Select;
 const db = getFirestore();
 
 export const FormTop = (props) => {
+  console.log(props.id);
   const [buttonDisabled, setButtonDisabled] = useState(null);
 
   const [globalUser, setGlobalUser] = useState(null);
