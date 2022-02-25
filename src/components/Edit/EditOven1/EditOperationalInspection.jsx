@@ -10,7 +10,7 @@ import {
   Button,
 } from "antd";
 
-import QaReportFirebase from "../../../Credentials";
+import QaReportFirebase from "../../../../Credentials";
 import { getAuth } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
@@ -51,9 +51,9 @@ import {
   OPERATIONAL_J,
   OPERATIONAL_OPENING,
   OPERATIONAL_CLOSING,
-} from "../constants/ConstOperational";
+} from "../../constants/ConstOperational";
 
-export const OperationalInspection = (props) => {
+export const EditOperationalInspection = (props) => {
   const [buttonDisabled, setButtonDisabled] = useState(null);
 
   async function onClickF(
@@ -143,8 +143,9 @@ export const OperationalInspection = (props) => {
   const onChangeJ = (e) => {
     setValueJ(e.target.value);
   };
+  onChangeJ;
 
-  function addOperational(values) {
+  async function addOperational(values) {
     const OPERATIONAL_A_I = values.OPERATIONAL_A_I;
     const OPERATIONAL_B_I_I = values.OPERATIONAL_B_I_I;
     const OPERATIONAL_B_I_II = values.OPERATIONAL_B_I_II;
@@ -166,6 +167,8 @@ export const OperationalInspection = (props) => {
     const OPERATIONAL_E = values.OPERATIONAL_E;
     const OPERATIONAL_F = valueF;
     const OPERATIONAL_H_I = values.OPERATIONAL_H_I;
+    const OPERATIONAL_H_IV = values.OPERATIONAL_H_IV;
+    const OPERATIONAL_H_V = values.OPERATIONAL_H_V;
 
     const value = (a, b) => {
       let result = (a - b) * (4187 / 30);
@@ -184,7 +187,6 @@ export const OperationalInspection = (props) => {
     if (
       OPERATIONAL_C == null ||
       OPERATIONAL_D_IV == null ||
-      OPERATIONAL_F == null ||
       OPERATIONAL_J == null
     ) {
       alert("pleace finish the form before you submit it");

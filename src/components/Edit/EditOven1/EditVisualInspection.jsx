@@ -10,9 +10,9 @@ import {
   VISUALQF,
   VISUALQG,
   VISUALQH,
-} from "../constants/ConstVisualInspection";
+} from "../../constants/ConstVisualInspection";
 
-import QaReportFirebase from "../../../Credentials";
+import QaReportFirebase from "../../../../Credentials";
 import { getAuth } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 
@@ -21,7 +21,7 @@ const auth = getAuth(QaReportFirebase);
 
 const db = getFirestore();
 
-export const VisualInspection = (props) => {
+export const EditVisualInspection = (props) => {
   const [buttonDisabled, setButtonDisabled] = useState(null);
   async function onClickF(
     VISUALQA,
@@ -82,7 +82,7 @@ export const VisualInspection = (props) => {
   const onChangeH = (e) => {
     setValueH(e.target.value);
   };
-  function addVisualInspection() {
+  async function addVisualInspection() {
     const VISUALQA = valueA;
     const VISUALQB = valueB;
     const VISUALQC = valueC;

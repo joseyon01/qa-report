@@ -21,9 +21,9 @@ import {
   HOT_OVEN_D,
   HOT_OVEN_E,
   OVEN_APROVE_OR_NOT,
-} from "../constants/ConstantHotOven";
+} from "../../constants/ConstantHotOven";
 
-import QaReportFirebase from "../../../Credentials";
+import QaReportFirebase from "../../../../Credentials";
 import { getAuth } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
@@ -32,7 +32,7 @@ const auth = getAuth(QaReportFirebase);
 const db = getFirestore();
 const { Text } = Typography;
 
-export const HotOven = (props) => {
+export const EditHotOven = (props) => {
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [valueRC, setValueRC] = useState(null);
   const onChangeRC = (e) => {

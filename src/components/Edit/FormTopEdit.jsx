@@ -1,5 +1,5 @@
 import { Form, Input, DatePicker, Row, Col, Select, Button } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { SERIAL, DATE, NAME, OVEN } from "../constants/ConstFormTop";
 import QaReportFirebase from "../../../Credentials";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -10,7 +10,8 @@ const auth = getAuth(QaReportFirebase);
 const { Option } = Select;
 const db = getFirestore();
 
-export const FormTop = (props) => {
+export const EditFormTop = (props) => {
+  console.log(props.serial);
   const [buttonDisabled, setButtonDisabled] = useState(null);
 
   const [globalUser, setGlobalUser] = useState(null);
@@ -59,24 +60,19 @@ export const FormTop = (props) => {
     navigate(`/register/${value}`);
   }
 
-  async function addOven(values, arrayOvens) {
+  function addOven(values, arrayOvens) {
     const userUID = globalUser.uid;
     const serialNumber = values.SERIAL;
     const date = startDate.format("YYYY-MM-DD").toString();
     const name = values.NAME;
     const oven = values.OVEN;
     const key = values.SERIAL;
-    const serialTimeOut = new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(serialNumber);
-      }, 500);
-    });
     setOvenId(serialNumber);
     onClickF(serialNumber, date, name, oven, userUID, key);
   }
 
   return (
-    <Form labelCol={{ span: 4 }} onFinish={addOven}>
+    <Form labelCol={{ span: 4 }} onFinish={addOven} initialValues>
       <Row>
         <Col xs={12}>
           <Form.Item label="S/N" name={SERIAL}>
@@ -85,7 +81,8 @@ export const FormTop = (props) => {
               onChange={props.onChangeCN}
               value={props.serial}
               placeholder="Serial Number"
-              disabled={buttonDisabled}
+              disabled={true}
+              defaultValue={props.serial}
               type="text"
               required
             />
@@ -98,7 +95,8 @@ export const FormTop = (props) => {
               size="large"
               selected={startDate}
               onChange={(date) => setStartDate(date)}
-              disabled={buttonDisabled}
+              defaultValue={props.date}
+              disabled={true}
               required
             />
           </Form.Item>
@@ -111,7 +109,8 @@ export const FormTop = (props) => {
               value={props.name}
               type="text"
               placeholder="Name"
-              disabled={buttonDisabled}
+              disabled={true}
+              defaultValue={props.name}
               required
             />
           </Form.Item>
@@ -122,7 +121,8 @@ export const FormTop = (props) => {
               size="large"
               placeholder="Oven"
               required
-              disabled={buttonDisabled}
+              disabled={true}
+              defaultValue={props.oven}
             >
               <Option value="Oven1">Oven1</Option>
             </Select>
@@ -136,7 +136,7 @@ export const FormTop = (props) => {
               size="middle"
               type="primary"
               htmlType="submit"
-              disabled={buttonDisabled}
+              disabled={true}
             >
               Submit
             </Button>

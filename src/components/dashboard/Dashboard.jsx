@@ -5,8 +5,7 @@ import { AiFillDelete } from "react-icons/ai";
 import { AiFillEdit } from "react-icons/ai";
 import { Header } from "../layout/Header";
 import { Container } from "../layout/Container";
-
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   getFirestore,
@@ -30,9 +29,20 @@ const { Footer, Content } = Layout;
 const { Title } = Typography;
 
 export const Dashboard = () => {
+  const [visible, setVisible] = useState(false);
+  const [editOven, setEditOven] = useState(null);
+  const [editOperational, setEditOperational] = useState(null);
+  const [editHot, setEditHot] = useState(null);
+  const [editVisual, setEditvisual] = useState(null);
+  const [arrayOvens, setArrayOvens] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [dataId, setDataId] = useState([]);
   const navigate = useNavigate();
   function handleChange() {
     navigate(`/register`);
+  }
+  function navigateEdit(serial) {
+    navigate(`/edit/${serial}`);
   }
   const columns = [
     {
@@ -52,12 +62,6 @@ export const Dashboard = () => {
       key: "status",
     },
     {
-      title: "id",
-      dataIndex: "id",
-      key: "id",
-      render: false,
-    },
-    {
       title: "Actions",
       key: "actions",
       render: (text, record) => (
@@ -68,13 +72,18 @@ export const Dashboard = () => {
           <Button
             onClick={async () => {
               await deleteDoc(doc(db, "oven", record.id));
-              await deleteDoc(doc(db, "VisualInspection", `${record.serial}V`));
+              await deleteDoc(doc(db, "VisualInspection", `${record.serial}`));
               await deleteDoc(
-                doc(db, "OperationalInspection", `${record.serial}O`)
+                doc(db, "OperationalInspection", `${record.serial}`)
               );
-              await deleteDoc(
-                doc(db, "HotOvenInspection", `${record.serial}H`)
-              );
+              await deleteDoc(doc(db, "HotOvenInspection", `${record.serial}`));
+              const newArrayOvens = [];
+              arrayOvens.forEach((e) => {
+                if (e.serial !== record.serial) {
+                  newArrayOvens.push(e);
+                }
+              });
+              setArrayOvens(newArrayOvens);
             }}
           >
             <a>
@@ -83,15 +92,11 @@ export const Dashboard = () => {
           </Button>
           <Button
             onClick={async () => {
-              const docRef = doc(db, "oven", record.id);
-              const docSnap = await getDoc(docRef);
-
-              if (docSnap.exists()) {
-                setEditData(docSnap);
-                console.log("Document data:", editData.id);
-              } else {
-                console.log("No such document!");
-              }
+              fucEditOven(record.serial);
+              funcEditVisual(record.serial);
+              funcEditOperational(record.serial);
+              funcEditHotOven(record.serial);
+              navigateEdit(record.serial);
             }}
           >
             <a>
@@ -102,10 +107,48 @@ export const Dashboard = () => {
       ),
     },
   ];
-  const [editData, setEditData] = useState(null);
-  const [arrayOvens, setArrayOvens] = useState(null);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [dataId, setDataId] = useState([]);
+  async function fucEditOven(serial) {
+    const docRef = doc(db, "oven", serial);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log(docSnap);
+      setEditOven(docSnap.data());
+    } else {
+      console.log("No such document!");
+    }
+  }
+  async function funcEditVisual(serial) {
+    const docRef = doc(db, "VisualInspection", `${serial}`);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      setEditvisual(docSnap.data());
+    } else {
+      console.log("No such document!");
+    }
+  }
+  async function funcEditOperational(serial) {
+    const docRef = doc(db, "OperationalInspection", `${serial}`);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      setEditOperational(docSnap.data());
+    } else {
+      console.log("No such document!");
+    }
+  }
+  async function funcEditHotOven(serial) {
+    const docRef = doc(db, "HotOvenInspection", `${serial}`);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      setEditHot(docSnap.data());
+    } else {
+      console.log("No such document!");
+    }
+  }
+
   const getUser = async () => {
     const auth = getAuth();
     const user = auth.currentUser;
