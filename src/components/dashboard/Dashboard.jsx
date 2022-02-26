@@ -92,10 +92,6 @@ export const Dashboard = () => {
           </Button>
           <Button
             onClick={async () => {
-              fucEditOven(record.serial);
-              funcEditVisual(record.serial);
-              funcEditOperational(record.serial);
-              funcEditHotOven(record.serial);
               navigateEdit(record.serial);
             }}
           >
@@ -107,47 +103,6 @@ export const Dashboard = () => {
       ),
     },
   ];
-  async function fucEditOven(serial) {
-    const docRef = doc(db, "oven", serial);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      console.log(docSnap);
-      setEditOven(docSnap.data());
-    } else {
-      console.log("No such document!");
-    }
-  }
-  async function funcEditVisual(serial) {
-    const docRef = doc(db, "VisualInspection", `${serial}`);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      setEditvisual(docSnap.data());
-    } else {
-      console.log("No such document!");
-    }
-  }
-  async function funcEditOperational(serial) {
-    const docRef = doc(db, "OperationalInspection", `${serial}`);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      setEditOperational(docSnap.data());
-    } else {
-      console.log("No such document!");
-    }
-  }
-  async function funcEditHotOven(serial) {
-    const docRef = doc(db, "HotOvenInspection", `${serial}`);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      setEditHot(docSnap.data());
-    } else {
-      console.log("No such document!");
-    }
-  }
 
   const getUser = async () => {
     const auth = getAuth();

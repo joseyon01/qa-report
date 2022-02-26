@@ -111,8 +111,7 @@ export const VisualInspection = (props) => {
         VISUALQE,
         VISUALQF,
         VISUALQG,
-        VISUALQH,
-        props.serial
+        VISUALQH
       );
     }
   }

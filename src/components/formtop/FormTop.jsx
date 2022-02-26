@@ -59,7 +59,7 @@ export const FormTop = (props) => {
     navigate(`/register/${value}`);
   }
 
-  async function addOven(values, arrayOvens) {
+  function addOven(values, arrayOvens) {
     const userUID = globalUser.uid;
     const serialNumber = values.SERIAL;
     const date = startDate.format("YYYY-MM-DD").toString();

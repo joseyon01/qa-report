@@ -14,7 +14,6 @@ export const EditOven1 = (props) => {
   const name = props.name;
   const date = props.date;
   const oven = props.oven;
-
   const [form] = Form.useForm();
   return (
     <Fragment>
