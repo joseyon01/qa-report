@@ -16,13 +16,16 @@ const { Title } = Typography;
 const { Footer, Content } = Layout;
 
 export const EditPage = () => {
+  const param = useParams();
+  const editOven = param.id;
+  console.log(editOven);
   return (
     <Layout>
       <Header />
       <Content style={{ paddingTop: "2em" }}>
         <Container>
-          <EditFormTop />
-          <EditOven1 />
+          <EditFormTop serial={editOven} />
+          <EditOven1 serial={editOven} />
         </Container>
       </Content>
       <Footer

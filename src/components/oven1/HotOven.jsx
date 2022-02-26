@@ -74,7 +74,7 @@ export const HotOven = (props) => {
     );
   }
   const [form] = Form.useForm();
-  function addHotOven(values, arrayOvens) {
+  async function addHotOven(values, arrayOvens) {
     const HOT_OVEN_B_DOOR = values.HOT_OVEN_B_DOOR;
     const HOT_OVEN_B_SIDES = values.HOT_OVEN_B_SIDES;
     const HOT_OVEN_TOP_R = values.HOT_OVEN_TOP_R;
@@ -86,6 +86,14 @@ export const HotOven = (props) => {
     const HOT_OVEN_D = values.HOT_OVEN_D;
     const HOT_OVEN_E = values.HOT_OVEN_E;
     const OVEN_APROVE_OR_NOT = valueAON;
+
+    if (OVEN_APROVE_OR_NOT) {
+      const ovenRef = doc(db, "oven", `${props.serial}`);
+      setDoc(ovenRef, { status: "Aprooved" }, { merge: true });
+    } else {
+      const ovenRef = doc(db, "oven", `${props.serial}`);
+      setDoc(ovenRef, { status: "Rejected" }, { merge: true });
+    }
 
     if (HOT_OVEN_RECHECK == null || OVEN_APROVE_OR_NOT == null) {
       alert("pleace finish the form before you submit it");

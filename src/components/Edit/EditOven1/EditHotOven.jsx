@@ -22,25 +22,63 @@ import {
   HOT_OVEN_E,
   OVEN_APROVE_OR_NOT,
 } from "../../constants/ConstantHotOven";
-
+import { useNavigate, useParams } from "react-router-dom";
 import QaReportFirebase from "../../../../Credentials";
 import { getAuth } from "firebase/auth";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
-import { useState } from "react";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { useState, useEffect } from "react";
 const firestore = getFirestore(QaReportFirebase);
 const auth = getAuth(QaReportFirebase);
 const db = getFirestore();
 const { Text } = Typography;
 
 export const EditHotOven = (props) => {
+  const ovenSerial = props.serial;
   const [buttonDisabled, setButtonDisabled] = useState(null);
-  const [valueRC, setValueRC] = useState(null);
-  const onChangeRC = (e) => {
-    setValueRC(e.target.value);
-  };
+  const [valueDoor, setValueDoor] = useState(null);
+  const [valueSides, setValueSides] = useState(null);
+  const [valueTopR, setValueTopR] = useState(null);
+  const [valueTopL, setValueTopL] = useState(null);
+  const [valueBotR, setValueBotR] = useState(null);
+  const [valueBotL, setValueBotL] = useState(null);
+  const [valueOvenR, setValueOvenR] = useState(null);
+  const [valueC, setValueC] = useState(null);
+  const [valueD, setValueD] = useState(null);
+  const [valueE, setValueE] = useState(null);
   const [valueAON, setValueAON] = useState(null);
+
+  const onChangeRC = (e) => {
+    setValueOvenR(e.target.value);
+  };
   const onChangeAON = (e) => {
     setValueAON(e.target.value);
+  };
+  const onChangeDoor = (e) => {
+    setValueDoor(e.target.value);
+  };
+  const onChangeSides = (e) => {
+    setValueSides(e.target.value);
+  };
+  const onChangeTopR = (e) => {
+    setValueTopR(e.target.value);
+  };
+  const onChangeTopL = (e) => {
+    setValueTopL(e.target.value);
+  };
+  const onChangeBotR = (e) => {
+    setValueBotL(e.target.value);
+  };
+  const onChangeBotL = (e) => {
+    setValueBotL(e.target.value);
+  };
+  const onChangeC = (e) => {
+    setValueC(e.target.value);
+  };
+  const onChangeD = (e) => {
+    setValueD(e.target.value);
+  };
+  const onChangeE = (e) => {
+    setValueE(e.target.value);
   };
   async function onClickF(
     HOT_OVEN_B_DOOR,
@@ -74,19 +112,25 @@ export const EditHotOven = (props) => {
     );
   }
   const [form] = Form.useForm();
-  function addHotOven(values, arrayOvens) {
+  async function addHotOven(values, arrayOvens) {
     const HOT_OVEN_B_DOOR = values.HOT_OVEN_B_DOOR;
     const HOT_OVEN_B_SIDES = values.HOT_OVEN_B_SIDES;
     const HOT_OVEN_TOP_R = values.HOT_OVEN_TOP_R;
     const HOT_OVEN_TOP_L = values.HOT_OVEN_TOP_L;
     const HOT_OVEN_BOT_R = values.HOT_OVEN_BOT_R;
     const HOT_OVEN_BOT_L = values.HOT_OVEN_BOT_L;
-    const HOT_OVEN_RECHECK = valueRC;
+    const HOT_OVEN_RECHECK = valueOvenR;
     const HOT_OVEN_C = values.HOT_OVEN_C;
     const HOT_OVEN_D = values.HOT_OVEN_D;
     const HOT_OVEN_E = values.HOT_OVEN_E;
     const OVEN_APROVE_OR_NOT = valueAON;
-
+    if (OVEN_APROVE_OR_NOT) {
+      const ovenRef = doc(db, "oven", `${props.serial}`);
+      setDoc(ovenRef, { status: "Aprooved" }, { merge: true });
+    } else {
+      const ovenRef = doc(db, "oven", `${props.serial}`);
+      setDoc(ovenRef, { status: "Rejected" }, { merge: true });
+    }
     if (HOT_OVEN_RECHECK == null || OVEN_APROVE_OR_NOT == null) {
       alert("pleace finish the form before you submit it");
     } else {
@@ -105,10 +149,34 @@ export const EditHotOven = (props) => {
       );
     }
   }
+  const getDataOven = async () => {
+    try {
+      const docRef = doc(db, "HotOvenInspection", `${ovenSerial}`);
+      const docSnap = await getDoc(docRef);
+      const data = docSnap.data();
+      console.log(data);
+      setValueDoor(data?.HOT_OVEN_B_DOOR);
+      setValueSides(data?.HOT_OVEN_B_SIDES);
+      setValueTopR(data?.HOT_OVEN_TOP_R);
+      setValueTopL(data?.HOT_OVEN_TOP_L);
+      setValueBotR(data?.HOT_OVEN_BOT_R);
+      setValueBotL(data?.HOT_OVEN_BOT_L);
+      setValueC(data?.HOT_OVEN_C);
+      setValueD(data?.HOT_OVEN_D);
+      setValueE(data?.HOT_OVEN_E);
+      setValueOvenR(data?.HOT_OVEN_RECHECK);
+      setValueAON(data?.OVEN_APROVE_OR_NOT);
+    } catch (error) {
+      console.error("error", error);
+    }
+  };
+  useEffect(() => {
+    getDataOven();
+  }, []);
   return (
     <Form
       labelCol={{ span: 7 }}
-      style={{ paddingBottom: "5em" }}
+      style={{ paddingBottom: "5em", placeholderColor: "green" }}
       onFinish={addHotOven}
     >
       <Divider orientation="rigth">3) HOT OVEN OPERATIONAL CHECKOUT:</Divider>
@@ -141,15 +209,31 @@ export const EditHotOven = (props) => {
       </Row>
       <Row>
         <Col xs={12}>
-          <Form.Item name={HOT_OVEN_B_DOOR} label="DOOR">
-            <Input type="number" size="small" style={{ width: 150 }} required />
+          <Form.Item
+            name={HOT_OVEN_B_DOOR}
+            label="DOOR"
+            value={valueDoor}
+            onChange={onChangeDoor}
+          >
+            <Input
+              type="number"
+              size="small"
+              style={{ width: 150 }}
+              required
+              placeholder={valueDoor ? valueDoor : ""}
+            />
           </Form.Item>
         </Col>
         <Col xs={12}>
-          <Form.Item name={HOT_OVEN_B_SIDES} label="Rt & Lt Sides">
+          <Form.Item
+            name={HOT_OVEN_B_SIDES}
+            label="Rt & Lt Sides"
+            value={valueSides}
+            onChange={onChangeSides}
+          >
             <Input
               type="number"
-              placeholder={"mW/cm2"}
+              placeholder={valueSides ? valueSides : "mW/cm2"}
               size="small"
               style={{ width: 150 }}
               required
@@ -160,13 +244,33 @@ export const EditHotOven = (props) => {
       <br />
       <Row justify="spaceAround">
         <Col xs={3} offset={3}>
-          <Form.Item name={HOT_OVEN_TOP_L}>
-            <Input type="number" size="small" style={{ width: 150 }} required />
+          <Form.Item
+            name={HOT_OVEN_TOP_L}
+            value={valueTopL}
+            onChange={onChangeTopL}
+          >
+            <Input
+              type="number"
+              size="small"
+              style={{ width: 150 }}
+              required
+              placeholder={valueTopL ? valueTopL : ""}
+            />
           </Form.Item>
         </Col>
         <Col xs={3} offset={10}>
-          <Form.Item name={HOT_OVEN_TOP_R}>
-            <Input type="number" size="small" style={{ width: 150 }} required />
+          <Form.Item
+            name={HOT_OVEN_TOP_R}
+            value={valueTopR}
+            onChange={onChangeTopR}
+          >
+            <Input
+              type="number"
+              size="small"
+              style={{ width: 150 }}
+              required
+              placeholder={valueTopR ? valueTopR : ""}
+            />
           </Form.Item>
         </Col>
       </Row>
@@ -187,13 +291,33 @@ export const EditHotOven = (props) => {
       </Row>
       <Row justify="spaceAround">
         <Col xs={3} offset={3}>
-          <Form.Item name={HOT_OVEN_BOT_L}>
-            <Input type="number" size="small" style={{ width: 150 }} required />
+          <Form.Item
+            name={HOT_OVEN_BOT_L}
+            value={valueBotL}
+            onChange={onChangeBotL}
+          >
+            <Input
+              type="number"
+              size="small"
+              style={{ width: 150 }}
+              required
+              placeholder={valueBotL ? valueBotL : ""}
+            />
           </Form.Item>
         </Col>
         <Col xs={3} offset={10}>
-          <Form.Item name={HOT_OVEN_BOT_R}>
-            <Input type="number" size="small" style={{ width: 150 }} required />
+          <Form.Item
+            name={HOT_OVEN_BOT_R}
+            value={valueBotR}
+            onChange={onChangeBotR}
+          >
+            <Input
+              type="number"
+              size="small"
+              style={{ width: 150 }}
+              required
+              placeholder={valueBotR ? valueBotR : ""}
+            />
           </Form.Item>
         </Col>
       </Row>
@@ -206,7 +330,11 @@ export const EditHotOven = (props) => {
           </Text>
         </Col>
         <Col xs={4}>
-          <Radio.Group name={HOT_OVEN_RECHECK} onChange={onChangeRC}>
+          <Radio.Group
+            name={HOT_OVEN_RECHECK}
+            onChange={onChangeRC}
+            value={valueOvenR}
+          >
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
           </Radio.Group>
@@ -216,36 +344,54 @@ export const EditHotOven = (props) => {
         <Col xs={24}>
           <Row>
             <Col xs={24}>
-              <Form.Item label="C) Cook time Count" name={HOT_OVEN_C}>
+              <Form.Item
+                label="C) Cook time Count"
+                name={HOT_OVEN_C}
+                value={valueC}
+                onChange={onChangeC}
+              >
                 <Input
                   type="number"
                   size="small"
                   style={{ width: 150 }}
                   required
+                  placeholder={valueC ? valueC : ""}
                 />
               </Form.Item>
             </Col>
           </Row>
           <Row>
             <Col xs={24}>
-              <Form.Item label="D) Survey meter #" name={HOT_OVEN_D}>
+              <Form.Item
+                label="D) Survey meter #"
+                name={HOT_OVEN_D}
+                value={valueD}
+                onChange={onChangeD}
+              >
                 <Input
                   type="number"
                   size="small"
                   style={{ width: 150 }}
                   required
+                  placeholder={valueD ? valueD : ""}
                 />
               </Form.Item>
             </Col>
           </Row>
           <Row>
             <Col xs={24}>
-              <Form.Item label="E) Clear Cook time foults" name={HOT_OVEN_E}>
+              <Form.Item
+                label="E) Clear Cook time foults"
+                name={HOT_OVEN_E}
+                value={valueE}
+                onChange={onChangeE}
+              >
                 <Input
                   type="number"
                   size="small"
                   style={{ width: 150 }}
                   required
+                  placeholder={valueE ? valueE : ""}
                 />
               </Form.Item>
             </Col>
@@ -255,7 +401,11 @@ export const EditHotOven = (props) => {
       <Row justify="center">
         <Col xs={10}>
           <Form.Item label="APROVED">
-            <Radio.Group name={OVEN_APROVE_OR_NOT} onChange={onChangeAON}>
+            <Radio.Group
+              name={OVEN_APROVE_OR_NOT}
+              onChange={onChangeAON}
+              value={valueAON}
+            >
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>

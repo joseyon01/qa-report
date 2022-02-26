@@ -23,10 +23,11 @@ export const FormTop = (props) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
-  async function onClickF(serial, date, name, oven, userId) {
+  async function onClickF(serial, date, status, name, oven, userId) {
     const docRef = await setDoc(doc(db, "oven", `${serial}`), {
       serial: serial,
       date: date,
+      status: status,
       name: name,
       oven: oven,
       userId: userId,
@@ -41,7 +42,6 @@ export const FormTop = (props) => {
     setOvenId(docSnap.id);
     setButtonDisabled(true);
     handleChange(oven);
-    console.log(docRef);
   }
   useEffect(() => {
     onAuthStateChanged(auth, (fireBaseUser) => {
@@ -66,13 +66,14 @@ export const FormTop = (props) => {
     const name = values.NAME;
     const oven = values.OVEN;
     const key = values.SERIAL;
+    const status = "Rejected";
     const serialTimeOut = new Promise((resolve) => {
       setTimeout(() => {
         resolve(serialNumber);
       }, 500);
     });
     setOvenId(serialNumber);
-    onClickF(serialNumber, date, name, oven, userUID, key);
+    onClickF(serialNumber, date, status, name, oven, userUID, key);
   }
 
   return (

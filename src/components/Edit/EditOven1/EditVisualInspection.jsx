@@ -21,9 +21,9 @@ const auth = getAuth(QaReportFirebase);
 
 const db = getFirestore();
 
-export const EditVisualInspection = () => {
-  const params = useParams();
-  const ovenSerial = params.id;
+export const EditVisualInspection = (props) => {
+  const ovenSerial = props.serial;
+  console.log("Visual: ", ovenSerial);
   const [buttonDisabled, setButtonDisabled] = useState(null);
 
   async function onClickF(

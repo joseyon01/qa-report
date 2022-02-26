@@ -166,13 +166,18 @@ export const OperationalInspection = (props) => {
     const OPERATIONAL_E = values.OPERATIONAL_E;
     const OPERATIONAL_F = valueF;
     const OPERATIONAL_H_I = values.OPERATIONAL_H_I;
+    const OPERATIONAL_H_IV = values.OPERATIONAL_H_IV;
+    const OPERATIONAL_H_V = values.OPERATIONAL_H_V;
 
     const value = (a, b) => {
       let result = (a - b) * (4187 / 30);
       return result;
     };
 
-    const OPERATIONAL_H_VI = value(OPERATIONAL_H_I, OPERATIONAL_H_V);
+    const OPERATIONAL_H_VI = value(
+      values.OPERATIONAL_H_I,
+      values.OPERATIONAL_H_V
+    );
     const OPERATIONAL_I_I = values.OPERATIONAL_I_I;
     const OPERATIONAL_I_II = values.OPERATIONAL_I_II;
     const OPERATIONAL_I_III = values.OPERATIONAL_I_III;
@@ -225,6 +230,7 @@ export const OperationalInspection = (props) => {
     }
   }
   const [form] = Form.useForm();
+  console.log(OPERATIONAL_H_IV);
   return (
     <Form
       labelCol={{ span: 7 }}

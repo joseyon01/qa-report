@@ -23,17 +23,24 @@ const { Option } = Select;
 const db = getFirestore();
 
 export const EditFormTop = (props) => {
-  const params = useParams();
-  const ovenSerial = params.id;
-
-  const [startDate, setStartDate] = useState(new Date());
-  const [editOven, setEditOven] = useState(null);
+  const ovenSerial = props.serial;
+  console.log("formTop = ", ovenSerial);
   const [oven, setOven] = useState(null);
   const [form] = Form.useForm();
   const [serial, setSerial] = useState(null);
   const [name, setName] = useState(null);
   const [date, setDate] = useState(null);
   const [typeOfOven, setTypeOfOven] = useState(null);
+
+  const onChangeSerial = (e) => {
+    setSerial(e.target.value);
+  };
+  const onChangeName = (e) => {
+    setName(e.target.value);
+  };
+  const onChangeDate = (e) => {
+    setDate(e.target.value);
+  };
 
   const getDataOven = async () => {
     try {
@@ -43,7 +50,6 @@ export const EditFormTop = (props) => {
       const docRefO = doc(db, "OperationalInspection", `${ovenSerial}`);
       const docSnapO = await getDoc(docRefO);
       const dataO = docSnapO.data();
-      setEditOven(data);
       setSerial(data.serial);
       setDate(data.date);
       setName(data.name);
@@ -53,45 +59,66 @@ export const EditFormTop = (props) => {
       console.error("error", error);
     }
   };
-  const onChangeA = () => {
-    console.log(serial);
-  };
+
+  const dateFormat = "YYYY-MM-DD";
   useEffect(() => {
     getDataOven();
-  }, []);
+  }, [serial]);
   return (
-    <Form labelCol={{ span: 4 }}>
+    <Form form={form} labelCol={{ span: 4 }}>
       <Row>
         <Col xs={12}>
-          <Form.Item label="S/N" name={SERIAL} value={serial}>
+          <Form.Item
+            label="S/N"
+            name={SERIAL}
+            onChange={onChangeSerial}
+            value={serial}
+          >
             <Input
               size="large"
               type="text"
-              value={`${serial}`}
-              onChange={onChangeA}
               disabled
+              placeholder={serial ? serial : "Serial Number"}
             />
           </Form.Item>
         </Col>
         <Col xs={12}>
-          <Form.Item label="Date" name={DATE} value={date}>
+          <Form.Item label="Date" name={DATE}>
             <DatePicker
+              label="Date"
+              showTime
+              name={DATE}
               style={{ width: "100%" }}
               size="large"
-              value={date}
-              defaultValue={moment(date, "YYYY-MM-DD")}
               disabled
+              onChange={onChangeDate}
+              placeholder={date ? date : "Date"}
             />
           </Form.Item>
         </Col>
         <Col xs={12}>
-          <Form.Item label="Name" name={NAME} value={name}>
-            <Input size="large" value={`${name}`} type="text" disabled={true} />
+          <Form.Item
+            label="Name"
+            name={NAME}
+            onChange={onChangeName}
+            value={`${name}`}
+          >
+            <Input
+              size="large"
+              type="text"
+              disabled
+              placeholder={name ? name : "Name"}
+            />
           </Form.Item>
         </Col>
         <Col xs={12}>
           <Form.Item label="Type">
-            <Select size="large" required value={oven} disabled={true}>
+            <Select
+              size="large"
+              name={OVEN}
+              disabled={true}
+              value={`${typeOfOven}`}
+            >
               <Option value="Oven1">Oven1</Option>
             </Select>
           </Form.Item>
