@@ -8,6 +8,7 @@ import {
   Radio,
   Divider,
   Button,
+  Modal,
 } from "antd";
 
 import QaReportFirebase from "../../../../Credentials";
@@ -17,7 +18,7 @@ import { useState } from "react";
 const firestore = getFirestore(QaReportFirebase);
 const auth = getAuth(QaReportFirebase);
 const db = getFirestore();
-const { Text } = Typography;
+const { Text, Title } = Typography;
 const { TextArea } = Input;
 import {
   OPERATIONAL_A_I,
@@ -129,10 +130,10 @@ export const EditOperationalInspection = (props) => {
   const onChange_B_VI_I = (e) => {
     setOperational_B_VI_I(e.target.value);
   };
-  const onChange_B_VII = (e) => {
+  const onChange_B_VI_II = (e) => {
     setOperational_B_VI_II(e.target.value);
   };
-  const onChange_B_VI_II = (e) => {
+  const onChange_B_VII = (e) => {
     setOperational_B_VII(e.target.value);
   };
   const onChange_B_VIII = (e) => {
@@ -181,6 +182,36 @@ export const EditOperationalInspection = (props) => {
     setOperational_CLOSING(e.target.value);
   };
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const showModal2 = () => {
+    setModalVisible(true);
+  };
+
+  const handleOk2 = () => {
+    setModalVisible(false);
+    window.scrollTo(0, 0);
+  };
+
+  const handleCancel2 = () => {
+    setModalVisible(false);
+    window.scrollTo(0, 0);
+  };
+  const [loading, setLoading] = useState(false);
+
   async function onClickF(
     OPERATIONAL_A_I,
     OPERATIONAL_B_I_I,
@@ -215,6 +246,7 @@ export const EditOperationalInspection = (props) => {
     OPERATIONAL_CLOSING
   ) {
     setButtonDisabled(true);
+    setLoading(true);
     const docRef = await setDoc(
       doc(db, "OperationalInspection", `${props.serial}`),
       {
@@ -251,6 +283,7 @@ export const EditOperationalInspection = (props) => {
         OPERATIONAL_CLOSING: OPERATIONAL_CLOSING,
       }
     );
+    setLoading(false);
   }
 
   async function addOperational(values) {
@@ -300,7 +333,7 @@ export const EditOperationalInspection = (props) => {
       OPERATIONAL_D_IV == null ||
       OPERATIONAL_J == null
     ) {
-      alert("pleace finish the form before you submit it");
+      showModal();
     } else {
       onClickF(
         OPERATIONAL_A_I,
@@ -335,6 +368,7 @@ export const EditOperationalInspection = (props) => {
         OPERATIONAL_OPENING,
         OPERATIONAL_CLOSING
       );
+      showModal2();
     }
   }
 
@@ -343,7 +377,6 @@ export const EditOperationalInspection = (props) => {
       const docRef = doc(db, "OperationalInspection", `${ovenSerial}`);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
-      console.log(data);
       setOperational_A_I(data?.OPERATIONAL_A_I);
       setOperational_B_I_I(data?.OPERATIONAL_B_I_I);
       setOperational_B_I_II(data?.OPERATIONAL_B_I_II);
@@ -375,6 +408,7 @@ export const EditOperationalInspection = (props) => {
       setValueD(data?.OPERATIONAL_D_IV);
       setValueF(data?.OPERATIONAL_F);
       setValueJ(data?.OPERATIONAL_J);
+      message.success("Load complete");
     } catch (error) {
       console.error("error", error);
     }
@@ -1122,9 +1156,26 @@ export const EditOperationalInspection = (props) => {
               htmlType="submit"
               block
               disabled={buttonDisabled}
+              loading={loading}
             >
-              Submit
+              {loading ? "" : "Submit"}
             </Button>
+            <Modal
+              visible={isModalVisible}
+              onOk={handleOk}
+              onCancel={handleCancel}
+            >
+              <Title level={3}>Error..!</Title>
+              <Text>All fields are required</Text>
+            </Modal>
+            <Modal
+              visible={modalVisible}
+              onOk={handleCancel2}
+              onCancel={handleCancel2}
+            >
+              <Title level={3}>OK..!</Title>
+              <Text>The data has been successfully stored</Text>
+            </Modal>
           </Form.Item>
         </Col>
       </Row>

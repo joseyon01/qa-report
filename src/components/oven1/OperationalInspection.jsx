@@ -8,6 +8,7 @@ import {
   Radio,
   Divider,
   Button,
+  Modal,
 } from "antd";
 
 import QaReportFirebase from "../../../Credentials";
@@ -17,7 +18,7 @@ import { useState } from "react";
 const firestore = getFirestore(QaReportFirebase);
 const auth = getAuth(QaReportFirebase);
 const db = getFirestore();
-const { Text } = Typography;
+const { Text, Title } = Typography;
 const { TextArea } = Input;
 import {
   OPERATIONAL_A_I,
@@ -55,7 +56,35 @@ import {
 
 export const OperationalInspection = (props) => {
   const [buttonDisabled, setButtonDisabled] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const showModal2 = () => {
+    setModalVisible(true);
+  };
+
+  const handleOk2 = () => {
+    setModalVisible(false);
+    window.scrollTo(0, 0);
+  };
+
+  const handleCancel2 = () => {
+    setModalVisible(false);
+    window.scrollTo(0, 0);
+  };
   async function onClickF(
     OPERATIONAL_A_I,
     OPERATIONAL_B_I_I,
@@ -90,6 +119,7 @@ export const OperationalInspection = (props) => {
     OPERATIONAL_CLOSING
   ) {
     setButtonDisabled(true);
+    setLoading(true);
     const docRef = await setDoc(
       doc(db, "OperationalInspection", `${props.serial}`),
       {
@@ -126,6 +156,7 @@ export const OperationalInspection = (props) => {
         OPERATIONAL_CLOSING: OPERATIONAL_CLOSING,
       }
     );
+    setLoading(false);
   }
   const [valueC, setValueC] = useState(null);
   const onChangeC = (e) => {
@@ -192,7 +223,7 @@ export const OperationalInspection = (props) => {
       OPERATIONAL_F == null ||
       OPERATIONAL_J == null
     ) {
-      alert("pleace finish the form before you submit it");
+      showModal();
     } else {
       onClickF(
         OPERATIONAL_A_I,
@@ -227,10 +258,10 @@ export const OperationalInspection = (props) => {
         OPERATIONAL_OPENING,
         OPERATIONAL_CLOSING
       );
+      showModal2();
     }
   }
   const [form] = Form.useForm();
-  console.log(OPERATIONAL_H_IV);
   return (
     <Form
       labelCol={{ span: 7 }}
@@ -816,9 +847,26 @@ export const OperationalInspection = (props) => {
               htmlType="submit"
               block
               disabled={buttonDisabled}
+              loading={loading}
             >
-              Submit
+              {loading ? "" : "Submit"}
             </Button>
+            <Modal
+              visible={isModalVisible}
+              onOk={handleOk}
+              onCancel={handleCancel}
+            >
+              <Title level={3}>Error..!</Title>
+              <Text>All fields are required</Text>
+            </Modal>
+            <Modal
+              visible={modalVisible}
+              onOk={handleCancel2}
+              onCancel={handleCancel2}
+            >
+              <Title level={3}>OK..!</Title>
+              <Text>The data has been successfully stored</Text>
+            </Modal>
           </Form.Item>
         </Col>
       </Row>

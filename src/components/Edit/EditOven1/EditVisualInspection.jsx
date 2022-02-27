@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Form, Row, Col, Typography, Radio, Divider, Button } from "antd";
-const { Text } = Typography;
+import {
+  Form,
+  Row,
+  Col,
+  Typography,
+  Radio,
+  Divider,
+  Button,
+  Modal,
+} from "antd";
+const { Text, Title } = Typography;
 import {
   VISUALQA,
   VISUALQB,
@@ -22,8 +31,36 @@ const auth = getAuth(QaReportFirebase);
 const db = getFirestore();
 
 export const EditVisualInspection = (props) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const showModal2 = () => {
+    setModalVisible(true);
+  };
+
+  const handleOk2 = () => {
+    setModalVisible(false);
+    window.scrollTo(0, 0);
+  };
+
+  const handleCancel2 = () => {
+    setModalVisible(false);
+    window.scrollTo(0, 0);
+  };
+  const [loading, setLoading] = useState(false);
   const ovenSerial = props.serial;
-  console.log("Visual: ", ovenSerial);
   const [buttonDisabled, setButtonDisabled] = useState(null);
 
   async function onClickF(
@@ -37,6 +74,7 @@ export const EditVisualInspection = (props) => {
     VISUALQH
   ) {
     setButtonDisabled(true);
+    setLoading(true);
     const docRef = await setDoc(doc(db, "VisualInspection", `${ovenSerial}`), {
       VISUALQA: VISUALQA,
       VISUALQB: VISUALQB,
@@ -47,6 +85,7 @@ export const EditVisualInspection = (props) => {
       VISUALQG: VISUALQG,
       VISUALQH: VISUALQH,
     });
+    setLoading(false);
   }
 
   const [form] = Form.useForm();
@@ -61,7 +100,6 @@ export const EditVisualInspection = (props) => {
   const onChangeA = (e) => {
     setValueA(e.target.value);
   };
-
   const onChangeB = (e) => {
     setValueB(e.target.value);
   };
@@ -98,6 +136,7 @@ export const EditVisualInspection = (props) => {
         setValueF(data?.VISUALQF);
         setValueG(data?.VISUALQG);
         setValueH(data?.VISUALQH);
+        message.success("Load complete");
       }
     } catch (error) {
       console.error("error", error);
@@ -126,7 +165,7 @@ export const EditVisualInspection = (props) => {
       valueG == null,
       valueH == null)
     ) {
-      alert("Pleace finish the inspection befor send it");
+      showModal();
     } else {
       onClickF(
         VISUALQA,
@@ -138,6 +177,7 @@ export const EditVisualInspection = (props) => {
         VISUALQG,
         VISUALQH
       );
+      showModal2();
     }
   }
   const onFail = () => {
@@ -348,9 +388,26 @@ export const EditVisualInspection = (props) => {
                 htmlType="submit"
                 block
                 disabled={buttonDisabled}
+                loading={loading}
               >
-                Submit
+                {loading ? "" : "Submit"}
               </Button>
+              <Modal
+                visible={isModalVisible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+              >
+                <Title level={3}>Error..!</Title>
+                <Text>All fields are required</Text>
+              </Modal>
+              <Modal
+                visible={modalVisible}
+                onOk={handleCancel2}
+                onCancel={handleCancel2}
+              >
+                <Title level={3}>OK..!</Title>
+                <Text>The data has been successfully stored</Text>
+              </Modal>
             </Form.Item>
           </div>
         </Col>

@@ -1,4 +1,14 @@
-import { Form, Input, DatePicker, Row, Col, Select, Button } from "antd";
+import {
+  Form,
+  Input,
+  DatePicker,
+  Row,
+  Col,
+  Select,
+  Button,
+  Modal,
+  Typography,
+} from "antd";
 import { useNavigate } from "react-router-dom";
 import { SERIAL, DATE, NAME, OVEN } from "../constants/ConstFormTop";
 import QaReportFirebase from "../../../Credentials";
@@ -9,10 +19,11 @@ const firestore = getFirestore(QaReportFirebase);
 const auth = getAuth(QaReportFirebase);
 const { Option } = Select;
 const db = getFirestore();
+const { Text, Title } = Typography;
 
 export const FormTop = (props) => {
   const [buttonDisabled, setButtonDisabled] = useState(null);
-
+  const [loading, setLoading] = useState(false);
   const [globalUser, setGlobalUser] = useState(null);
   const [startDate, setStartDate] = useState(new Date());
   const [ovenSerial, setOvenSerial] = useState(null);
@@ -22,8 +33,21 @@ export const FormTop = (props) => {
   const [ovenId, setOvenId] = useState(null);
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
   async function onClickF(serial, date, status, name, oven, userId) {
+    setLoading(true);
     const docRef = await setDoc(doc(db, "oven", `${serial}`), {
       serial: serial,
       date: date,
@@ -41,6 +65,8 @@ export const FormTop = (props) => {
     setOvenUserId(docSnap.userId);
     setOvenId(docSnap.id);
     setButtonDisabled(true);
+    setLoading(false);
+    showModal();
     handleChange(oven);
   }
   useEffect(() => {
@@ -59,7 +85,7 @@ export const FormTop = (props) => {
     navigate(`/register/${value}`);
   }
 
-  function addOven(values, arrayOvens) {
+  function addOven(values) {
     const userUID = globalUser.uid;
     const serialNumber = values.SERIAL;
     const date = startDate.format("YYYY-MM-DD").toString();
@@ -73,6 +99,7 @@ export const FormTop = (props) => {
       }, 500);
     });
     setOvenId(serialNumber);
+
     onClickF(serialNumber, date, status, name, oven, userUID, key);
   }
 
@@ -132,18 +159,25 @@ export const FormTop = (props) => {
       </Row>
       <Row justify="center">
         <Col xs={24}>
-          <Form.Item wrapperCol={{ offset: 10, span: 16 }}>
+          <Form.Item wrapperCol={{ offset: 10, span: 6 }}>
             <Button
               size="middle"
               type="primary"
               htmlType="submit"
               disabled={buttonDisabled}
+              loading={loading}
+              style={{ width: "80%" }}
             >
-              Submit
+              {loading ? "" : "Submit"}
             </Button>
           </Form.Item>
         </Col>
       </Row>
+      <Modal visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+        <Title level={3}>OK..!</Title>
+
+        <Text>The data has been successfully stored</Text>
+      </Modal>
     </Form>
   );
 };

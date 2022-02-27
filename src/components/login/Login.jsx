@@ -8,9 +8,10 @@ import {
   Button,
   Checkbox,
   Typography,
+  Modal,
 } from "antd";
 import { useNavigate } from "react-router-dom";
-const { Title } = Typography;
+const { Title, Text } = Typography;
 const { TabPane } = Tabs;
 
 import QaReportFirebase from "../../../Credentials";
@@ -25,6 +26,35 @@ import {
 const auth = getAuth(QaReportFirebase);
 
 export const Login = () => {
+  const navigate = useNavigate();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const showModal2 = () => {
+    setModalVisible(true);
+  };
+
+  const handleOk2 = () => {
+    setModalVisible(false);
+    navigate(`/dashboard`);
+  };
+
+  const handleCancel2 = () => {
+    setModalVisible(false);
+    navigate(`/dashboard`);
+  };
   const persistenceLocal = (auth, email, password) =>
     setPersistence(auth, browserSessionPersistence)
       .then(() => {
@@ -52,12 +82,16 @@ export const Login = () => {
       // ...
     }
   });
-  const navigate = useNavigate();
+
   async function onLogin(values) {
     const email = values.email;
     const password = values.password;
     const logIn = await persistenceLocal(auth, email, password);
-    navigate(`/dashboard`);
+    if (logIn) {
+      showModal2();
+    } else {
+      showModal();
+    }
   }
   const onLoginFailed = (errorInfo) => {
     alert("error");
@@ -77,7 +111,7 @@ export const Login = () => {
 
   return (
     <Tabs defaultActiveKey="1" style={{ paddingLeft: "1em", width: "100%" }}>
-      <TabPane tab="Login" key="1">
+      <TabPane tab="Login" key="1" style={{ paddingTop: "2em" }}>
         <Form
           name="logIn"
           labelCol={{ span: 8 }}
@@ -123,18 +157,26 @@ export const Login = () => {
                 <Input.Password />
               </Form.Item>
 
-              <Form.Item
-                name="remember"
-                valuePropName="checked"
-                wrapperCol={{ offset: 8, span: 16 }}
-              >
-                <Checkbox>Remember me</Checkbox>
-              </Form.Item>
-
               <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                 <Button type="primary" htmlType="submit">
                   Login
                 </Button>
+                <Modal
+                  visible={isModalVisible}
+                  onOk={handleOk}
+                  onCancel={handleCancel}
+                >
+                  <Title level={3}>Error..!</Title>
+                  <Text>User or Password Incorrect</Text>
+                </Modal>
+                <Modal
+                  visible={modalVisible}
+                  onOk={handleOk2}
+                  onCancel={handleCancel2}
+                >
+                  <Title level={3}>Welcome Back User</Title>
+                  <Text>Have a productive Day</Text>
+                </Modal>
               </Form.Item>
             </Col>
           </Row>

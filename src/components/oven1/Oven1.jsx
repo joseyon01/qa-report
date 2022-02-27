@@ -11,13 +11,13 @@ export const Oven1 = (props) => {
   return (
     <Fragment>
       <Tabs defaultActiveKey="1" centered>
-        <TabPane tab="VISUAL" key="1">
+        <TabPane tab="VISUAL" key="1" id="1">
           <VisualInspection serial={serial} />
         </TabPane>
-        <TabPane tab="OPERATIONAL" key="2">
+        <TabPane tab="OPERATIONAL" key="2" id="2">
           <OperationalInspection serial={serial} />
         </TabPane>
-        <TabPane tab="HOT OVEN" key="3">
+        <TabPane tab="HOT OVEN" key="3" id="3">
           <HotOven serial={serial} />
         </TabPane>
       </Tabs>

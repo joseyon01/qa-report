@@ -8,6 +8,7 @@ import {
   Radio,
   Divider,
   Button,
+  Modal,
 } from "antd";
 import {
   HOT_OVEN_B_DOOR,
@@ -22,6 +23,7 @@ import {
   HOT_OVEN_E,
   OVEN_APROVE_OR_NOT,
 } from "../constants/ConstantHotOven";
+import { useNavigate } from "react-router-dom";
 
 import QaReportFirebase from "../../../Credentials";
 import { getAuth } from "firebase/auth";
@@ -30,9 +32,40 @@ import { useState } from "react";
 const firestore = getFirestore(QaReportFirebase);
 const auth = getAuth(QaReportFirebase);
 const db = getFirestore();
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 export const HotOven = (props) => {
+  const navigate = useNavigate();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const showModal2 = () => {
+    setModalVisible(true);
+  };
+
+  const handleOk2 = () => {
+    setModalVisible(false);
+    window.scrollTo(0, 0);
+    navigate(`/dashboard`);
+  };
+
+  const handleCancel2 = () => {
+    setModalVisible(false);
+    window.scrollTo(0, 0);
+  };
+  const [loading, setLoading] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [valueRC, setValueRC] = useState(null);
   const onChangeRC = (e) => {
@@ -56,6 +89,7 @@ export const HotOven = (props) => {
     OVEN_APROVE_OR_NOT
   ) {
     setButtonDisabled(true);
+    setLoading(true);
     const docRef = await setDoc(
       doc(db, "HotOvenInspection", `${props.serial}`),
       {
@@ -72,6 +106,7 @@ export const HotOven = (props) => {
         OVEN_APROVE_OR_NOT: OVEN_APROVE_OR_NOT,
       }
     );
+    setLoading(false);
   }
   const [form] = Form.useForm();
   async function addHotOven(values, arrayOvens) {
@@ -87,17 +122,17 @@ export const HotOven = (props) => {
     const HOT_OVEN_E = values.HOT_OVEN_E;
     const OVEN_APROVE_OR_NOT = valueAON;
 
-    if (OVEN_APROVE_OR_NOT) {
-      const ovenRef = doc(db, "oven", `${props.serial}`);
-      setDoc(ovenRef, { status: "Aprooved" }, { merge: true });
-    } else {
-      const ovenRef = doc(db, "oven", `${props.serial}`);
-      setDoc(ovenRef, { status: "Rejected" }, { merge: true });
-    }
-
     if (HOT_OVEN_RECHECK == null || OVEN_APROVE_OR_NOT == null) {
-      alert("pleace finish the form before you submit it");
+      showModal();
     } else {
+      if (OVEN_APROVE_OR_NOT) {
+        const ovenRef = doc(db, "oven", `${props.serial}`);
+        setDoc(ovenRef, { status: "Aprooved" }, { merge: true });
+      } else {
+        const ovenRef = doc(db, "oven", `${props.serial}`);
+        setDoc(ovenRef, { status: "Rejected" }, { merge: true });
+      }
+
       onClickF(
         HOT_OVEN_B_DOOR,
         HOT_OVEN_B_SIDES,
@@ -111,6 +146,7 @@ export const HotOven = (props) => {
         HOT_OVEN_E,
         OVEN_APROVE_OR_NOT
       );
+      showModal2();
     }
   }
   return (
@@ -183,6 +219,7 @@ export const HotOven = (props) => {
           xs={8}
           style={{
             height: "8em",
+            width: "100%",
             border: "dashed 3px #ccc",
             display: "flex",
             justifyContent: "center",
@@ -279,9 +316,27 @@ export const HotOven = (props) => {
               htmlType="submit"
               block
               disabled={buttonDisabled}
+              loading={loading}
             >
-              Submit
+              {loading ? "" : "Submit"}
             </Button>
+            <Modal
+              visible={isModalVisible}
+              onOk={handleOk}
+              onCancel={handleCancel}
+            >
+              <Title level={3}>Error..!</Title>
+              <Text>All fields are required</Text>
+            </Modal>
+            <Modal
+              visible={modalVisible}
+              onOk={handleOk2}
+              onCancel={handleCancel2}
+            >
+              <Title level={3}>OK..!</Title>
+              <Text>The data has been successfully stored</Text>
+              <Text>Go to dashboard</Text>
+            </Modal>
           </Form.Item>
         </Col>
       </Row>

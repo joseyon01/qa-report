@@ -18,7 +18,6 @@ const { Footer, Content } = Layout;
 export const EditPage = () => {
   const param = useParams();
   const editOven = param.id;
-  console.log(editOven);
   return (
     <Layout>
       <Header />

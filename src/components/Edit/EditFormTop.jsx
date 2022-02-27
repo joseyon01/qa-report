@@ -24,7 +24,6 @@ const db = getFirestore();
 
 export const EditFormTop = (props) => {
   const ovenSerial = props.serial;
-  console.log("formTop = ", ovenSerial);
   const [oven, setOven] = useState(null);
   const [form] = Form.useForm();
   const [serial, setSerial] = useState(null);
@@ -55,6 +54,7 @@ export const EditFormTop = (props) => {
       setName(data.name);
       setTypeOfOven(data.oven);
       setOven(dataO);
+      message.success("Load complete");
     } catch (error) {
       console.error("error", error);
     }

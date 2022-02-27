@@ -12,7 +12,6 @@ const { TabPane } = Tabs;
 
 export const EditOven1 = (props) => {
   const ovenSerial = props.serial;
-  console.log("EditOven: ", ovenSerial);
   const [editOven, setEditOven] = useState(null);
 
   const getDataOven = async () => {

@@ -8,6 +8,7 @@ import {
   Radio,
   Divider,
   Button,
+  Modal,
 } from "antd";
 import {
   HOT_OVEN_B_DOOR,
@@ -30,9 +31,10 @@ import { useState, useEffect } from "react";
 const firestore = getFirestore(QaReportFirebase);
 const auth = getAuth(QaReportFirebase);
 const db = getFirestore();
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 export const EditHotOven = (props) => {
+  const navigate = useNavigate();
   const ovenSerial = props.serial;
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [valueDoor, setValueDoor] = useState(null);
@@ -80,6 +82,38 @@ export const EditHotOven = (props) => {
   const onChangeE = (e) => {
     setValueE(e.target.value);
   };
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const showModal2 = () => {
+    setModalVisible(true);
+  };
+
+  const handleOk2 = () => {
+    setModalVisible(false);
+    window.scrollTo(0, 0);
+    navigate(`/dashboard`);
+  };
+
+  const handleCancel2 = () => {
+    setModalVisible(false);
+    window.scrollTo(0, 0);
+  };
+  const [loading, setLoading] = useState(false);
+
   async function onClickF(
     HOT_OVEN_B_DOOR,
     HOT_OVEN_B_SIDES,
@@ -94,6 +128,7 @@ export const EditHotOven = (props) => {
     OVEN_APROVE_OR_NOT
   ) {
     setButtonDisabled(true);
+    setLoading(true);
     const docRef = await setDoc(
       doc(db, "HotOvenInspection", `${props.serial}`),
       {
@@ -110,6 +145,7 @@ export const EditHotOven = (props) => {
         OVEN_APROVE_OR_NOT: OVEN_APROVE_OR_NOT,
       }
     );
+    setLoading(false);
   }
   const [form] = Form.useForm();
   async function addHotOven(values, arrayOvens) {
@@ -132,7 +168,7 @@ export const EditHotOven = (props) => {
       setDoc(ovenRef, { status: "Rejected" }, { merge: true });
     }
     if (HOT_OVEN_RECHECK == null || OVEN_APROVE_OR_NOT == null) {
-      alert("pleace finish the form before you submit it");
+      showModal();
     } else {
       onClickF(
         HOT_OVEN_B_DOOR,
@@ -147,6 +183,7 @@ export const EditHotOven = (props) => {
         HOT_OVEN_E,
         OVEN_APROVE_OR_NOT
       );
+      showModal2();
     }
   }
   const getDataOven = async () => {
@@ -154,7 +191,6 @@ export const EditHotOven = (props) => {
       const docRef = doc(db, "HotOvenInspection", `${ovenSerial}`);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
-      console.log(data);
       setValueDoor(data?.HOT_OVEN_B_DOOR);
       setValueSides(data?.HOT_OVEN_B_SIDES);
       setValueTopR(data?.HOT_OVEN_TOP_R);
@@ -166,6 +202,7 @@ export const EditHotOven = (props) => {
       setValueE(data?.HOT_OVEN_E);
       setValueOvenR(data?.HOT_OVEN_RECHECK);
       setValueAON(data?.OVEN_APROVE_OR_NOT);
+      message.success("Load complete");
     } catch (error) {
       console.error("error", error);
     }
@@ -424,6 +461,22 @@ export const EditHotOven = (props) => {
             >
               Submit
             </Button>
+            <Modal
+              visible={isModalVisible}
+              onOk={handleOk}
+              onCancel={handleCancel}
+            >
+              <Title level={3}>Error..!</Title>
+              <Text>All fields are required</Text>
+            </Modal>
+            <Modal
+              visible={modalVisible}
+              onOk={handleOk2}
+              onCancel={handleCancel2}
+            >
+              <Title level={3}>OK..!</Title>
+              <Text>The data has been successfully stored</Text>
+            </Modal>
           </Form.Item>
         </Col>
       </Row>

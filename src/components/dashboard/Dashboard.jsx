@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Row, Col, Layout, Table, Button, Space, Typography } from "antd";
+import {
+  message,
+  Row,
+  Col,
+  Layout,
+  Table,
+  Button,
+  Space,
+  Typography,
+} from "antd";
 import { AiFillDelete } from "react-icons/ai";
 import { AiFillEdit } from "react-icons/ai";
 import { Header } from "../layout/Header";
+const { Content, Sider, Footer } = Layout;
 import { Container } from "../layout/Container";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -20,13 +30,8 @@ import {
 import QaReportFirebase from "../../../Credentials";
 const firestore = getFirestore(QaReportFirebase);
 import { getAuth } from "firebase/auth";
-
-// const auth = getAuth(QaReportFirebase);
 const db = getFirestore();
-
-const ovenRef = collection(db, "oven");
-const { Footer, Content } = Layout;
-const { Title } = Typography;
+const auth = getAuth(QaReportFirebase);
 
 export const Dashboard = () => {
   const [visible, setVisible] = useState(false);
@@ -37,13 +42,16 @@ export const Dashboard = () => {
   const [arrayOvens, setArrayOvens] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [dataId, setDataId] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const ovenRef = collection(db, "oven");
   function handleChange() {
     navigate(`/register`);
   }
   function navigateEdit(serial) {
     navigate(`/edit/${serial}`);
   }
+
   const columns = [
     {
       title: "Serial Number",
@@ -70,7 +78,10 @@ export const Dashboard = () => {
           style={{ display: "flex", justifyContent: "center" }}
         >
           <Button
+            style={{ borderRadius: "6px" }}
+            loading={loading}
             onClick={async () => {
+              setLoading(true);
               await deleteDoc(doc(db, "oven", record.id));
               await deleteDoc(doc(db, "VisualInspection", `${record.serial}`));
               await deleteDoc(
@@ -84,13 +95,14 @@ export const Dashboard = () => {
                 }
               });
               setArrayOvens(newArrayOvens);
+              message.success("Deletend");
+              setLoading(false);
             }}
           >
-            <a>
-              <AiFillDelete />
-            </a>
+            <a>{loading ? "" : <AiFillDelete />}</a>
           </Button>
           <Button
+            style={{ borderRadius: "6px" }}
             onClick={async () => {
               navigateEdit(record.serial);
             }}
@@ -147,14 +159,15 @@ export const Dashboard = () => {
                 <Button
                   style={{
                     marginBottom: "1em",
-                    background: "#051721",
+                    background: "#2ECC71",
                     color: "#fff",
                     width: "100%",
                     display: "flex",
                     justifyContent: "center",
+                    borderRadius: "6px",
                   }}
                 >
-                  <Link to="/register">Form</Link>
+                  <Link to="/register">New Report</Link>
                 </Button>
               </Col>
             </Row>

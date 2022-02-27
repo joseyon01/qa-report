@@ -1,6 +1,15 @@
 import React, { useState } from "react";
-import { Form, Row, Col, Typography, Radio, Divider, Button } from "antd";
-const { Text } = Typography;
+import {
+  Form,
+  Row,
+  Col,
+  Typography,
+  Radio,
+  Divider,
+  Button,
+  Modal,
+} from "antd";
+const { Text, Title } = Typography;
 import {
   VISUALQA,
   VISUALQB,
@@ -11,18 +20,50 @@ import {
   VISUALQG,
   VISUALQH,
 } from "../constants/ConstVisualInspection";
-
 import QaReportFirebase from "../../../Credentials";
 import { getAuth } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 const firestore = getFirestore(QaReportFirebase);
 const auth = getAuth(QaReportFirebase);
-
 const db = getFirestore();
 
+const MySwal = withReactContent(Swal);
+
 export const VisualInspection = (props) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const showModal2 = () => {
+    setModalVisible(true);
+  };
+
+  const handleOk2 = () => {
+    setModalVisible(false);
+    window.scrollTo(0, 0);
+  };
+
+  const handleCancel2 = () => {
+    setModalVisible(false);
+    window.scrollTo(0, 0);
+  };
   const [buttonDisabled, setButtonDisabled] = useState(null);
+  const [loading, setLoading] = useState(false);
   async function onClickF(
     VISUALQA,
     VISUALQB,
@@ -34,6 +75,7 @@ export const VisualInspection = (props) => {
     VISUALQH
   ) {
     setButtonDisabled(true);
+    setLoading(true);
     const docRef = await setDoc(
       doc(db, "VisualInspection", `${props.serial}`),
       {
@@ -47,6 +89,7 @@ export const VisualInspection = (props) => {
         VISUALQH: VISUALQH,
       }
     );
+    setLoading(false);
   }
 
   const [form] = Form.useForm();
@@ -101,7 +144,7 @@ export const VisualInspection = (props) => {
       valueG == null,
       valueH == null)
     ) {
-      alert("Pleace finish the inspection befor send it");
+      showModal();
     } else {
       onClickF(
         VISUALQA,
@@ -113,11 +156,9 @@ export const VisualInspection = (props) => {
         VISUALQG,
         VISUALQH
       );
+      showModal2();
     }
   }
-  const onFail = () => {
-    alert("pleace complite the form");
-  };
   return (
     <Form
       labelCol={{ span: 7 }}
@@ -273,9 +314,26 @@ export const VisualInspection = (props) => {
                 htmlType="submit"
                 block
                 disabled={buttonDisabled}
+                loading={loading}
               >
-                Submit
+                {loading ? "" : "Submit"}
               </Button>
+              <Modal
+                visible={modalVisible}
+                onOk={handleCancel2}
+                onCancel={handleCancel2}
+              >
+                <Title level={3}>OK..!</Title>
+                <Text>The data has been successfully stored</Text>
+              </Modal>
+              <Modal
+                visible={isModalVisible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+              >
+                <Title level={3}>Error..!</Title>
+                <Text>All fields are required</Text>
+              </Modal>
             </Form.Item>
           </div>
         </Col>

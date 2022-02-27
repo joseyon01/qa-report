@@ -1,32 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Typography, Button, Row, Col } from "antd";
 import QaReportFirebase from "../../../Credentials";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { Link } from "react-router-dom";
 const auth = getAuth(QaReportFirebase);
-
 const { Title } = Typography;
 const { Header: ANTDHeader } = Layout;
-const LoginButton = () => {
-  return (
-    <Button>
-      <Link to="/">Login</Link>
-    </Button>
-  );
-};
-const LogOutButton = () => {
-  return (
-    <Button
-      onClick={() => {
-        signOut(auth);
-      }}
-    >
-      <Link to="/">logout</Link>
-    </Button>
-  );
-};
 
-export const Header = (props) => {
+export const Header = () => {
+  const [loading, setLoading] = useState(false);
+  const LoginButton = () => {
+    return (
+      <Button>
+        <Link to="/">Login</Link>
+      </Button>
+    );
+  };
+  const LogOutButton = () => {
+    return (
+      <Button
+        loading={loading}
+        danger
+        type="primary"
+        style={{}}
+        onClick={() => {
+          setLoading(true);
+          signOut(auth);
+          setLoading(false);
+        }}
+      >
+        <Link to="/">{loading ? "" : "LogOut"}</Link>
+      </Button>
+    );
+  };
   const [globalUser, setGlobalUser] = useState(null);
   onAuthStateChanged(auth, (fireBaseUser) => {
     if (fireBaseUser) {
@@ -37,7 +43,6 @@ export const Header = (props) => {
       // ...
     }
   });
-
   return (
     <ANTDHeader>
       <Row>
@@ -49,7 +54,7 @@ export const Header = (props) => {
         </Col>
         <Col xs={3}>
           <Button>
-            <Link to="/dashboard">dasboard</Link>
+            <Link to="/dashboard">Principal</Link>
           </Button>
         </Col>
       </Row>
