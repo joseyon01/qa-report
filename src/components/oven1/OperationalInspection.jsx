@@ -190,7 +190,7 @@ export const OperationalInspection = (props) => {
   function placeHolderValue(a, b) {
     let result = (b - a) * (4187 / 30);
     console.log(result);
-    return setValueTo(result);
+    setValueTo(result);
   }
 
   function addOperational(values) {
@@ -220,6 +220,7 @@ export const OperationalInspection = (props) => {
 
     const value = (a, b) => {
       let result = (b - a) * (4187 / 30);
+      result = Math.round(result);
       return result;
     };
 
@@ -699,7 +700,7 @@ export const OperationalInspection = (props) => {
                   </Form.Item>
                 </Col>
               </Row>
-              <Row>
+              <Row align="center">
                 <Col xs={16}>
                   <Text>
                     vi) The power output will show for 5 seconds. Record
@@ -707,16 +708,12 @@ export const OperationalInspection = (props) => {
                   </Text>
                 </Col>
                 <Col xs={4}>
-                  <Form.Item
-                    name={OPERATIONAL_H_VI}
-                    value={valueTo}
-                    onChange={onChangeTo}
-                  >
+                  <Form.Item name={OPERATIONAL_H_VI}>
                     <Input
                       type="number"
                       size="small"
                       placeholder={valueTo ? valueTo : "W"}
-                      style={{ width: 150 }}
+                      style={{ width: 100 }}
                       disabled
                       required
                     />
@@ -724,12 +721,15 @@ export const OperationalInspection = (props) => {
                 </Col>
                 <Col xs={3}>
                   <Button
+                    size="small"
                     onClick={() => {
-                      if (!valueTi == null || !valueTf == null)
-                        placeHolderValue(valueTi, valueTf);
+                      let result = (valueTf - valueTi) * (4187 / 30);
+                      result = Math.round(result);
+                      console.log(result);
+                      setValueTo(result);
                     }}
                   >
-                    Calculate
+                    calc
                   </Button>
                 </Col>
               </Row>

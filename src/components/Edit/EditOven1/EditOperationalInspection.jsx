@@ -182,7 +182,11 @@ export const EditOperationalInspection = (props) => {
   const onChange_CLOSING = (e) => {
     setOperational_CLOSING(e.target.value);
   };
-
+  function placeHolderValue(a, b) {
+    let result = (b - a) * (4187 / 30);
+    console.log(result);
+    setValueTo(result);
+  }
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = () => {
@@ -314,6 +318,7 @@ export const EditOperationalInspection = (props) => {
 
     const value = (a, b) => {
       let result = (b - a) * (4187 / 30);
+      result = Math.round(result);
       return result;
     };
 
@@ -967,12 +972,26 @@ export const EditOperationalInspection = (props) => {
                   >
                     <Input
                       size="small"
-                      style={{ width: 150 }}
+                      style={{ width: 100 }}
                       placeholder={operational_H_VI ? operational_H_VI : "W"}
                       disabled
                       required
                     />
                   </Form.Item>
+                </Col>
+                <Col xs={3}>
+                  <Button
+                    size="small"
+                    onClick={() => {
+                      let result =
+                        (operational_H_V - operational_H_I) * (4187 / 30);
+                      result = Math.round(result);
+                      console.log(result);
+                      setOperational_H_VI(result);
+                    }}
+                  >
+                    calc
+                  </Button>
                 </Col>
               </Row>
               <Row justify="center">

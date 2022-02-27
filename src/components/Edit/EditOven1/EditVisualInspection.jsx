@@ -8,6 +8,7 @@ import {
   Divider,
   Button,
   Modal,
+  message,
 } from "antd";
 const { Text, Title } = Typography;
 import {
