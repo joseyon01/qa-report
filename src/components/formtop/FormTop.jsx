@@ -8,6 +8,7 @@ import {
   Button,
   Modal,
   Typography,
+  message,
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import { SERIAL, DATE, NAME, OVEN } from "../constants/ConstFormTop";
@@ -34,6 +35,8 @@ export const FormTop = (props) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisible2, setIsModalVisible2] = useState(false);
+  const [serialData, setSerialData] = useState(null);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -46,8 +49,22 @@ export const FormTop = (props) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+  const showModal2 = () => {
+    setIsModalVisible2(true);
+  };
+
+  const handleOk2 = () => {
+    setIsModalVisible2(false);
+    navigate(`/dashboard`);
+  };
+
+  const handleCancel2 = () => {
+    setIsModalVisible(false);
+    navigate(`/dashboard`);
+  };
   async function onClickF(serial, date, status, name, oven, userId) {
     setLoading(true);
+
     const docRef = await setDoc(doc(db, "oven", `${serial}`), {
       serial: serial,
       date: date,
@@ -65,9 +82,10 @@ export const FormTop = (props) => {
     setOvenUserId(docSnap.userId);
     setOvenId(docSnap.id);
     setButtonDisabled(true);
-    setLoading(false);
     showModal();
     handleChange(oven);
+
+    setLoading(false);
   }
   useEffect(() => {
     onAuthStateChanged(auth, (fireBaseUser) => {
@@ -81,11 +99,11 @@ export const FormTop = (props) => {
     });
   });
 
-  function handleChange(value) {
+  async function handleChange(value) {
     navigate(`/register/${value}`);
   }
 
-  function addOven(values) {
+  async function addOven(values) {
     const userUID = globalUser.uid;
     const serialNumber = values.SERIAL;
     const date = startDate.format("YYYY-MM-DD").toString();
@@ -100,7 +118,16 @@ export const FormTop = (props) => {
     });
     setOvenId(serialNumber);
 
-    onClickF(serialNumber, date, status, name, oven, userUID, key);
+    const serialTest = serialNumber;
+    const docRefOven = doc(db, "oven", `${serialNumber}`);
+    const docSnapOven = await getDoc(docRefOven);
+    const data = docSnapOven.data();
+    console.log(data);
+    if (data) {
+      showModal2();
+    } else {
+      onClickF(serialNumber, date, status, name, oven, userUID, key);
+    }
   }
 
   return (
@@ -174,7 +201,7 @@ export const FormTop = (props) => {
         </Col>
       </Row>
       <Modal
-        style={{ backgroundColor: "#E74C3C" }}
+        style={{ backgroundColor: "#2ECC71" }}
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -182,6 +209,16 @@ export const FormTop = (props) => {
         <Title level={3}>OK..!</Title>
 
         <Text>The data has been successfully stored</Text>
+      </Modal>
+      <Modal
+        style={{ backgroundColor: "#E74C3C" }}
+        visible={isModalVisible2}
+        onOk={handleOk2}
+        onCancel={handleCancel2}
+      >
+        <Title level={3}>Error..!</Title>
+
+        <Text>The oven is already registered. try again</Text>
       </Modal>
     </Form>
   );

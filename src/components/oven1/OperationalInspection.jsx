@@ -85,6 +85,7 @@ export const OperationalInspection = (props) => {
     setModalVisible(false);
     window.scrollTo(0, 0);
   };
+
   async function onClickF(
     OPERATIONAL_A_I,
     OPERATIONAL_B_I_I,
@@ -174,6 +175,23 @@ export const OperationalInspection = (props) => {
   const onChangeJ = (e) => {
     setValueJ(e.target.value);
   };
+  const [valueTf, setValueTf] = useState(null);
+  const onChangeTf = (e) => {
+    setValueTf(e.target.value);
+  };
+  const [valueTi, setValueTi] = useState(null);
+  const onChangeTi = (e) => {
+    setValueTi(e.target.value);
+  };
+  const [valueTo, setValueTo] = useState(null);
+  const onChangeTo = (e) => {
+    setValueTo(e.target.value);
+  };
+  function placeHolderValue(a, b) {
+    let result = (b - a) * (4187 / 30);
+    console.log(result);
+    return setValueTo(result);
+  }
 
   function addOperational(values) {
     const OPERATIONAL_A_I = values.OPERATIONAL_A_I;
@@ -201,7 +219,7 @@ export const OperationalInspection = (props) => {
     const OPERATIONAL_H_V = values.OPERATIONAL_H_V;
 
     const value = (a, b) => {
-      let result = (a - b) * (4187 / 30);
+      let result = (b - a) * (4187 / 30);
       return result;
     };
 
@@ -261,6 +279,7 @@ export const OperationalInspection = (props) => {
       showModal2();
     }
   }
+
   const [form] = Form.useForm();
   return (
     <Form
@@ -604,6 +623,8 @@ export const OperationalInspection = (props) => {
                   <Form.Item
                     name={OPERATIONAL_H_I}
                     label="enter T inicial via Keypad"
+                    onChange={onChangeTi}
+                    value={valueTi}
                   >
                     <Input
                       type="number"
@@ -665,6 +686,8 @@ export const OperationalInspection = (props) => {
                   <Form.Item
                     name={OPERATIONAL_H_V}
                     label="enter T final via Keypad"
+                    value={valueTf}
+                    onChange={onChangeTf}
                   >
                     <Input
                       type="number"
@@ -684,16 +707,30 @@ export const OperationalInspection = (props) => {
                   </Text>
                 </Col>
                 <Col xs={4}>
-                  <Form.Item name={OPERATIONAL_H_VI}>
+                  <Form.Item
+                    name={OPERATIONAL_H_VI}
+                    value={valueTo}
+                    onChange={onChangeTo}
+                  >
                     <Input
                       type="number"
                       size="small"
+                      placeholder={valueTo ? valueTo : "W"}
                       style={{ width: 150 }}
-                      placeholder="W"
                       disabled
                       required
                     />
                   </Form.Item>
+                </Col>
+                <Col xs={3}>
+                  <Button
+                    onClick={() => {
+                      if (!valueTi == null || !valueTf == null)
+                        placeHolderValue(valueTi, valueTf);
+                    }}
+                  >
+                    Calculate
+                  </Button>
                 </Col>
               </Row>
               <Row justify="center">

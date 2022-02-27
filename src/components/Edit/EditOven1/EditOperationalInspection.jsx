@@ -9,6 +9,7 @@ import {
   Divider,
   Button,
   Modal,
+  message,
 } from "antd";
 
 import QaReportFirebase from "../../../../Credentials";
@@ -312,7 +313,7 @@ export const EditOperationalInspection = (props) => {
     const OPERATIONAL_H_V = values?.OPERATIONAL_H_V;
 
     const value = (a, b) => {
-      let result = (a - b) * (4187 / 30);
+      let result = (b - a) * (4187 / 30);
       return result;
     };
 
@@ -1171,7 +1172,7 @@ export const EditOperationalInspection = (props) => {
             </Modal>
             <Modal
               visible={modalVisible}
-              onOk={handleCancel2}
+              onOk={handleOk2}
               style={{ backgroundColor: "#2ECC71" }}
               onCancel={handleCancel2}
             >

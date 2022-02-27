@@ -85,7 +85,7 @@ export const Dashboard = () => {
                 }
               });
               setArrayOvens(newArrayOvens);
-              message.success("Deletend");
+              message.success("Report deleted successfully");
               setLoading(false);
             }}
           >

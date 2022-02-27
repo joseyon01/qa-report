@@ -1,9 +1,19 @@
 import { useState } from "react";
-import { Row, Col, Tabs, Form, Input, Button, Typography, Modal } from "antd";
+import {
+  Row,
+  Col,
+  Tabs,
+  Form,
+  Input,
+  Button,
+  Typography,
+  Modal,
+  Image,
+} from "antd";
 import { useNavigate } from "react-router-dom";
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
-
+import Logo from "./turboChefLogo.png";
 import QaReportFirebase from "../../../Credentials";
 import {
   getAuth,
@@ -84,7 +94,7 @@ export const Login = () => {
     }
   }
   const onLoginFailed = (errorInfo) => {
-    alert("error");
+    showModal();
   };
 
   async function onRegister(values) {
@@ -111,9 +121,10 @@ export const Login = () => {
           onFinishFailed={onLoginFailed}
           autoComplete="off"
         >
+          <Row justify="center"></Row>
           <Row justify="center">
-            <Col xs={4}>
-              <Title level={3}>Login</Title>
+            <Col xs={5} style={{ paddingBottom: "1em" }}>
+              <Image width={200} src={Logo} />
             </Col>
           </Row>
           <Row justify="center">
@@ -147,7 +158,7 @@ export const Login = () => {
                 <Input.Password />
               </Form.Item>
 
-              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+              <Form.Item wrapperCol={{ offset: 11, span: 6 }}>
                 <Button type="primary" htmlType="submit">
                   Login
                 </Button>
