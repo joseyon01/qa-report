@@ -1163,6 +1163,7 @@ export const EditOperationalInspection = (props) => {
             <Modal
               visible={isModalVisible}
               onOk={handleOk}
+              style={{ backgroundColor: "#E74C3C" }}
               onCancel={handleCancel}
             >
               <Title level={3}>Error..!</Title>
@@ -1171,6 +1172,7 @@ export const EditOperationalInspection = (props) => {
             <Modal
               visible={modalVisible}
               onOk={handleCancel2}
+              style={{ backgroundColor: "#2ECC71" }}
               onCancel={handleCancel2}
             >
               <Title level={3}>OK..!</Title>

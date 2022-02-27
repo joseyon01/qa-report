@@ -7,7 +7,7 @@ const auth = getAuth(QaReportFirebase);
 const { Title } = Typography;
 const { Header: ANTDHeader } = Layout;
 
-export const Header = () => {
+export const Header = (props) => {
   const [loading, setLoading] = useState(false);
   const LoginButton = () => {
     return (
@@ -47,15 +47,19 @@ export const Header = () => {
     <ANTDHeader>
       <Row>
         <Col xs={8}>
-          <Title style={{ color: "#fff", margin: "0px" }}>QA-Report</Title>
+          <Title style={{ color: "#fff", margin: "6px" }}>QA-Report</Title>
         </Col>
-        <Col xs={3} offset={10}>
+        <Col xs={3} offset={9}>
+          {props.dashboard ? (
+            ""
+          ) : (
+            <Button>
+              <Link to="/dashboard">Principal</Link>
+            </Button>
+          )}
+        </Col>
+        <Col xs={3} offset={1}>
           {!globalUser ? <LoginButton /> : <LogOutButton />}
-        </Col>
-        <Col xs={3}>
-          <Button>
-            <Link to="/dashboard">Principal</Link>
-          </Button>
         </Col>
       </Row>
     </ANTDHeader>

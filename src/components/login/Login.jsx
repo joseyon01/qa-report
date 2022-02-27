@@ -1,15 +1,5 @@
 import { useState } from "react";
-import {
-  Row,
-  Col,
-  Tabs,
-  Form,
-  Input,
-  Button,
-  Checkbox,
-  Typography,
-  Modal,
-} from "antd";
+import { Row, Col, Tabs, Form, Input, Button, Typography, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
@@ -165,6 +155,7 @@ export const Login = () => {
                   visible={isModalVisible}
                   onOk={handleOk}
                   onCancel={handleCancel}
+                  style={{ backgroundColor: "#E74C3C" }}
                 >
                   <Title level={3}>Error..!</Title>
                   <Text>User or Password Incorrect</Text>
@@ -173,6 +164,7 @@ export const Login = () => {
                   visible={modalVisible}
                   onOk={handleOk2}
                   onCancel={handleCancel2}
+                  style={{ backgroundColor: "#2ECC71" }}
                 >
                   <Title level={3}>Welcome Back User</Title>
                   <Text>Have a productive Day</Text>

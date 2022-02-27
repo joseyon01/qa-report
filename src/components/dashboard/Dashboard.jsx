@@ -1,27 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  message,
-  Row,
-  Col,
-  Layout,
-  Table,
-  Button,
-  Space,
-  Typography,
-} from "antd";
+import { message, Row, Col, Layout, Table, Button, Space } from "antd";
 import { AiFillDelete } from "react-icons/ai";
 import { AiFillEdit } from "react-icons/ai";
 import { Header } from "../layout/Header";
 const { Content, Sider, Footer } = Layout;
 import { Container } from "../layout/Container";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   getFirestore,
   doc,
   getDocs,
-  getDoc,
   collection,
   deleteDoc,
   query,
@@ -150,7 +140,7 @@ export const Dashboard = () => {
   }, []);
   return (
     <Layout className="app-layout">
-      <Header />
+      <Header dashboard={true} />
       <Content>
         <Container>
           <div className="container">

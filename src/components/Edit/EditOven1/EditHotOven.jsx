@@ -23,7 +23,7 @@ import {
   HOT_OVEN_E,
   OVEN_APROVE_OR_NOT,
 } from "../../constants/ConstantHotOven";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import QaReportFirebase from "../../../../Credentials";
 import { getAuth } from "firebase/auth";
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
@@ -464,6 +464,7 @@ export const EditHotOven = (props) => {
             <Modal
               visible={isModalVisible}
               onOk={handleOk}
+              style={{ backgroundColor: "#E74C3C" }}
               onCancel={handleCancel}
             >
               <Title level={3}>Error..!</Title>
@@ -472,6 +473,7 @@ export const EditHotOven = (props) => {
             <Modal
               visible={modalVisible}
               onOk={handleOk2}
+              style={{ backgroundColor: "#2ECC71" }}
               onCancel={handleCancel2}
             >
               <Title level={3}>OK..!</Title>

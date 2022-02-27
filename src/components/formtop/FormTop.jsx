@@ -173,7 +173,12 @@ export const FormTop = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <Modal visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <Modal
+        style={{ backgroundColor: "#E74C3C" }}
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
         <Title level={3}>OK..!</Title>
 
         <Text>The data has been successfully stored</Text>

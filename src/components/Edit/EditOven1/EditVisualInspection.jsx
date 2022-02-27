@@ -398,11 +398,13 @@ export const EditVisualInspection = (props) => {
                 onCancel={handleCancel}
               >
                 <Title level={3}>Error..!</Title>
+                style={{ backgroundColor: "#E74C3C" }}
                 <Text>All fields are required</Text>
               </Modal>
               <Modal
                 visible={modalVisible}
                 onOk={handleCancel2}
+                style={{ backgroundColor: "#2ECC71" }}
                 onCancel={handleCancel2}
               >
                 <Title level={3}>OK..!</Title>

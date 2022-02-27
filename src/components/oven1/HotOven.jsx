@@ -324,6 +324,7 @@ export const HotOven = (props) => {
               visible={isModalVisible}
               onOk={handleOk}
               onCancel={handleCancel}
+              style={{ backgroundColor: "#E74C3C" }}
             >
               <Title level={3}>Error..!</Title>
               <Text>All fields are required</Text>
@@ -332,9 +333,11 @@ export const HotOven = (props) => {
               visible={modalVisible}
               onOk={handleOk2}
               onCancel={handleCancel2}
+              style={{ backgroundColor: "#2ECC71" }}
             >
               <Title level={3}>OK..!</Title>
               <Text>The data has been successfully stored</Text>
+              <br />
               <Text>Go to dashboard</Text>
             </Modal>
           </Form.Item>
