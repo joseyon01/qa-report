@@ -13,7 +13,7 @@ import {
 import { useNavigate } from "react-router-dom";
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
-import Logo from "./turboChefLogo.png";
+import Logo from "../../assets/img/turboChefLogo.png";
 import QaReportFirebase from "../../../Credentials";
 import {
   getAuth,
