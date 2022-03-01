@@ -19,8 +19,8 @@ import {
   VISUALQF,
   VISUALQG,
   VISUALQH,
-} from "../constants/ConstVisualInspection";
-import QaReportFirebase from "../../../Credentials";
+} from "../../constants/ConstVisualInspection";
+import QaReportFirebase from "../../../../Credentials";
 import { getAuth } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 

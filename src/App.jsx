@@ -4,7 +4,7 @@ import { getAuth } from "firebase/auth";
 import QaReportFirebase from "../Credentials";
 const auth = getAuth(QaReportFirebase);
 import { Dashboard } from "./components/dashboard/Dashboard";
-import { Login } from "./components/login/Login";
+import { Login } from "./components/auth/login/Login";
 import { Register } from "./components/register/Register";
 import { EditPage } from "./components/Edit/EditPage";
 

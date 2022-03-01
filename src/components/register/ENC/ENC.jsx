@@ -6,7 +6,7 @@ import { OperationalInspection } from "./OperationalInspection";
 import { HotOven } from "./HotOven";
 const { TabPane } = Tabs;
 
-export const Oven1 = (props) => {
+export const ENC = (props) => {
   const serial = props.serial;
   return (
     <Fragment>

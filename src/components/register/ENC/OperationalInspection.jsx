@@ -11,7 +11,7 @@ import {
   Modal,
 } from "antd";
 
-import QaReportFirebase from "../../../Credentials";
+import QaReportFirebase from "../../../../Credentials";
 import { getAuth } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
@@ -52,7 +52,7 @@ import {
   OPERATIONAL_J,
   OPERATIONAL_OPENING,
   OPERATIONAL_CLOSING,
-} from "../constants/ConstOperational";
+} from "../../constants/ConstOperational";
 
 export const OperationalInspection = (props) => {
   const [buttonDisabled, setButtonDisabled] = useState(null);

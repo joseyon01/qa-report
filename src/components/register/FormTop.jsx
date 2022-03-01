@@ -118,7 +118,6 @@ export const FormTop = (props) => {
     });
     setOvenId(serialNumber);
 
-    const serialTest = serialNumber;
     const docRefOven = doc(db, "oven", `${serialNumber}`);
     const docSnapOven = await getDoc(docRefOven);
     const data = docSnapOven.data();
@@ -179,7 +178,7 @@ export const FormTop = (props) => {
               required
               disabled={buttonDisabled}
             >
-              <Option value="Oven1">Oven1</Option>
+              <Option value="ENC">ENC</Option>
             </Select>
           </Form.Item>
         </Col>

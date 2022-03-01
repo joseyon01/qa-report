@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Layout, Typography } from "antd";
-import { FormTop } from "../formtop/FormTop";
-import { Oven1 } from "../oven1/Oven1";
+import { FormTop } from "./FormTop";
+import { ENC } from "./ENC/ENC";
 
 import { Container } from "../layout/Container";
 import { Header } from "../layout/Header";
@@ -37,7 +37,7 @@ export const Register = (props) => {
             date={date}
           />
           <Routes>
-            <Route path="Oven1" element={<Oven1 serial={serial} />} />
+            <Route path="ENC" element={<ENC serial={serial} />} />
           </Routes>
         </Container>
       </Content>

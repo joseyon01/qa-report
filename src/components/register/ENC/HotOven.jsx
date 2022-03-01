@@ -22,10 +22,10 @@ import {
   HOT_OVEN_D,
   HOT_OVEN_E,
   OVEN_APROVE_OR_NOT,
-} from "../constants/ConstantHotOven";
+} from "../../constants/ConstantHotOven";
 import { useNavigate } from "react-router-dom";
 
-import QaReportFirebase from "../../../Credentials";
+import QaReportFirebase from "../../../../Credentials";
 import { getAuth } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
@@ -37,41 +37,36 @@ const { Text, Title } = Typography;
 export const HotOven = (props) => {
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState(false);
-
+  const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(null);
+  const [valueRC, setValueRC] = useState(null);
+  const [valueAON, setValueAON] = useState(null);
   const showModal = () => {
     setIsModalVisible(true);
   };
-
   const handleOk = () => {
     setIsModalVisible(false);
   };
-
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-  const [modalVisible, setModalVisible] = useState(false);
-
   const showModal2 = () => {
     setModalVisible(true);
   };
-
   const handleOk2 = () => {
     setModalVisible(false);
     window.scrollTo(0, 0);
     navigate(`/dashboard`);
   };
-
   const handleCancel2 = () => {
     setModalVisible(false);
     window.scrollTo(0, 0);
   };
-  const [loading, setLoading] = useState(false);
-  const [buttonDisabled, setButtonDisabled] = useState(null);
-  const [valueRC, setValueRC] = useState(null);
+
   const onChangeRC = (e) => {
     setValueRC(e.target.value);
   };
-  const [valueAON, setValueAON] = useState(null);
   const onChangeAON = (e) => {
     setValueAON(e.target.value);
   };

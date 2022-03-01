@@ -111,12 +111,11 @@ export const Dashboard = () => {
     const user = auth.currentUser;
     if (user) {
       try {
-        const q = query(ovenRef, where("userId", "==", user.uid));
-        const data = await getDocs(q);
-        if (!data.empty) {
+        const querySnapshot = await getDocs(collection(db, "oven"));
+        if (!querySnapshot.empty) {
           let _id = [];
           let _data = [];
-          data.docs.forEach((e) => {
+          querySnapshot.forEach((e) => {
             if (e.data()) {
               _data.push(e.data());
               _id.push(e.id);
