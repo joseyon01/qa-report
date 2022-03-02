@@ -9,15 +9,13 @@ import {
   Typography,
   message,
 } from "antd";
-import { useNavigate, useParams } from "react-router-dom";
 import { SERIAL, DATE, NAME, OVEN } from "../constants/ConstFormTop";
 import QaReportFirebase from "../../../Credentials";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { useState, useEffect } from "react";
-const { Text } = Typography;
-import TextArea from "antd/lib/input/TextArea";
 import moment from "moment";
+const { Text } = Typography;
 const firestore = getFirestore(QaReportFirebase);
 const auth = getAuth(QaReportFirebase);
 const { Option } = Select;
@@ -60,26 +58,33 @@ export const EditFormTop = (props) => {
       console.error("error", error);
     }
   };
-
+  console.log(typeOfOven);
   const dateFormat = "YYYY-MM-DD";
+
+  form.setFieldsValue({
+    SERIAL: serial,
+    NAME: name,
+    DATE: moment(`${date}`, dateFormat),
+  });
   useEffect(() => {
     getDataOven();
   }, [serial]);
   return (
-    <Form form={form} labelCol={{ span: 4 }}>
+    <Form
+      form={form}
+      initialValues={{
+        remember: true,
+      }}
+      labelCol={{ span: 4 }}
+    >
       <Row>
         <Col xs={12}>
-          <Form.Item
-            label="S/N"
-            name={SERIAL}
-            onChange={onChangeSerial}
-            value={serial}
-          >
+          <Form.Item label="S/N" name={SERIAL} value={serial}>
             <Input
               size="large"
               type="text"
+              placeholder="Serial Number"
               disabled
-              placeholder={serial ? serial : "Serial Number"}
             />
           </Form.Item>
         </Col>
@@ -87,40 +92,24 @@ export const EditFormTop = (props) => {
           <Form.Item label="Date" name={DATE}>
             <DatePicker
               label="Date"
-              showTime
-              name={DATE}
+              format={dateFormat}
               style={{ width: "100%" }}
               size="large"
+              placeholder="Date"
               disabled
-              onChange={onChangeDate}
-              placeholder={date ? date : "Date"}
             />
           </Form.Item>
         </Col>
         <Col xs={12}>
-          <Form.Item
-            label="Name"
-            name={NAME}
-            onChange={onChangeName}
-            value={`${name}`}
-          >
-            <Input
-              size="large"
-              type="text"
-              disabled
-              placeholder={name ? name : "Name"}
-            />
+          <Form.Item label="Name" name={NAME}>
+            <Input size="large" type="text" placeholder="Name" disabled />
           </Form.Item>
         </Col>
         <Col xs={12}>
           <Form.Item label="Type">
-            <Select
-              size="large"
-              name={OVEN}
-              disabled={true}
-              value={`${typeOfOven}`}
-            >
-              <Option value="Oven1">Oven1</Option>
+            <Select size="large" name={OVEN} value={`${typeOfOven}`} disabled>
+              <Option value="ENC">ENC</Option>
+              <Option value="I3">I3</Option>
             </Select>
           </Form.Item>
         </Col>

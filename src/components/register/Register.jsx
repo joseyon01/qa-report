@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { Layout, Typography } from "antd";
 import { FormTop } from "./FormTop";
 import { ENC } from "./ENC/ENC";
-
+import { I3 } from "./I3/I3";
 import { Container } from "../layout/Container";
 import { Header } from "../layout/Header";
 
@@ -38,6 +38,7 @@ export const Register = (props) => {
           />
           <Routes>
             <Route path="ENC" element={<ENC serial={serial} />} />
+            <Route path="I3" element={<I3 serial={serial} />} />
           </Routes>
         </Container>
       </Content>

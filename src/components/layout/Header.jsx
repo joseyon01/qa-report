@@ -46,10 +46,10 @@ export const Header = (props) => {
   return (
     <ANTDHeader>
       <Row>
-        <Col xs={8}>
-          <Title style={{ color: "#fff", margin: "6px" }}>QA-Report</Title>
+        <Col xs={12}>
+          <Title style={{ color: "#fff", margin: "5px" }}>QA-Report</Title>
         </Col>
-        <Col xs={3} offset={9}>
+        <Col xs={3} offset={4}>
           {props.dashboard ? (
             ""
           ) : (
@@ -58,7 +58,7 @@ export const Header = (props) => {
             </Button>
           )}
         </Col>
-        <Col xs={3} offset={1}>
+        <Col xs={3} offset={2}>
           {!globalUser ? <LoginButton /> : <LogOutButton />}
         </Col>
       </Row>

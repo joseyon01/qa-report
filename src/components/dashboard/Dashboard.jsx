@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { message, Row, Col, Layout, Table, Button, Space } from "antd";
-import { AiFillDelete } from "react-icons/ai";
-import { AiFillEdit } from "react-icons/ai";
+import {
+  message,
+  Row,
+  Col,
+  Layout,
+  Table,
+  Button,
+  Space,
+  Input,
+  DatePicker,
+} from "antd";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { SearchOutlined } from "@ant-design/icons";
 import { Header } from "../layout/Header";
-const { Content, Sider, Footer } = Layout;
 import { Container } from "../layout/Container";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+const { Content, Sider, Footer } = Layout;
 
 import {
   getFirestore,
@@ -24,22 +33,16 @@ const db = getFirestore();
 const auth = getAuth(QaReportFirebase);
 
 export const Dashboard = () => {
-  const [visible, setVisible] = useState(false);
-  const [editOven, setEditOven] = useState(null);
-  const [editOperational, setEditOperational] = useState(null);
-  const [editHot, setEditHot] = useState(null);
-  const [editVisual, setEditvisual] = useState(null);
   const [arrayOvens, setArrayOvens] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
-  const [dataId, setDataId] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const ovenRef = collection(db, "oven");
   function handleChange() {
     navigate(`/register`);
   }
-  function navigateEdit(serial) {
-    navigate(`/edit/${serial}`);
+  function navigateEdit(serial, oven) {
+    navigate(`/edit/${serial}/${oven}`);
   }
 
   const columns = [
@@ -48,16 +51,72 @@ export const Dashboard = () => {
       dataIndex: "serial",
       key: "serial",
       render: (text) => <a>{text}</a>,
+      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => {
+        return (
+          <Input
+            value={selectedKeys[0]}
+            onChange={(e) => {
+              setSelectedKeys(e.target.value ? [e.target.value] : []);
+            }}
+            autoFocus
+            placeholder="Type S/N"
+            onPressEnter={() => {
+              confirm();
+            }}
+            onBlur={() => {
+              confirm();
+            }}
+          />
+        );
+      },
+      filterIcon: () => {
+        return <SearchOutlined />;
+      },
+      onFilter: (value, record) => {
+        return record.serial.toLowerCase().includes(value.toLowerCase());
+      },
     },
     {
       title: "Date",
       dataIndex: "date",
       key: "date",
+      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => {
+        return (
+          <DatePicker
+            selected={selectedKeys[0]}
+            onChange={(e, a) => {
+              setSelectedKeys(a ? [a] : []);
+            }}
+            autoFocus
+            onBlur={() => {
+              confirm();
+            }}
+          />
+        );
+      },
+      filterIcon: () => {
+        return <SearchOutlined />;
+      },
+      onFilter: (selected, record) => {
+        return record.date.includes(selected);
+      },
     },
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
+      defaultSortOrder: "descend",
+      filters: [
+        {
+          text: "Aprooved",
+          value: "Aprooved",
+        },
+        {
+          text: "Rejected",
+          value: "Rejected",
+        },
+      ],
+      onFilter: (value, record) => record.status.indexOf(value) === 0,
     },
     {
       title: "Actions",
@@ -94,7 +153,7 @@ export const Dashboard = () => {
           <Button
             style={{ borderRadius: "6px" }}
             onClick={async () => {
-              navigateEdit(record.serial);
+              navigateEdit(record.serial, record.oven);
             }}
           >
             <a>
@@ -160,7 +219,11 @@ export const Dashboard = () => {
                 </Button>
               </Col>
             </Row>
-            <Table columns={columns} dataSource={arrayOvens} />{" "}
+            <Table
+              columns={columns}
+              dataSource={arrayOvens}
+              pagination={{ pageSize: 5 }}
+            />{" "}
           </div>
         </Container>
       </Content>

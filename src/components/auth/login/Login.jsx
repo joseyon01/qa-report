@@ -58,15 +58,9 @@ export const Login = () => {
   const persistenceLocal = (auth, email, password) =>
     setPersistence(auth, browserSessionPersistence)
       .then(() => {
-        // Existing and future Auth states are now persisted in the current
-        // session only. Closing the window would clear any existing state even
-        // if a user forgets to sign out.
-        // ...
-        // New sign-in will be persisted with session persistence.
         return signInWithEmailAndPassword(auth, email, password);
       })
       .catch((error) => {
-        // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
       });
@@ -74,8 +68,6 @@ export const Login = () => {
   const [globalUser, setGlobalUser] = useState(null);
   onAuthStateChanged(auth, (fireBaseUser) => {
     if (fireBaseUser) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
       const uid = fireBaseUser.uid;
       setGlobalUser(uid);
       return uid;

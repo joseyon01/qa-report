@@ -56,6 +56,7 @@ import {
 } from "../../constants/ConstOperational";
 
 export const EditOperationalInspection = (props) => {
+  const [form] = Form.useForm();
   const ovenSerial = props.serial;
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [operational_A_I, setOperational_A_I] = useState(null);
@@ -419,18 +420,54 @@ export const EditOperationalInspection = (props) => {
       console.error("error", error);
     }
   };
+  form.setFieldsValue({
+    OPERATIONAL_A_I: operational_A_I,
+    OPERATIONAL_B_I_I: operational_B_I_I,
+    OPERATIONAL_B_I_II: operational_B_I_II,
+    OPERATIONAL_B_II_I: operational_B_II_I,
+    OPERATIONAL_B_II_II: operational_B_II_II,
+    OPERATIONAL_B_III: operational_B_III,
+    OPERATIONAL_B_IV: operational_B_IV,
+    OPERATIONAL_B_V_I: operational_B_V_I,
+    OPERATIONAL_B_V_II: operational_B_V_II,
+    OPERATIONAL_B_VI_I: operational_B_VI_I,
+    OPERATIONAL_B_VI_II: operational_B_VI_II,
+    OPERATIONAL_B_VII: operational_B_VII,
+    OPERATIONAL_B_VIII: operational_B_VIII,
+    OPERATIONAL_C: valueC,
+    OPERATIONAL_D_I: operational_D_I,
+    OPERATIONAL_D_II: operational_D_II,
+    OPERATIONAL_D_III: operational_D_III,
+    OPERATIONAL_D_IV: valueD,
+    OPERATIONAL_E: operational_E,
+    OPERATIONAL_F: valueF,
+    OPERATIONAL_H_I: operational_H_I,
+    OPERATIONAL_H_IV: operational_H_IV,
+    OPERATIONAL_H_V: operational_H_V,
+    OPERATIONAL_H_VI: operational_H_VI,
+    OPERATIONAL_I_I: operational_I_I,
+    OPERATIONAL_I_II: operational_I_II,
+    OPERATIONAL_I_III: operational_I_III,
+    OPERATIONAL_NOTE: operational_NOTE,
+    OPERATIONAL_J: valueJ,
+    OPERATIONAL_OPENING: operational_OPENING,
+    OPERATIONAL_CLOSING: operational_CLOSING,
+  });
   useEffect(() => {
     getDataOven();
   }, []);
-  const [form] = Form.useForm();
   return (
     <Form
+      form={form}
+      initialValues={{
+        remember: true,
+      }}
       labelCol={{ span: 7 }}
       style={{ paddingBottom: "5em" }}
       onFinish={addOperational}
     >
       <Divider orientation="rigth">
-        2) OPERATIONAL_ INSPECTION: DO NOT APPLY POWER TO OVEN.
+        2) OPERATIONAL INSPECTION: DO NOT APPLY POWER TO OVEN.
       </Divider>
       <Row>
         <Col span={24}>
@@ -487,7 +524,6 @@ export const EditOperationalInspection = (props) => {
                       style={{ width: 150 }}
                       size="small"
                       type="number"
-                      placeholder={operational_B_I_I ? operational_B_I_I : ""}
                       required
                     />
                   </Form.Item>
@@ -502,7 +538,6 @@ export const EditOperationalInspection = (props) => {
                       size="small"
                       type="number"
                       required
-                      placeholder={operational_B_I_II ? operational_B_I_II : ""}
                     />
                   </Form.Item>
                 </Col>
@@ -523,7 +558,6 @@ export const EditOperationalInspection = (props) => {
                       size="small"
                       type="number"
                       required
-                      placeholder={operational_B_II_I ? operational_B_II_I : ""}
                     />
                   </Form.Item>
                   <Form.Item
@@ -537,9 +571,6 @@ export const EditOperationalInspection = (props) => {
                       size="small"
                       type="number"
                       required
-                      placeholder={
-                        operational_B_II_II ? operational_B_II_II : ""
-                      }
                     />
                   </Form.Item>
                 </Col>
@@ -561,7 +592,6 @@ export const EditOperationalInspection = (props) => {
                       size="small"
                       type="number"
                       required
-                      placeholder={operational_B_III}
                     />
                   </Form.Item>
                 </Col>
@@ -581,7 +611,6 @@ export const EditOperationalInspection = (props) => {
                       size="small"
                       type="number"
                       required
-                      placeholder={operational_B_IV ? operational_B_IV : ""}
                     />
                   </Form.Item>
                 </Col>
@@ -602,7 +631,6 @@ export const EditOperationalInspection = (props) => {
                       size="small"
                       type="number"
                       required
-                      placeholder={operational_B_V_I ? operational_B_V_I : ""}
                     />
                   </Form.Item>
                   <Form.Item
@@ -616,7 +644,6 @@ export const EditOperationalInspection = (props) => {
                       size="small"
                       type="number"
                       required
-                      placeholder={operational_B_V_II ? operational_B_V_II : ""}
                     />
                   </Form.Item>
                 </Col>
@@ -637,7 +664,6 @@ export const EditOperationalInspection = (props) => {
                       size="small"
                       type="number"
                       required
-                      placeholder={operational_B_VI_I ? operational_B_VI_I : ""}
                     />
                   </Form.Item>
                   <Form.Item
@@ -651,9 +677,6 @@ export const EditOperationalInspection = (props) => {
                       size="small"
                       type="number"
                       required
-                      placeholder={
-                        operational_B_VI_II ? operational_B_VI_II : ""
-                      }
                     />
                   </Form.Item>
                 </Col>
@@ -674,7 +697,6 @@ export const EditOperationalInspection = (props) => {
                       size="small"
                       type="number"
                       required
-                      placeholder={operational_B_VII ? operational_B_VII : ""}
                     />
                   </Form.Item>
                 </Col>
@@ -697,7 +719,6 @@ export const EditOperationalInspection = (props) => {
                       size="small"
                       type="number"
                       required
-                      placeholder={operational_B_VIII}
                     />
                   </Form.Item>
                 </Col>
@@ -743,9 +764,7 @@ export const EditOperationalInspection = (props) => {
                     value={operational_D_I}
                   >
                     <Input
-                      placeholder={
-                        operational_D_I ? operational_D_I : "Version"
-                      }
+                      placeholder={"Version"}
                       style={{ width: 150 }}
                       size="small"
                       type="number"
@@ -763,7 +782,7 @@ export const EditOperationalInspection = (props) => {
                     value={operational_D_II}
                   >
                     <Input
-                      placeholder={operational_D_II ? operational_D_II : "VAC"}
+                      placeholder={"VAC"}
                       style={{ width: 150 }}
                       size="small"
                       type="number"
@@ -781,9 +800,7 @@ export const EditOperationalInspection = (props) => {
                     value={operational_D_III}
                   >
                     <Input
-                      placeholder={
-                        operational_D_III ? operational_D_III : "S/N"
-                      }
+                      placeholder={"S/N"}
                       style={{ width: 150 }}
                       size="small"
                       type="text"
@@ -829,12 +846,7 @@ export const EditOperationalInspection = (props) => {
             onChange={onChange_E}
             value={operational_E}
           >
-            <Input
-              type="number"
-              size="small"
-              placeholder={operational_E ? operational_E : "VAC"}
-              required
-            />
+            <Input type="number" size="small" placeholder={"VAC"} required />
           </Form.Item>
         </Col>
       </Row>
@@ -884,7 +896,7 @@ export const EditOperationalInspection = (props) => {
                       type="number"
                       size="small"
                       style={{ width: 150 }}
-                      placeholder={operational_H_I ? operational_H_I : "°C"}
+                      placeholder={"°C"}
                       required
                     />
                   </Form.Item>
@@ -926,7 +938,7 @@ export const EditOperationalInspection = (props) => {
                       type="number"
                       size="small"
                       style={{ width: 150 }}
-                      placeholder={operational_H_IV ? operational_H_IV : "AMPS"}
+                      placeholder={"AMPS"}
                       required
                     />
                   </Form.Item>
@@ -951,7 +963,7 @@ export const EditOperationalInspection = (props) => {
                       type="number"
                       size="small"
                       style={{ width: 150 }}
-                      placeholder={operational_H_V ? operational_H_V : "°C"}
+                      placeholder={"°C"}
                       required
                     />
                   </Form.Item>
@@ -973,7 +985,7 @@ export const EditOperationalInspection = (props) => {
                     <Input
                       size="small"
                       style={{ width: 100 }}
-                      placeholder={operational_H_VI ? operational_H_VI : "W"}
+                      placeholder={"W"}
                       disabled
                       required
                     />
@@ -1031,7 +1043,6 @@ export const EditOperationalInspection = (props) => {
                       size="small"
                       style={{ width: 150 }}
                       required
-                      placeholder={operational_I_I ? operational_I_I : ""}
                     />
                   </Form.Item>
                 </Col>
@@ -1053,7 +1064,6 @@ export const EditOperationalInspection = (props) => {
                       type="text"
                       size="small"
                       style={{ width: 150 }}
-                      placeholder={operational_I_II ? operational_I_II : ""}
                       required
                     />
                   </Form.Item>
@@ -1074,7 +1084,6 @@ export const EditOperationalInspection = (props) => {
                       size="small"
                       style={{ width: 150 }}
                       required
-                      placeholder={operational_I_III ? operational_I_III : ""}
                     />
                   </Form.Item>
                 </Col>
@@ -1102,10 +1111,7 @@ export const EditOperationalInspection = (props) => {
             onChange={onChange_NOTE}
             value={operational_NOTE}
           >
-            <TextArea
-              autoSize={{ minRows: 3, maxRows: 4 }}
-              placeholder={operational_NOTE ? operational_NOTE : ""}
-            />
+            <TextArea autoSize={{ minRows: 3, maxRows: 4 }} />
           </Form.Item>
         </Col>
       </Row>
@@ -1140,7 +1146,6 @@ export const EditOperationalInspection = (props) => {
                   size="small"
                   style={{ width: 150 }}
                   required
-                  placeholder={operational_OPENING ? operational_OPENING : ""}
                 />
               </Form.Item>
             </Col>
@@ -1160,7 +1165,6 @@ export const EditOperationalInspection = (props) => {
                   size="small"
                   style={{ width: 150 }}
                   required
-                  placeholder={operational_CLOSING ? operational_CLOSING : ""}
                 />
               </Form.Item>
             </Col>

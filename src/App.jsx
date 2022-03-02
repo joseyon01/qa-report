@@ -7,15 +7,37 @@ import { Dashboard } from "./components/dashboard/Dashboard";
 import { Login } from "./components/auth/login/Login";
 import { Register } from "./components/register/Register";
 import { EditPage } from "./components/Edit/EditPage";
-
+import { PrivateRoute } from "./components/privateRoute/PrivateRoute";
 export default function App() {
   return (
     <>
       <Router>
         <Routes>
-          <Route path="/edit/:id/*" element={<EditPage />} />
-          <Route path="/register/*" element={<Register />} />
-          <Route path="/dashboard/*" element={<Dashboard />} />
+          <Route
+            path="/edit/:id/*"
+            element={
+              <PrivateRoute>
+                <EditPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/register/*"
+            element={
+              <PrivateRoute>
+                <Register />{" "}
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/dashboard/*"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+
           <Route path="/*" element={<Login />} />
         </Routes>
       </Router>

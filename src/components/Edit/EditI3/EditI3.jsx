@@ -10,7 +10,7 @@ import { EditHotOven } from "./EditHotOven";
 const db = getFirestore();
 const { TabPane } = Tabs;
 
-export const EditOven1 = (props) => {
+export const EditI3 = (props) => {
   const ovenSerial = props.serial;
   const [editOven, setEditOven] = useState(null);
 

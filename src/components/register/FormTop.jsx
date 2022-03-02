@@ -15,6 +15,7 @@ import { SERIAL, DATE, NAME, OVEN } from "../constants/ConstFormTop";
 import QaReportFirebase from "../../../Credentials";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+
 import { useState, useEffect } from "react";
 const firestore = getFirestore(QaReportFirebase);
 const auth = getAuth(QaReportFirebase);
@@ -26,7 +27,7 @@ export const FormTop = (props) => {
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [loading, setLoading] = useState(false);
   const [globalUser, setGlobalUser] = useState(null);
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState();
   const [ovenSerial, setOvenSerial] = useState(null);
   const [ovenName, setOvenName] = useState(null);
   const [ovenDate, setOvenDate] = useState(null);
@@ -36,7 +37,7 @@ export const FormTop = (props) => {
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalVisible2, setIsModalVisible2] = useState(false);
-  const [serialData, setSerialData] = useState(null);
+  const [userName, setUserName] = useState(null);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -84,20 +85,8 @@ export const FormTop = (props) => {
     setButtonDisabled(true);
     showModal();
     handleChange(oven);
-
     setLoading(false);
   }
-  useEffect(() => {
-    onAuthStateChanged(auth, (fireBaseUser) => {
-      if (fireBaseUser) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        const uid = fireBaseUser;
-        setGlobalUser(uid);
-        // ...
-      }
-    });
-  });
 
   async function handleChange(value) {
     navigate(`/register/${value}`);
@@ -106,7 +95,7 @@ export const FormTop = (props) => {
   async function addOven(values) {
     const userUID = globalUser.uid;
     const serialNumber = values.SERIAL;
-    const date = startDate.format("YYYY-MM-DD").toString();
+    const date = startDate;
     const name = values.NAME;
     const oven = values.OVEN;
     const key = values.SERIAL;
@@ -121,7 +110,6 @@ export const FormTop = (props) => {
     const docRefOven = doc(db, "oven", `${serialNumber}`);
     const docSnapOven = await getDoc(docRefOven);
     const data = docSnapOven.data();
-    console.log(data);
     if (data) {
       showModal2();
     } else {
@@ -129,8 +117,38 @@ export const FormTop = (props) => {
     }
   }
 
+  const getDataOven = async () => {
+    try {
+      const docRef = doc(db, "User", `${globalUser.uid}`);
+      const docSnap = await getDoc(docRef);
+      const data = docSnap.data();
+      setUserName(data.NAME);
+    } catch (error) {
+      console.error("error", error);
+    }
+  };
+  form.setFieldsValue({
+    NAME: userName,
+  });
+  useEffect(() => {
+    onAuthStateChanged(auth, (fireBaseUser) => {
+      if (fireBaseUser) {
+        const uid = fireBaseUser;
+        setGlobalUser(uid);
+      }
+    });
+    getDataOven();
+  });
+
   return (
-    <Form labelCol={{ span: 4 }} onFinish={addOven}>
+    <Form
+      form={form}
+      initialValues={{
+        remember: true,
+      }}
+      labelCol={{ span: 4 }}
+      onFinish={addOven}
+    >
       <Row>
         <Col xs={12}>
           <Form.Item label="S/N" name={SERIAL}>
@@ -151,7 +169,7 @@ export const FormTop = (props) => {
               style={{ width: "100%" }}
               size="large"
               selected={startDate}
-              onChange={(date) => setStartDate(date)}
+              onChange={(date, dateString) => setStartDate(dateString)}
               disabled={buttonDisabled}
               required
             />
@@ -165,8 +183,7 @@ export const FormTop = (props) => {
               value={props.name}
               type="text"
               placeholder="Name"
-              disabled={buttonDisabled}
-              required
+              disabled={true}
             />
           </Form.Item>
         </Col>
@@ -179,13 +196,14 @@ export const FormTop = (props) => {
               disabled={buttonDisabled}
             >
               <Option value="ENC">ENC</Option>
+              <Option value="I3">I3</Option>
             </Select>
           </Form.Item>
         </Col>
       </Row>
       <Row justify="center">
-        <Col xs={24}>
-          <Form.Item wrapperCol={{ offset: 10, span: 6 }}>
+        <Col xs={12}>
+          <Form.Item>
             <Button
               size="middle"
               type="primary"
