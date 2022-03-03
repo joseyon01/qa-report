@@ -24,31 +24,19 @@ const { TextArea } = Input;
 import {
   OPERATIONAL_A_I,
   OPERATIONAL_B_I_I,
-  OPERATIONAL_B_I_II,
-  OPERATIONAL_B_II_I,
-  OPERATIONAL_B_II_II,
-  OPERATIONAL_B_III,
-  OPERATIONAL_B_IV,
-  OPERATIONAL_B_V_I,
-  OPERATIONAL_B_V_II,
-  OPERATIONAL_B_VI_I,
-  OPERATIONAL_B_VI_II,
-  OPERATIONAL_B_VII,
-  OPERATIONAL_B_VIII,
-  OPERATIONAL_C,
   OPERATIONAL_D_I,
   OPERATIONAL_D_II,
   OPERATIONAL_D_III,
   OPERATIONAL_D_IV,
   OPERATIONAL_E,
   OPERATIONAL_F,
+  OPERATIONAL_G,
   OPERATIONAL_H_I,
   OPERATIONAL_H_IV,
   OPERATIONAL_H_V,
   OPERATIONAL_H_VI,
   OPERATIONAL_I_I,
   OPERATIONAL_I_II,
-  OPERATIONAL_I_III,
   OPERATIONAL_NOTE,
   OPERATIONAL_J,
   OPERATIONAL_OPENING,
@@ -56,41 +44,34 @@ import {
 } from "../../constants/ConstOperational";
 
 export const EditOperationalInspection = (props) => {
+  const [form] = Form.useForm();
   const ovenSerial = props.serial;
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [operational_A_I, setOperational_A_I] = useState(null);
-  const [operational_B_I_I, setOperational_B_I_I] = useState(null);
-  const [operational_B_I_II, setOperational_B_I_II] = useState(null);
-  const [operational_B_II_I, setOperational_B_II_I] = useState(null);
-  const [operational_B_II_II, setOperational_B_II_II] = useState(null);
-  const [operational_B_III, setOperational_B_III] = useState(null);
-  const [operational_B_IV, setOperational_B_IV] = useState(null);
-  const [operational_B_V_I, setOperational_B_V_I] = useState(null);
-  const [operational_B_V_II, setOperational_B_V_II] = useState(null);
-  const [operational_B_VI_I, setOperational_B_VI_I] = useState(null);
-  const [operational_B_VI_II, setOperational_B_VI_II] = useState(null);
-  const [operational_B_VII, setOperational_B_VII] = useState(null);
-  const [operational_B_VIII, setOperational_B_VIII] = useState(null);
+  const [valueB, setValueB] = useState(null);
   const [operational_D_I, setOperational_D_I] = useState(null);
   const [operational_D_II, setOperational_D_II] = useState(null);
   const [operational_D_III, setOperational_D_III] = useState(null);
+  const [valueD, setValueD] = useState(null);
   const [operational_E, setOperational_E] = useState(null);
+  const [valueF, setValueF] = useState(null);
+  const [valueG, setValueG] = useState(null);
   const [operational_H_I, setOperational_H_I] = useState(null);
   const [operational_H_IV, setOperational_H_IV] = useState(null);
   const [operational_H_V, setOperational_H_V] = useState(null);
   const [operational_H_VI, setOperational_H_VI] = useState(null);
   const [operational_I_I, setOperational_I_I] = useState(null);
   const [operational_I_II, setOperational_I_II] = useState(null);
-  const [operational_I_III, setOperational_I_III] = useState(null);
   const [operational_NOTE, setOperational_NOTE] = useState(null);
+  const [valueJ, setValueJ] = useState(null);
   const [operational_OPENING, setOperational_OPENING] = useState(null);
   const [operational_CLOSING, setOperational_CLOSING] = useState(null);
-  const [valueC, setValueC] = useState(null);
-  const [valueD, setValueD] = useState(null);
-  const [valueF, setValueF] = useState(null);
-  const [valueJ, setValueJ] = useState(null);
-  const onChangeC = (e) => {
-    setValueC(e.target.value);
+  const [valueTo, setValueTo] = useState(null);
+  const onChangeB = (e) => {
+    setValueB(e.target.value);
+  };
+  const onChangeG = (e) => {
+    setValueG(e.target.value);
   };
   const onChangeD = (e) => {
     setValueD(e.target.value);
@@ -107,39 +88,7 @@ export const EditOperationalInspection = (props) => {
   const onChange_B_I_I = (e) => {
     setOperational_B_I_I(e.target.value);
   };
-  const onChange_B_I_II = (e) => {
-    setOperational_B_I_II(e.target.value);
-  };
-  const onChange_B_II_I = (e) => {
-    setOperational_B_II_I(e.target.value);
-  };
-  const onChange_B_II_II = (e) => {
-    setOperational_B_II_II(e.target.value);
-  };
-  const onChange_B_III = (e) => {
-    setOperational_B_III(e.target.value);
-  };
-  const onChange_B_IV = (e) => {
-    setOperational_B_IV(e.target.value);
-  };
-  const onChange_B_V_I = (e) => {
-    setOperational_B_V_I(e.target.value);
-  };
-  const onChange_B_V_II = (e) => {
-    setOperational_B_V_II(e.target.value);
-  };
-  const onChange_B_VI_I = (e) => {
-    setOperational_B_VI_I(e.target.value);
-  };
-  const onChange_B_VI_II = (e) => {
-    setOperational_B_VI_II(e.target.value);
-  };
-  const onChange_B_VII = (e) => {
-    setOperational_B_VII(e.target.value);
-  };
-  const onChange_B_VIII = (e) => {
-    setOperational_B_VIII(e.target.value);
-  };
+
   const onChange_D_I = (e) => {
     setOperational_D_I(e.target.value);
   };
@@ -220,31 +169,19 @@ export const EditOperationalInspection = (props) => {
   async function onClickF(
     OPERATIONAL_A_I,
     OPERATIONAL_B_I_I,
-    OPERATIONAL_B_I_II,
-    OPERATIONAL_B_II_I,
-    OPERATIONAL_B_II_II,
-    OPERATIONAL_B_III,
-    OPERATIONAL_B_IV,
-    OPERATIONAL_B_V_I,
-    OPERATIONAL_B_V_II,
-    OPERATIONAL_B_VI_I,
-    OPERATIONAL_B_VI_II,
-    OPERATIONAL_B_VII,
-    OPERATIONAL_B_VIII,
-    OPERATIONAL_C,
     OPERATIONAL_D_I,
     OPERATIONAL_D_II,
     OPERATIONAL_D_III,
     OPERATIONAL_D_IV,
     OPERATIONAL_E,
     OPERATIONAL_F,
+    OPERATIONAL_G,
     OPERATIONAL_H_I,
     OPERATIONAL_H_IV,
     OPERATIONAL_H_V,
     OPERATIONAL_H_VI,
     OPERATIONAL_I_I,
     OPERATIONAL_I_II,
-    OPERATIONAL_I_III,
     OPERATIONAL_NOTE,
     OPERATIONAL_J,
     OPERATIONAL_OPENING,
@@ -257,31 +194,20 @@ export const EditOperationalInspection = (props) => {
       {
         OPERATIONAL_A_I: OPERATIONAL_A_I,
         OPERATIONAL_B_I_I: OPERATIONAL_B_I_I,
-        OPERATIONAL_B_I_II: OPERATIONAL_B_I_II,
-        OPERATIONAL_B_II_I: OPERATIONAL_B_II_I,
-        OPERATIONAL_B_II_II: OPERATIONAL_B_II_II,
-        OPERATIONAL_B_III: OPERATIONAL_B_III,
-        OPERATIONAL_B_IV: OPERATIONAL_B_IV,
-        OPERATIONAL_B_V_I: OPERATIONAL_B_V_I,
-        OPERATIONAL_B_V_II: OPERATIONAL_B_V_II,
-        OPERATIONAL_B_VI_I: OPERATIONAL_B_VI_I,
-        OPERATIONAL_B_VI_II: OPERATIONAL_B_VI_II,
-        OPERATIONAL_B_VII: OPERATIONAL_B_VII,
-        OPERATIONAL_B_VIII: OPERATIONAL_B_VIII,
-        OPERATIONAL_C: OPERATIONAL_C,
+
         OPERATIONAL_D_I: OPERATIONAL_D_I,
         OPERATIONAL_D_II: OPERATIONAL_D_II,
         OPERATIONAL_D_III: OPERATIONAL_D_III,
         OPERATIONAL_D_IV: OPERATIONAL_D_IV,
         OPERATIONAL_E: OPERATIONAL_E,
         OPERATIONAL_F: OPERATIONAL_F,
+        OPERATIONAL_G: OPERATIONAL_G,
         OPERATIONAL_H_I: OPERATIONAL_H_I,
         OPERATIONAL_H_IV: OPERATIONAL_H_IV,
         OPERATIONAL_H_V: OPERATIONAL_H_V,
         OPERATIONAL_H_VI: OPERATIONAL_H_VI,
         OPERATIONAL_I_I: OPERATIONAL_I_I,
         OPERATIONAL_I_II: OPERATIONAL_I_II,
-        OPERATIONAL_I_III: OPERATIONAL_I_III,
         OPERATIONAL_NOTE: OPERATIONAL_NOTE,
         OPERATIONAL_J: OPERATIONAL_J,
         OPERATIONAL_OPENING: OPERATIONAL_OPENING,
@@ -293,25 +219,14 @@ export const EditOperationalInspection = (props) => {
 
   async function addOperational(values) {
     const OPERATIONAL_A_I = values?.OPERATIONAL_A_I;
-    const OPERATIONAL_B_I_I = values?.OPERATIONAL_B_I_I;
-    const OPERATIONAL_B_I_II = values?.OPERATIONAL_B_I_II;
-    const OPERATIONAL_B_II_I = values?.OPERATIONAL_B_II_I;
-    const OPERATIONAL_B_II_II = values?.OPERATIONAL_B_II_II;
-    const OPERATIONAL_B_III = values?.OPERATIONAL_B_III;
-    const OPERATIONAL_B_IV = values?.OPERATIONAL_B_IV;
-    const OPERATIONAL_B_V_I = values?.OPERATIONAL_B_V_I;
-    const OPERATIONAL_B_V_II = values?.OPERATIONAL_B_V_II;
-    const OPERATIONAL_B_VI_I = values?.OPERATIONAL_B_VI_I;
-    const OPERATIONAL_B_VI_II = values?.OPERATIONAL_B_VI_II;
-    const OPERATIONAL_B_VII = values?.OPERATIONAL_B_VII;
-    const OPERATIONAL_B_VIII = values?.OPERATIONAL_B_VIII;
-    const OPERATIONAL_C = valueC;
+    const OPERATIONAL_B_I_I = valueB;
     const OPERATIONAL_D_I = values?.OPERATIONAL_D_I;
     const OPERATIONAL_D_II = values?.OPERATIONAL_D_II;
     const OPERATIONAL_D_III = values?.OPERATIONAL_D_III;
     const OPERATIONAL_D_IV = valueD;
     const OPERATIONAL_E = values?.OPERATIONAL_E;
     const OPERATIONAL_F = valueF;
+    const OPERATIONAL_G = valueG;
     const OPERATIONAL_H_I = values?.OPERATIONAL_H_I;
     const OPERATIONAL_H_IV = values?.OPERATIONAL_H_IV;
     const OPERATIONAL_H_V = values?.OPERATIONAL_H_V;
@@ -328,15 +243,16 @@ export const EditOperationalInspection = (props) => {
     );
     const OPERATIONAL_I_I = values?.OPERATIONAL_I_I;
     const OPERATIONAL_I_II = values?.OPERATIONAL_I_II;
-    const OPERATIONAL_I_III = values?.OPERATIONAL_I_III;
     const OPERATIONAL_NOTE = values?.OPERATIONAL_NOTE;
     const OPERATIONAL_J = valueJ;
     const OPERATIONAL_OPENING = values?.OPERATIONAL_OPENING;
     const OPERATIONAL_CLOSING = values?.OPERATIONAL_CLOSING;
 
     if (
-      OPERATIONAL_C == null ||
+      OPERATIONAL_B_I_I == null ||
       OPERATIONAL_D_IV == null ||
+      OPERATIONAL_F == null ||
+      OPERATIONAL_G == null ||
       OPERATIONAL_J == null
     ) {
       showModal();
@@ -344,31 +260,19 @@ export const EditOperationalInspection = (props) => {
       onClickF(
         OPERATIONAL_A_I,
         OPERATIONAL_B_I_I,
-        OPERATIONAL_B_I_II,
-        OPERATIONAL_B_II_I,
-        OPERATIONAL_B_II_II,
-        OPERATIONAL_B_III,
-        OPERATIONAL_B_IV,
-        OPERATIONAL_B_V_I,
-        OPERATIONAL_B_V_II,
-        OPERATIONAL_B_VI_I,
-        OPERATIONAL_B_VI_II,
-        OPERATIONAL_B_VII,
-        OPERATIONAL_B_VIII,
-        OPERATIONAL_C,
         OPERATIONAL_D_I,
         OPERATIONAL_D_II,
         OPERATIONAL_D_III,
         OPERATIONAL_D_IV,
         OPERATIONAL_E,
         OPERATIONAL_F,
+        OPERATIONAL_G,
         OPERATIONAL_H_I,
         OPERATIONAL_H_IV,
         OPERATIONAL_H_V,
         OPERATIONAL_H_VI,
         OPERATIONAL_I_I,
         OPERATIONAL_I_II,
-        OPERATIONAL_I_III,
         OPERATIONAL_NOTE,
         OPERATIONAL_J,
         OPERATIONAL_OPENING,
@@ -384,47 +288,59 @@ export const EditOperationalInspection = (props) => {
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
       setOperational_A_I(data?.OPERATIONAL_A_I);
-      setOperational_B_I_I(data?.OPERATIONAL_B_I_I);
-      setOperational_B_I_II(data?.OPERATIONAL_B_I_II);
-      setOperational_B_II_I(data?.OPERATIONAL_B_II_I);
-      setOperational_B_II_II(data?.OPERATIONAL_B_II_II);
-      setOperational_B_III(data?.OPERATIONAL_B_III);
-      setOperational_B_IV(data?.OPERATIONAL_B_IV);
-      setOperational_B_V_I(data?.OPERATIONAL_B_V_I);
-      setOperational_B_V_II(data?.OPERATIONAL_B_V_II);
-      setOperational_B_VI_I(data?.OPERATIONAL_B_VI_I);
-      setOperational_B_VI_II(data?.OPERATIONAL_B_VI_II);
-      setOperational_B_VII(data?.OPERATIONAL_B_VII);
-      setOperational_B_VIII(data?.OPERATIONAL_B_VIII);
+      setValueB(data?.OPERATIONAL_B_I_I);
       setOperational_D_I(data?.OPERATIONAL_D_I);
       setOperational_D_II(data?.OPERATIONAL_D_II);
       setOperational_D_III(data?.OPERATIONAL_D_III);
+      setValueD(data?.OPERATIONAL_D_IV);
       setOperational_E(data?.OPERATIONAL_E);
+      setValueF(data?.OPERATIONAL_F);
+      setValueG(data?.OPERATIONAL_G);
       setOperational_H_I(data?.OPERATIONAL_H_I);
       setOperational_H_IV(data?.OPERATIONAL_H_IV);
       setOperational_H_V(data?.OPERATIONAL_H_V);
       setOperational_H_VI(data?.OPERATIONAL_H_VI);
       setOperational_I_I(data?.OPERATIONAL_I_I);
       setOperational_I_II(data?.OPERATIONAL_I_II);
-      setOperational_I_III(data?.OPERATIONAL_I_III);
       setOperational_NOTE(data?.OPERATIONAL_NOTE);
+      setValueJ(data?.OPERATIONAL_J);
       setOperational_OPENING(data?.OPERATIONAL_OPENING);
       setOperational_CLOSING(data?.OPERATIONAL_CLOSING);
-      setValueC(data?.OPERATIONAL_C);
-      setValueD(data?.OPERATIONAL_D_IV);
-      setValueF(data?.OPERATIONAL_F);
-      setValueJ(data?.OPERATIONAL_J);
       message.success("Load complete");
     } catch (error) {
       console.error("error", error);
     }
   };
+  form.setFieldsValue({
+    OPERATIONAL_A_I: operational_A_I,
+    OPERATIONAL_B_I_I: valueB,
+    OPERATIONAL_D_I: operational_D_I,
+    OPERATIONAL_D_II: operational_D_II,
+    OPERATIONAL_D_III: operational_D_III,
+    OPERATIONAL_D_IV: valueD,
+    OPERATIONAL_E: operational_E,
+    OPERATIONAL_F: valueF,
+    OPERATIONAL_G: valueG,
+    OPERATIONAL_H_I: operational_H_I,
+    OPERATIONAL_H_IV: operational_H_IV,
+    OPERATIONAL_H_V: operational_H_V,
+    OPERATIONAL_H_VI: operational_H_VI,
+    OPERATIONAL_I_I: operational_I_I,
+    OPERATIONAL_I_II: operational_I_II,
+    OPERATIONAL_NOTE: operational_NOTE,
+    OPERATIONAL_J: valueJ,
+    OPERATIONAL_OPENING: operational_OPENING,
+    OPERATIONAL_CLOSING: operational_CLOSING,
+  });
   useEffect(() => {
     getDataOven();
   }, []);
-  const [form] = Form.useForm();
   return (
     <Form
+      form={form}
+      initialValues={{
+        remember: true,
+      }}
       labelCol={{ span: 7 }}
       style={{ paddingBottom: "5em" }}
       onFinish={addOperational}
@@ -435,8 +351,8 @@ export const EditOperationalInspection = (props) => {
       <Row>
         <Col span={24}>
           <Text>
-            A) Using the OHMS function on your meter Measure and Record the
-            resistance between the:
+            A) Using the OHMS function on your meter:{" "}
+            <strong>Measure and Record the resistance between:</strong>
           </Text>
         </Col>
         <Col span={24}>
@@ -451,10 +367,10 @@ export const EditOperationalInspection = (props) => {
                 onChange={onChange_A_I}
               >
                 <Input
+                  type="number"
                   style={{ width: 150 }}
                   size="small"
                   required
-                  placeholder={operational_A_I ? operational_A_I : ""}
                 />
               </Form.Item>
             </Col>
@@ -462,269 +378,28 @@ export const EditOperationalInspection = (props) => {
         </Col>
       </Row>
       <Row>
-        <Col xs={24}>
+        <Col xs={16}>
           <Text>
             B) Remove the fastons from the Primary and the secondary of the of
             Voltage and the Filament XFMRs. Measure and Record the isolated
             resistance of the:
           </Text>
         </Col>
-        <Col xs={24}>
-          <Row className="sub-question">
-            <Col xs={24}>
-              <Row>
-                <Col xs={24}>
-                  <Text>i) HV XFMR #1 Primary</Text>
-                </Col>
-                <Col xs={24}>
-                  <Form.Item
-                    name={OPERATIONAL_B_I_I}
-                    label="terminals 1 & 2"
-                    value={operational_B_I_I}
-                    onChange={onChange_B_I_I}
-                  >
-                    <Input
-                      style={{ width: 150 }}
-                      size="small"
-                      type="number"
-                      placeholder={operational_B_I_I ? operational_B_I_I : ""}
-                      required
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name={OPERATIONAL_B_I_II}
-                    label="terminals 1 & 3"
-                    value={operational_B_I_II}
-                    onChange={onChange_B_I_II}
-                  >
-                    <Input
-                      style={{ width: 150 }}
-                      size="small"
-                      type="number"
-                      required
-                      placeholder={operational_B_I_II ? operational_B_I_II : ""}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={24}>
-                  <Text>ii) HV XFMR #1 Primary</Text>
-                </Col>
-                <Col xs={24}>
-                  <Form.Item
-                    name={OPERATIONAL_B_II_I}
-                    label="terminals 1 & 2"
-                    value={operational_B_II_I}
-                    onChange={onChange_B_II_I}
-                  >
-                    <Input
-                      style={{ width: 150 }}
-                      size="small"
-                      type="number"
-                      required
-                      placeholder={operational_B_II_I ? operational_B_II_I : ""}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name={OPERATIONAL_B_II_II}
-                    label="terminals 1 & 3"
-                    value={operational_B_II_II}
-                    onChange={onChange_B_II_II}
-                  >
-                    <Input
-                      style={{ width: 150 }}
-                      size="small"
-                      type="number"
-                      required
-                      placeholder={
-                        operational_B_II_II ? operational_B_II_II : ""
-                      }
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-
-              <Row>
-                <Col xs={24}>
-                  <Text>iii) HV XFMR #1 Secondary</Text>
-                </Col>
-                <Col xs={24}>
-                  <Form.Item
-                    name={OPERATIONAL_B_III}
-                    label="terminal #4 and the frame"
-                    value={operational_B_III}
-                    onChange={onChange_B_III}
-                  >
-                    <Input
-                      style={{ width: 150 }}
-                      size="small"
-                      type="number"
-                      required
-                      placeholder={operational_B_III}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={24}>
-                  <Text>iv) HV XFMR #2</Text>
-                </Col>
-                <Col xs={24}>
-                  <Form.Item
-                    name={OPERATIONAL_B_IV}
-                    value={operational_B_IV}
-                    onChange={onChange_B_IV}
-                  >
-                    <Input
-                      style={{ width: 150 }}
-                      size="small"
-                      type="number"
-                      required
-                      placeholder={operational_B_IV ? operational_B_IV : ""}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={24}>
-                  <Text>v) Filament XFMR #1 Primary </Text>
-                </Col>
-                <Col xs={24}>
-                  <Form.Item
-                    name={OPERATIONAL_B_V_I}
-                    label="terminal 1 & 2"
-                    value={operational_B_V_I}
-                    onChange={onChange_B_V_I}
-                  >
-                    <Input
-                      style={{ width: 150 }}
-                      size="small"
-                      type="number"
-                      required
-                      placeholder={operational_B_V_I ? operational_B_V_I : ""}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name={OPERATIONAL_B_V_II}
-                    label="terminal 1 & 3"
-                    value={operational_B_V_II}
-                    onChange={onChange_B_V_II}
-                  >
-                    <Input
-                      style={{ width: 150 }}
-                      size="small"
-                      type="number"
-                      required
-                      placeholder={operational_B_V_II ? operational_B_V_II : ""}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={24}>
-                  <Text>vi) Filament XFMR #2 Primary </Text>
-                </Col>
-                <Col xs={24}>
-                  <Form.Item
-                    name={OPERATIONAL_B_VI_I}
-                    label="terminal 1 & 2"
-                    value={operational_B_VI_I}
-                    onChange={onChange_B_VI_I}
-                  >
-                    <Input
-                      style={{ width: 150 }}
-                      size="small"
-                      type="number"
-                      required
-                      placeholder={operational_B_VI_I ? operational_B_VI_I : ""}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name={OPERATIONAL_B_VI_II}
-                    label="terminal 1 & 3"
-                    value={operational_B_VI_II}
-                    onChange={onChange_B_VI_II}
-                  >
-                    <Input
-                      style={{ width: 150 }}
-                      size="small"
-                      type="number"
-                      required
-                      placeholder={
-                        operational_B_VI_II ? operational_B_VI_II : ""
-                      }
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={24}>
-                  <Text>vii) Filament XFMR #1 Secondary</Text>
-                </Col>
-                <Col xs={24}>
-                  <Form.Item
-                    name={OPERATIONAL_B_VII}
-                    label="terminal 4 & 5"
-                    value={operational_B_VII}
-                    onChange={onChange_B_VII}
-                  >
-                    <Input
-                      style={{ width: 150 }}
-                      size="small"
-                      type="number"
-                      required
-                      placeholder={operational_B_VII ? operational_B_VII : ""}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={24}>
-                  <Text>
-                    viii) Filament XFMR #2 Secondary (terminals #4 and #5)
-                  </Text>
-                </Col>
-                <Col xs={24}>
-                  <Form.Item
-                    name={OPERATIONAL_B_VIII}
-                    label="terminal 4 & 5"
-                    value={operational_B_VIII}
-                    onChange={onChange_B_VIII}
-                  >
-                    <Input
-                      style={{ width: 150 }}
-                      size="small"
-                      type="number"
-                      required
-                      placeholder={operational_B_VIII}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-      <Row justify="space-between">
-        <Col xs={16}>
-          <Text>
-            C) Open Fuse #1, #2 and #3 and check rating, Class CC ATMR 12, ATMR
-            12 and ATMR 15 respectively
-          </Text>
-        </Col>
         <Col xs={4}>
           <Radio.Group
             required
-            name={OPERATIONAL_C}
-            onChange={onChangeC}
-            value={valueC}
+            name={OPERATIONAL_B_I_I}
+            onChange={onChangeB}
+            value={valueB}
           >
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
           </Radio.Group>
         </Col>
       </Row>
+      <Divider orientation="rigth">
+        3) <strong>APPLY POWER</strong>
+      </Divider>
       <Row>
         <Col xs={24}>
           <Text>D) Plug in the oven, as the Display Boots, check for:</Text>
@@ -743,9 +418,7 @@ export const EditOperationalInspection = (props) => {
                     value={operational_D_I}
                   >
                     <Input
-                      placeholder={
-                        operational_D_I ? operational_D_I : "Version"
-                      }
+                      placeholder="Version"
                       style={{ width: 150 }}
                       size="small"
                       type="number"
@@ -763,7 +436,7 @@ export const EditOperationalInspection = (props) => {
                     value={operational_D_II}
                   >
                     <Input
-                      placeholder={operational_D_II ? operational_D_II : "VAC"}
+                      placeholder="VAC"
                       style={{ width: 150 }}
                       size="small"
                       type="number"
@@ -781,9 +454,7 @@ export const EditOperationalInspection = (props) => {
                     value={operational_D_III}
                   >
                     <Input
-                      placeholder={
-                        operational_D_III ? operational_D_III : "S/N"
-                      }
+                      placeholder="S/N"
                       style={{ width: 150 }}
                       size="small"
                       type="text"
@@ -829,12 +500,7 @@ export const EditOperationalInspection = (props) => {
             onChange={onChange_E}
             value={operational_E}
           >
-            <Input
-              type="number"
-              size="small"
-              placeholder={operational_E ? operational_E : "VAC"}
-              required
-            />
+            <Input type="number" size="small" placeholder="VAC" required />
           </Form.Item>
         </Col>
       </Row>
@@ -842,9 +508,8 @@ export const EditOperationalInspection = (props) => {
       <Row justify="space-between">
         <Col xs={16}>
           <Text>
-            F) Using an insulated screwdriver check the EC Cooling Fan by
-            bridging between the terminals on the "Close on Rise" switch, witch
-            controls the EC cooling fan.
+            F) Press info Button: Test Mode (9428). Enter Fault Mode, Make sure
+            all faults are cleared and run self-test. Pass all Tests?
           </Text>
         </Col>
         <Col xs={4}>
@@ -855,11 +520,25 @@ export const EditOperationalInspection = (props) => {
         </Col>
       </Row>
       <br />
+      <Row justify="space-between">
+        <Col xs={16}>
+          <Text>
+            G) "Close on Rise" Switch, which controls the EC cooling fan.
+          </Text>
+        </Col>
+        <Col xs={4}>
+          <Radio.Group name={OPERATIONAL_G} onChange={onChangeG} value={valueG}>
+            <Radio value={true}>ACC</Radio>
+            <Radio value={false}>NO ACC</Radio>
+          </Radio.Group>
+        </Col>
+      </Row>
+      <br />
       <Row>
         <Col xs={24}>
           <Text>
-            H) Water Rise Test: Place Oven into the "UNIT" mode, and then scroll
-            down to "Microwave" on the first screen.
+            H) Water Rise Test: Place Oven into the Manufacture mode, and then
+            scroll down to <strong>MW PWR TEST</strong> on the first screen.
           </Text>
         </Col>
         <Col xs={24}>
@@ -884,7 +563,7 @@ export const EditOperationalInspection = (props) => {
                       type="number"
                       size="small"
                       style={{ width: 150 }}
-                      placeholder={operational_H_I ? operational_H_I : "°C"}
+                      placeholder="°C"
                       required
                     />
                   </Form.Item>
@@ -910,10 +589,10 @@ export const EditOperationalInspection = (props) => {
               <Row>
                 <Col xs={16}>
                   <Text>
-                    iv) While test is running, Verify the current is 9.2amps +/-
-                    2 amps (208V)
+                    iv) While test is running, Verify the current is 16amps. +/-
+                    2 amps. (208V)
                     <br />
-                    (10.64amps +/- 1.6 amps for the unit tested with 240V)
+                    (14amps. +/- 1.6amps. for the unit tested with 240V)
                   </Text>
                 </Col>
                 <Col xs={3}>
@@ -926,7 +605,7 @@ export const EditOperationalInspection = (props) => {
                       type="number"
                       size="small"
                       style={{ width: 150 }}
-                      placeholder={operational_H_IV ? operational_H_IV : "AMPS"}
+                      placeholder="AMPS"
                       required
                     />
                   </Form.Item>
@@ -935,7 +614,7 @@ export const EditOperationalInspection = (props) => {
               <Row>
                 <Col xs={24}>
                   <Text>
-                    v) While the timer reaches Zero, immediately measure T
+                    v) When the timer reaches Zero, immediately measure T
                     <sub>final</sub> while stirring to blend water as to have
                     one temperature throughout vessel. T<sub>FINAL</sub>=
                   </Text>
@@ -951,13 +630,13 @@ export const EditOperationalInspection = (props) => {
                       type="number"
                       size="small"
                       style={{ width: 150 }}
-                      placeholder={operational_H_V ? operational_H_V : "°C"}
+                      placeholder="°C"
                       required
                     />
                   </Form.Item>
                 </Col>
               </Row>
-              <Row>
+              <Row align="center">
                 <Col xs={16}>
                   <Text>
                     vi) The power output will show for 5 seconds. Record
@@ -971,9 +650,10 @@ export const EditOperationalInspection = (props) => {
                     value={operational_H_VI}
                   >
                     <Input
+                      type="number"
                       size="small"
+                      placeholder={"W"}
                       style={{ width: 100 }}
-                      placeholder={operational_H_VI ? operational_H_VI : "W"}
                       disabled
                       required
                     />
@@ -997,8 +677,8 @@ export const EditOperationalInspection = (props) => {
               <Row justify="center">
                 <Col xs={22}>
                   <Text type="danger">
-                    Output Power must be {">="} 1600 W. But it's more than 2000
-                    W, repeat this test.
+                    Output Power must be {">="} 1550 W. But if it's more than
+                    1770W repeat this test.
                   </Text>
                 </Col>
               </Row>
@@ -1031,7 +711,6 @@ export const EditOperationalInspection = (props) => {
                       size="small"
                       style={{ width: 150 }}
                       required
-                      placeholder={operational_I_I ? operational_I_I : ""}
                     />
                   </Form.Item>
                 </Col>
@@ -1040,8 +719,13 @@ export const EditOperationalInspection = (props) => {
                 <Col xs={24}>
                   <Text>
                     ii) Once the oven reaches the OPERATIONAL Temperature, the
-                    menu is displayed, record the displayed menu
+                    menu is displayed
                   </Text>
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={24}>
+                  <Text>iii) Record the time</Text>
                 </Col>
                 <Col xs={24}>
                   <Form.Item
@@ -1050,31 +734,10 @@ export const EditOperationalInspection = (props) => {
                     value={operational_I_II}
                   >
                     <Input
-                      type="text"
-                      size="small"
-                      style={{ width: 150 }}
-                      placeholder={operational_I_II ? operational_I_II : ""}
-                      required
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={24}>
-                  <Text>iii) And then record the time</Text>
-                </Col>
-                <Col xs={24}>
-                  <Form.Item
-                    name={OPERATIONAL_I_III}
-                    onChange={onChange_I_III}
-                    value={operational_I_III}
-                  >
-                    <Input
                       type="time"
                       size="small"
                       style={{ width: 150 }}
                       required
-                      placeholder={operational_I_III ? operational_I_III : ""}
                     />
                   </Form.Item>
                 </Col>
@@ -1082,8 +745,9 @@ export const EditOperationalInspection = (props) => {
               <Row>
                 <Col xs={24}>
                   <Text>
-                    This time should be 15 minutes or less! Let Oven "heat soak"
-                    for 1 hour
+                    This time should be 15 minutes or less!
+                    <br />
+                    Let Oven "heat soak" for 1 hour
                   </Text>
                 </Col>
               </Row>
@@ -1102,10 +766,7 @@ export const EditOperationalInspection = (props) => {
             onChange={onChange_NOTE}
             value={operational_NOTE}
           >
-            <TextArea
-              autoSize={{ minRows: 3, maxRows: 4 }}
-              placeholder={operational_NOTE ? operational_NOTE : ""}
-            />
+            <TextArea autoSize={{ minRows: 3, maxRows: 4 }} />
           </Form.Item>
         </Col>
       </Row>
@@ -1140,7 +801,6 @@ export const EditOperationalInspection = (props) => {
                   size="small"
                   style={{ width: 150 }}
                   required
-                  placeholder={operational_OPENING ? operational_OPENING : ""}
                 />
               </Form.Item>
             </Col>
@@ -1160,7 +820,6 @@ export const EditOperationalInspection = (props) => {
                   size="small"
                   style={{ width: 150 }}
                   required
-                  placeholder={operational_CLOSING ? operational_CLOSING : ""}
                 />
               </Form.Item>
             </Col>
@@ -1191,7 +850,7 @@ export const EditOperationalInspection = (props) => {
             </Modal>
             <Modal
               visible={modalVisible}
-              onOk={handleOk2}
+              onOk={handleCancel2}
               style={{ backgroundColor: "#2ECC71" }}
               onCancel={handleCancel2}
             >

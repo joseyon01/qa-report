@@ -487,12 +487,7 @@ export const EditOperationalInspection = (props) => {
                 value={operational_A_I}
                 onChange={onChange_A_I}
               >
-                <Input
-                  style={{ width: 150 }}
-                  size="small"
-                  required
-                  placeholder={operational_A_I ? operational_A_I : ""}
-                />
+                <Input style={{ width: 150 }} size="small" required />
               </Form.Item>
             </Col>
           </Row>

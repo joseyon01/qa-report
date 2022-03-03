@@ -4,9 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Fragment } from "react/cjs/react.production.min";
 import { EditVisualInspection } from "./EditVisualInspection";
 import { EditOperationalInspection } from "./EditOperationalInspection";
-
+import { EditFinalInspection } from "./EditFinalInspection";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
-import { EditHotOven } from "./EditHotOven";
 const db = getFirestore();
 const { TabPane } = Tabs;
 
@@ -16,7 +15,7 @@ export const EditI3 = (props) => {
 
   const getDataOven = async () => {
     try {
-      const docRef = doc(db, "HotOvenInspection", ovenSerial);
+      const docRef = doc(db, "FinalInspection", ovenSerial);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
       setEditOven(data);
@@ -37,8 +36,8 @@ export const EditI3 = (props) => {
         <TabPane tab="OPERATIONAL" key="2">
           <EditOperationalInspection serial={ovenSerial} />
         </TabPane>
-        <TabPane tab="HOT OVEN" key="3">
-          <EditHotOven serial={ovenSerial} />
+        <TabPane tab="FINAL INSPECTION" key="3">
+          <EditFinalInspection serial={ovenSerial} />
         </TabPane>
       </Tabs>
     </Fragment>

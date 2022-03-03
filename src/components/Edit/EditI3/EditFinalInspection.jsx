@@ -34,7 +34,7 @@ const auth = getAuth(QaReportFirebase);
 const db = getFirestore();
 const { Text, Title } = Typography;
 
-export const EditHotOven = (props) => {
+export const EditFinalInspection = (props) => {
   const navigate = useNavigate();
   const ovenSerial = props.serial;
   const [buttonDisabled, setButtonDisabled] = useState(null);
@@ -130,22 +130,19 @@ export const EditHotOven = (props) => {
   ) {
     setButtonDisabled(true);
     setLoading(true);
-    const docRef = await setDoc(
-      doc(db, "HotOvenInspection", `${props.serial}`),
-      {
-        HOT_OVEN_B_DOOR: HOT_OVEN_B_DOOR,
-        HOT_OVEN_B_SIDES: HOT_OVEN_B_SIDES,
-        HOT_OVEN_TOP_R: HOT_OVEN_TOP_R,
-        HOT_OVEN_TOP_L: HOT_OVEN_TOP_L,
-        HOT_OVEN_BOT_R: HOT_OVEN_BOT_R,
-        HOT_OVEN_BOT_L: HOT_OVEN_BOT_L,
-        HOT_OVEN_RECHECK: HOT_OVEN_RECHECK,
-        HOT_OVEN_C: HOT_OVEN_C,
-        HOT_OVEN_D: HOT_OVEN_D,
-        HOT_OVEN_E: HOT_OVEN_E,
-        OVEN_APROVE_OR_NOT: OVEN_APROVE_OR_NOT,
-      }
-    );
+    const docRef = await setDoc(doc(db, "FinalInspection", `${props.serial}`), {
+      HOT_OVEN_B_DOOR: HOT_OVEN_B_DOOR,
+      HOT_OVEN_B_SIDES: HOT_OVEN_B_SIDES,
+      HOT_OVEN_TOP_R: HOT_OVEN_TOP_R,
+      HOT_OVEN_TOP_L: HOT_OVEN_TOP_L,
+      HOT_OVEN_BOT_R: HOT_OVEN_BOT_R,
+      HOT_OVEN_BOT_L: HOT_OVEN_BOT_L,
+      HOT_OVEN_RECHECK: HOT_OVEN_RECHECK,
+      HOT_OVEN_C: HOT_OVEN_C,
+      HOT_OVEN_D: HOT_OVEN_D,
+      HOT_OVEN_E: HOT_OVEN_E,
+      OVEN_APROVE_OR_NOT: OVEN_APROVE_OR_NOT,
+    });
     setLoading(false);
   }
   const [form] = Form.useForm();
@@ -189,7 +186,7 @@ export const EditHotOven = (props) => {
   }
   const getDataOven = async () => {
     try {
-      const docRef = doc(db, "HotOvenInspection", `${ovenSerial}`);
+      const docRef = doc(db, "FinalInspection", `${ovenSerial}`);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
       setValueDoor(data?.HOT_OVEN_B_DOOR);
@@ -208,21 +205,38 @@ export const EditHotOven = (props) => {
       console.error("error", error);
     }
   };
+  form.setFieldsValue({
+    HOT_OVEN_B_DOOR: valueDoor,
+    HOT_OVEN_B_SIDES: valueSides,
+    HOT_OVEN_TOP_R: valueTopR,
+    HOT_OVEN_TOP_L: valueTopL,
+    HOT_OVEN_BOT_R: valueBotR,
+    HOT_OVEN_BOT_L: valueBotL,
+    HOT_OVEN_RECHECK: valueOvenR,
+    HOT_OVEN_C: valueC,
+    HOT_OVEN_D: valueD,
+    HOT_OVEN_E: valueE,
+    OVEN_APROVE_OR_NOT: valueAON,
+  });
   useEffect(() => {
     getDataOven();
   }, []);
   return (
     <Form
+      form={form}
+      initialValues={{
+        remember: true,
+      }}
       labelCol={{ span: 7 }}
       style={{ paddingBottom: "5em", placeholderColor: "green" }}
       onFinish={addHotOven}
     >
-      <Divider orientation="rigth">3) HOT OVEN OPERATIONAL CHECKOUT:</Divider>
+      <Divider orientation="rigth">4) FINAL INSPECTION</Divider>
       <Row>
         <Col xs={24}>
           <Text>
-            The equipment needed to complete the Oven inspection is a moder 1501
-            Survey Meter, three 500 ml beakers with 275 ml +/- 15ml of cold
+            The equipment needed to complete the Oven inspection is a model 1501
+            Survey Meter, three 500ml beakers with 275 ml +/- 15ml of cold
             water, spring loaded tongs
           </Text>
         </Col>
@@ -230,18 +244,46 @@ export const EditHotOven = (props) => {
       <br />
       <Row>
         <Col xs={20}>
-          <Text>A) Door Closed Microwave Leakege Test:</Text>
+          <Text>
+            A) Door Closed Microwave Leakege Test: Whith the oven warmed to
+            operating temperature, use the "UNIT" (9428) then the "up arrow" to
+            access the second screen where the "MW LEAKAGE" resides on the menu
+            to give time to run the mMagnetron independently for 45 seconds to
+            perform the leakage test. the test can be an indicator of an oven
+            which has problems containing the leakage. the 275ml beakers of
+            water are for simulating a low level load for the Microwave system.
+            The chart below is to indicate the twi ir three regions of greatest
+            leakage. <strong>Indicate</strong> the position with an "X" and
+            record the peak in Mw/cm<sup>2</sup> as read from the meter while
+            performing the test.
+          </Text>
         </Col>
       </Row>
       <br />
       <Row>
         <Col xs={24}>
           <Text>
-            B) Repeat process checking the IR Element exits, around the
-            Magnetrons and waveguide ends, left and right sides. Maximum
-            allowale leakage is 0.8mW/cm surrounding the perimeter of the door
-            and 0.2mW/cm<sup>2</sup> around the EC and left and right side IR
-            Element through hole.
+            Once the oven is set to run the test, set up the survey meter and
+            place into the lowest operating range of 2mW/cm<sup>2</sup>, place
+            the beaker of water in the oven and close the door. Next, activate
+            the mivrowave and slowly move the wand of the survey meter, making
+            sure toy are holding it perpendicular to the pag as you traverse the
+            perimeter of the door at a slow pace of 1.25 inches/second.
+          </Text>
+        </Col>
+      </Row>
+      <br />
+      <Row>
+        <Col xs={24}>
+          <Text>
+            <strong>
+              Maximum allowable leakage is 0.8mW/cm<sup>2</sup>
+            </strong>{" "}
+            surrounding the perimeter of the door and{" "}
+            <strong>
+              0.2mW/cm<sup>2</sup>
+            </strong>{" "}
+            around the EC and left and rigth side through hole.
           </Text>
         </Col>
       </Row>
@@ -253,13 +295,7 @@ export const EditHotOven = (props) => {
             value={valueDoor}
             onChange={onChangeDoor}
           >
-            <Input
-              type="number"
-              size="small"
-              style={{ width: 150 }}
-              required
-              placeholder={valueDoor ? valueDoor : ""}
-            />
+            <Input type="number" size="small" style={{ width: 150 }} required />
           </Form.Item>
         </Col>
         <Col xs={12}>
@@ -271,8 +307,8 @@ export const EditHotOven = (props) => {
           >
             <Input
               type="number"
-              placeholder={valueSides ? valueSides : "mW/cm2"}
               size="small"
+              placeholder={"mW/cm2"}
               style={{ width: 150 }}
               required
             />
@@ -287,13 +323,7 @@ export const EditHotOven = (props) => {
             value={valueTopL}
             onChange={onChangeTopL}
           >
-            <Input
-              type="number"
-              size="small"
-              style={{ width: 150 }}
-              required
-              placeholder={valueTopL ? valueTopL : ""}
-            />
+            <Input type="number" size="small" style={{ width: 150 }} required />
           </Form.Item>
         </Col>
         <Col xs={3} offset={10}>
@@ -302,13 +332,7 @@ export const EditHotOven = (props) => {
             value={valueTopR}
             onChange={onChangeTopR}
           >
-            <Input
-              type="number"
-              size="small"
-              style={{ width: 150 }}
-              required
-              placeholder={valueTopR ? valueTopR : ""}
-            />
+            <Input type="number" size="small" style={{ width: 150 }} required />
           </Form.Item>
         </Col>
       </Row>
@@ -334,13 +358,7 @@ export const EditHotOven = (props) => {
             value={valueBotL}
             onChange={onChangeBotL}
           >
-            <Input
-              type="number"
-              size="small"
-              style={{ width: 150 }}
-              required
-              placeholder={valueBotL ? valueBotL : ""}
-            />
+            <Input type="number" size="small" style={{ width: 150 }} required />
           </Form.Item>
         </Col>
         <Col xs={3} offset={10}>
@@ -349,13 +367,7 @@ export const EditHotOven = (props) => {
             value={valueBotR}
             onChange={onChangeBotR}
           >
-            <Input
-              type="number"
-              size="small"
-              style={{ width: 150 }}
-              required
-              placeholder={valueBotR ? valueBotR : ""}
-            />
+            <Input type="number" size="small" style={{ width: 150 }} required />
           </Form.Item>
         </Col>
       </Row>
@@ -383,7 +395,7 @@ export const EditHotOven = (props) => {
           <Row>
             <Col xs={24}>
               <Form.Item
-                label="C) Cook time Count"
+                label="C) Meter:"
                 name={HOT_OVEN_C}
                 value={valueC}
                 onChange={onChangeC}
@@ -393,7 +405,6 @@ export const EditHotOven = (props) => {
                   size="small"
                   style={{ width: 150 }}
                   required
-                  placeholder={valueC ? valueC : ""}
                 />
               </Form.Item>
             </Col>
@@ -401,7 +412,7 @@ export const EditHotOven = (props) => {
           <Row>
             <Col xs={24}>
               <Form.Item
-                label="D) Survey meter #"
+                label="D) Counter and faults:"
                 name={HOT_OVEN_D}
                 value={valueD}
                 onChange={onChangeD}
@@ -411,7 +422,6 @@ export const EditHotOven = (props) => {
                   size="small"
                   style={{ width: 150 }}
                   required
-                  placeholder={valueD ? valueD : ""}
                 />
               </Form.Item>
             </Col>
@@ -419,7 +429,7 @@ export const EditHotOven = (props) => {
           <Row>
             <Col xs={24}>
               <Form.Item
-                label="E) Clear Cook time foults"
+                label="E) Coock:"
                 name={HOT_OVEN_E}
                 value={valueE}
                 onChange={onChangeE}
@@ -429,7 +439,6 @@ export const EditHotOven = (props) => {
                   size="small"
                   style={{ width: 150 }}
                   required
-                  placeholder={valueE ? valueE : ""}
                 />
               </Form.Item>
             </Col>

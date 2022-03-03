@@ -137,6 +137,7 @@ export const Dashboard = () => {
                 doc(db, "OperationalInspection", `${record.serial}`)
               );
               await deleteDoc(doc(db, "HotOvenInspection", `${record.serial}`));
+              await deleteDoc(doc(db, "FinalInspection", `${record.serial}`));
               const newArrayOvens = [];
               arrayOvens.forEach((e) => {
                 if (e.serial !== record.serial) {
@@ -183,7 +184,6 @@ export const Dashboard = () => {
           for (let i = 0; i < _id.length; i++) {
             _data[i].id = _id[i];
           }
-          // hacer set state de la data aqui >> setData(data) por ejemplo
           setArrayOvens(_data);
           setCurrentUser(user);
         }
