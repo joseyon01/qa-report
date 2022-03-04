@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Layout, Typography, Button, Row, Col } from "antd";
 import QaReportFirebase from "../../../Credentials";
+import { AiOutlineLogout, AiFillHome } from "react-icons/ai";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { Link } from "react-router-dom";
 const auth = getAuth(QaReportFirebase);
@@ -29,37 +30,43 @@ export const Header = (props) => {
           setLoading(false);
         }}
       >
-        <Link to="/">{loading ? "" : "LogOut"}</Link>
+        <Link to="/">{loading ? "" : <AiOutlineLogout />}</Link>
       </Button>
     );
   };
   const [globalUser, setGlobalUser] = useState(null);
   onAuthStateChanged(auth, (fireBaseUser) => {
     if (fireBaseUser) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
       const uid = fireBaseUser.uid;
       setGlobalUser(uid);
-      // ...
     }
   });
   return (
-    <ANTDHeader>
-      <Row>
-        <Col xs={12}>
-          <Title style={{ color: "#fff", margin: "5px" }}>QA-Report</Title>
+    <ANTDHeader style={{ padding: 0 }}>
+      <Row justify="space-between">
+        <Col xs={19} sm={10}>
+          <Title style={{ color: "#fff", margin: "5px", paddingLeft: "0.5em" }}>
+            QA-Report
+          </Title>
         </Col>
-        <Col xs={3} offset={4}>
-          {props.dashboard ? (
-            ""
-          ) : (
-            <Button>
-              <Link to="/dashboard">Principal</Link>
-            </Button>
-          )}
-        </Col>
-        <Col xs={3} offset={2}>
-          {!globalUser ? <LoginButton /> : <LogOutButton />}
+        <Col xs={5} sm={4}>
+          <Row justify="space-around">
+            <Col sm={9}>
+              {props.dashboard ? (
+                !globalUser ? (
+                  <LoginButton />
+                ) : (
+                  <LogOutButton />
+                )
+              ) : (
+                <Button>
+                  <Link to="/dashboard">
+                    <AiFillHome />
+                  </Link>
+                </Button>
+              )}
+            </Col>
+          </Row>
         </Col>
       </Row>
     </ANTDHeader>

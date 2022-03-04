@@ -10,13 +10,12 @@ import {
   Input,
   DatePicker,
 } from "antd";
-import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { AiFillDelete, AiFillEdit, AiOutlineFileAdd } from "react-icons/ai";
 import { SearchOutlined } from "@ant-design/icons";
 import { Header } from "../layout/Header";
 import { Container } from "../layout/Container";
 import { useNavigate, Link } from "react-router-dom";
 const { Content, Sider, Footer } = Layout;
-
 import {
   getFirestore,
   doc,
@@ -80,6 +79,7 @@ export const Dashboard = () => {
       title: "Date",
       dataIndex: "date",
       key: "date",
+      responsive: ["md"],
       filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => {
         return (
           <DatePicker
@@ -215,7 +215,9 @@ export const Dashboard = () => {
                     borderRadius: "6px",
                   }}
                 >
-                  <Link to="/register">New Report</Link>
+                  <Link to="/register">
+                    <AiOutlineFileAdd />
+                  </Link>
                 </Button>
               </Col>
             </Row>

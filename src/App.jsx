@@ -1,8 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { getAuth } from "firebase/auth";
-import QaReportFirebase from "../Credentials";
-const auth = getAuth(QaReportFirebase);
 import { Dashboard } from "./components/dashboard/Dashboard";
 import { Login } from "./components/auth/login/Login";
 import { Register } from "./components/register/Register";

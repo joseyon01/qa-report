@@ -203,7 +203,6 @@ export const EditHotOven = (props) => {
       setValueE(data?.HOT_OVEN_E);
       setValueOvenR(data?.HOT_OVEN_RECHECK);
       setValueAON(data?.OVEN_APROVE_OR_NOT);
-      message.success("Load complete");
     } catch (error) {
       console.error("error", error);
     }
@@ -236,9 +235,13 @@ export const EditHotOven = (props) => {
       style={{ paddingBottom: "5em", placeholderColor: "green" }}
       onFinish={addHotOven}
     >
-      <Divider orientation="rigth">3) HOT OVEN OPERATIONAL CHECKOUT:</Divider>
+      <Row justify="center">
+        <Col xs={20} align="center">
+          <strong>3) HOT OVEN OPERATIONAL CHECKOUT:</strong>
+        </Col>
+      </Row>
       <Row>
-        <Col xs={24}>
+        <Col xs={{ span: 22, offset: 1 }} sm={24}>
           <Text>
             The equipment needed to complete the Oven inspection is a moder 1501
             Survey Meter, three 500 ml beakers with 275 ml +/- 15ml of cold
@@ -248,13 +251,13 @@ export const EditHotOven = (props) => {
       </Row>
       <br />
       <Row>
-        <Col xs={20}>
+        <Col xs={{ span: 22, offset: 1 }} sm={24}>
           <Text>A) Door Closed Microwave Leakege Test:</Text>
         </Col>
       </Row>
       <br />
       <Row>
-        <Col xs={24}>
+        <Col xs={{ span: 22, offset: 1 }} sm={24}>
           <Text>
             B) Repeat process checking the IR Element exits, around the
             Magnetrons and waveguide ends, left and right sides. Maximum
@@ -264,18 +267,23 @@ export const EditHotOven = (props) => {
           </Text>
         </Col>
       </Row>
-      <Row>
-        <Col xs={12}>
+      <Row justify="space-around">
+        <Col xs={8} sm={6}>
           <Form.Item
             name={HOT_OVEN_B_DOOR}
             label="DOOR"
             value={valueDoor}
             onChange={onChangeDoor}
           >
-            <Input type="number" size="small" style={{ width: 150 }} required />
+            <Input
+              type="number"
+              size="small"
+              style={{ width: "100%" }}
+              required
+            />
           </Form.Item>
         </Col>
-        <Col xs={12}>
+        <Col xs={8} sm={6}>
           <Form.Item
             name={HOT_OVEN_B_SIDES}
             label="Rt & Lt Sides"
@@ -286,7 +294,7 @@ export const EditHotOven = (props) => {
               type="number"
               placeholder={"mW/cm2"}
               size="small"
-              style={{ width: 150 }}
+              style={{ width: "100%" }}
               required
             />
           </Form.Item>
@@ -294,22 +302,34 @@ export const EditHotOven = (props) => {
       </Row>
       <br />
       <Row justify="spaceAround">
-        <Col xs={3} offset={3}>
+        <Col xs={{ span: 7, offset: 1 }} sm={{ span: 5, offset: 3 }}>
           <Form.Item
             name={HOT_OVEN_TOP_L}
             value={valueTopL}
+            style={{ marginBottom: "0" }}
             onChange={onChangeTopL}
           >
-            <Input type="number" size="small" style={{ width: 150 }} required />
+            <Input
+              type="number"
+              size="small"
+              style={{ width: "100%" }}
+              required
+            />
           </Form.Item>
         </Col>
-        <Col xs={3} offset={10}>
+        <Col xs={{ span: 7, offset: 8 }} sm={{ span: 5, offset: 8 }}>
           <Form.Item
             name={HOT_OVEN_TOP_R}
             value={valueTopR}
+            style={{ marginBottom: "0" }}
             onChange={onChangeTopR}
           >
-            <Input type="number" size="small" style={{ width: 150 }} required />
+            <Input
+              type="number"
+              size="small"
+              style={{ width: "100%" }}
+              required
+            />
           </Form.Item>
         </Col>
       </Row>
@@ -329,34 +349,44 @@ export const EditHotOven = (props) => {
         </Col>
       </Row>
       <Row justify="spaceAround">
-        <Col xs={3} offset={3}>
+        <Col xs={{ span: 7, offset: 1 }} sm={{ span: 5, offset: 3 }}>
           <Form.Item
             name={HOT_OVEN_BOT_L}
             value={valueBotL}
             onChange={onChangeBotL}
           >
-            <Input type="number" size="small" style={{ width: 150 }} required />
+            <Input
+              type="number"
+              size="small"
+              style={{ width: "100%" }}
+              required
+            />
           </Form.Item>
         </Col>
-        <Col xs={3} offset={10}>
+        <Col xs={{ span: 7, offset: 8 }} sm={{ span: 5, offset: 8 }}>
           <Form.Item
             name={HOT_OVEN_BOT_R}
             value={valueBotR}
             onChange={onChangeBotR}
           >
-            <Input type="number" size="small" style={{ width: 150 }} required />
+            <Input
+              type="number"
+              size="small"
+              style={{ width: "100%" }}
+              required
+            />
           </Form.Item>
         </Col>
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={16}>
+        <Col xs={{ span: 22, offset: 1 }} sm={16}>
           <Text type="danger">
             Recheck Waveguide Covers ! Reset Cook Count and Accumulation
             Settings !
           </Text>
         </Col>
-        <Col xs={4}>
+        <Col xs={{ span: 22, offset: 1 }} sm={4}>
           <Radio.Group
             name={HOT_OVEN_RECHECK}
             onChange={onChangeRC}
@@ -367,8 +397,8 @@ export const EditHotOven = (props) => {
           </Radio.Group>
         </Col>
       </Row>
-      <Row>
-        <Col xs={24}>
+      <Row justify="center">
+        <Col xs={22} sm={24}>
           <Row>
             <Col xs={24}>
               <Form.Item
@@ -436,8 +466,8 @@ export const EditHotOven = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <Row>
-        <Col xs={24}>
+      <Row justify="center">
+        <Col xs={20} sm={24}>
           <Form.Item>
             <Button
               size="large"
@@ -451,7 +481,7 @@ export const EditHotOven = (props) => {
             <Modal
               visible={isModalVisible}
               onOk={handleOk}
-              style={{ backgroundColor: "#E74C3C" }}
+              style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
               onCancel={handleCancel}
             >
               <Title level={3}>Error..!</Title>
@@ -460,7 +490,7 @@ export const EditHotOven = (props) => {
             <Modal
               visible={modalVisible}
               onOk={handleOk2}
-              style={{ backgroundColor: "#2ECC71" }}
+              style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
               onCancel={handleCancel2}
             >
               <Title level={3}>OK..!</Title>

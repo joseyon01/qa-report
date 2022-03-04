@@ -129,7 +129,6 @@ export const EditVisualInspection = (props) => {
         setValueE(data?.VISUALQE);
         setValueF(data?.VISUALQF);
         setValueG(data?.VISUALQG);
-        message.success("Load complete");
       }
     } catch (error) {
       console.error("error", error);
@@ -148,13 +147,13 @@ export const EditVisualInspection = (props) => {
     const VISUALQF = valueF;
     const VISUALQG = valueG;
     if (
-      (valueA == null,
-      valueB == null,
-      valueC == null,
-      valueD == null,
-      valueE == null,
-      valueF == null,
-      valueG == null)
+      valueA == null ||
+      valueB == null ||
+      valueC == null ||
+      valueD == null ||
+      valueE == null ||
+      valueF == null ||
+      valueG == null
     ) {
       showModal();
     } else {
@@ -180,19 +179,21 @@ export const EditVisualInspection = (props) => {
       style={{ paddingBottom: "5em" }}
       onFinish={addVisualInspection}
     >
-      <Divider orientation="rigth">
-        1) VISUAL INSPECTION: DO NOT APPLY POWER TO OVEN!!!
-      </Divider>
+      <Row justify="center">
+        <Col xs={20} align="center">
+          <strong>1) VISUAL INSPECTION: DO NOT APPLY POWER TO OVEN!!!</strong>
+        </Col>
+      </Row>
 
       <Row justify="space-between">
-        <Col xs={18}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
             A) Check Consumables and Accessories to comply with proper Packaging
             Kit. Remove Rack, Left, Right and Top panels. Confirm proper
             Schematic is on RS Panel.
           </Text>
         </Col>
-        <Col xs={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Radio.Group
             required
             name={VISUALQA}
@@ -210,13 +211,13 @@ export const EditVisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={18}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
             B) Remove contents of oven cavity and insure the{" "}
             <strong>Grease pan</strong> is in place
           </Text>
         </Col>
-        <Col xs={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Form.Item>
             <Radio.Group
               name={VISUALQB}
@@ -236,7 +237,7 @@ export const EditVisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={18}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
             C){" "}
             <strong>
@@ -245,7 +246,7 @@ export const EditVisualInspection = (props) => {
             </strong>
           </Text>
         </Col>
-        <Col xs={4} justify="end">
+        <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Form.Item>
             <Radio.Group
               name={VISUALQC}
@@ -261,12 +262,12 @@ export const EditVisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={16}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
             D) Check for loose hardware and debris on floor of the oven cabinet.
           </Text>
         </Col>
-        <Col xs={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Form.Item>
             <Radio.Group
               name={VISUALQD}
@@ -282,14 +283,14 @@ export const EditVisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={16}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
             E) Check for <strong>Door flush</strong> to the{" "}
             <strong>Oven Flange</strong> and{" "}
             <strong>Door open and close smoothly (no pinching on bottom</strong>
           </Text>
         </Col>
-        <Col xs={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Form.Item>
             <Radio.Group
               name={VISUALQE}
@@ -305,13 +306,13 @@ export const EditVisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={16}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
             F) Are the CC Heater Terminal Posts insulated with Silicone Caps and
             Mica Disks and terminals are torque to 33lbs-?
           </Text>
         </Col>
-        <Col xs={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Form.Item>
             <Radio.Group
               name={VISUALQF}
@@ -327,13 +328,13 @@ export const EditVisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={16}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
             G) Split open insulation over Hi-Limit Capillary, is it mounted in
             the correct position?
           </Text>
         </Col>
-        <Col xs={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Form.Item>
             <Radio.Group
               name={VISUALQG}
@@ -349,7 +350,7 @@ export const EditVisualInspection = (props) => {
       </Row>
 
       <Row justify="center">
-        <Col xs={24}>
+        <Col xs={20} sm={18}>
           <div style={{ paddingTop: "1em" }}>
             <Form.Item>
               <Button
@@ -363,18 +364,19 @@ export const EditVisualInspection = (props) => {
                 {loading ? "" : "Submit"}
               </Button>
               <Modal
+                style={{ borderRadius: "20px" }}
                 visible={isModalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}
+                style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
               >
                 <Title level={3}>Error..!</Title>
-                style={{ backgroundColor: "#E74C3C" }}
                 <Text>All fields are required</Text>
               </Modal>
               <Modal
                 visible={modalVisible}
                 onOk={handleCancel2}
-                style={{ backgroundColor: "#2ECC71" }}
+                style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
                 onCancel={handleCancel2}
               >
                 <Title level={3}>OK..!</Title>

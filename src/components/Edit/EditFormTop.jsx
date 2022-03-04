@@ -58,7 +58,6 @@ export const EditFormTop = (props) => {
       console.error("error", error);
     }
   };
-  console.log(typeOfOven);
   const dateFormat = "YYYY-MM-DD";
 
   form.setFieldsValue({
@@ -77,8 +76,8 @@ export const EditFormTop = (props) => {
       }}
       labelCol={{ span: 4 }}
     >
-      <Row>
-        <Col xs={12}>
+      <Row justify="space-around">
+        <Col xs={11} sm={12}>
           <Form.Item label="S/N" name={SERIAL} value={serial}>
             <Input
               size="large"
@@ -88,7 +87,7 @@ export const EditFormTop = (props) => {
             />
           </Form.Item>
         </Col>
-        <Col xs={12}>
+        <Col xs={11} sm={12}>
           <Form.Item label="Date" name={DATE}>
             <DatePicker
               label="Date"
@@ -100,12 +99,12 @@ export const EditFormTop = (props) => {
             />
           </Form.Item>
         </Col>
-        <Col xs={12}>
+        <Col xs={11} sm={12}>
           <Form.Item label="Name" name={NAME}>
             <Input size="large" type="text" placeholder="Name" disabled />
           </Form.Item>
         </Col>
-        <Col xs={12}>
+        <Col xs={11} sm={12}>
           <Form.Item label="Type">
             <Select size="large" name={OVEN} value={`${typeOfOven}`} disabled>
               <Option value="ENC">ENC</Option>
@@ -115,7 +114,7 @@ export const EditFormTop = (props) => {
         </Col>
       </Row>
       <Row justify="center">
-        <Col xs={16}>
+        <Col xs={23} sm={12}>
           <Card size="small" title="Note" style={{ width: "100%" }}>
             <Text>{oven?.OPERATIONAL_NOTE}</Text>
           </Card>

@@ -158,7 +158,7 @@ export const Login = () => {
                   visible={isModalVisible}
                   onOk={handleOk}
                   onCancel={handleCancel}
-                  style={{ backgroundColor: "#E74C3C" }}
+                  style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
                 >
                   <Title level={3}>Error..!</Title>
                   <Text>User or Password Incorrect</Text>
@@ -167,7 +167,7 @@ export const Login = () => {
                   visible={modalVisible}
                   onOk={handleOk2}
                   onCancel={handleCancel2}
-                  style={{ backgroundColor: "#2ECC71" }}
+                  style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
                 >
                   <Title level={3}>Welcome Back User</Title>
                   <Text>Have a productive Day</Text>

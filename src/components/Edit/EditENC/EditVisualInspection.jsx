@@ -137,7 +137,6 @@ export const EditVisualInspection = (props) => {
         setValueF(data?.VISUALQF);
         setValueG(data?.VISUALQG);
         setValueH(data?.VISUALQH);
-        message.success("Load complete");
       }
     } catch (error) {
       console.error("error", error);
@@ -157,14 +156,14 @@ export const EditVisualInspection = (props) => {
     const VISUALQG = valueG;
     const VISUALQH = valueH;
     if (
-      (valueA == null,
-      valueB == null,
-      valueC == null,
-      valueD == null,
-      valueE == null,
-      valueF == null,
-      valueG == null,
-      valueH == null)
+      valueA == null ||
+      valueB == null ||
+      valueC == null ||
+      valueD == null ||
+      valueE == null ||
+      valueF == null ||
+      valueG == null ||
+      valueH == null
     ) {
       showModal();
     } else {
@@ -191,19 +190,21 @@ export const EditVisualInspection = (props) => {
       style={{ paddingBottom: "5em" }}
       onFinish={addVisualInspection}
     >
-      <Divider orientation="rigth">
-        1) VISUAL INSPECTION: DO NOT APPLY POWER TO OVEN!!!
-      </Divider>
-
+      <Row justify="center">
+        <Col xs={20} align="center">
+          <strong>1) VISUAL INSPECTION: DO NOT APPLY POWER TO OVEN!!!</strong>
+        </Col>
+      </Row>
+      <br />
       <Row justify="space-between">
-        <Col xs={18}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
             A) Check Consumables and Accessories to comply with proper Packaging
             Kit. Remove Rack, Left, Right and Top panels. Confirm proper
             Schematic is on RS Panel.
           </Text>
         </Col>
-        <Col xs={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Radio.Group
             required
             name={VISUALQA}
@@ -221,7 +222,7 @@ export const EditVisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={18}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
             B) Remove the Bubble wrap and insert the Oven Rack insuring flush
             contact with all surfaces. Check IR Element lies flat and
@@ -229,7 +230,7 @@ export const EditVisualInspection = (props) => {
             Covers (ar the ends only) by squeezing with hands for looseness.
           </Text>
         </Col>
-        <Col xs={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Form.Item>
             <Radio.Group
               name={VISUALQB}
@@ -249,13 +250,13 @@ export const EditVisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={18}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
             C) Check wiring CC & IR Heaters, Mag1 & 2, Dual SSR, Mag, EC Fans,
             Convection Blower, Hi-Limit and Control circuits.
           </Text>
         </Col>
-        <Col xs={4} justify="end">
+        <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Form.Item>
             <Radio.Group
               name={VISUALQC}
@@ -271,12 +272,12 @@ export const EditVisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={16}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
             D) Check for loose hardware and debris on floor of the oven cabinet.
           </Text>
         </Col>
-        <Col xs={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Form.Item>
             <Radio.Group
               name={VISUALQD}
@@ -292,13 +293,13 @@ export const EditVisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={16}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
             E) Check for Door flush to the Oven Flange (no pinching on bottom),
             door clears Louvered Panel?
           </Text>
         </Col>
-        <Col xs={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Form.Item>
             <Radio.Group
               name={VISUALQE}
@@ -314,13 +315,13 @@ export const EditVisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={16}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
             F) Are the CC Heater Terminal Posts insulated with Silicone Caps and
             Mica Disks?
           </Text>
         </Col>
-        <Col xs={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Form.Item>
             <Radio.Group
               name={VISUALQF}
@@ -336,13 +337,13 @@ export const EditVisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={16}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
             G) Split open insulation over Hi-Limit Capillary, is it mounted in
             the correct position?
           </Text>
         </Col>
-        <Col xs={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Form.Item>
             <Radio.Group
               name={VISUALQG}
@@ -358,14 +359,14 @@ export const EditVisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={16}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
             H) Are interlock Switches adjusted with actuator rotation if door is
             closed slowly, are the switch arms .020" to .030" fron switch body?
             is the actuator at 87° +- 2°?
           </Text>
         </Col>
-        <Col xs={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Form.Item required>
             <Radio.Group
               name={VISUALQH}
@@ -380,7 +381,7 @@ export const EditVisualInspection = (props) => {
         </Col>
       </Row>
       <Row justify="center">
-        <Col xs={24}>
+        <Col xs={20} sm={18}>
           <div style={{ paddingTop: "1em" }}>
             <Form.Item>
               <Button
@@ -399,13 +400,13 @@ export const EditVisualInspection = (props) => {
                 onCancel={handleCancel}
               >
                 <Title level={3}>Error..!</Title>
-                style={{ backgroundColor: "#E74C3C" }}
+                style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
                 <Text>All fields are required</Text>
               </Modal>
               <Modal
                 visible={modalVisible}
                 onOk={handleCancel2}
-                style={{ backgroundColor: "#2ECC71" }}
+                style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
                 onCancel={handleCancel2}
               >
                 <Title level={3}>OK..!</Title>

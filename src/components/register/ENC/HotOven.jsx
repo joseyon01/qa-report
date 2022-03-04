@@ -150,9 +150,14 @@ export const HotOven = (props) => {
       style={{ paddingBottom: "5em" }}
       onFinish={addHotOven}
     >
-      <Divider orientation="rigth">3) HOT OVEN OPERATIONAL CHECKOUT:</Divider>
+      <Row justify="center">
+        <Col xs={20} align="center">
+          <strong>3) HOT OVEN OPERATIONAL CHECKOUT:</strong>
+        </Col>
+      </Row>
+
       <Row>
-        <Col xs={24}>
+        <Col xs={{ span: 22, offset: 1 }} sm={24}>
           <Text>
             The equipment needed to complete the Oven inspection is a moder 1501
             Survey Meter, three 500 ml beakers with 275 ml +/- 15ml of cold
@@ -162,13 +167,13 @@ export const HotOven = (props) => {
       </Row>
       <br />
       <Row>
-        <Col xs={20}>
+        <Col xs={{ span: 22, offset: 1 }} sm={24}>
           <Text>A) Door Closed Microwave Leakege Test:</Text>
         </Col>
       </Row>
       <br />
       <Row>
-        <Col xs={24}>
+        <Col xs={{ span: 22, offset: 1 }} sm={24}>
           <Text>
             B) Repeat process checking the IR Element exits, around the
             Magnetrons and waveguide ends, left and right sides. Maximum
@@ -178,19 +183,24 @@ export const HotOven = (props) => {
           </Text>
         </Col>
       </Row>
-      <Row>
-        <Col xs={12}>
+      <Row justify="space-around">
+        <Col xs={8} sm={6}>
           <Form.Item name={HOT_OVEN_B_DOOR} label="DOOR">
-            <Input type="number" size="small" style={{ width: 150 }} required />
+            <Input
+              type="number"
+              size="small"
+              style={{ width: "100%" }}
+              required
+            />
           </Form.Item>
         </Col>
-        <Col xs={12}>
+        <Col xs={8} sm={6}>
           <Form.Item name={HOT_OVEN_B_SIDES} label="Rt & Lt Sides">
             <Input
               type="number"
               placeholder={"mW/cm2"}
               size="small"
-              style={{ width: 150 }}
+              style={{ width: "100%" }}
               required
             />
           </Form.Item>
@@ -198,20 +208,30 @@ export const HotOven = (props) => {
       </Row>
       <br />
       <Row justify="spaceAround">
-        <Col xs={3} offset={3}>
-          <Form.Item name={HOT_OVEN_TOP_L}>
-            <Input type="number" size="small" style={{ width: 150 }} required />
+        <Col xs={{ span: 7, offset: 1 }} sm={{ span: 5, offset: 3 }}>
+          <Form.Item name={HOT_OVEN_TOP_L} style={{ marginBottom: "0" }}>
+            <Input
+              type="number"
+              size="small"
+              style={{ width: "100%" }}
+              required
+            />
           </Form.Item>
         </Col>
-        <Col xs={3} offset={10}>
-          <Form.Item name={HOT_OVEN_TOP_R}>
-            <Input type="number" size="small" style={{ width: 150 }} required />
+        <Col xs={{ span: 7, offset: 8 }} sm={{ span: 5, offset: 8 }}>
+          <Form.Item name={HOT_OVEN_TOP_R} style={{ marginBottom: "0" }}>
+            <Input
+              type="number"
+              size="small"
+              style={{ width: "100%" }}
+              required
+            />
           </Form.Item>
         </Col>
       </Row>
       <Row justify="center">
         <Col
-          xs={8}
+          xs={{ span: 8 }}
           style={{
             height: "8em",
             width: "100%",
@@ -226,34 +246,44 @@ export const HotOven = (props) => {
         </Col>
       </Row>
       <Row justify="spaceAround">
-        <Col xs={3} offset={3}>
+        <Col xs={{ span: 7, offset: 1 }} sm={{ span: 5, offset: 3 }}>
           <Form.Item name={HOT_OVEN_BOT_L}>
-            <Input type="number" size="small" style={{ width: 150 }} required />
+            <Input
+              type="number"
+              size="small"
+              style={{ width: "100%" }}
+              required
+            />
           </Form.Item>
         </Col>
-        <Col xs={3} offset={10}>
+        <Col xs={{ span: 7, offset: 8 }} sm={{ span: 5, offset: 8 }}>
           <Form.Item name={HOT_OVEN_BOT_R}>
-            <Input type="number" size="small" style={{ width: 150 }} required />
+            <Input
+              type="number"
+              size="small"
+              style={{ width: "100%" }}
+              required
+            />
           </Form.Item>
         </Col>
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={16}>
+        <Col xs={{ span: 22, offset: 1 }} sm={16}>
           <Text type="danger">
             Recheck Waveguide Covers ! Reset Cook Count and Accumulation
             Settings !
           </Text>
         </Col>
-        <Col xs={4}>
+        <Col xs={{ span: 22, offset: 1 }} sm={4}>
           <Radio.Group name={HOT_OVEN_RECHECK} onChange={onChangeRC}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
           </Radio.Group>
         </Col>
       </Row>
-      <Row>
-        <Col xs={24}>
+      <Row justify="center">
+        <Col xs={22} sm={24}>
           <Row>
             <Col xs={24}>
               <Form.Item label="C) Cook time Count" name={HOT_OVEN_C}>
@@ -302,8 +332,8 @@ export const HotOven = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <Row>
-        <Col xs={24}>
+      <Row justify="center">
+        <Col xs={20} sm={24}>
           <Form.Item>
             <Button
               size="large"
@@ -319,7 +349,7 @@ export const HotOven = (props) => {
               visible={isModalVisible}
               onOk={handleOk}
               onCancel={handleCancel}
-              style={{ backgroundColor: "#E74C3C" }}
+              style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
             >
               <Title level={3}>Error..!</Title>
               <Text>All fields are required</Text>
@@ -328,7 +358,7 @@ export const HotOven = (props) => {
               visible={modalVisible}
               onOk={handleOk2}
               onCancel={handleCancel2}
-              style={{ backgroundColor: "#2ECC71" }}
+              style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
             >
               <Title level={3}>OK..!</Title>
               <Text>The data has been successfully stored</Text>

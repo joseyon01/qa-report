@@ -185,7 +185,6 @@ export const EditOperationalInspection = (props) => {
   };
   function placeHolderValue(a, b) {
     let result = (b - a) * (4187 / 30);
-    console.log(result);
     setValueTo(result);
   }
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -415,7 +414,6 @@ export const EditOperationalInspection = (props) => {
       setValueD(data?.OPERATIONAL_D_IV);
       setValueF(data?.OPERATIONAL_F);
       setValueJ(data?.OPERATIONAL_J);
-      message.success("Load complete");
     } catch (error) {
       console.error("error", error);
     }
@@ -466,11 +464,15 @@ export const EditOperationalInspection = (props) => {
       style={{ paddingBottom: "5em" }}
       onFinish={addOperational}
     >
-      <Divider orientation="rigth">
-        2) OPERATIONAL INSPECTION: DO NOT APPLY POWER TO OVEN.
-      </Divider>
-      <Row>
-        <Col span={24}>
+      <Row justify="center">
+        <Col xs={20} align="center">
+          <strong>
+            2) OPERATIONAL INSPECTION: DO NOT APPLY POWER TO OVEN.
+          </strong>
+        </Col>
+      </Row>
+      <Row justify="center">
+        <Col xs={22} sm={24}>
           <Text>
             A) Using the OHMS function on your meter Measure and Record the
             resistance between the:
@@ -478,23 +480,23 @@ export const EditOperationalInspection = (props) => {
         </Col>
         <Col span={24}>
           <Row className="sub-question">
-            <Col xs={10}>
+            <Col xs={20} sm={10}>
               <Text>i) Frame and the Ground Pin on the plug:</Text>
             </Col>
-            <Col xs={4}>
+            <Col xs={10} sm={6}>
               <Form.Item
                 name={OPERATIONAL_A_I}
                 value={operational_A_I}
                 onChange={onChange_A_I}
               >
-                <Input style={{ width: 150 }} size="small" required />
+                <Input style={{ width: "100%" }} size="small" required />
               </Form.Item>
             </Col>
           </Row>
         </Col>
       </Row>
-      <Row>
-        <Col xs={24}>
+      <Row justify="center">
+        <Col xs={22} sm={24}>
           <Text>
             B) Remove the fastons from the Primary and the secondary of the of
             Voltage and the Filament XFMRs. Measure and Record the isolated
@@ -723,13 +725,13 @@ export const EditOperationalInspection = (props) => {
         </Col>
       </Row>
       <Row justify="space-between">
-        <Col xs={16}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
             C) Open Fuse #1, #2 and #3 and check rating, Class CC ATMR 12, ATMR
             12 and ATMR 15 respectively
           </Text>
         </Col>
-        <Col xs={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Radio.Group
             required
             name={OPERATIONAL_C}
@@ -741,8 +743,9 @@ export const EditOperationalInspection = (props) => {
           </Radio.Group>
         </Col>
       </Row>
-      <Row>
-        <Col xs={24}>
+      <br />
+      <Row justify="center">
+        <Col xs={22} sm={24}>
           <Text>D) Plug in the oven, as the Display Boots, check for:</Text>
         </Col>
         <Col xs={24}>
@@ -805,12 +808,12 @@ export const EditOperationalInspection = (props) => {
                 </Col>
                 <Col xs={24}>
                   <Row justify="space-between">
-                    <Col xs={18}>
+                    <Col xs={20} sm={18}>
                       <Text>
                         iv) DOES THE I/D PLATE HAVE CORRECT VOLTAGE RATING?
                       </Text>
                     </Col>
-                    <Col xs={4}>
+                    <Col xs={20} sm={4}>
                       <Radio.Group
                         required
                         name={OPERATIONAL_D_IV}
@@ -829,32 +832,38 @@ export const EditOperationalInspection = (props) => {
         </Col>
       </Row>
       <Row justify="space-between">
-        <Col xs={16}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
             E) Set your meter to Volts AC: Measure the AC voltage at EMI Filter
             Terminals.
           </Text>
         </Col>
-        <Col xs={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Form.Item
             name={OPERATIONAL_E}
             onChange={onChange_E}
             value={operational_E}
           >
-            <Input type="number" size="small" placeholder={"VAC"} required />
+            <Input
+              type="number"
+              size="small"
+              style={{ width: 150 }}
+              placeholder={"VAC"}
+              required
+            />
           </Form.Item>
         </Col>
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={16}>
+        <Col xs={{ span: 20, offset: 1 }} sm={16}>
           <Text>
             F) Using an insulated screwdriver check the EC Cooling Fan by
             bridging between the terminals on the "Close on Rise" switch, witch
             controls the EC cooling fan.
           </Text>
         </Col>
-        <Col xs={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Radio.Group name={OPERATIONAL_F} onChange={onChangeF} value={valueF}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
@@ -863,7 +872,7 @@ export const EditOperationalInspection = (props) => {
       </Row>
       <br />
       <Row>
-        <Col xs={24}>
+        <Col xs={{ span: 20, offset: 1 }} sm={24}>
           <Text>
             H) Water Rise Test: Place Oven into the "UNIT" mode, and then scroll
             down to "Microwave" on the first screen.
@@ -915,7 +924,7 @@ export const EditOperationalInspection = (props) => {
               </Row>
               <br />
               <Row>
-                <Col xs={16}>
+                <Col xs={20} sm={16}>
                   <Text>
                     iv) While test is running, Verify the current is 9.2amps +/-
                     2 amps (208V)
@@ -923,7 +932,7 @@ export const EditOperationalInspection = (props) => {
                     (10.64amps +/- 1.6 amps for the unit tested with 240V)
                   </Text>
                 </Col>
-                <Col xs={3}>
+                <Col xs={20} sm={3}>
                   <Form.Item
                     name={OPERATIONAL_H_IV}
                     onChange={onChange_H_IV}
@@ -965,13 +974,13 @@ export const EditOperationalInspection = (props) => {
                 </Col>
               </Row>
               <Row>
-                <Col xs={16}>
+                <Col xs={23} sm={16}>
                   <Text>
                     vi) The power output will show for 5 seconds. Record
                     microwave oven output power
                   </Text>
                 </Col>
-                <Col xs={4}>
+                <Col xs={10} sm={4}>
                   <Form.Item
                     name={OPERATIONAL_H_VI}
                     onChange={onChange_H_VI}
@@ -980,20 +989,19 @@ export const EditOperationalInspection = (props) => {
                     <Input
                       size="small"
                       style={{ width: 100 }}
-                      placeholder={"W"}
+                      placeholder={operational_H_VI ? operational_H_VI : "W"}
                       disabled
                       required
                     />
                   </Form.Item>
                 </Col>
-                <Col xs={3}>
+                <Col xs={5} sm={3}>
                   <Button
                     size="small"
                     onClick={() => {
                       let result =
                         (operational_H_V - operational_H_I) * (4187 / 30);
                       result = Math.round(result);
-                      console.log(result);
                       setOperational_H_VI(result);
                     }}
                   >
@@ -1014,7 +1022,7 @@ export const EditOperationalInspection = (props) => {
         </Col>
       </Row>
       <Row>
-        <Col xs={24}>
+        <Col xs={{ span: 20, offset: 1 }} sm={24}>
           <Text>
             I) Push "BACK" until display reads: "OVEN OFF" and then push the
             "OVEN ON" smart key and let the oven warm to its preset temperature.
@@ -1097,10 +1105,10 @@ export const EditOperationalInspection = (props) => {
       </Row>
 
       <Row>
-        <Col xs={3}>
+        <Col xs={{ span: 20, offset: 1 }} sm={3}>
           <Text>NOTES</Text>
         </Col>
-        <Col xs={20}>
+        <Col xs={{ span: 20, offset: 1 }} sm={20}>
           <Form.Item
             name={OPERATIONAL_NOTE}
             onChange={onChange_NOTE}
@@ -1112,10 +1120,10 @@ export const EditOperationalInspection = (props) => {
       </Row>
 
       <Row justify="space-between">
-        <Col xs={16}>
+        <Col xs={{ span: 20, offset: 1 }} sm={16}>
           <Text>J) Is there actuator rotation if door is closed slowly?</Text>
         </Col>
-        <Col xs={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Radio.Group name={OPERATIONAL_J} onChange={onChangeJ} value={valueJ}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
@@ -1166,8 +1174,8 @@ export const EditOperationalInspection = (props) => {
           </Row>
         </Col>
       </Row>
-      <Row justify="end">
-        <Col xs={24}>
+      <Row justify="center">
+        <Col xs={20} sm={24}>
           <Form.Item>
             <Button
               size="large"
@@ -1182,7 +1190,7 @@ export const EditOperationalInspection = (props) => {
             <Modal
               visible={isModalVisible}
               onOk={handleOk}
-              style={{ backgroundColor: "#E74C3C" }}
+              style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
               onCancel={handleCancel}
             >
               <Title level={3}>Error..!</Title>
@@ -1191,7 +1199,7 @@ export const EditOperationalInspection = (props) => {
             <Modal
               visible={modalVisible}
               onOk={handleOk2}
-              style={{ backgroundColor: "#2ECC71" }}
+              style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
               onCancel={handleCancel2}
             >
               <Title level={3}>OK..!</Title>

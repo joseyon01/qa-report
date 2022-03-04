@@ -119,10 +119,12 @@ export const FormTop = (props) => {
 
   const getDataOven = async () => {
     try {
-      const docRef = doc(db, "User", `${globalUser.uid}`);
-      const docSnap = await getDoc(docRef);
-      const data = docSnap.data();
-      setUserName(data.NAME);
+      if (globalUser) {
+        const docRef = doc(db, "User", `${globalUser.uid}`);
+        const docSnap = await getDoc(docRef);
+        const data = docSnap.data();
+        setUserName(data.NAME);
+      }
     } catch (error) {
       console.error("error", error);
     }
@@ -149,10 +151,12 @@ export const FormTop = (props) => {
       labelCol={{ span: 4 }}
       onFinish={addOven}
     >
-      <Row>
-        <Col xs={12}>
+      <Row justify="space-around">
+        <Col xs={11} sm={12}>
           <Form.Item label="S/N" name={SERIAL}>
             <Input
+              xs={11}
+              style={{ width: "100%" }}
               size="large"
               onChange={props.onChangeCN}
               value={props.serial}
@@ -163,7 +167,7 @@ export const FormTop = (props) => {
             />
           </Form.Item>
         </Col>
-        <Col xs={12}>
+        <Col xs={11} sm={12}>
           <Form.Item label="Date" name={DATE}>
             <DatePicker
               style={{ width: "100%" }}
@@ -175,9 +179,10 @@ export const FormTop = (props) => {
             />
           </Form.Item>
         </Col>
-        <Col xs={12}>
+        <Col xs={11} sm={12}>
           <Form.Item label="Name" name={NAME}>
             <Input
+              style={{ width: "100%" }}
               size="large"
               onChange={props.onChangeName}
               value={props.name}
@@ -187,9 +192,10 @@ export const FormTop = (props) => {
             />
           </Form.Item>
         </Col>
-        <Col xs={12}>
+        <Col xs={11} sm={12}>
           <Form.Item label="Type" name={OVEN}>
             <Select
+              style={{ width: "100%" }}
               size="large"
               placeholder="Oven"
               required
@@ -210,7 +216,7 @@ export const FormTop = (props) => {
               htmlType="submit"
               disabled={buttonDisabled}
               loading={loading}
-              style={{ width: "80%" }}
+              style={{ width: "100%" }}
             >
               {loading ? "" : "Submit"}
             </Button>
@@ -218,7 +224,10 @@ export const FormTop = (props) => {
         </Col>
       </Row>
       <Modal
-        style={{ backgroundColor: "#2ECC71" }}
+        style={{
+          backgroundColor: "#2ECC71",
+          borderRadius: "1em",
+        }}
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -228,7 +237,10 @@ export const FormTop = (props) => {
         <Text>The data has been successfully stored</Text>
       </Modal>
       <Modal
-        style={{ backgroundColor: "#E74C3C" }}
+        style={{
+          backgroundColor: "#E74C3C",
+          borderRadius: "1em",
+        }}
         visible={isModalVisible2}
         onOk={handleOk2}
         onCancel={handleCancel2}
