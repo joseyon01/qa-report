@@ -1,16 +1,5 @@
 import React from "react";
-import {
-  Form,
-  Input,
-  Row,
-  Col,
-  Typography,
-  Radio,
-  Divider,
-  Button,
-  Modal,
-  message,
-} from "antd";
+import { Form, Input, Row, Col, Typography, Radio, Button, Modal } from "antd";
 import {
   HOT_OVEN_B_DOOR,
   HOT_OVEN_B_SIDES,
@@ -25,12 +14,8 @@ import {
   OVEN_APROVE_OR_NOT,
 } from "../../constants/ConstantHotOven";
 import { useNavigate } from "react-router-dom";
-import QaReportFirebase from "../../../../Credentials";
-import { getAuth } from "firebase/auth";
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 import { useState, useEffect } from "react";
-const firestore = getFirestore(QaReportFirebase);
-const auth = getAuth(QaReportFirebase);
 const db = getFirestore();
 const { Text, Title } = Typography;
 
@@ -49,60 +34,24 @@ export const EditFinalInspection = (props) => {
   const [valueD, setValueD] = useState(null);
   const [valueE, setValueE] = useState(null);
   const [valueAON, setValueAON] = useState(null);
-
-  const onChangeRC = (e) => {
-    setValueOvenR(e.target.value);
-  };
-  const onChangeAON = (e) => {
-    setValueAON(e.target.value);
-  };
-  const onChangeDoor = (e) => {
-    setValueDoor(e.target.value);
-  };
-  const onChangeSides = (e) => {
-    setValueSides(e.target.value);
-  };
-  const onChangeTopR = (e) => {
-    setValueTopR(e.target.value);
-  };
-  const onChangeTopL = (e) => {
-    setValueTopL(e.target.value);
-  };
-  const onChangeBotR = (e) => {
-    setValueBotL(e.target.value);
-  };
-  const onChangeBotL = (e) => {
-    setValueBotL(e.target.value);
-  };
-  const onChangeC = (e) => {
-    setValueC(e.target.value);
-  };
-  const onChangeD = (e) => {
-    setValueD(e.target.value);
-  };
-  const onChangeE = (e) => {
-    setValueE(e.target.value);
-  };
-
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
   const [modalVisible, setModalVisible] = useState(false);
 
-  const showModal2 = () => {
-    setModalVisible(true);
-  };
-
+  const onChangeRC = (e) => setValueOvenR(e.target.value);
+  const onChangeAON = (e) => setValueAON(e.target.value);
+  const onChangeDoor = (e) => setValueDoor(e.target.value);
+  const onChangeSides = (e) => setValueSides(e.target.value);
+  const onChangeTopR = (e) => setValueTopR(e.target.value);
+  const onChangeTopL = (e) => setValueTopL(e.target.value);
+  const onChangeBotR = (e) => setValueBotL(e.target.value);
+  const onChangeBotL = (e) => setValueBotL(e.target.value);
+  const onChangeC = (e) => setValueC(e.target.value);
+  const onChangeD = (e) => setValueD(e.target.value);
+  const onChangeE = (e) => setValueE(e.target.value);
+  const showModal = () => setIsModalVisible(true);
+  const handleOk = () => setIsModalVisible(false);
+  const handleCancel = () => setIsModalVisible(false);
+  const showModal2 = () => setModalVisible(true);
   const handleOk2 = () => {
     setModalVisible(false);
     window.scrollTo(0, 0);
@@ -113,7 +62,6 @@ export const EditFinalInspection = (props) => {
     setModalVisible(false);
     window.scrollTo(0, 0);
   };
-  const [loading, setLoading] = useState(false);
 
   async function onClickF(
     HOT_OVEN_B_DOOR,

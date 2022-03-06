@@ -1,4 +1,3 @@
-import React from "react";
 import { Form, Input, Row, Col, Typography, Radio, Button, Modal } from "antd";
 import {
   HOT_OVEN_B_DOOR,
@@ -15,17 +14,17 @@ import {
 } from "../../constants/ConstantHotOven";
 import { useNavigate } from "react-router-dom";
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 const db = getFirestore();
 const { Text, Title } = Typography;
 
 export const EditHotOven = (props) => {
   const navigate = useNavigate();
-  const ovenSerial = props.serial;
-  const [buttonDisabled, setButtonDisabled] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const ovenSerial = props.serial;
+  const [buttonDisabled, setButtonDisabled] = useState(null);
   const [valueDoor, setValueDoor] = useState(null);
   const [valueSides, setValueSides] = useState(null);
   const [valueTopR, setValueTopR] = useState(null);
@@ -37,7 +36,6 @@ export const EditHotOven = (props) => {
   const [valueD, setValueD] = useState(null);
   const [valueE, setValueE] = useState(null);
   const [valueAON, setValueAON] = useState(null);
-
   const onChangeRC = (e) => setValueOvenR(e.target.value);
   const onChangeAON = (e) => setValueAON(e.target.value);
   const onChangeDoor = (e) => setValueDoor(e.target.value);
@@ -109,16 +107,18 @@ export const EditHotOven = (props) => {
     const HOT_OVEN_D = values.HOT_OVEN_D;
     const HOT_OVEN_E = values.HOT_OVEN_E;
     const OVEN_APROVE_OR_NOT = valueAON;
-    if (OVEN_APROVE_OR_NOT) {
-      const ovenRef = doc(db, "oven", `${props.serial}`);
-      setDoc(ovenRef, { status: "Aprooved" }, { merge: true });
-    } else {
-      const ovenRef = doc(db, "oven", `${props.serial}`);
-      setDoc(ovenRef, { status: "Rejected" }, { merge: true });
-    }
+
     if (HOT_OVEN_RECHECK == null || OVEN_APROVE_OR_NOT == null) {
       showModal();
     } else {
+      if (OVEN_APROVE_OR_NOT) {
+        const ovenRef = doc(db, "oven", `${props.serial}`);
+        setDoc(ovenRef, { status: "Aprooved" }, { merge: true });
+      } else {
+        const ovenRef = doc(db, "oven", `${props.serial}`);
+        setDoc(ovenRef, { status: "Rejected" }, { merge: true });
+      }
+
       onClickF(
         HOT_OVEN_B_DOOR,
         HOT_OVEN_B_SIDES,
@@ -180,19 +180,19 @@ export const EditHotOven = (props) => {
         remember: true,
       }}
       labelCol={{ span: 7 }}
-      style={{ paddingBottom: "5em", placeholderColor: "green" }}
+      style={{ paddingBottom: "5em" }}
       onFinish={addHotOven}
     >
       <Row justify="center">
         <Col xs={20} align="center">
-          <strong>3) HOT OVEN OPERATIONAL CHECKOUT:</strong>
+          <strong>3) Hot Oven Operational Checkout:</strong>
         </Col>
       </Row>
       <Row>
         <Col xs={{ span: 22, offset: 1 }} sm={24}>
           <Text>
-            The equipment needed to complete the Oven inspection is a moder 1501
-            Survey Meter, three 500 ml beakers with 275 ml +/- 15ml of cold
+            The equipment needed to complete the Oven inspection is a model 1501
+            Survey Meter, three 500ml beakers with 275 ml +/- 15ml of cold
             water, spring loaded tongs
           </Text>
         </Col>
@@ -200,21 +200,28 @@ export const EditHotOven = (props) => {
       <br />
       <Row>
         <Col xs={{ span: 22, offset: 1 }} sm={24}>
-          <Text>A) Door Closed Microwave Leakege Test:</Text>
+          <Text>A) Door Closed Microwave Leakege Test</Text>
         </Col>
       </Row>
       <br />
       <Row>
         <Col xs={{ span: 22, offset: 1 }} sm={24}>
           <Text>
-            B) Repeat process checking the IR Element exits, around the
-            Magnetrons and waveguide ends, left and right sides. Maximum
-            allowale leakage is 0.8mW/cm surrounding the perimeter of the door
-            and 0.2mW/cm<sup>2</sup> around the EC and left and right side IR
-            Element through hole.
+            B) Repeat process checking the IR Element exist, around the
+            Magnetrons and waveguide ends, left and right sides.{" "}
+            <strong>
+              MAximun allowable leakage is 0.8 mW/cm<sup>2</sup>
+            </strong>{" "}
+            surroundingthe perimeter of the door and{" "}
+            <strong>
+              0.2 mW/cm<sup>2</sup>
+            </strong>{" "}
+            arownd the EC and left and right side IR Element through hole.
           </Text>
         </Col>
       </Row>
+      <br />
+
       <Row justify="space-around">
         <Col xs={8} sm={6}>
           <Form.Item
@@ -283,14 +290,17 @@ export const EditHotOven = (props) => {
       </Row>
       <Row justify="center">
         <Col
-          xs={8}
+          xs={{ span: 8 }}
+          sm
           style={{
             height: "8em",
+            width: "100%",
             border: "dashed 3px #ccc",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             padding: "0",
+            margin: "0",
           }}
         >
           <Text>Mark and record peak levels.</Text>
@@ -345,12 +355,13 @@ export const EditHotOven = (props) => {
           </Radio.Group>
         </Col>
       </Row>
+      <br />
       <Row justify="center">
         <Col xs={22} sm={24}>
           <Row>
             <Col xs={24}>
               <Form.Item
-                label="C) Cook time Count"
+                label="C) Cook time count"
                 name={HOT_OVEN_C}
                 value={valueC}
                 onChange={onChangeC}
@@ -367,7 +378,7 @@ export const EditHotOven = (props) => {
           <Row>
             <Col xs={24}>
               <Form.Item
-                label="D) Survey meter #"
+                label="D) survey meter #"
                 name={HOT_OVEN_D}
                 value={valueD}
                 onChange={onChangeD}
@@ -384,7 +395,7 @@ export const EditHotOven = (props) => {
           <Row>
             <Col xs={24}>
               <Form.Item
-                label="E) Clear Cook time foults"
+                label="E) Clear cook time foults"
                 name={HOT_OVEN_E}
                 value={valueE}
                 onChange={onChangeE}
@@ -425,13 +436,13 @@ export const EditHotOven = (props) => {
               disabled={buttonDisabled}
               loading={loading}
             >
-              Submit
+              {loading ? "" : "Submit"}
             </Button>
             <Modal
               visible={isModalVisible}
               onOk={handleOk}
-              style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
               onCancel={handleCancel}
+              style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
             >
               <Title level={3}>Error..!</Title>
               <Text>All fields are required</Text>
@@ -439,11 +450,13 @@ export const EditHotOven = (props) => {
             <Modal
               visible={modalVisible}
               onOk={handleOk2}
-              style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
               onCancel={handleCancel2}
+              style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
             >
               <Title level={3}>OK..!</Title>
               <Text>The data has been successfully stored</Text>
+              <br />
+              <Text>Go to dashboard</Text>
             </Modal>
           </Form.Item>
         </Col>

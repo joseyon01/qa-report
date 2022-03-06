@@ -1,14 +1,5 @@
 import React, { useState } from "react";
-import {
-  Form,
-  Row,
-  Col,
-  Typography,
-  Radio,
-  Divider,
-  Button,
-  Modal,
-} from "antd";
+import { Form, Row, Col, Typography, Radio, Button, Modal } from "antd";
 const { Text, Title } = Typography;
 import {
   VISUALQA,
@@ -20,38 +11,35 @@ import {
   VISUALQG,
   VISUALQH,
 } from "../../constants/ConstVisualInspection";
-import QaReportFirebase from "../../../../Credentials";
-import { getAuth } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
-
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-const firestore = getFirestore(QaReportFirebase);
-const auth = getAuth(QaReportFirebase);
 const db = getFirestore();
-
-const MySwal = withReactContent(Swal);
 
 export const VisualInspection = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
   const [modalVisible, setModalVisible] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [valueA, setValueA] = useState(null);
+  const [valueB, setValueB] = useState(null);
+  const [valueC, setValueC] = useState(null);
+  const [valueD, setValueD] = useState(null);
+  const [valueE, setValueE] = useState(null);
+  const [valueF, setValueF] = useState(null);
+  const [valueG, setValueG] = useState(null);
+  const [valueH, setValueH] = useState(null);
 
-  const showModal2 = () => {
-    setModalVisible(true);
-  };
+  const showModal = () => setIsModalVisible(true);
+  const handleOk = () => setIsModalVisible(false);
+  const handleCancel = () => setIsModalVisible(false);
+  const showModal2 = () => setModalVisible(true);
+  const onChangeA = (e) => setValueA(e.target.value);
+  const onChangeB = (e) => setValueB(e.target.value);
+  const onChangeC = (e) => setValueC(e.target.value);
+  const onChangeD = (e) => setValueD(e.target.value);
+  const onChangeE = (e) => setValueE(e.target.value);
+  const onChangeF = (e) => setValueF(e.target.value);
+  const onChangeG = (e) => setValueG(e.target.value);
+  const onChangeH = (e) => setValueH(e.target.value);
 
   const handleOk2 = () => {
     setModalVisible(false);
@@ -62,8 +50,7 @@ export const VisualInspection = (props) => {
     setModalVisible(false);
     window.scrollTo(0, 0);
   };
-  const [buttonDisabled, setButtonDisabled] = useState(null);
-  const [loading, setLoading] = useState(false);
+
   async function onClickF(
     VISUALQA,
     VISUALQB,
@@ -92,39 +79,6 @@ export const VisualInspection = (props) => {
     setLoading(false);
   }
 
-  const [form] = Form.useForm();
-  const [valueA, setValueA] = useState(null);
-  const onChangeA = (e) => {
-    setValueA(e.target.value);
-  };
-  const [valueB, setValueB] = useState(null);
-  const onChangeB = (e) => {
-    setValueB(e.target.value);
-  };
-  const [valueC, setValueC] = useState(null);
-  const onChangeC = (e) => {
-    setValueC(e.target.value);
-  };
-  const [valueD, setValueD] = useState(null);
-  const onChangeD = (e) => {
-    setValueD(e.target.value);
-  };
-  const [valueE, setValueE] = useState(null);
-  const onChangeE = (e) => {
-    setValueE(e.target.value);
-  };
-  const [valueF, setValueF] = useState(null);
-  const onChangeF = (e) => {
-    setValueF(e.target.value);
-  };
-  const [valueG, setValueG] = useState(null);
-  const onChangeG = (e) => {
-    setValueG(e.target.value);
-  };
-  const [valueH, setValueH] = useState(null);
-  const onChangeH = (e) => {
-    setValueH(e.target.value);
-  };
   function addVisualInspection() {
     const VISUALQA = valueA;
     const VISUALQB = valueB;

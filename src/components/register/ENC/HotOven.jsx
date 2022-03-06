@@ -1,15 +1,5 @@
 import React from "react";
-import {
-  Form,
-  Input,
-  Row,
-  Col,
-  Typography,
-  Radio,
-  Divider,
-  Button,
-  Modal,
-} from "antd";
+import { Form, Input, Row, Col, Typography, Radio, Button, Modal } from "antd";
 import {
   HOT_OVEN_B_DOOR,
   HOT_OVEN_B_SIDES,
@@ -24,13 +14,8 @@ import {
   OVEN_APROVE_OR_NOT,
 } from "../../constants/ConstantHotOven";
 import { useNavigate } from "react-router-dom";
-
-import QaReportFirebase from "../../../../Credentials";
-import { getAuth } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
-const firestore = getFirestore(QaReportFirebase);
-const auth = getAuth(QaReportFirebase);
 const db = getFirestore();
 const { Text, Title } = Typography;
 
@@ -42,18 +27,14 @@ export const HotOven = (props) => {
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [valueRC, setValueRC] = useState(null);
   const [valueAON, setValueAON] = useState(null);
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-  const showModal2 = () => {
-    setModalVisible(true);
-  };
+
+  const showModal = () => setIsModalVisible(true);
+  const handleOk = () => setIsModalVisible(false);
+  const handleCancel = () => setIsModalVisible(false);
+  const showModal2 = () => setModalVisible(true);
+  const onChangeRC = (e) => setValueRC(e.target.value);
+  const onChangeAON = (e) => setValueAON(e.target.value);
+
   const handleOk2 = () => {
     setModalVisible(false);
     window.scrollTo(0, 0);
@@ -64,12 +45,6 @@ export const HotOven = (props) => {
     window.scrollTo(0, 0);
   };
 
-  const onChangeRC = (e) => {
-    setValueRC(e.target.value);
-  };
-  const onChangeAON = (e) => {
-    setValueAON(e.target.value);
-  };
   async function onClickF(
     HOT_OVEN_B_DOOR,
     HOT_OVEN_B_SIDES,
@@ -103,7 +78,6 @@ export const HotOven = (props) => {
     );
     setLoading(false);
   }
-  const [form] = Form.useForm();
   async function addHotOven(values, arrayOvens) {
     const HOT_OVEN_B_DOOR = values.HOT_OVEN_B_DOOR;
     const HOT_OVEN_B_SIDES = values.HOT_OVEN_B_SIDES;

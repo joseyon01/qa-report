@@ -1,17 +1,22 @@
-import { Navigate, Route } from "react-router-dom";
-import QaReportFirebase from "../../../Credentials";
-import react, { useState } from "react";
+import { Navigate } from "react-router-dom";
+import { AuthLoader } from "../AuthLoader";
+import { useState } from "react";
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-const auth = getAuth(QaReportFirebase);
+const auth = getAuth();
 
 export const PrivateRoute = ({ children }) => {
   const [globalUser, setGlobalUser] = useState(null);
-  onAuthStateChanged(auth, (fireBaseUser) => {
+  const [loading, setLoading] = useState(true);
+  onAuthStateChanged(getAuth(), (fireBaseUser) => {
     if (fireBaseUser) {
       const uid = fireBaseUser.uid;
       setGlobalUser(uid);
+      setLoading(false);
     }
   });
+  if (loading) {
+    return <AuthLoader />;
+  }
   return auth.currentUser ? children : <Navigate to="/" />;
 };

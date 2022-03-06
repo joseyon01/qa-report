@@ -1,23 +1,7 @@
 import React, { useEffect } from "react";
-import {
-  Form,
-  Input,
-  Row,
-  Col,
-  Typography,
-  Radio,
-  Divider,
-  Button,
-  Modal,
-  message,
-} from "antd";
-
-import QaReportFirebase from "../../../../Credentials";
-import { getAuth } from "firebase/auth";
+import { Form, Input, Row, Col, Typography, Radio, Button, Modal } from "antd";
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 import { useState } from "react";
-const firestore = getFirestore(QaReportFirebase);
-const auth = getAuth(QaReportFirebase);
 const db = getFirestore();
 const { Text, Title } = Typography;
 const { TextArea } = Input;
@@ -66,93 +50,35 @@ export const EditOperationalInspection = (props) => {
   const [valueJ, setValueJ] = useState(null);
   const [operational_OPENING, setOperational_OPENING] = useState(null);
   const [operational_CLOSING, setOperational_CLOSING] = useState(null);
-  const [valueTo, setValueTo] = useState(null);
-  const onChangeB = (e) => {
-    setValueB(e.target.value);
-  };
-  const onChangeG = (e) => {
-    setValueG(e.target.value);
-  };
-  const onChangeD = (e) => {
-    setValueD(e.target.value);
-  };
-  const onChangeF = (e) => {
-    setValueF(e.target.value);
-  };
-  const onChangeJ = (e) => {
-    setValueJ(e.target.value);
-  };
-  const onChange_A_I = (e) => {
-    setOperational_A_I(e.target.value);
-  };
-  const onChange_B_I_I = (e) => {
-    setOperational_B_I_I(e.target.value);
-  };
-
-  const onChange_D_I = (e) => {
-    setOperational_D_I(e.target.value);
-  };
-  const onChange_D_II = (e) => {
-    setOperational_D_II(e.target.value);
-  };
-  const onChange_D_III = (e) => {
-    setOperational_D_III(e.target.value);
-  };
-  const onChange_E = (e) => {
-    setOperational_E(e.target.value);
-  };
-  const onChange_H_I = (e) => {
-    setOperational_H_I(e.target.value);
-  };
-  const onChange_H_IV = (e) => {
-    setOperational_H_IV(e.target.value);
-  };
-  const onChange_H_V = (e) => {
-    setOperational_H_V(e.target.value);
-  };
-  const onChange_H_VI = (e) => {
-    setOperational_H_VI(e.target.value);
-  };
-  const onChange_I_I = (e) => {
-    setOperational_I_I(e.target.value);
-  };
-  const onChange_I_II = (e) => {
-    setOperational_I_II(e.target.value);
-  };
-  const onChange_I_III = (e) => {
-    setOperational_I_III(e.target.value);
-  };
-  const onChange_NOTE = (e) => {
-    setOperational_NOTE(e.target.value);
-  };
-  const onChange_OPENING = (e) => {
-    setOperational_OPENING(e.target.value);
-  };
-  const onChange_CLOSING = (e) => {
-    setOperational_CLOSING(e.target.value);
-  };
-  function placeHolderValue(a, b) {
-    let result = (b - a) * (4187 / 30);
-    setValueTo(result);
-  }
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const showModal2 = () => {
-    setModalVisible(true);
-  };
+  const onChangeB = (e) => setValueB(e.target.value);
+  const onChangeG = (e) => setValueG(e.target.value);
+  const onChangeD = (e) => setValueD(e.target.value);
+  const onChangeF = (e) => setValueF(e.target.value);
+  const onChangeJ = (e) => setValueJ(e.target.value);
+  const onChange_A_I = (e) => setOperational_A_I(e.target.value);
+  const onChange_B_I_I = (e) => setOperational_B_I_I(e.target.value);
+  const onChange_D_I = (e) => setOperational_D_I(e.target.value);
+  const onChange_D_II = (e) => setOperational_D_II(e.target.value);
+  const onChange_D_III = (e) => setOperational_D_III(e.target.value);
+  const onChange_E = (e) => setOperational_E(e.target.value);
+  const onChange_H_I = (e) => setOperational_H_I(e.target.value);
+  const onChange_H_IV = (e) => setOperational_H_IV(e.target.value);
+  const onChange_H_V = (e) => setOperational_H_V(e.target.value);
+  const onChange_H_VI = (e) => setOperational_H_VI(e.target.value);
+  const onChange_I_I = (e) => setOperational_I_I(e.target.value);
+  const onChange_I_II = (e) => setOperational_I_II(e.target.value);
+  const onChange_I_III = (e) => setOperational_I_III(e.target.value);
+  const onChange_NOTE = (e) => setOperational_NOTE(e.target.value);
+  const onChange_OPENING = (e) => setOperational_OPENING(e.target.value);
+  const onChange_CLOSING = (e) => setOperational_CLOSING(e.target.value);
+  const showModal = () => setIsModalVisible(true);
+  const handleOk = () => setIsModalVisible(false);
+  const handleCancel = () => setIsModalVisible(false);
+  const showModal2 = () => setModalVisible(true);
 
   const handleOk2 = () => {
     setModalVisible(false);
@@ -163,7 +89,6 @@ export const EditOperationalInspection = (props) => {
     setModalVisible(false);
     window.scrollTo(0, 0);
   };
-  const [loading, setLoading] = useState(false);
 
   async function onClickF(
     OPERATIONAL_A_I,
@@ -193,7 +118,6 @@ export const EditOperationalInspection = (props) => {
       {
         OPERATIONAL_A_I: OPERATIONAL_A_I,
         OPERATIONAL_B_I_I: OPERATIONAL_B_I_I,
-
         OPERATIONAL_D_I: OPERATIONAL_D_I,
         OPERATIONAL_D_II: OPERATIONAL_D_II,
         OPERATIONAL_D_III: OPERATIONAL_D_III,

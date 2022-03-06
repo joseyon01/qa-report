@@ -1,15 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Form,
-  Row,
-  Col,
-  Typography,
-  Radio,
-  Divider,
-  Button,
-  Modal,
-  message,
-} from "antd";
+import { Form, Row, Col, Typography, Radio, Button, Modal } from "antd";
 const { Text, Title } = Typography;
 import {
   VISUALQA,
@@ -20,36 +10,35 @@ import {
   VISUALQF,
   VISUALQG,
 } from "../../constants/ConstVisualInspection";
-import { useNavigate, useParams } from "react-router-dom";
-import QaReportFirebase from "../../../../Credentials";
-import { getAuth } from "firebase/auth";
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
-
-const firestore = getFirestore(QaReportFirebase);
-const auth = getAuth(QaReportFirebase);
 
 const db = getFirestore();
 
 export const EditVisualInspection = (props) => {
+  const ovenSerial = props.serial;
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(null);
+  const [valueG, setValueG] = useState(null);
+  const [valueF, setValueF] = useState(null);
+  const [valueE, setValueE] = useState(null);
+  const [valueD, setValueD] = useState(null);
+  const [valueC, setValueC] = useState(null);
+  const [valueB, setValueB] = useState(null);
+  const [valueA, setValueA] = useState(null);
 
-  const showModal2 = () => {
-    setModalVisible(true);
-  };
-
+  const showModal = () => setIsModalVisible(true);
+  const handleOk = () => setIsModalVisible(false);
+  const handleCancel = () => setIsModalVisible(false);
+  const showModal2 = () => setModalVisible(true);
+  const onChangeA = (e) => setValueA(e.target.value);
+  const onChangeB = (e) => setValueB(e.target.value);
+  const onChangeC = (e) => setValueC(e.target.value);
+  const onChangeD = (e) => setValueD(e.target.value);
+  const onChangeE = (e) => setValueE(e.target.value);
+  const onChangeF = (e) => setValueF(e.target.value);
+  const onChangeG = (e) => setValueG(e.target.value);
   const handleOk2 = () => {
     setModalVisible(false);
     window.scrollTo(0, 0);
@@ -59,9 +48,6 @@ export const EditVisualInspection = (props) => {
     setModalVisible(false);
     window.scrollTo(0, 0);
   };
-  const [loading, setLoading] = useState(false);
-  const ovenSerial = props.serial;
-  const [buttonDisabled, setButtonDisabled] = useState(null);
 
   async function onClickF(
     VISUALQA,
@@ -85,36 +71,6 @@ export const EditVisualInspection = (props) => {
     });
     setLoading(false);
   }
-
-  const [form] = Form.useForm();
-  const [valueG, setValueG] = useState(null);
-  const [valueF, setValueF] = useState(null);
-  const [valueE, setValueE] = useState(null);
-  const [valueD, setValueD] = useState(null);
-  const [valueC, setValueC] = useState(null);
-  const [valueB, setValueB] = useState(null);
-  const [valueA, setValueA] = useState(null);
-  const onChangeA = (e) => {
-    setValueA(e.target.value);
-  };
-  const onChangeB = (e) => {
-    setValueB(e.target.value);
-  };
-  const onChangeC = (e) => {
-    setValueC(e.target.value);
-  };
-  const onChangeD = (e) => {
-    setValueD(e.target.value);
-  };
-  const onChangeE = (e) => {
-    setValueE(e.target.value);
-  };
-  const onChangeF = (e) => {
-    setValueF(e.target.value);
-  };
-  const onChangeG = (e) => {
-    setValueG(e.target.value);
-  };
 
   const getDataOven = async () => {
     try {
@@ -169,9 +125,6 @@ export const EditVisualInspection = (props) => {
       showModal2();
     }
   }
-  const onFail = () => {
-    alert("pleace complite the form");
-  };
 
   return (
     <Form
@@ -364,7 +317,6 @@ export const EditVisualInspection = (props) => {
                 {loading ? "" : "Submit"}
               </Button>
               <Modal
-                style={{ borderRadius: "20px" }}
                 visible={isModalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}

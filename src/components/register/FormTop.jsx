@@ -8,17 +8,14 @@ import {
   Button,
   Modal,
   Typography,
-  message,
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import { SERIAL, DATE, NAME, OVEN } from "../constants/ConstFormTop";
-import QaReportFirebase from "../../../Credentials";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
 import { useState, useEffect } from "react";
-const firestore = getFirestore(QaReportFirebase);
-const auth = getAuth(QaReportFirebase);
+const auth = getAuth();
 const { Option } = Select;
 const db = getFirestore();
 const { Text, Title } = Typography;
@@ -39,30 +36,19 @@ export const FormTop = (props) => {
   const [isModalVisible2, setIsModalVisible2] = useState(false);
   const [userName, setUserName] = useState(null);
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-  const showModal2 = () => {
-    setIsModalVisible2(true);
-  };
-
+  const showModal = () => setIsModalVisible(true);
+  const handleOk = () => setIsModalVisible(false);
+  const handleCancel = () => setIsModalVisible(false);
+  const showModal2 = () => setIsModalVisible2(true);
   const handleOk2 = () => {
     setIsModalVisible2(false);
     navigate(`/dashboard`);
   };
-
   const handleCancel2 = () => {
     setIsModalVisible(false);
     navigate(`/dashboard`);
   };
+
   async function onClickF(serial, date, status, name, oven, userId) {
     setLoading(true);
 
@@ -202,6 +188,7 @@ export const FormTop = (props) => {
               disabled={buttonDisabled}
             >
               <Option value="ENC">ENC</Option>
+              <Option value="I1">I1</Option>
               <Option value="I3">I3</Option>
             </Select>
           </Form.Item>

@@ -10,14 +10,10 @@ import {
   message,
 } from "antd";
 import { SERIAL, DATE, NAME, OVEN } from "../constants/ConstFormTop";
-import QaReportFirebase from "../../../Credentials";
-import { getAuth } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import moment from "moment";
 const { Text } = Typography;
-const firestore = getFirestore(QaReportFirebase);
-const auth = getAuth(QaReportFirebase);
 const { Option } = Select;
 const db = getFirestore();
 
@@ -29,16 +25,6 @@ export const EditFormTop = (props) => {
   const [name, setName] = useState(null);
   const [date, setDate] = useState(null);
   const [typeOfOven, setTypeOfOven] = useState(null);
-
-  const onChangeSerial = (e) => {
-    setSerial(e.target.value);
-  };
-  const onChangeName = (e) => {
-    setName(e.target.value);
-  };
-  const onChangeDate = (e) => {
-    setDate(e.target.value);
-  };
 
   const getDataOven = async () => {
     try {
@@ -108,6 +94,7 @@ export const EditFormTop = (props) => {
           <Form.Item label="Type">
             <Select size="large" name={OVEN} value={`${typeOfOven}`} disabled>
               <Option value="ENC">ENC</Option>
+              <Option value="I1">I1</Option>
               <Option value="I3">I3</Option>
             </Select>
           </Form.Item>

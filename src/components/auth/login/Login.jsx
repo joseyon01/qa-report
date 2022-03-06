@@ -14,37 +14,24 @@ import { useNavigate } from "react-router-dom";
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
 import Logo from "../../../assets/img/turboChefLogo.png";
-import QaReportFirebase from "../../../../Credentials";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
   setPersistence,
-  browserSessionPersistence,
+  browserLocalPersistence,
 } from "firebase/auth";
-const auth = getAuth(QaReportFirebase);
+const auth = getAuth();
 
 export const Login = () => {
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
   const [modalVisible, setModalVisible] = useState(false);
-
-  const showModal2 = () => {
-    setModalVisible(true);
-  };
+  const showModal = () => setIsModalVisible(true);
+  const handleOk = () => setIsModalVisible(false);
+  const handleCancel = () => setIsModalVisible(false);
+  const showModal2 = () => setModalVisible(true);
 
   const handleOk2 = () => {
     setModalVisible(false);
@@ -56,7 +43,7 @@ export const Login = () => {
     navigate(`/dashboard`);
   };
   const persistenceLocal = (auth, email, password) =>
-    setPersistence(auth, browserSessionPersistence)
+    setPersistence(auth, browserLocalPersistence)
       .then(() => {
         return signInWithEmailAndPassword(auth, email, password);
       })
@@ -65,11 +52,9 @@ export const Login = () => {
         const errorMessage = error.message;
       });
 
-  const [globalUser, setGlobalUser] = useState(null);
   onAuthStateChanged(auth, (fireBaseUser) => {
     if (fireBaseUser) {
       const uid = fireBaseUser.uid;
-      setGlobalUser(uid);
       return uid;
       // ...
     }
@@ -107,20 +92,23 @@ export const Login = () => {
         <Form
           name="logIn"
           labelCol={{ span: 8 }}
-          wrapperCol={{ span: 10 }}
           initialValues={{ remember: true }}
           onFinish={onLogin}
           onFinishFailed={onLoginFailed}
           autoComplete="off"
         >
-          <Row justify="center"></Row>
           <Row justify="center">
-            <Col xs={5} style={{ paddingBottom: "1em" }}>
-              <Image width={200} src={Logo} />
+            <Col
+              xs={12}
+              sm={{ span: 5, offset: 3 }}
+              md={{ span: 4 }}
+              style={{ paddingBottom: "1em" }}
+            >
+              <Image width={"100%"} src={Logo} />
             </Col>
           </Row>
           <Row justify="center">
-            <Col xs={16}>
+            <Col xs={15} sm={10}>
               <Form.Item
                 label="Email"
                 name="email"
@@ -149,8 +137,11 @@ export const Login = () => {
               >
                 <Input.Password />
               </Form.Item>
-
-              <Form.Item wrapperCol={{ offset: 11, span: 6 }}>
+            </Col>
+          </Row>
+          <Row justify="center">
+            <Col sm={{ offset: 3 }}>
+              <Form.Item>
                 <Button type="primary" htmlType="submit">
                   Login
                 </Button>

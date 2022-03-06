@@ -1,22 +1,7 @@
 import React from "react";
-import {
-  Form,
-  Input,
-  Row,
-  Col,
-  Typography,
-  Radio,
-  Divider,
-  Button,
-  Modal,
-} from "antd";
-
-import QaReportFirebase from "../../../../Credentials";
-import { getAuth } from "firebase/auth";
+import { Form, Input, Row, Col, Typography, Radio, Button, Modal } from "antd";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
-const firestore = getFirestore(QaReportFirebase);
-const auth = getAuth(QaReportFirebase);
 const db = getFirestore();
 const { Text, Title } = Typography;
 const { TextArea } = Input;
@@ -58,23 +43,25 @@ export const OperationalInspection = (props) => {
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
   const [modalVisible, setModalVisible] = useState(false);
+  const [valueC, setValueC] = useState(null);
+  const [valueD, setValueD] = useState(null);
+  const [valueF, setValueF] = useState(null);
+  const [valueJ, setValueJ] = useState(null);
+  const [valueTf, setValueTf] = useState(null);
+  const [valueTi, setValueTi] = useState(null);
+  const [valueTo, setValueTo] = useState(null);
 
-  const showModal2 = () => {
-    setModalVisible(true);
-  };
+  const showModal = () => setIsModalVisible(true);
+  const handleOk = () => setIsModalVisible(false);
+  const handleCancel = () => setIsModalVisible(false);
+  const showModal2 = () => setModalVisible(true);
+  const onChangeC = (e) => setValueC(e.target.value);
+  const onChangeD = (e) => setValueD(e.target.value);
+  const onChangeF = (e) => setValueF(e.target.value);
+  const onChangeJ = (e) => setValueJ(e.target.value);
+  const onChangeTf = (e) => setValueTf(e.target.value);
+  const onChangeTi = (e) => setValueTi(e.target.value);
 
   const handleOk2 = () => {
     setModalVisible(false);
@@ -158,38 +145,6 @@ export const OperationalInspection = (props) => {
       }
     );
     setLoading(false);
-  }
-  const [valueC, setValueC] = useState(null);
-  const onChangeC = (e) => {
-    setValueC(e.target.value);
-  };
-  const [valueD, setValueD] = useState(null);
-  const onChangeD = (e) => {
-    setValueD(e.target.value);
-  };
-  const [valueF, setValueF] = useState(null);
-  const onChangeF = (e) => {
-    setValueF(e.target.value);
-  };
-  const [valueJ, setValueJ] = useState(null);
-  const onChangeJ = (e) => {
-    setValueJ(e.target.value);
-  };
-  const [valueTf, setValueTf] = useState(null);
-  const onChangeTf = (e) => {
-    setValueTf(e.target.value);
-  };
-  const [valueTi, setValueTi] = useState(null);
-  const onChangeTi = (e) => {
-    setValueTi(e.target.value);
-  };
-  const [valueTo, setValueTo] = useState(null);
-  const onChangeTo = (e) => {
-    setValueTo(e.target.value);
-  };
-  function placeHolderValue(a, b) {
-    let result = (b - a) * (4187 / 30);
-    setValueTo(result);
   }
 
   function addOperational(values) {
@@ -280,7 +235,6 @@ export const OperationalInspection = (props) => {
     }
   }
 
-  const [form] = Form.useForm();
   return (
     <Form
       labelCol={{ span: 7 }}

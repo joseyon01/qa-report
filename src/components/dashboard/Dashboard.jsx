@@ -15,21 +15,16 @@ import { SearchOutlined } from "@ant-design/icons";
 import { Header } from "../layout/Header";
 import { Container } from "../layout/Container";
 import { useNavigate, Link } from "react-router-dom";
-const { Content, Sider, Footer } = Layout;
+const { Content, Footer } = Layout;
 import {
   getFirestore,
   doc,
   getDocs,
   collection,
   deleteDoc,
-  query,
-  where,
 } from "firebase/firestore";
-import QaReportFirebase from "../../../Credentials";
-const firestore = getFirestore(QaReportFirebase);
 import { getAuth } from "firebase/auth";
 const db = getFirestore();
-const auth = getAuth(QaReportFirebase);
 
 export const Dashboard = () => {
   const [arrayOvens, setArrayOvens] = useState(null);
@@ -37,9 +32,6 @@ export const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const ovenRef = collection(db, "oven");
-  function handleChange() {
-    navigate(`/register`);
-  }
   function navigateEdit(serial, oven) {
     navigate(`/edit/${serial}/${oven}`);
   }
