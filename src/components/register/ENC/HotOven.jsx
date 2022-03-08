@@ -1,5 +1,17 @@
 import React from "react";
-import { Form, Input, Row, Col, Typography, Radio, Button, Modal } from "antd";
+import {
+  Form,
+  Input,
+  Row,
+  Col,
+  Typography,
+  Radio,
+  Button,
+  Modal,
+  Upload,
+  message,
+} from "antd";
+import { UploadOutlined, StarOutlined } from "@ant-design/icons";
 import {
   HOT_OVEN_B_DOOR,
   HOT_OVEN_B_SIDES,
@@ -15,26 +27,38 @@ import {
 } from "../../constants/ConstantHotOven";
 import { useNavigate } from "react-router-dom";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
-import { useState } from "react";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { useState, useEffect } from "react";
+import { Action } from "history";
 const db = getFirestore();
+const storage = getStorage();
 const { Text, Title } = Typography;
 
 export const HotOven = (props) => {
   const navigate = useNavigate();
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [valueRC, setValueRC] = useState(null);
   const [valueAON, setValueAON] = useState(null);
-
+  const [upLoadDisabled, setUpLoadDisabled] = useState(false);
+  const [fileList, setFileList] = useState([]);
+  const [uploading, setUploading] = useState("");
+  const [imageLoading, setImageLoading] = useState(false);
+  const [count, setCount] = useState(0);
   const showModal = () => setIsModalVisible(true);
   const handleOk = () => setIsModalVisible(false);
   const handleCancel = () => setIsModalVisible(false);
   const showModal2 = () => setModalVisible(true);
   const onChangeRC = (e) => setValueRC(e.target.value);
   const onChangeAON = (e) => setValueAON(e.target.value);
-
   const handleOk2 = () => {
     setModalVisible(false);
     window.scrollTo(0, 0);
@@ -78,6 +102,48 @@ export const HotOven = (props) => {
     );
     setLoading(false);
   }
+
+  const fileProps = {
+    action: "none",
+    onChange({ file, fileList }) {
+      console.log(file);
+      file.status = uploading;
+
+      if (file.status !== "uploading") {
+        console.log(file.status);
+      }
+    },
+    showUploadList: {
+      showDownloadIcon: true,
+      showRemoveIcon: true,
+      removeIcon: <StarOutlined onClick={(e) => console.log(e.target)} />,
+    },
+    customRequest: async (e) => {
+      const file = e.file;
+      console.log(e);
+      if (file) {
+        setCount(count + 1);
+        setUpLoadDisabled(true);
+        setImageLoading(true);
+        const storageRef = ref(storage, `${props.serial}/image-${count}`);
+        const uploadTask = await uploadBytesResumable(storageRef, file);
+        const urlRef = await getDownloadURL(storageRef);
+        console.log("file uploaded: ", file.name);
+        console.log(urlRef);
+        setFileList([...fileList, urlRef]);
+
+        setImageLoading(false);
+        setUploading("done");
+        setUpLoadDisabled(false);
+        if (count >= 4) {
+          setUpLoadDisabled(true);
+        } else {
+          setUpLoadDisabled(false);
+        }
+      }
+    },
+  };
+
   async function addHotOven(values, arrayOvens) {
     const HOT_OVEN_B_DOOR = values.HOT_OVEN_B_DOOR;
     const HOT_OVEN_B_SIDES = values.HOT_OVEN_B_SIDES;
@@ -297,7 +363,21 @@ export const HotOven = (props) => {
         </Col>
       </Row>
       <Row justify="center">
-        <Col xs={10}>
+        <Col xs={13}>
+          <Upload {...fileProps}>
+            <Button
+              loading={imageLoading}
+              disabled={upLoadDisabled}
+              icon={imageLoading ? "" : <UploadOutlined />}
+            >
+              Upload
+            </Button>
+          </Upload>
+        </Col>
+      </Row>
+
+      <Row justify="center">
+        <Col xs={20}>
           <Form.Item label="APROVED">
             <Radio.Group name={OVEN_APROVE_OR_NOT} onChange={onChangeAON}>
               <Radio value={true}>ACC</Radio>

@@ -15,7 +15,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { Header } from "../layout/Header";
 import { Container } from "../layout/Container";
 import { useNavigate, Link } from "react-router-dom";
-const { Content, Footer } = Layout;
+import { getStorage, ref, deleteObject } from "firebase/storage";
 import {
   getFirestore,
   doc,
@@ -24,6 +24,8 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+const storage = getStorage();
+const { Content, Footer } = Layout;
 const db = getFirestore();
 
 export const Dashboard = () => {
@@ -123,6 +125,14 @@ export const Dashboard = () => {
             loading={loading}
             onClick={async () => {
               setLoading(true);
+              for (let i = 0; i <= 4; i++) {
+                const storageRef = ref(storage, `${record.serial}/image-${i}`);
+                await deleteObject(storageRef)
+                  .then(() => {
+                    console.log("fileDeleted");
+                  })
+                  .catch((error) => {});
+              }
               await deleteDoc(doc(db, "oven", record.id));
               await deleteDoc(doc(db, "VisualInspection", `${record.serial}`));
               await deleteDoc(
@@ -130,6 +140,7 @@ export const Dashboard = () => {
               );
               await deleteDoc(doc(db, "HotOvenInspection", `${record.serial}`));
               await deleteDoc(doc(db, "FinalInspection", `${record.serial}`));
+
               const newArrayOvens = [];
               arrayOvens.forEach((e) => {
                 if (e.serial !== record.serial) {

@@ -26,7 +26,11 @@ export const FinalInspection = (props) => {
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [valueRC, setValueRC] = useState(null);
   const [valueAON, setValueAON] = useState(null);
-
+  const [upLoadDisabled, setUpLoadDisabled] = useState(false);
+  const [fileList, setFileList] = useState([]);
+  const [uploading, setUploading] = useState("");
+  const [imageLoading, setImageLoading] = useState(false);
+  const [count, setCount] = useState(0);
   const navigate = useNavigate();
   const showModal = () => setIsModalVisible(true);
   const handleOk = () => setIsModalVisible(false);
@@ -75,6 +79,48 @@ export const FinalInspection = (props) => {
     });
     setLoading(false);
   }
+
+  const fileProps = {
+    action: "none",
+    onChange({ file, fileList }) {
+      console.log(file);
+      file.status = uploading;
+
+      if (file.status !== "uploading") {
+        console.log(file.status);
+      }
+    },
+    showUploadList: {
+      showDownloadIcon: true,
+      showRemoveIcon: true,
+      removeIcon: <StarOutlined onClick={(e) => console.log(e.target)} />,
+    },
+    customRequest: async (e) => {
+      const file = e.file;
+      console.log(e);
+      if (file) {
+        setCount(count + 1);
+        setUpLoadDisabled(true);
+        setImageLoading(true);
+        const storageRef = ref(storage, `${props.serial}/image-${count}`);
+        const uploadTask = await uploadBytesResumable(storageRef, file);
+        const urlRef = await getDownloadURL(storageRef);
+        console.log("file uploaded: ", file.name);
+        console.log(urlRef);
+        setFileList([...fileList, urlRef]);
+
+        setImageLoading(false);
+        setUploading("done");
+        setUpLoadDisabled(false);
+        if (count >= 4) {
+          setUpLoadDisabled(true);
+        } else {
+          setUpLoadDisabled(false);
+        }
+      }
+    },
+  };
+
   async function addHotOven(values, arrayOvens) {
     const HOT_OVEN_B_DOOR = values.HOT_OVEN_B_DOOR;
     const HOT_OVEN_B_SIDES = values.HOT_OVEN_B_SIDES;
@@ -321,6 +367,19 @@ export const FinalInspection = (props) => {
               </Form.Item>
             </Col>
           </Row>
+        </Col>
+      </Row>
+      <Row justify="center">
+        <Col xs={13}>
+          <Upload {...fileProps}>
+            <Button
+              loading={imageLoading}
+              disabled={upLoadDisabled}
+              icon={imageLoading ? "" : <UploadOutlined />}
+            >
+              Upload
+            </Button>
+          </Upload>
         </Col>
       </Row>
       <Row justify="center">
