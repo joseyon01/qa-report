@@ -106,31 +106,27 @@ export const HotOven = (props) => {
   const fileProps = {
     action: "none",
     onChange({ file, fileList }) {
-      console.log(file);
       file.status = uploading;
-
-      if (file.status !== "uploading") {
-        console.log(file.status);
-      }
     },
     showUploadList: {
-      showDownloadIcon: true,
-      showRemoveIcon: true,
-      removeIcon: <StarOutlined onClick={(e) => console.log(e.target)} />,
+      showDownloadIcon: false,
+      showRemoveIcon: false,
     },
     customRequest: async (e) => {
       const file = e.file;
-      console.log(e);
       if (file) {
         setCount(count + 1);
         setUpLoadDisabled(true);
         setImageLoading(true);
         const storageRef = ref(storage, `${props.serial}/image-${count}`);
-        const uploadTask = await uploadBytesResumable(storageRef, file);
-        const urlRef = await getDownloadURL(storageRef);
-        console.log("file uploaded: ", file.name);
+        const name = `image-${count}`;
+        const uploadTask = await uploadBytesResumable(storageRef, file).catch(
+          (error) => {}
+        );
+        const urlRef = await getDownloadURL(storageRef).catch((error) => {});
+        const ovenRef = doc(db, "Images", `${props.serial}`);
+        await setDoc(ovenRef, { [count]: `${urlRef}` }, { merge: true });
         console.log(urlRef);
-        setFileList([...fileList, urlRef]);
 
         setImageLoading(false);
         setUploading("done");

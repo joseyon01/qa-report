@@ -60,9 +60,9 @@ export const FormTop = (props) => {
       oven: oven,
       userId: userId,
       key: serial,
-    });
+    }).catch((error) => {});
     const newDocRef = doc(db, "oven", `${serial}`);
-    const docSnap = await getDoc(newDocRef);
+    const docSnap = await getDoc(newDocRef).catch((error) => {});
     setOvenSerial(docSnap.serial);
     setOvenName(docSnap.name);
     setOvenDate(docSnap.date);
@@ -94,7 +94,7 @@ export const FormTop = (props) => {
     setOvenId(serialNumber);
 
     const docRefOven = doc(db, "oven", `${serialNumber}`);
-    const docSnapOven = await getDoc(docRefOven);
+    const docSnapOven = await getDoc(docRefOven).catch((error) => {});
     const data = docSnapOven.data();
     if (data) {
       showModal2();
@@ -154,7 +154,7 @@ export const FormTop = (props) => {
           </Form.Item>
         </Col>
         <Col xs={11} sm={12}>
-          <Form.Item label="Date" name={DATE}>
+          <Form.Item label="Date" name={DATE} required>
             <DatePicker
               style={{ width: "100%" }}
               size="large"
@@ -166,7 +166,7 @@ export const FormTop = (props) => {
           </Form.Item>
         </Col>
         <Col xs={11} sm={12}>
-          <Form.Item label="Name" name={NAME}>
+          <Form.Item label="Name" name={NAME} required>
             <Input
               style={{ width: "100%" }}
               size="large"
@@ -179,7 +179,7 @@ export const FormTop = (props) => {
           </Form.Item>
         </Col>
         <Col xs={11} sm={12}>
-          <Form.Item label="Type" name={OVEN}>
+          <Form.Item label="Type" name={OVEN} required>
             <Select
               style={{ width: "100%" }}
               size="large"

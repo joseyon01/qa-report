@@ -127,12 +127,9 @@ export const Dashboard = () => {
               setLoading(true);
               for (let i = 0; i <= 4; i++) {
                 const storageRef = ref(storage, `${record.serial}/image-${i}`);
-                await deleteObject(storageRef)
-                  .then(() => {
-                    console.log("fileDeleted");
-                  })
-                  .catch((error) => {});
+                await deleteObject(storageRef).catch((error) => {});
               }
+              await deleteDoc(doc(db, "Images", record.serial));
               await deleteDoc(doc(db, "oven", record.id));
               await deleteDoc(doc(db, "VisualInspection", `${record.serial}`));
               await deleteDoc(

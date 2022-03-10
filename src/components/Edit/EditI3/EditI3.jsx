@@ -5,6 +5,7 @@ import { EditVisualInspection } from "./EditVisualInspection";
 import { EditOperationalInspection } from "./EditOperationalInspection";
 import { EditFinalInspection } from "./EditFinalInspection";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import { EditI3Image } from "./EditI3Image";
 const db = getFirestore();
 const { TabPane } = Tabs;
 
@@ -25,6 +26,9 @@ export const EditI3 = (props) => {
         </TabPane>
         <TabPane tab="FINAL INSPECTION" key="3">
           <EditFinalInspection serial={ovenSerial} />
+        </TabPane>
+        <TabPane tab="IMAGES" key="4">
+          <EditI3Image serial={ovenSerial} />
         </TabPane>
       </Tabs>
     </Fragment>

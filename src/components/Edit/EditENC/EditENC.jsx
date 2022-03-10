@@ -4,6 +4,7 @@ import { Fragment } from "react/cjs/react.production.min";
 import { EditVisualInspection } from "./EditVisualInspection";
 import { EditOperationalInspection } from "./EditOperationalInspection";
 import { EditHotOven } from "./EditHotOven";
+import { EditENCImage } from "./EditENCImage";
 const { TabPane } = Tabs;
 
 export const EditENC = (props) => {
@@ -24,6 +25,9 @@ export const EditENC = (props) => {
         </TabPane>
         <TabPane tab="HOT OVEN" key="3">
           <EditHotOven serial={ovenSerial} />
+        </TabPane>
+        <TabPane tab="IMAGES" key="4">
+          <EditENCImage serial={ovenSerial} />
         </TabPane>
       </Tabs>
     </Fragment>

@@ -1,5 +1,15 @@
 import React from "react";
-import { Form, Input, Row, Col, Typography, Radio, Button, Modal } from "antd";
+import {
+  Form,
+  Input,
+  Row,
+  Col,
+  Typography,
+  Radio,
+  Button,
+  Modal,
+  Upload,
+} from "antd";
 import {
   HOT_OVEN_B_DOOR,
   HOT_OVEN_B_SIDES,
@@ -13,9 +23,17 @@ import {
   HOT_OVEN_E,
   OVEN_APROVE_OR_NOT,
 } from "../../constants/ConstantHotOven";
+import { UploadOutlined, StarOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+const storage = getStorage();
 const db = getFirestore();
 const { Text, Title } = Typography;
 
@@ -86,31 +104,27 @@ export const HotOven = (props) => {
   const fileProps = {
     action: "none",
     onChange({ file, fileList }) {
-      console.log(file);
       file.status = uploading;
-
-      if (file.status !== "uploading") {
-        console.log(file.status);
-      }
     },
     showUploadList: {
-      showDownloadIcon: true,
-      showRemoveIcon: true,
-      removeIcon: <StarOutlined onClick={(e) => console.log(e.target)} />,
+      showDownloadIcon: false,
+      showRemoveIcon: false,
     },
     customRequest: async (e) => {
       const file = e.file;
-      console.log(e);
       if (file) {
         setCount(count + 1);
         setUpLoadDisabled(true);
         setImageLoading(true);
         const storageRef = ref(storage, `${props.serial}/image-${count}`);
-        const uploadTask = await uploadBytesResumable(storageRef, file);
-        const urlRef = await getDownloadURL(storageRef);
-        console.log("file uploaded: ", file.name);
+        const name = `image-${count}`;
+        const uploadTask = await uploadBytesResumable(storageRef, file).catch(
+          (error) => {}
+        );
+        const urlRef = await getDownloadURL(storageRef).catch((error) => {});
+        const ovenRef = doc(db, "Images", `${props.serial}`);
+        await setDoc(ovenRef, { [count]: `${urlRef}` }, { merge: true });
         console.log(urlRef);
-        setFileList([...fileList, urlRef]);
 
         setImageLoading(false);
         setUploading("done");

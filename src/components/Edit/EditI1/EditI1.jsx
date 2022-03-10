@@ -3,6 +3,7 @@ import { Tabs } from "antd";
 import { EditVisualInspection } from "./EditVisualInspection";
 import { EditOperationalInspection } from "./EditOperationalInspection";
 import { EditHotOven } from "./EditHotOven";
+import { EditI1Image } from "./EditI1Image";
 const { TabPane } = Tabs;
 
 export const EditI1 = (props) => {
@@ -17,6 +18,9 @@ export const EditI1 = (props) => {
       </TabPane>
       <TabPane tab="Hot Oven" key="3" id="3">
         <EditHotOven serial={serial} />
+      </TabPane>
+      <TabPane tab="IMAGES" key="4">
+        <EditI1Image serial={serial} />
       </TabPane>
     </Tabs>
   );
