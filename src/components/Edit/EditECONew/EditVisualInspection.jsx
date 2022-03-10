@@ -11,23 +11,24 @@ import {
   VISUALQG,
   VISUALQH,
 } from "../../constants/ConstVisualInspection";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 const db = getFirestore();
 
 export const EditVisualInspection = (props) => {
   const ovenSerial = props.serial;
-  const [modalVisible, setModalVisible] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(null);
-  const [valueH, setValueH] = useState(null);
-  const [valueG, setValueG] = useState(null);
-  const [valueF, setValueF] = useState(null);
-  const [valueE, setValueE] = useState(null);
-  const [valueD, setValueD] = useState(null);
-  const [valueC, setValueC] = useState(null);
-  const [valueB, setValueB] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [valueA, setValueA] = useState(null);
+  const [valueB, setValueB] = useState(null);
+  const [valueC, setValueC] = useState(null);
+  const [valueD, setValueD] = useState(null);
+  const [valueE, setValueE] = useState(null);
+  const [valueF, setValueF] = useState(null);
+  const [valueG, setValueG] = useState(null);
+  const [valueH, setValueH] = useState(null);
+
   const showModal = () => setIsModalVisible(true);
   const handleOk = () => setIsModalVisible(false);
   const handleCancel = () => setIsModalVisible(false);
@@ -40,10 +41,12 @@ export const EditVisualInspection = (props) => {
   const onChangeF = (e) => setValueF(e.target.value);
   const onChangeG = (e) => setValueG(e.target.value);
   const onChangeH = (e) => setValueH(e.target.value);
+
   const handleOk2 = () => {
     setModalVisible(false);
     window.scrollTo(0, 0);
   };
+
   const handleCancel2 = () => {
     setModalVisible(false);
     window.scrollTo(0, 0);
@@ -61,19 +64,21 @@ export const EditVisualInspection = (props) => {
   ) {
     setButtonDisabled(true);
     setLoading(true);
-    const docRef = await setDoc(doc(db, "VisualInspection", `${ovenSerial}`), {
-      VISUALQA: VISUALQA,
-      VISUALQB: VISUALQB,
-      VISUALQC: VISUALQC,
-      VISUALQD: VISUALQD,
-      VISUALQE: VISUALQE,
-      VISUALQF: VISUALQF,
-      VISUALQG: VISUALQG,
-      VISUALQH: VISUALQH,
-    });
+    const docRef = await setDoc(
+      doc(db, "VisualInspection", `${props.serial}`),
+      {
+        VISUALQA: VISUALQA,
+        VISUALQB: VISUALQB,
+        VISUALQC: VISUALQC,
+        VISUALQD: VISUALQD,
+        VISUALQE: VISUALQE,
+        VISUALQF: VISUALQF,
+        VISUALQG: VISUALQG,
+        VISUALQH: VISUALQH,
+      }
+    );
     setLoading(false);
   }
-
   const getDataOven = async () => {
     try {
       const docRef = doc(db, "VisualInspection", `${ovenSerial}`);
@@ -131,10 +136,6 @@ export const EditVisualInspection = (props) => {
       showModal2();
     }
   }
-  const onFail = () => {
-    alert("pleace complite the form");
-  };
-
   return (
     <Form
       labelCol={{ span: 7 }}
@@ -162,12 +163,8 @@ export const EditVisualInspection = (props) => {
             onChange={onChangeA}
             value={valueA}
           >
-            <Radio name={VISUALQA} value={true}>
-              ACC
-            </Radio>
-            <Radio name={VISUALQA} value={false}>
-              NO ACC
-            </Radio>
+            <Radio value={true}>ACC</Radio>
+            <Radio value={false}>NO ACC</Radio>
           </Radio.Group>
         </Col>
       </Row>
@@ -176,9 +173,11 @@ export const EditVisualInspection = (props) => {
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
             B) Remove the Bubble wrap and insert the Oven Rack insuring flush
-            contact with all surfaces. Check IR Element lies flat and
-            Clips/Standoffs are tight and in correct position. Check Waveguide
-            Covers (ar the ends only) by squeezing with hands for looseness.
+            contact with all surfaces.
+            <br /> Check IR Element lies flat and Clips/Standoffs are tight and
+            in correct position.
+            <br /> Check Waveguide Covers (ar the ends only) by squeezing with
+            hands for looseness.
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
@@ -189,12 +188,8 @@ export const EditVisualInspection = (props) => {
               onChange={onChangeB}
               value={valueB}
             >
-              <Radio name={VISUALQB} value={true}>
-                ACC
-              </Radio>
-              <Radio name={VISUALQB} value={false}>
-                NO ACC
-              </Radio>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
           </Form.Item>
         </Col>
@@ -346,15 +341,6 @@ export const EditVisualInspection = (props) => {
                 {loading ? "" : "Submit"}
               </Button>
               <Modal
-                visible={isModalVisible}
-                onOk={handleOk}
-                onCancel={handleCancel}
-              >
-                <Title level={3}>Error..!</Title>
-                style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
-                <Text>All fields are required</Text>
-              </Modal>
-              <Modal
                 visible={modalVisible}
                 onOk={handleCancel2}
                 style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
@@ -362,6 +348,15 @@ export const EditVisualInspection = (props) => {
               >
                 <Title level={3}>OK..!</Title>
                 <Text>The data has been successfully stored</Text>
+              </Modal>
+              <Modal
+                visible={isModalVisible}
+                onOk={handleOk}
+                style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
+                onCancel={handleCancel}
+              >
+                <Title level={3}>Error..!</Title>
+                <Text>All fields are required</Text>
               </Modal>
             </Form.Item>
           </div>

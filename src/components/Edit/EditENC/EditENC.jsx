@@ -4,7 +4,7 @@ import { Fragment } from "react/cjs/react.production.min";
 import { EditVisualInspection } from "./EditVisualInspection";
 import { EditOperationalInspection } from "./EditOperationalInspection";
 import { EditHotOven } from "./EditHotOven";
-import { EditENCImage } from "./EditENCImage";
+import { EditENCImage } from "../EditImages/EditENCImage";
 const { TabPane } = Tabs;
 
 export const EditENC = (props) => {

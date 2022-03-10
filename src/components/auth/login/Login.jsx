@@ -100,15 +100,15 @@ export const Login = () => {
           <Row justify="center">
             <Col
               xs={12}
-              sm={{ span: 5, offset: 3 }}
+              sm={{ span: 5 }}
               md={{ span: 4 }}
               style={{ paddingBottom: "1em" }}
             >
-              <Image width={"100%"} src={Logo} />
+              <Image width={"100%"} src={Logo} preview={false} />
             </Col>
           </Row>
-          <Row justify="center">
-            <Col xs={15} sm={10}>
+          <Row>
+            <Col xs={15} sm={{ span: 9, offset: 6 }}>
               <Form.Item
                 label="Email"
                 name="email"
@@ -139,8 +139,8 @@ export const Login = () => {
               </Form.Item>
             </Col>
           </Row>
-          <Row justify="center">
-            <Col sm={{ offset: 3 }}>
+          <Row>
+            <Col sm={{ offset: 11 }}>
               <Form.Item>
                 <Button type="primary" htmlType="submit">
                   Login

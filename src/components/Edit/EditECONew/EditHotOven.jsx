@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Row, Col, Typography, Radio, Button, Modal } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import {
   HOT_OVEN_B_DOOR,
   HOT_OVEN_B_SIDES,
@@ -37,7 +38,6 @@ export const EditHotOven = (props) => {
   const [valueD, setValueD] = useState(null);
   const [valueE, setValueE] = useState(null);
   const [valueAON, setValueAON] = useState(null);
-
   const onChangeRC = (e) => setValueOvenR(e.target.value);
   const onChangeAON = (e) => setValueAON(e.target.value);
   const onChangeDoor = (e) => setValueDoor(e.target.value);
@@ -109,16 +109,18 @@ export const EditHotOven = (props) => {
     const HOT_OVEN_D = values.HOT_OVEN_D;
     const HOT_OVEN_E = values.HOT_OVEN_E;
     const OVEN_APROVE_OR_NOT = valueAON;
-    if (OVEN_APROVE_OR_NOT) {
-      const ovenRef = doc(db, "oven", `${props.serial}`);
-      setDoc(ovenRef, { status: "Aprooved" }, { merge: true });
-    } else {
-      const ovenRef = doc(db, "oven", `${props.serial}`);
-      setDoc(ovenRef, { status: "Rejected" }, { merge: true });
-    }
+
     if (HOT_OVEN_RECHECK == null || OVEN_APROVE_OR_NOT == null) {
       showModal();
     } else {
+      if (OVEN_APROVE_OR_NOT) {
+        const ovenRef = doc(db, "oven", `${props.serial}`);
+        setDoc(ovenRef, { status: "Aprooved" }, { merge: true });
+      } else {
+        const ovenRef = doc(db, "oven", `${props.serial}`);
+        setDoc(ovenRef, { status: "Rejected" }, { merge: true });
+      }
+
       onClickF(
         HOT_OVEN_B_DOOR,
         HOT_OVEN_B_SIDES,
@@ -180,7 +182,7 @@ export const EditHotOven = (props) => {
         remember: true,
       }}
       labelCol={{ span: 7 }}
-      style={{ paddingBottom: "5em", placeholderColor: "green" }}
+      style={{ paddingBottom: "5em" }}
       onFinish={addHotOven}
     >
       <Row justify="center">
@@ -188,6 +190,7 @@ export const EditHotOven = (props) => {
           <strong>3) HOT OVEN OPERATIONAL CHECKOUT:</strong>
         </Col>
       </Row>
+
       <Row>
         <Col xs={{ span: 22, offset: 1 }} sm={24}>
           <Text>
@@ -200,7 +203,37 @@ export const EditHotOven = (props) => {
       <br />
       <Row>
         <Col xs={{ span: 22, offset: 1 }} sm={24}>
-          <Text>A) Door Closed Microwave Leakege Test:</Text>
+          <Text>
+            A) Door Closed Microwave Leakege Test: With the oven warmed to
+            operating temperature, use the "UNIT" (8648) then the "up arrow" to
+            access the second screen where the "MWLEAKAGE" resides on the menu
+            to give time to run the Magnetron independently for 45 seconds to
+            perfon the leakage test. The test can be an indicator of an oven
+            which has problems with containing the leakage. the 275 ml beakers
+            of water are for simulating a low leven load for the Microwave
+            system. The chart below is to indicate the two or three regions of
+            greatest leakage. Indicate the position with an "X" and record the
+            peak leven in mW/cm<sup>2</sup> as read from the meter while
+            performing the test.
+          </Text>
+          <br />
+          <br />
+          <Text>
+            Once the oven is set to run the test, set up the survey meter and
+            place into the lowest operating range if 2 mW/cm<sup>2</sup>, place
+            the beaker of water in the oven and close the door. Next, activate
+            the microwave and slowly move the wand of the survey meter, making
+            sure you are holding it perpendicular to the gap as you traverse the
+            perimeter of the Door at a slow pace of 1.25 inches/second.
+          </Text>
+          <br />
+          <br />
+          <Text>
+            Using the tongs, replace de beaker of hot water and re initiate the
+            Magnetron for another 45 seconds and search around the entire oven,
+            being Very careful not to contact the High Voltage components to
+            wiring. Refresh the beaker as needed to complete the survey.
+          </Text>
         </Col>
       </Row>
       <br />
@@ -208,10 +241,12 @@ export const EditHotOven = (props) => {
         <Col xs={{ span: 22, offset: 1 }} sm={24}>
           <Text>
             B) Repeat process checking the IR Element exits, around the
-            Magnetrons and waveguide ends, left and right sides. Maximum
-            allowale leakage is 0.8mW/cm surrounding the perimeter of the door
-            and 0.2mW/cm<sup>2</sup> around the EC and left and right side IR
-            Element through hole.
+            Magnetrons and waveguide ends, left and right sides.{" "}
+            <strong>
+              Maximum allowale leakage is 0.8mW/cm<sup>2</sup>
+            </strong>
+            surrounding the perimeter of the door and 0.2mW/cm<sup>2</sup>{" "}
+            around the EC and left and right side IR Element through hole.
           </Text>
         </Col>
       </Row>
@@ -253,8 +288,8 @@ export const EditHotOven = (props) => {
         <Col xs={{ span: 7, offset: 1 }} sm={{ span: 5, offset: 3 }}>
           <Form.Item
             name={HOT_OVEN_TOP_L}
-            value={valueTopL}
             style={{ marginBottom: "0" }}
+            value={valueTopL}
             onChange={onChangeTopL}
           >
             <Input
@@ -268,8 +303,8 @@ export const EditHotOven = (props) => {
         <Col xs={{ span: 7, offset: 8 }} sm={{ span: 5, offset: 8 }}>
           <Form.Item
             name={HOT_OVEN_TOP_R}
-            value={valueTopR}
             style={{ marginBottom: "0" }}
+            value={valueTopR}
             onChange={onChangeTopR}
           >
             <Input
@@ -283,9 +318,10 @@ export const EditHotOven = (props) => {
       </Row>
       <Row justify="center">
         <Col
-          xs={8}
+          xs={{ span: 8 }}
           style={{
             height: "8em",
+            width: "100%",
             border: "dashed 3px #ccc",
             display: "flex",
             justifyContent: "center",
@@ -350,7 +386,7 @@ export const EditHotOven = (props) => {
           <Row>
             <Col xs={24}>
               <Form.Item
-                label="C) Cook time Count"
+                label="COOCK ="
                 name={HOT_OVEN_C}
                 value={valueC}
                 onChange={onChangeC}
@@ -367,7 +403,7 @@ export const EditHotOven = (props) => {
           <Row>
             <Col xs={24}>
               <Form.Item
-                label="D) Survey meter #"
+                label="METER= "
                 name={HOT_OVEN_D}
                 value={valueD}
                 onChange={onChangeD}
@@ -384,7 +420,7 @@ export const EditHotOven = (props) => {
           <Row>
             <Col xs={24}>
               <Form.Item
-                label="E) Clear Cook time foults"
+                label="FAULTS AND COUNTERS"
                 name={HOT_OVEN_E}
                 value={valueE}
                 onChange={onChangeE}
@@ -400,8 +436,9 @@ export const EditHotOven = (props) => {
           </Row>
         </Col>
       </Row>
+
       <Row justify="center">
-        <Col xs={10}>
+        <Col xs={20}>
           <Form.Item label="APROVED">
             <Radio.Group
               name={OVEN_APROVE_OR_NOT}
@@ -425,13 +462,13 @@ export const EditHotOven = (props) => {
               disabled={buttonDisabled}
               loading={loading}
             >
-              Submit
+              {loading ? "" : "Submit"}
             </Button>
             <Modal
               visible={isModalVisible}
               onOk={handleOk}
-              style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
               onCancel={handleCancel}
+              style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
             >
               <Title level={3}>Error..!</Title>
               <Text>All fields are required</Text>
@@ -439,11 +476,13 @@ export const EditHotOven = (props) => {
             <Modal
               visible={modalVisible}
               onOk={handleOk2}
-              style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
               onCancel={handleCancel2}
+              style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
             >
               <Title level={3}>OK..!</Title>
               <Text>The data has been successfully stored</Text>
+              <br />
+              <Text>Go to dashboard</Text>
             </Modal>
           </Form.Item>
         </Col>

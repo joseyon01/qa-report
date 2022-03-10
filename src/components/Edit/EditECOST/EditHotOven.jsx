@@ -10,22 +10,20 @@ import {
   HOT_OVEN_RECHECK,
   HOT_OVEN_C,
   HOT_OVEN_D,
-  HOT_OVEN_E,
   OVEN_APROVE_OR_NOT,
 } from "../../constants/ConstantHotOven";
 import { useNavigate } from "react-router-dom";
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
-
 const db = getFirestore();
 const { Text, Title } = Typography;
 
 export const EditHotOven = (props) => {
   const navigate = useNavigate();
   const ovenSerial = props.serial;
-  const [buttonDisabled, setButtonDisabled] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(null);
   const [valueDoor, setValueDoor] = useState(null);
   const [valueSides, setValueSides] = useState(null);
   const [valueTopR, setValueTopR] = useState(null);
@@ -35,7 +33,6 @@ export const EditHotOven = (props) => {
   const [valueOvenR, setValueOvenR] = useState(null);
   const [valueC, setValueC] = useState(null);
   const [valueD, setValueD] = useState(null);
-  const [valueE, setValueE] = useState(null);
   const [valueAON, setValueAON] = useState(null);
 
   const onChangeRC = (e) => setValueOvenR(e.target.value);
@@ -48,7 +45,6 @@ export const EditHotOven = (props) => {
   const onChangeBotL = (e) => setValueBotL(e.target.value);
   const onChangeC = (e) => setValueC(e.target.value);
   const onChangeD = (e) => setValueD(e.target.value);
-  const onChangeE = (e) => setValueE(e.target.value);
   const showModal = () => setIsModalVisible(true);
   const handleOk = () => setIsModalVisible(false);
   const handleCancel = () => setIsModalVisible(false);
@@ -73,7 +69,6 @@ export const EditHotOven = (props) => {
     HOT_OVEN_RECHECK,
     HOT_OVEN_C,
     HOT_OVEN_D,
-    HOT_OVEN_E,
     OVEN_APROVE_OR_NOT
   ) {
     setButtonDisabled(true);
@@ -90,7 +85,6 @@ export const EditHotOven = (props) => {
         HOT_OVEN_RECHECK: HOT_OVEN_RECHECK,
         HOT_OVEN_C: HOT_OVEN_C,
         HOT_OVEN_D: HOT_OVEN_D,
-        HOT_OVEN_E: HOT_OVEN_E,
         OVEN_APROVE_OR_NOT: OVEN_APROVE_OR_NOT,
       }
     );
@@ -104,21 +98,22 @@ export const EditHotOven = (props) => {
     const HOT_OVEN_TOP_L = values.HOT_OVEN_TOP_L;
     const HOT_OVEN_BOT_R = values.HOT_OVEN_BOT_R;
     const HOT_OVEN_BOT_L = values.HOT_OVEN_BOT_L;
-    const HOT_OVEN_RECHECK = valueOvenR;
+    const HOT_OVEN_RECHECK = valueRC;
     const HOT_OVEN_C = values.HOT_OVEN_C;
     const HOT_OVEN_D = values.HOT_OVEN_D;
-    const HOT_OVEN_E = values.HOT_OVEN_E;
     const OVEN_APROVE_OR_NOT = valueAON;
-    if (OVEN_APROVE_OR_NOT) {
-      const ovenRef = doc(db, "oven", `${props.serial}`);
-      setDoc(ovenRef, { status: "Aprooved" }, { merge: true });
-    } else {
-      const ovenRef = doc(db, "oven", `${props.serial}`);
-      setDoc(ovenRef, { status: "Rejected" }, { merge: true });
-    }
+
     if (HOT_OVEN_RECHECK == null || OVEN_APROVE_OR_NOT == null) {
       showModal();
     } else {
+      if (OVEN_APROVE_OR_NOT) {
+        const ovenRef = doc(db, "oven", `${props.serial}`);
+        setDoc(ovenRef, { status: "Aprooved" }, { merge: true });
+      } else {
+        const ovenRef = doc(db, "oven", `${props.serial}`);
+        setDoc(ovenRef, { status: "Rejected" }, { merge: true });
+      }
+
       onClickF(
         HOT_OVEN_B_DOOR,
         HOT_OVEN_B_SIDES,
@@ -129,7 +124,6 @@ export const EditHotOven = (props) => {
         HOT_OVEN_RECHECK,
         HOT_OVEN_C,
         HOT_OVEN_D,
-        HOT_OVEN_E,
         OVEN_APROVE_OR_NOT
       );
       showModal2();
@@ -148,7 +142,6 @@ export const EditHotOven = (props) => {
       setValueBotL(data?.HOT_OVEN_BOT_L);
       setValueC(data?.HOT_OVEN_C);
       setValueD(data?.HOT_OVEN_D);
-      setValueE(data?.HOT_OVEN_E);
       setValueOvenR(data?.HOT_OVEN_RECHECK);
       setValueAON(data?.OVEN_APROVE_OR_NOT);
     } catch (error) {
@@ -166,7 +159,6 @@ export const EditHotOven = (props) => {
     HOT_OVEN_RECHECK: valueOvenR,
     HOT_OVEN_C: valueC,
     HOT_OVEN_D: valueD,
-    HOT_OVEN_E: valueE,
     OVEN_APROVE_OR_NOT: valueAON,
   });
 
@@ -180,7 +172,7 @@ export const EditHotOven = (props) => {
         remember: true,
       }}
       labelCol={{ span: 7 }}
-      style={{ paddingBottom: "5em", placeholderColor: "green" }}
+      style={{ paddingBottom: "5em" }}
       onFinish={addHotOven}
     >
       <Row justify="center">
@@ -188,6 +180,7 @@ export const EditHotOven = (props) => {
           <strong>3) HOT OVEN OPERATIONAL CHECKOUT:</strong>
         </Col>
       </Row>
+
       <Row>
         <Col xs={{ span: 22, offset: 1 }} sm={24}>
           <Text>
@@ -208,10 +201,12 @@ export const EditHotOven = (props) => {
         <Col xs={{ span: 22, offset: 1 }} sm={24}>
           <Text>
             B) Repeat process checking the IR Element exits, around the
-            Magnetrons and waveguide ends, left and right sides. Maximum
-            allowale leakage is 0.8mW/cm surrounding the perimeter of the door
-            and 0.2mW/cm<sup>2</sup> around the EC and left and right side IR
-            Element through hole.
+            Magnetrons and waveguide ends, left and right sides.{" "}
+            <strong>
+              Maximum allowale leakage is 0.8mW/cm<sup>2</sup>
+            </strong>
+            surrounding the perimeter of the door and 0.2mW/cm<sup>2</sup>{" "}
+            around the EC and left and right side IR Element through hole.
           </Text>
         </Col>
       </Row>
@@ -253,8 +248,8 @@ export const EditHotOven = (props) => {
         <Col xs={{ span: 7, offset: 1 }} sm={{ span: 5, offset: 3 }}>
           <Form.Item
             name={HOT_OVEN_TOP_L}
-            value={valueTopL}
             style={{ marginBottom: "0" }}
+            value={valueTopL}
             onChange={onChangeTopL}
           >
             <Input
@@ -268,8 +263,8 @@ export const EditHotOven = (props) => {
         <Col xs={{ span: 7, offset: 8 }} sm={{ span: 5, offset: 8 }}>
           <Form.Item
             name={HOT_OVEN_TOP_R}
-            value={valueTopR}
             style={{ marginBottom: "0" }}
+            value={valueTopR}
             onChange={onChangeTopR}
           >
             <Input
@@ -283,9 +278,10 @@ export const EditHotOven = (props) => {
       </Row>
       <Row justify="center">
         <Col
-          xs={8}
+          xs={{ span: 8 }}
           style={{
             height: "8em",
+            width: "100%",
             border: "dashed 3px #ccc",
             display: "flex",
             justifyContent: "center",
@@ -350,7 +346,7 @@ export const EditHotOven = (props) => {
           <Row>
             <Col xs={24}>
               <Form.Item
-                label="C) Cook time Count"
+                label="C) Reset all faults and count"
                 name={HOT_OVEN_C}
                 value={valueC}
                 onChange={onChangeC}
@@ -367,7 +363,7 @@ export const EditHotOven = (props) => {
           <Row>
             <Col xs={24}>
               <Form.Item
-                label="D) Survey meter #"
+                label="D) Survey meter# "
                 name={HOT_OVEN_D}
                 value={valueD}
                 onChange={onChangeD}
@@ -381,27 +377,10 @@ export const EditHotOven = (props) => {
               </Form.Item>
             </Col>
           </Row>
-          <Row>
-            <Col xs={24}>
-              <Form.Item
-                label="E) Clear Cook time foults"
-                name={HOT_OVEN_E}
-                value={valueE}
-                onChange={onChangeE}
-              >
-                <Input
-                  type="number"
-                  size="small"
-                  style={{ width: 150 }}
-                  required
-                />
-              </Form.Item>
-            </Col>
-          </Row>
         </Col>
       </Row>
       <Row justify="center">
-        <Col xs={10}>
+        <Col xs={20}>
           <Form.Item label="APROVED">
             <Radio.Group
               name={OVEN_APROVE_OR_NOT}
@@ -425,13 +404,13 @@ export const EditHotOven = (props) => {
               disabled={buttonDisabled}
               loading={loading}
             >
-              Submit
+              {loading ? "" : "Submit"}
             </Button>
             <Modal
               visible={isModalVisible}
               onOk={handleOk}
-              style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
               onCancel={handleCancel}
+              style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
             >
               <Title level={3}>Error..!</Title>
               <Text>All fields are required</Text>
@@ -439,11 +418,13 @@ export const EditHotOven = (props) => {
             <Modal
               visible={modalVisible}
               onOk={handleOk2}
-              style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
               onCancel={handleCancel2}
+              style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
             >
               <Title level={3}>OK..!</Title>
               <Text>The data has been successfully stored</Text>
+              <br />
+              <Text>Go to dashboard</Text>
             </Modal>
           </Form.Item>
         </Col>
