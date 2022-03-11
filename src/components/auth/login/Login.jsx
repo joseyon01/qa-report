@@ -108,7 +108,7 @@ export const Login = () => {
             </Col>
           </Row>
           <Row>
-            <Col xs={15} sm={{ span: 9, offset: 6 }}>
+            <Col xs={{ span: 15, offset: 4 }} sm={{ span: 9, offset: 6 }}>
               <Form.Item
                 label="Email"
                 name="email"
@@ -139,10 +139,10 @@ export const Login = () => {
               </Form.Item>
             </Col>
           </Row>
-          <Row>
-            <Col sm={{ offset: 11 }}>
+          <Row justify="center">
+            <Col sm={5} md={2} xs={10}>
               <Form.Item>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" block>
                   Login
                 </Button>
                 <Modal
