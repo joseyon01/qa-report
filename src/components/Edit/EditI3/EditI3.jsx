@@ -4,9 +4,7 @@ import { Fragment } from "react/cjs/react.production.min";
 import { EditVisualInspection } from "./EditVisualInspection";
 import { EditOperationalInspection } from "./EditOperationalInspection";
 import { EditFinalInspection } from "./EditFinalInspection";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
-import { EditI3Image } from "./EditI3Image";
-const db = getFirestore();
+import { EditImage } from "../EditImages/EditImage";
 const { TabPane } = Tabs;
 
 export const EditI3 = (props) => {
@@ -28,7 +26,7 @@ export const EditI3 = (props) => {
           <EditFinalInspection serial={ovenSerial} />
         </TabPane>
         <TabPane tab="IMAGES" key="4">
-          <EditI3Image serial={ovenSerial} />
+          <EditImage serial={ovenSerial} />
         </TabPane>
       </Tabs>
     </Fragment>

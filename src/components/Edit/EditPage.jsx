@@ -11,6 +11,7 @@ import { EditI3 } from "./EditI3/EditI3";
 import { EditI1 } from "./EditI1/EditI1";
 import { EditECOST } from "./EditECOST/EditECOST";
 import { EditECONew } from "./EditECONew/EditECONew";
+import { EditHHD } from "./EditHHD/EditHHD";
 
 const { Footer, Content } = Layout;
 
@@ -30,6 +31,7 @@ export const EditPage = () => {
             <Route path="I3" element={<EditI3 serial={serial} />} />
             <Route path="ECOST" element={<EditECOST serial={serial} />} />
             <Route path="ECONew" element={<EditECONew serial={serial} />} />
+            <Route path="HHD" element={<EditHHD serial={serial} />} />
           </Routes>
         </Container>
       </Content>

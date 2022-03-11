@@ -20,7 +20,7 @@ import {
 const db = getFirestore();
 const storage = getStorage();
 
-export const EditENCImage = (props) => {
+export const EditImage = (props) => {
   const [getImages, setGetImages] = useState([]);
   const [imgDelete, setImgDelete] = useState(null);
   const [getData, setGetData] = useState({});

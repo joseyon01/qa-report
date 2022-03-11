@@ -96,6 +96,9 @@ export const EditFormTop = (props) => {
               <Option value="ENC">ENC</Option>
               <Option value="I1">I1</Option>
               <Option value="I3">I3</Option>
+              <Option value="HHD">HHD</Option>
+              <Option value="ECOST">ECOST</Option>
+              <Option value="ECONew">ECONew</Option>
             </Select>
           </Form.Item>
         </Col>

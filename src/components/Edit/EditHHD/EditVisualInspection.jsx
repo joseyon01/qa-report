@@ -26,7 +26,7 @@ import {
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 const db = getFirestore();
 
-export const VisualInspection = (props) => {
+export const EditVisualInspection = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(null);

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Row, Col, Typography, Radio, Button, Modal } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
 import {
   HOT_OVEN_B_DOOR,
   HOT_OVEN_B_SIDES,

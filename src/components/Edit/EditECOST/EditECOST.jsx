@@ -2,7 +2,7 @@ import React from "react";
 import { Tabs } from "antd";
 import { EditVisualInspection } from "./EditVisualInspection";
 import { EditOperationalInspection } from "./EditOperationalInspection";
-import { EditENCImage } from "../EditImages/EditENCImage";
+import { EditImage } from "../EditImages/EditImage";
 import { EditHotOven } from "./EditHotOven";
 const { TabPane } = Tabs;
 
@@ -20,7 +20,7 @@ export const EditECOST = (props) => {
         <EditHotOven serial={serial} />
       </TabPane>
       <TabPane tab="IMAGES" key="4">
-        <EditENCImage serial={serial} />
+        <EditImage serial={serial} />
       </TabPane>
     </Tabs>
   );

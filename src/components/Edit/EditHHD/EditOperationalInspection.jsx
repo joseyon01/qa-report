@@ -8,22 +8,13 @@ import {
   Radio,
   Button,
   Modal,
-  Upload,
   TimePicker,
 } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
 
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import moment from "moment";
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
 const db = getFirestore();
-const storage = getStorage();
 const { Text, Title } = Typography;
 const { TextArea } = Input;
 import {
@@ -52,7 +43,7 @@ import {
   OPERATIONAL_PON,
 } from "../../constants/ConstOperational";
 
-export const OperationalInspection = (props) => {
+export const EditOperationalInspection = (props) => {
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -93,10 +84,6 @@ export const OperationalInspection = (props) => {
   const onChangeO = (e) => setValueO(e.target.value);
   const onChangeP = (e) => setValueP(e.target.value);
   const onChangePON = (e) => setValuePON(e.target.value);
-  const [upLoadDisabled, setUpLoadDisabled] = useState(false);
-  const [uploading, setUploading] = useState("");
-  const [imageLoading, setImageLoading] = useState(false);
-  const [count, setCount] = useState(0);
 
   const handleOk2 = () => {
     setModalVisible(false);
@@ -106,42 +93,6 @@ export const OperationalInspection = (props) => {
   const handleCancel2 = () => {
     setModalVisible(false);
     window.scrollTo(0, 0);
-  };
-  const fileProps = {
-    action: "none",
-    onChange({ file, fileList }) {
-      file.status = uploading;
-    },
-    showUploadList: {
-      showDownloadIcon: false,
-      showRemoveIcon: false,
-    },
-    customRequest: async (e) => {
-      const file = e.file;
-      if (file) {
-        setCount(count + 1);
-        setUpLoadDisabled(true);
-        setImageLoading(true);
-        const storageRef = ref(storage, `${props.serial}/image-${count}`);
-        const name = `image-${count}`;
-        const uploadTask = await uploadBytesResumable(storageRef, file).catch(
-          (error) => {}
-        );
-        const urlRef = await getDownloadURL(storageRef).catch((error) => {});
-        const ovenRef = doc(db, "Images", `${props.serial}`);
-        await setDoc(ovenRef, { [count]: `${urlRef}` }, { merge: true });
-        console.log(urlRef);
-
-        setImageLoading(false);
-        setUploading("done");
-        setUpLoadDisabled(false);
-        if (count >= 4) {
-          setUpLoadDisabled(true);
-        } else {
-          setUpLoadDisabled(false);
-        }
-      }
-    },
   };
 
   async function onClickF(
@@ -663,19 +614,6 @@ export const OperationalInspection = (props) => {
           <Form.Item name={OPERATIONAL_NOTE}>
             <TextArea autoSize={{ minRows: 3, maxRows: 4 }} />
           </Form.Item>
-        </Col>
-      </Row>
-      <Row justify="center" style={{ paddingBottom: "1em" }}>
-        <Col xs={13}>
-          <Upload {...fileProps}>
-            <Button
-              loading={imageLoading}
-              disabled={upLoadDisabled}
-              icon={imageLoading ? "" : <UploadOutlined />}
-            >
-              Upload
-            </Button>
-          </Upload>
         </Col>
       </Row>
       <Row justify="space-between">
