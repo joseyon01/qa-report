@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Row, Col, Typography, Radio, Button, Modal, Input } from "antd";
-const { Text, Title } = Typography;
 import {
   VISUALQA,
   VISUALQB_1,
@@ -23,10 +22,13 @@ import {
   VISUALQI_5,
   VISUALQJ,
 } from "../../constants/ConstVisualInspection";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+const { Text, Title } = Typography;
 const db = getFirestore();
 
 export const EditVisualInspection = (props) => {
+  const [form] = Form.useForm();
+  const ovenSerial = props.serial;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(null);
@@ -139,8 +141,42 @@ export const EditVisualInspection = (props) => {
     setLoading(false);
   }
 
+  const getDataOven = async () => {
+    try {
+      const docRef = doc(db, "VisualInspection", `${ovenSerial}`);
+      const docSnap = await getDoc(docRef);
+      const data = docSnap.data();
+      if (valueA == null) {
+        setValueA(data?.VISUALQA);
+        setValueB_1(data?.VISUALQB_1);
+        setValueB_2(data?.VISUALQB_2);
+        setValueB_3(data?.VISUALQB_3);
+        setValueB_4(data?.VISUALQB_4);
+        setValueB_5(data?.VISUALQB_5);
+        setValueB_6(data?.VISUALQB_6);
+        setValueB_7(data?.VISUALQB_7);
+        setValueC(data?.VISUALQC);
+        setValueD(data?.VISUALQD);
+        setValueE(data?.VISUALQE);
+        setValueF(data?.VISUALQF);
+        setValueG(data?.VISUALQG);
+        setValueH(data?.VISUALQH);
+        setValueI_1(data?.VISUALQI_1);
+        setValueI_2(data?.VISUALQI_2);
+        setValueI_3(data?.VISUALQI_3);
+        setValueI_4(data?.VISUALQI_4);
+        setValueI_5(data?.VISUALQI_5);
+        setValueJ(data?.VISUALQJ);
+      }
+    } catch (error) {
+      console.error("error", error);
+    }
+  };
+  useEffect(() => {
+    getDataOven();
+  }, []);
+
   function addVisualInspection(values) {
-    console.log(values);
     const VISUALQA = valueA;
     const VISUALQB_1 = valueB_1;
     const VISUALQB_2 = valueB_2;
@@ -205,8 +241,19 @@ export const EditVisualInspection = (props) => {
       showModal2();
     }
   }
+  form.setFieldsValue({
+    VISUALQI_1: valueI_1,
+    VISUALQI_2: valueI_2,
+    VISUALQI_3: valueI_3,
+    VISUALQI_4: valueI_4,
+    VISUALQI_5: valueI_5,
+  });
   return (
     <Form
+      form={form}
+      initialValues={{
+        remember: true,
+      }}
       labelCol={{ span: 7 }}
       style={{ paddingBottom: "5em" }}
       onFinish={addVisualInspection}
@@ -224,7 +271,12 @@ export const EditVisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Radio.Group required name={VISUALQA} onChange={onChangeA}>
+          <Radio.Group
+            required
+            name={VISUALQA}
+            onChange={onChangeA}
+            value={valueA}
+          >
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
           </Radio.Group>
@@ -239,118 +291,125 @@ export const EditVisualInspection = (props) => {
           <Row className={"sub-question"}>
             <Col xs={23}>
               <Row justify="space-around">
-                <Col xs={14}>
+                <Col xs={22} sm={14}>
                   <Text>1) Tug test the Line Voltage Wires.</Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={22} sm={5}>
                   <Form.Item>
                     <Radio.Group
                       name={VISUALQB_1}
                       required
                       onChange={onChangeB_1}
+                      value={valueB_1}
                     >
                       <Radio value={true}>ACC</Radio>
                       <Radio value={false}>NO ACC</Radio>
                     </Radio.Group>
                   </Form.Item>
                 </Col>
-                <Col xs={14}>
+                <Col xs={22} sm={14}>
                   <Text>
                     2) Ensure the wires going to the Heater Terminals are not
                     Kinked.
                   </Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={22} sm={5}>
                   <Form.Item>
                     <Radio.Group
                       name={VISUALQB_2}
                       required
                       onChange={onChangeB_2}
+                      value={valueB_2}
                     >
                       <Radio value={true}>ACC</Radio>
                       <Radio value={false}>NO ACC</Radio>
                     </Radio.Group>
                   </Form.Item>
                 </Col>
-                <Col xs={14}>
+                <Col xs={22} sm={14}>
                   <Text>3) Ensure all insulation Tape is neatly applied.</Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={22} sm={5}>
                   <Form.Item>
                     <Radio.Group
                       name={VISUALQB_3}
                       required
                       onChange={onChangeB_3}
+                      value={valueB_3}
                     >
                       <Radio value={true}>ACC</Radio>
                       <Radio value={false}>NO ACC</Radio>
                     </Radio.Group>
                   </Form.Item>
                 </Col>
-                <Col xs={14}>
+                <Col xs={22} sm={14}>
                   <Text>
                     4) Ensure tape around the Heater Terminals is at least 1/4
                     inch away from the terminals.
                   </Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={22} sm={5}>
                   <Form.Item>
                     <Radio.Group
                       name={VISUALQB_4}
                       required
                       onChange={onChangeB_4}
+                      value={valueB_4}
                     >
                       <Radio value={true}>ACC</Radio>
                       <Radio value={false}>NO ACC</Radio>
                     </Radio.Group>
                   </Form.Item>
                 </Col>
-                <Col xs={14}>
+                <Col xs={22} sm={14}>
                   <Text>
                     5) Ensure the oven door hinge screws are seated tight.
                   </Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={22} sm={5}>
                   <Form.Item>
                     <Radio.Group
                       name={VISUALQB_5}
                       required
                       onChange={onChangeB_5}
+                      value={valueB_5}
                     >
                       <Radio value={true}>ACC</Radio>
                       <Radio value={false}>NO ACC</Radio>
                     </Radio.Group>
                   </Form.Item>
                 </Col>
-                <Col xs={14}>
+                <Col xs={22} sm={14}>
                   <Text>
                     6) Ensure the oven door fits squarely and is not crooked
                   </Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={22} sm={5}>
                   <Form.Item>
                     <Radio.Group
                       name={VISUALQB_6}
                       required
                       onChange={onChangeB_6}
+                      value={valueB_6}
                     >
                       <Radio value={true}>ACC</Radio>
                       <Radio value={false}>NO ACC</Radio>
                     </Radio.Group>
                   </Form.Item>
                 </Col>
-                <Col xs={14}>
+                <Col xs={22} sm={14}>
                   <Text>
                     7) Ensure the oven door opens and closes smoothly and
                     doesn't get caught on sides.
                   </Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={22} sm={5}>
                   <Form.Item>
                     <Radio.Group
                       name={VISUALQB_7}
                       required
                       onChange={onChangeB_7}
+                      value={valueB_7}
                     >
                       <Radio value={true}>ACC</Radio>
                       <Radio value={false}>NO ACC</Radio>
@@ -362,18 +421,22 @@ export const EditVisualInspection = (props) => {
           </Row>
         </Col>
       </Row>
-      <br />
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={18}>
+        <Col xs={{ span: 20, offset: 1 }} sm={{ span: 18, offset: 1 }}>
           <Text>
             C) Check wiring of Line Voltage Components, EX: CC Heaters, Dual
             SSR, EC Fans, Hi-Limint Switch, Control Circuits, Motor Racks,
             Replays and Convection Blower.
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={{ span: 4, offset: 1 }}>
           <Form.Item>
-            <Radio.Group name={VISUALQC} required onChange={onChangeC}>
+            <Radio.Group
+              name={VISUALQC}
+              required
+              onChange={onChangeC}
+              value={valueC}
+            >
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -382,15 +445,20 @@ export const EditVisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={18}>
+        <Col xs={{ span: 20, offset: 1 }} sm={{ span: 18, offset: 1 }}>
           <Text>
             D) Check the screws that hold base to cavity. Ensure they are tight
             and there are no gaps.
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={{ span: 4, offset: 1 }}>
           <Form.Item>
-            <Radio.Group name={VISUALQD} required onChange={onChangeD}>
+            <Radio.Group
+              name={VISUALQD}
+              required
+              onChange={onChangeD}
+              value={valueD}
+            >
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -399,14 +467,19 @@ export const EditVisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={18}>
+        <Col xs={{ span: 20, offset: 1 }} sm={{ span: 18, offset: 1 }}>
           <Text>
             E) Check for loose hardware and debris on floor of the oven cabinet.
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={{ span: 4, offset: 1 }}>
           <Form.Item>
-            <Radio.Group name={VISUALQE} required onChange={onChangeE}>
+            <Radio.Group
+              name={VISUALQE}
+              required
+              onChange={onChangeE}
+              value={valueE}
+            >
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -415,15 +488,20 @@ export const EditVisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={18}>
+        <Col xs={{ span: 20, offset: 1 }} sm={{ span: 18, offset: 1 }}>
           <Text>
             F) open both doors. ensure door switch is not bent (switch plate
             should be straight)
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={{ span: 4, offset: 1 }}>
           <Form.Item>
-            <Radio.Group name={VISUALQF} required onChange={onChangeF}>
+            <Radio.Group
+              name={VISUALQF}
+              required
+              onChange={onChangeF}
+              value={valueF}
+            >
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -432,15 +510,20 @@ export const EditVisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={18}>
+        <Col xs={{ span: 20, offset: 1 }} sm={{ span: 18, offset: 1 }}>
           <Text>
             G) If the thermostat wire is rubbing against power supply box, add
             tape to protect it.
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={{ span: 4, offset: 1 }}>
           <Form.Item>
-            <Radio.Group name={VISUALQG} required onChange={onChangeG}>
+            <Radio.Group
+              name={VISUALQG}
+              required
+              onChange={onChangeG}
+              value={valueG}
+            >
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -449,15 +532,20 @@ export const EditVisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={18}>
+        <Col xs={{ span: 20, offset: 1 }} sm={{ span: 18, offset: 1 }}>
           <Text>
             H) Check that no wire are loose. if loose wires are found, tie with
             tie rod.
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={{ span: 4, offset: 1 }}>
           <Form.Item required>
-            <Radio.Group name={VISUALQH} required onChange={onChangeH}>
+            <Radio.Group
+              name={VISUALQH}
+              required
+              onChange={onChangeH}
+              value={valueH}
+            >
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -466,7 +554,7 @@ export const EditVisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={18}>
+        <Col xs={{ span: 20, offset: 1 }} sm={{ span: 18, offset: 1 }}>
           <Text>
             I) Using the OHMS function on your meter, measure and record the
             resistances between the:
@@ -476,67 +564,77 @@ export const EditVisualInspection = (props) => {
           <Row className={"sub-question"}>
             <Col xs={23}>
               <Row justify="space-around">
-                <Col xs={14}>
+                <Col xs={23} sm={14}>
                   <Text>1) Frane and the Ground pin on the plug:</Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={23} sm={5}>
                   <Form.Item name={VISUALQI_1}>
                     <Input
                       type="number"
                       size="small"
                       style={{ width: 150 }}
+                      onChange={onChangeI_1}
+                      value={valueI_1}
                       required
                     />
                   </Form.Item>
                 </Col>
-                <Col xs={14}>
+                <Col xs={23} sm={14}>
                   <Text>2) L1 & Gnd</Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={23} sm={5}>
                   <Form.Item name={VISUALQI_2}>
                     <Input
                       type="number"
                       size="small"
                       style={{ width: 150 }}
+                      onChange={onChangeI_2}
+                      value={valueI_2}
                       required
                     />
                   </Form.Item>
                 </Col>
-                <Col xs={14}>
+                <Col xs={23} sm={14}>
                   <Text>3) L2 & Gnd</Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={23} sm={5}>
                   <Form.Item name={VISUALQI_3}>
                     <Input
                       type="number"
                       size="small"
                       style={{ width: 150 }}
+                      onChange={onChangeI_3}
+                      value={valueI_3}
                       required
                     />
                   </Form.Item>
                 </Col>
-                <Col xs={14}>
+                <Col xs={23} sm={14}>
                   <Text>4) L3 & Gnd</Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={23} sm={5}>
                   <Form.Item name={VISUALQI_4}>
                     <Input
                       type="number"
                       size="small"
                       style={{ width: 150 }}
+                      onChange={onChangeI_4}
+                      value={valueI_4}
                       required
                     />
                   </Form.Item>
                 </Col>
-                <Col xs={14}>
+                <Col xs={23} sm={14}>
                   <Text>5) Neutral & Gnd</Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={23} sm={5}>
                   <Form.Item name={VISUALQI_5}>
                     <Input
                       type="number"
                       size="small"
                       style={{ width: 150 }}
+                      onChange={onChangeI_5}
+                      value={valueI_5}
                       required
                     />
                   </Form.Item>
@@ -548,14 +646,19 @@ export const EditVisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={18}>
+        <Col xs={{ span: 20, offset: 1 }} sm={{ span: 18, offset: 1 }}>
           <Text>
             J) Open Fuse #1, #2 and check rating, should be Class CC ATMR 12.
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 20, offset: 1 }} sm={{ span: 4, offset: 1 }}>
           <Form.Item>
-            <Radio.Group name={VISUALQJ} required onChange={onChangeJ}>
+            <Radio.Group
+              name={VISUALQJ}
+              required
+              onChange={onChangeJ}
+              value={valueJ}
+            >
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>

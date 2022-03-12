@@ -192,6 +192,7 @@ export const Dashboard = () => {
       }
     }
   };
+  console.log(arrayOvens);
 
   useEffect(() => {
     getUser();

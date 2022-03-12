@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Form,
   Input,
@@ -11,8 +11,7 @@ import {
   TimePicker,
 } from "antd";
 
-import { getFirestore, doc, setDoc } from "firebase/firestore";
-import { useState } from "react";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 import moment from "moment";
 const db = getFirestore();
 const { Text, Title } = Typography;
@@ -44,11 +43,16 @@ import {
 } from "../../constants/ConstOperational";
 
 export const EditOperationalInspection = (props) => {
+  const ovenSerial = props.serial;
+  const [form] = Form.useForm();
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [valueA_I, setValueA_I] = useState(null);
+  const [valueA_II, setValueA_II] = useState(null);
+  const [valueA_III, setValueA_III] = useState(null);
+  const [valueB_I, setValueB_I] = useState(null);
   const [valueC, setValueC] = useState(null);
   const [valueD, setValueD] = useState(null);
   const [valueE, setValueE] = useState(null);
@@ -57,18 +61,26 @@ export const EditOperationalInspection = (props) => {
   const [valueH, setValueH] = useState(null);
   const [valueI_I, setValueI_I] = useState(null);
   const [valueI_II, setValueI_II] = useState(null);
+  const [valueI_III, setValueI_III] = useState(null);
   const [valueJ, setValueJ] = useState(null);
   const [valueK, setValueK] = useState(null);
+  const [valueL_I, setValueL_I] = useState(null);
+  const [valueL_II, setValueL_II] = useState(null);
   const [valueM, setValueM] = useState(null);
   const [valueN, setValueN] = useState(null);
   const [valueO, setValueO] = useState(null);
   const [valueP, setValueP] = useState(null);
+  const [valueNOTE, setValueNOTE] = useState(null);
   const [valuePON, setValuePON] = useState(null);
 
   const showModal = () => setIsModalVisible(true);
   const handleOk = () => setIsModalVisible(false);
   const handleCancel = () => setIsModalVisible(false);
   const showModal2 = () => setModalVisible(true);
+  const onChangeA_I = (e) => setValueA_I(e.target.value);
+  const onChangeA_II = (e) => setValueA_II(e.target.value);
+  const onChangeA_III = (e) => setValueA_III(e.target.value);
+  const onChangeB_I = (e) => setValueB_I(e.target.value);
   const onChangeC = (e) => setValueC(e.target.value);
   const onChangeD = (e) => setValueD(e.target.value);
   const onChangeE = (e) => setValueE(e.target.value);
@@ -77,12 +89,17 @@ export const EditOperationalInspection = (props) => {
   const onChangeH = (e) => setValueH(e.target.value);
   const onChangeI_I = (e) => setValueI_I(e);
   const onChangeI_II = (e) => setValueI_II(e);
+  console.log(valueI_I);
+  console.log(valueI_II);
   const onChangeJ = (e) => setValueJ(e.target.value);
   const onChangeK = (e) => setValueK(e.target.value);
+  const onChangeL_I = (e) => setValueL_I(e.target.value);
+  const onChangeL_II = (e) => setValueL_II(e.target.value);
   const onChangeM = (e) => setValueM(e.target.value);
   const onChangeN = (e) => setValueN(e.target.value);
   const onChangeO = (e) => setValueO(e.target.value);
   const onChangeP = (e) => setValueP(e.target.value);
+  const onChangeNOTE = (e) => setValueNOTE(e.target.value);
   const onChangePON = (e) => setValuePON(e.target.value);
 
   const handleOk2 = () => {
@@ -152,6 +169,43 @@ export const EditOperationalInspection = (props) => {
     );
     setLoading(false);
   }
+  const getDataOven = async () => {
+    try {
+      const docRef = doc(db, "OperationalInspection", `${ovenSerial}`);
+      const docSnap = await getDoc(docRef);
+      const data = docSnap.data();
+      if (valueA_I == null) {
+        setValueA_I(data?.OPERATIONAL_A_I);
+        setValueA_II(data?.OPERATIONAL_A_II);
+        setValueA_III(data?.OPERATIONAL_A_III);
+        setValueB_I(data?.OPERATIONAL_B_I);
+        setValueC(data?.OPERATIONAL_C);
+        setValueD(data?.OPERATIONAL_D);
+        setValueE(data?.OPERATIONAL_E);
+        setValueF(data?.OPERATIONAL_F);
+        setValueG(data?.OPERATIONAL_G);
+        setValueH(data?.OPERATIONAL_H_I);
+        setValueI_I(moment(data?.OPERATIONAL_I_I, "HH:mm"));
+        setValueI_II(moment(data?.OPERATIONAL_I_II, "HH:mm"));
+        setValueI_III(data?.OPERATIONAL_I_III);
+        setValueJ(data?.OPERATIONAL_J);
+        setValueK(data?.OPERATIONAL_K);
+        setValueL_I(data?.OPERATIONAL_L_I);
+        setValueL_II(data?.OPERATIONAL_L_II);
+        setValueM(data?.OPERATIONAL_M);
+        setValueN(data?.OPERATIONAL_N);
+        setValueO(data?.OPERATIONAL_O);
+        setValueP(data?.OPERATIONAL_P);
+        setValueNOTE(data?.OPERATIONAL_NOTE);
+        setValuePON(data?.OPERATIONAL_PON);
+      }
+    } catch (error) {
+      console.error("error", error);
+    }
+  };
+  useEffect(() => {
+    getDataOven();
+  }, []);
 
   function addOperational(values) {
     const OPERATIONAL_A_I = values.OPERATIONAL_A_I;
@@ -164,14 +218,8 @@ export const EditOperationalInspection = (props) => {
     const OPERATIONAL_F = valueF;
     const OPERATIONAL_G = valueG;
     const OPERATIONAL_H_I = valueH;
-    const OPERATIONAL_I_I =
-      parseInt(moment(valueI_I).format("HH")) +
-      ":" +
-      parseInt(moment(valueI_I).format("mm"));
-    const OPERATIONAL_I_II =
-      parseInt(moment(valueI_II).format("HH")) +
-      ":" +
-      parseInt(moment(valueI_II).format("mm"));
+    const OPERATIONAL_I_I = moment(valueI_I).format("HH:mm");
+    const OPERATIONAL_I_II = moment(valueI_II).format("HH:mm");
     const value_I_III = (a, b) => {
       let c = a;
       let d = b;
@@ -246,9 +294,24 @@ export const EditOperationalInspection = (props) => {
       showModal2();
     }
   }
-
+  form.setFieldsValue({
+    OPERATIONAL_A_I: valueA_I,
+    OPERATIONAL_A_II: valueA_II,
+    OPERATIONAL_A_III: valueA_III,
+    OPERATIONAL_B_I: valueB_I,
+    OPERATIONAL_I_I: moment(valueI_I, "HH:mm"),
+    OPERATIONAL_I_II: moment(valueI_II, "HH:mm"),
+    OPERATIONAL_I_III: valueI_III,
+    OPERATIONAL_L_I: valueL_I,
+    OPERATIONAL_L_II: valueL_II,
+    OPERATIONAL_NOTE: valueNOTE,
+  });
   return (
     <Form
+      form={form}
+      initialValues={{
+        remember: true,
+      }}
       labelCol={{ span: 7 }}
       style={{ paddingBottom: "5em" }}
       onFinish={addOperational}
@@ -260,19 +323,24 @@ export const EditOperationalInspection = (props) => {
           </strong>
         </Col>
       </Row>
+      <br />
       <Row justify="center">
-        <Col xs={22} sm={23}>
+        <Col xs={22} sm={22}>
           <Text>A) Plug in the oven, as the Display Boots, check for:</Text>
         </Col>
         <Col xs={23}>
           <Row className="sub-question">
             <Col xs={23}>
-              <Row>
+              <Row justify="space-around">
                 <Col xs={23}>
                   <Text>i) Displayed software version</Text>
                 </Col>
                 <Col xs={23}>
-                  <Form.Item name={OPERATIONAL_A_I}>
+                  <Form.Item
+                    name={OPERATIONAL_A_I}
+                    onChange={onChangeA_I}
+                    value={valueA_I}
+                  >
                     <Input
                       placeholder="Version"
                       style={{ width: 150 }}
@@ -286,7 +354,11 @@ export const EditOperationalInspection = (props) => {
                   <Text>ii) Display voltage</Text>
                 </Col>
                 <Col xs={23}>
-                  <Form.Item name={OPERATIONAL_A_II}>
+                  <Form.Item
+                    name={OPERATIONAL_A_II}
+                    onChange={onChangeA_II}
+                    value={valueA_II}
+                  >
                     <Input
                       placeholder="VAC"
                       style={{ width: 150 }}
@@ -300,7 +372,11 @@ export const EditOperationalInspection = (props) => {
                   <Text>iii) VAC, Serial Number HHD/HHS</Text>
                 </Col>
                 <Col xs={23}>
-                  <Form.Item name={OPERATIONAL_A_III}>
+                  <Form.Item
+                    name={OPERATIONAL_A_III}
+                    onChange={onChangeA_III}
+                    value={valueA_III}
+                  >
                     <Input
                       placeholder="S/N"
                       style={{ width: 150 }}
@@ -316,14 +392,18 @@ export const EditOperationalInspection = (props) => {
         </Col>
       </Row>
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={18}>
+        <Col xs={{ span: 20, offset: 1 }} sm={16}>
           <Text>
             B) Meter to Volts AC: Measure the Voltage at Power Supply Input
             Terminals.
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Form.Item name={OPERATIONAL_B_I}>
+          <Form.Item
+            name={OPERATIONAL_B_I}
+            onChange={onChangeB_I}
+            value={valueB_I}
+          >
             <Input
               type="number"
               size="small"
@@ -343,7 +423,12 @@ export const EditOperationalInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Radio.Group required name={OPERATIONAL_C} onChange={onChangeC}>
+          <Radio.Group
+            required
+            name={OPERATIONAL_C}
+            onChange={onChangeC}
+            value={valueC}
+          >
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
           </Radio.Group>
@@ -352,14 +437,14 @@ export const EditOperationalInspection = (props) => {
 
       <br />
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
             D) Entein INFO MODE, check that the menu version and firmware are
             correct according to oven spec.
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Radio.Group name={OPERATIONAL_D} onChange={onChangeD}>
+          <Radio.Group name={OPERATIONAL_D} onChange={onChangeD} value={valueD}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
           </Radio.Group>
@@ -367,11 +452,11 @@ export const EditOperationalInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>E) Enter "Test Mode", make sure "Faults" are cleared.</Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Radio.Group name={OPERATIONAL_E} onChange={onChangeE}>
+          <Radio.Group name={OPERATIONAL_E} onChange={onChangeE} value={valueE}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
           </Radio.Group>
@@ -379,11 +464,11 @@ export const EditOperationalInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>F) Make sure the Door says closed when it is closed.</Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Radio.Group name={OPERATIONAL_F} onChange={onChangeF}>
+          <Radio.Group name={OPERATIONAL_F} onChange={onChangeF} value={valueF}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
           </Radio.Group>
@@ -391,7 +476,7 @@ export const EditOperationalInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
             G) Using an insulated screw driver check the EC Cooling Fan by
             bridging between the terminals on the "Close on Rise" switch, which
@@ -399,7 +484,7 @@ export const EditOperationalInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Radio.Group name={OPERATIONAL_G} onChange={onChangeG}>
+          <Radio.Group name={OPERATIONAL_G} onChange={onChangeG} value={valueG}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
           </Radio.Group>
@@ -407,13 +492,17 @@ export const EditOperationalInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
+        <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
             H) Install jet plates and rack. Ensure the rack oscilates when cold.
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Radio.Group name={OPERATIONAL_H_I} onChange={onChangeH}>
+          <Radio.Group
+            name={OPERATIONAL_H_I}
+            onChange={onChangeH}
+            value={valueH}
+          >
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
           </Radio.Group>
@@ -427,31 +516,31 @@ export const EditOperationalInspection = (props) => {
         <Col xs={23}>
           <Row className="sub-question">
             <Col xs={23}>
-              <Row>
-                <Col xs={14}>
+              <Row justify="space-around">
+                <Col xs={22} sm={14}>
                   <Text>i) Record time oven starts warm up:</Text>
                 </Col>
-                <Col xs={5}>
+                <Col xs={22} sm={5}>
                   <Form.Item name={OPERATIONAL_I_I}>
                     <TimePicker
                       size="small"
                       style={{ width: 150 }}
-                      onChange={onChangeI_I}
                       value={valueI_I}
+                      onChange={onChangeI_I}
                       format={"HH:mm"}
+                      placeholder={valueI_I}
+                      showNow={false}
                       required
                     />
                   </Form.Item>
                 </Col>
-              </Row>
-              <Row>
-                <Col xs={14}>
+                <Col xs={22} sm={14}>
                   <Text>
                     ii) Record time when oven reaches preset temperature and
                     menu appears
                   </Text>
                 </Col>
-                <Col xs={5}>
+                <Col xs={22} sm={5}>
                   <Form.Item name={OPERATIONAL_I_II}>
                     <TimePicker
                       size="small"
@@ -459,29 +548,32 @@ export const EditOperationalInspection = (props) => {
                       value={valueI_II}
                       onChange={onChangeI_II}
                       format={"HH:mm"}
+                      placeholder={valueI_II}
+                      showNow={false}
                       required
                     />
                   </Form.Item>
                 </Col>
-              </Row>
-              <Row>
-                <Col xs={14}>
+                <Col xs={22} sm={22}>
                   <Text>
-                    Total Warm-Up time:{" "}
-                    {valueI_I
-                      ? valueI_II
-                        ? parseInt(moment(valueI_II).format("HH")) * 60 +
-                          parseInt(moment(valueI_II).format("mm")) -
-                          (parseInt(moment(valueI_I).format("HH")) * 60 +
-                            parseInt(moment(valueI_I).format("mm")))
-                        : ""
-                      : ""}{" "}
-                    minutes
+                    Total Warm-Up time: {" " + valueI_III + " minutes"}{" "}
                   </Text>
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={23}>
+                  <Button
+                    size="small"
+                    onClick={() => {
+                      let minutesF =
+                        parseInt(moment(valueI_II).format("HH")) * 60 +
+                        parseInt(moment(valueI_II).format("mm"));
+                      let minutesI =
+                        parseInt(moment(valueI_I).format("HH")) * 60 +
+                        parseInt(moment(valueI_I).format("mm"));
+                      console.log(valueI_I, valueI_II);
+                      setValueI_III(minutesF - minutesI);
+                    }}
+                  >
+                    calc
+                  </Button>
+                  <br />
                   <Text>Allow Oven "heat soak" for 1 hour</Text>
                 </Col>
               </Row>
@@ -494,7 +586,7 @@ export const EditOperationalInspection = (props) => {
           <Text>J) Ensure the rack oscilates when oven is hot.</Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Radio.Group name={OPERATIONAL_J} onChange={onChangeJ}>
+          <Radio.Group name={OPERATIONAL_J} onChange={onChangeJ} value={valueJ}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
           </Radio.Group>
@@ -506,7 +598,7 @@ export const EditOperationalInspection = (props) => {
           <Text>K) Ensure Blower Fan is rotating counter-clockwise</Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Radio.Group name={OPERATIONAL_K} onChange={onChangeK}>
+          <Radio.Group name={OPERATIONAL_K} onChange={onChangeK} value={valueK}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
           </Radio.Group>
@@ -520,12 +612,16 @@ export const EditOperationalInspection = (props) => {
         <Col xs={23}>
           <Row className="sub-question">
             <Col xs={23}>
-              <Row>
-                <Col xs={23}>
+              <Row justify="space-around">
+                <Col xs={22} sm={22}>
                   <Text>i) Heater A:</Text>
                 </Col>
-                <Col xs={23}>
-                  <Form.Item name={OPERATIONAL_L_I}>
+                <Col xs={22} sm={22}>
+                  <Form.Item
+                    name={OPERATIONAL_L_I}
+                    onChange={onChangeL_I}
+                    value={valueL_I}
+                  >
                     <Input
                       placeholder={"Amps"}
                       type="number"
@@ -535,13 +631,15 @@ export const EditOperationalInspection = (props) => {
                     />
                   </Form.Item>
                 </Col>
-              </Row>
-              <Row>
-                <Col xs={23}>
+                <Col xs={22} sm={22}>
                   <Text>ii) Heater B:</Text>
                 </Col>
-                <Col xs={23}>
-                  <Form.Item name={OPERATIONAL_L_II}>
+                <Col xs={22} sm={22}>
+                  <Form.Item
+                    name={OPERATIONAL_L_II}
+                    onChange={onChangeL_II}
+                    value={valueL_II}
+                  >
                     <Input
                       placeholder={"Amps"}
                       type="number"
@@ -552,6 +650,7 @@ export const EditOperationalInspection = (props) => {
                   </Form.Item>
                 </Col>
               </Row>
+              <Row></Row>
             </Col>
           </Row>
         </Col>
@@ -561,7 +660,7 @@ export const EditOperationalInspection = (props) => {
           <Text>M) Check the Door Switch</Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Radio.Group name={OPERATIONAL_M} onChange={onChangeM}>
+          <Radio.Group name={OPERATIONAL_M} onChange={onChangeM} value={valueM}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
           </Radio.Group>
@@ -573,7 +672,7 @@ export const EditOperationalInspection = (props) => {
           <Text>N) Install panels.</Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Radio.Group name={OPERATIONAL_N} onChange={onChangeN}>
+          <Radio.Group name={OPERATIONAL_N} onChange={onChangeN} value={valueN}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
           </Radio.Group>
@@ -585,7 +684,7 @@ export const EditOperationalInspection = (props) => {
           <Text>O) Clear all Cook Cycles and Faults.</Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Radio.Group name={OPERATIONAL_O} onChange={onChangeO}>
+          <Radio.Group name={OPERATIONAL_O} onChange={onChangeO} value={valueO}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
           </Radio.Group>
@@ -599,7 +698,7 @@ export const EditOperationalInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Radio.Group name={OPERATIONAL_P} onChange={onChangeP}>
+          <Radio.Group name={OPERATIONAL_P} onChange={onChangeP} value={valueP}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
           </Radio.Group>
@@ -611,20 +710,27 @@ export const EditOperationalInspection = (props) => {
           <Text>NOTES</Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={20}>
-          <Form.Item name={OPERATIONAL_NOTE}>
+          <Form.Item
+            name={OPERATIONAL_NOTE}
+            onChange={onChangeNOTE}
+            value={valueNOTE}
+          >
             <TextArea autoSize={{ minRows: 3, maxRows: 4 }} />
           </Form.Item>
         </Col>
       </Row>
-      <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
-          <Text>Aprooved</Text>
-        </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Radio.Group name={OPERATIONAL_PON} onChange={onChangePON}>
-            <Radio value={true}>ACC</Radio>
-            <Radio value={false}>NO ACC</Radio>
-          </Radio.Group>
+      <Row justify="center">
+        <Col xs={10}>
+          <Form.Item label="APROOVED">
+            <Radio.Group
+              name={OPERATIONAL_PON}
+              onChange={onChangePON}
+              value={valuePON}
+            >
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
+            </Radio.Group>
+          </Form.Item>
         </Col>
       </Row>
       <br />

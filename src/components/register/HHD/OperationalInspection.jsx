@@ -213,14 +213,8 @@ export const OperationalInspection = (props) => {
     const OPERATIONAL_F = valueF;
     const OPERATIONAL_G = valueG;
     const OPERATIONAL_H_I = valueH;
-    const OPERATIONAL_I_I =
-      parseInt(moment(valueI_I).format("HH")) +
-      ":" +
-      parseInt(moment(valueI_I).format("mm"));
-    const OPERATIONAL_I_II =
-      parseInt(moment(valueI_II).format("HH")) +
-      ":" +
-      parseInt(moment(valueI_II).format("mm"));
+    const OPERATIONAL_I_I = moment(valueI_I).format("HH:mm");
+    const OPERATIONAL_I_II = moment(valueI_II).format("HH:mm");
     const value_I_III = (a, b) => {
       let c = a;
       let d = b;

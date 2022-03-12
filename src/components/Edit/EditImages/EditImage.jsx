@@ -43,33 +43,30 @@ export const EditImage = (props) => {
   };
 
   const deleteImage = async () => {
-    const storageRef = ref(storage, `${props.serial}/image-${imgDelete}`);
-    if (indexArr.indexOf(imgDelete) == -1) {
-      setIndexArr([...indexArr, imgDelete]);
-    }
+    setCount(0);
+    getData?.map(async (e) => {
+      const storageRef = ref(storage, `${props.serial}/image-${e}`);
+      if (indexArr.indexOf(e) == -1) {
+        setIndexArr([...indexArr, e]);
+      }
 
-    await deleteObject(storageRef).catch((error) => {});
-    await updateDoc(doc(db, "Images", props.serial), {
-      [imgDelete]: deleteField(),
+      await deleteObject(storageRef).catch((error) => {});
+      await updateDoc(doc(db, "Images", props.serial), {
+        [e]: deleteField(),
+      });
+      const docRef = doc(db, "Images", `${props.serial}`);
+      const docSnap = await getDoc(docRef);
+      const data = docSnap.data();
+      setGetData(Object.keys(data));
+      setGetImages(Object.values(data));
+      setUpLoadDisabled(false);
     });
-    const docRef = doc(db, "Images", `${props.serial}`);
-    const docSnap = await getDoc(docRef);
-    const data = docSnap.data();
-    setGetData(Object.keys(data));
-    setGetImages(Object.values(data));
-    totalImages--;
-    console.log(count);
-    console.log(totalImages);
-    console.log(imgDelete);
-    setUpLoadDisabled(false);
   };
 
   const ImageDisplay = () => {
     totalImages = getImages.length;
     return getImages.map((e) => {
       const index = getImages.indexOf(e);
-      console.log(getData.length);
-      console.log(indexArr);
       const imgNum = getData[index];
       return (
         <Col xs={20} sm={{ span: 6, offset: 1 }}>
@@ -100,42 +97,28 @@ export const EditImage = (props) => {
       const file = e.file;
       if (file) {
         setCount(count + 1);
-        if (
-          indexArr.indexOf(count) == -1 &&
-          getData.indexOf(count) == -1 &&
-          count >= 0 &&
-          getData.length !== "undefined"
-        ) {
-          console.log(count);
+        setUpLoadDisabled(true);
+        setImageLoading(true);
+        const storageRef = ref(storage, `${props.serial}/image-${count}`);
+        const name = `image-${count}`;
+        const uploadTask = await uploadBytesResumable(storageRef, file).catch(
+          (error) => {}
+        );
+        const urlRef = await getDownloadURL(storageRef).catch((error) => {});
+        const ovenRef = doc(db, "Images", `${props.serial}`);
+        await setDoc(ovenRef, { [count]: `${urlRef}` }, { merge: true });
+        const docSnap = await getDoc(ovenRef);
+        const data = docSnap.data();
+        setGetData(Object.keys(data));
+        setGetImages(Object.values(data));
+        setReload(true);
+        setImageLoading(false);
+        setUploading("done");
+        setUpLoadDisabled(false);
+        if (totalImages >= 4) {
           setUpLoadDisabled(true);
-          setImageLoading(true);
-          const storageRef = ref(storage, `${props.serial}/image-${count}`);
-          const name = `image-${count}`;
-          const uploadTask = await uploadBytesResumable(storageRef, file).catch(
-            (error) => {}
-          );
-          const urlRef = await getDownloadURL(storageRef).catch((error) => {});
-          const ovenRef = doc(db, "Images", `${props.serial}`);
-          await setDoc(ovenRef, { [count]: `${urlRef}` }, { merge: true });
-          console.log(urlRef);
-
-          const docSnap = await getDoc(ovenRef);
-          const data = docSnap.data();
-          setGetData(Object.keys(data));
-          setGetImages(Object.values(data));
-
-          console.log(indexArr);
-          setReload(true);
-          setImageLoading(false);
-          setUploading("done");
-          setUpLoadDisabled(false);
-          if (totalImages >= 4) {
-            setUpLoadDisabled(true);
-          } else {
-            setUpLoadDisabled(false);
-          }
         } else {
-          setCount(count + 1);
+          setUpLoadDisabled(false);
         }
       }
     },
