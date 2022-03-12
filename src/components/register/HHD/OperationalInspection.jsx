@@ -130,8 +130,6 @@ export const OperationalInspection = (props) => {
         const urlRef = await getDownloadURL(storageRef).catch((error) => {});
         const ovenRef = doc(db, "Images", `${props.serial}`);
         await setDoc(ovenRef, { [count]: `${urlRef}` }, { merge: true });
-        console.log(urlRef);
-
         setImageLoading(false);
         setUploading("done");
         setUpLoadDisabled(false);

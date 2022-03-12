@@ -140,7 +140,6 @@ export const VisualInspection = (props) => {
   }
 
   function addVisualInspection(values) {
-    console.log(values);
     const VISUALQA = valueA;
     const VISUALQB_1 = valueB_1;
     const VISUALQB_2 = valueB_2;

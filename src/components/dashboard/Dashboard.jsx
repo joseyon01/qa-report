@@ -11,7 +11,7 @@ import {
   DatePicker,
 } from "antd";
 import { AiFillDelete, AiFillEdit, AiOutlineFileAdd } from "react-icons/ai";
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, FilePdfOutlined } from "@ant-design/icons";
 import { Header } from "../layout/Header";
 import { Container } from "../layout/Container";
 import { useNavigate, Link } from "react-router-dom";
@@ -34,6 +34,9 @@ export const Dashboard = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const ovenRef = collection(db, "oven");
+  function navigatePdf(serial, oven) {
+    navigate(`/pdf/${serial}/${oven}`);
+  }
   function navigateEdit(serial, oven) {
     navigate(`/edit/${serial}/${oven}`);
   }
@@ -161,6 +164,16 @@ export const Dashboard = () => {
               <AiFillEdit />
             </a>
           </Button>
+          <Button
+            style={{ borderRadius: "6px" }}
+            onClick={async () => {
+              navigatePdf(record.serial, record.oven);
+            }}
+          >
+            <a>
+              <FilePdfOutlined />
+            </a>
+          </Button>
         </Space>
       ),
     },
@@ -192,7 +205,6 @@ export const Dashboard = () => {
       }
     }
   };
-  console.log(arrayOvens);
 
   useEffect(() => {
     getUser();

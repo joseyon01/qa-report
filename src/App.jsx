@@ -5,6 +5,7 @@ import { Login } from "./components/auth/login/Login";
 import { Register } from "./components/register/Register";
 import { EditPage } from "./components/Edit/EditPage";
 import { PrivateRoute } from "./components/privateRoute/PrivateRoute";
+import { Pdf } from "./components/pdf/pdf";
 export default function App() {
   return (
     <>
@@ -15,6 +16,14 @@ export default function App() {
             element={
               <PrivateRoute>
                 <EditPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/pdf/:id/*"
+            element={
+              <PrivateRoute>
+                <Pdf />
               </PrivateRoute>
             }
           />

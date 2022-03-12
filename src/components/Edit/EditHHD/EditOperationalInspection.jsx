@@ -89,8 +89,6 @@ export const EditOperationalInspection = (props) => {
   const onChangeH = (e) => setValueH(e.target.value);
   const onChangeI_I = (e) => setValueI_I(e);
   const onChangeI_II = (e) => setValueI_II(e);
-  console.log(valueI_I);
-  console.log(valueI_II);
   const onChangeJ = (e) => setValueJ(e.target.value);
   const onChangeK = (e) => setValueK(e.target.value);
   const onChangeL_I = (e) => setValueL_I(e.target.value);
@@ -567,7 +565,6 @@ export const EditOperationalInspection = (props) => {
                       let minutesI =
                         parseInt(moment(valueI_I).format("HH")) * 60 +
                         parseInt(moment(valueI_I).format("mm"));
-                      console.log(valueI_I, valueI_II);
                       setValueI_III(minutesF - minutesI);
                     }}
                   >
