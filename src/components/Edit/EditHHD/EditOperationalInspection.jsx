@@ -712,7 +712,7 @@ export const EditOperationalInspection = (props) => {
             onChange={onChangeNOTE}
             value={valueNOTE}
           >
-            <TextArea autoSize={{ minRows: 3, maxRows: 4 }} />
+            <TextArea autoSize={{ minRows: 3, maxRows: 4 }} maxLength={320} />
           </Form.Item>
         </Col>
       </Row>

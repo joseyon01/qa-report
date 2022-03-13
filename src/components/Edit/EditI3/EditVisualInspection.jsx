@@ -240,7 +240,9 @@ export const EditVisualInspection = (props) => {
           <Text>
             E) Check for <strong>Door flush</strong> to the{" "}
             <strong>Oven Flange</strong> and{" "}
-            <strong>Door open and close smoothly (no pinching on bottom</strong>
+            <strong>
+              Door open and close smoothly (no pinching on bottom)
+            </strong>
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>

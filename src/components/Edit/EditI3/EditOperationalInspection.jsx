@@ -60,7 +60,6 @@ export const EditOperationalInspection = (props) => {
   const onChangeF = (e) => setValueF(e.target.value);
   const onChangeJ = (e) => setValueJ(e.target.value);
   const onChange_A_I = (e) => setOperational_A_I(e.target.value);
-  const onChange_B_I_I = (e) => setOperational_B_I_I(e.target.value);
   const onChange_D_I = (e) => setOperational_D_I(e.target.value);
   const onChange_D_II = (e) => setOperational_D_II(e.target.value);
   const onChange_D_III = (e) => setOperational_D_III(e.target.value);
@@ -71,7 +70,6 @@ export const EditOperationalInspection = (props) => {
   const onChange_H_VI = (e) => setOperational_H_VI(e.target.value);
   const onChange_I_I = (e) => setOperational_I_I(e.target.value);
   const onChange_I_II = (e) => setOperational_I_II(e.target.value);
-  const onChange_I_III = (e) => setOperational_I_III(e.target.value);
   const onChange_NOTE = (e) => setOperational_NOTE(e.target.value);
   const onChange_OPENING = (e) => setOperational_OPENING(e.target.value);
   const onChange_CLOSING = (e) => setOperational_CLOSING(e.target.value);
@@ -305,11 +303,7 @@ export const EditOperationalInspection = (props) => {
       </Row>
       <Row justify="center">
         <Col xs={22} sm={20}>
-          <Text>
-            B) Remove the fastons from the Primary and the secondary of the of
-            Voltage and the Filament XFMRs. Measure and Record the isolated
-            resistance of the:
-          </Text>
+          <Text>B) Check fuses #1, #2 are all ATMR 12. Fuse #3 20amps.</Text>
         </Col>
         <Col xs={22} sm={4}>
           <Radio.Group
@@ -701,7 +695,7 @@ export const EditOperationalInspection = (props) => {
             onChange={onChange_NOTE}
             value={operational_NOTE}
           >
-            <TextArea autoSize={{ minRows: 3, maxRows: 4 }} />
+            <TextArea autoSize={{ minRows: 3, maxRows: 4 }} maxLength={320} />
           </Form.Item>
         </Col>
       </Row>

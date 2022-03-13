@@ -643,7 +643,7 @@ export const OperationalInspection = (props) => {
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={20}>
           <Form.Item name={OPERATIONAL_NOTE}>
-            <TextArea autoSize={{ minRows: 3, maxRows: 4 }} />
+            <TextArea autoSize={{ minRows: 3, maxRows: 4 }} maxLength={320} />
           </Form.Item>
         </Col>
       </Row>

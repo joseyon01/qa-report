@@ -152,9 +152,9 @@ export const ECOSTPdf = (props) => {
   }, [serial]);
 
   const jspdfGenerator = (s) => {
-    let doc = new jsPDF("p", "px", "a4", "false");
+    let doc = new jsPDF("p", "px", "a4", true);
     doc.addImage(Logo, "PNG", 120, 10, 220, 40);
-    doc.setFontSize(15);
+    doc.setFontSize(13);
 
     doc.text(
       "ECO ST new and Refurbished Ovens Quality Assurance CheckList",
@@ -168,7 +168,7 @@ export const ECOSTPdf = (props) => {
     doc.text("S/N:", 270, 90);
     doc.text(`${serial}`, 300, 90);
     doc.text("1) VISUAL INSPECTION: DO NOT APPLY POWER TO OVEN!!!", 30, 120);
-    doc.setFontSize(12);
+    doc.setFontSize(10);
     doc.text(
       "A) Check Consumables and Accessories to comply with proper Packaging",
       15,
@@ -223,9 +223,9 @@ export const ECOSTPdf = (props) => {
     );
     doc.text(`${valueH ? "ACC" : "NO ACC "}`, 370, 295);
 
-    doc.setFontSize(15);
+    doc.setFontSize(13);
     doc.text("2) OPERATIONAL INSPECTION: DO NOT APPLY POWER TO OVEN.", 30, 325);
-    doc.setFontSize(12);
+    doc.setFontSize(10);
     doc.text(
       "A) Using the OHMS function on your meter Measure and Record the resistance between the:",
       15,
@@ -373,9 +373,9 @@ export const ECOSTPdf = (props) => {
     );
     doc.text("J) Are Switch arms still engaging?", 15, 310);
     doc.text(`${valueJ ? "ACC" : "NO ACC"}`, 370, 310);
-    doc.setFontSize(15);
+    doc.setFontSize(13);
     doc.text("3) HOT OVEN OPERATIONAL CHECKOUT:", 30, 335);
-    doc.setFontSize(12);
+    doc.setFontSize(10);
     doc.text(
       "The equipment needed to complete the Oven inspection is a moder 501 Survey Meter, ",
       15,

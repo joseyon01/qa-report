@@ -161,9 +161,9 @@ export const ECONewPdf = (props) => {
   }, [serial]);
 
   const jspdfGenerator = (s) => {
-    let doc = new jsPDF("p", "px", "a4", "false");
+    let doc = new jsPDF("p", "px", "a4", true);
     doc.addImage(Logo, "PNG", 120, 10, 220, 40);
-    doc.setFontSize(15);
+    doc.setFontSize(13);
 
     doc.text(
       "ECO ST new and Refurbished Ovens Quality Assurance CheckList",
@@ -176,8 +176,8 @@ export const ECONewPdf = (props) => {
     doc.text(`${name}`, 160, 90);
     doc.text("S/N:", 270, 90);
     doc.text(`${serial}`, 300, 90);
-    doc.text("1) VISUAL INSPECTION: DO NOT APPLY POWER TO OVEN!!!", 30, 110);
-    doc.setFontSize(12);
+    doc.text("1) VISUAL INSPECTION: DO NOT APPLY POWER TO OVEN!!!", 15, 110);
+    doc.setFontSize(10);
     doc.text(
       "A) Check Consumables and Accessories to comply with proper Packaging",
       15,
@@ -252,9 +252,9 @@ export const ECONewPdf = (props) => {
     );
     doc.text(`${valueH ? "ACC" : "NO ACC "}`, 370, 310);
 
-    doc.setFontSize(15);
-    doc.text("2) OPERATIONAL INSPECTION: DO NOT APPLY POWER TO OVEN.", 30, 340);
-    doc.setFontSize(12);
+    doc.setFontSize(13);
+    doc.text("2) OPERATIONAL INSPECTION: DO NOT APPLY POWER TO OVEN.", 15, 340);
+    doc.setFontSize(10);
     doc.text(
       "A) Using the OHMS function on your meter Measure and Record the resistance between the:",
       15,
@@ -342,7 +342,7 @@ export const ECONewPdf = (props) => {
     );
     doc.text("'Microwave' on the first screen.", 25, 80);
     doc.text(
-      "i) Using Gradiated Cylinder measure 1 liter +/- 5ml of water. While in graduated cylinder, measure ",
+      "i) Using Graduated Cylinder measure 1 liter +/- 5ml of water. While in graduated cylinder, measure ",
       25,
       90
     );
@@ -429,9 +429,9 @@ export const ECONewPdf = (props) => {
 
     doc.addPage("a4", "p");
     doc.addImage(Logo, "PNG", 120, 10, 220, 40);
-    doc.setFontSize(15);
+    doc.setFontSize(13);
     doc.text("3) HOT OVEN OPERATIONAL CHECKOUT:", 30, 70);
-    doc.setFontSize(12);
+    doc.setFontSize(10);
     doc.text(
       "The equipment needed to complete the Oven inspection is a moder 1501 Survey Meter, ",
       15,
@@ -533,11 +533,11 @@ export const ECONewPdf = (props) => {
     );
     doc.text(`DOOR  ${valueDoor} mW/cm2`, 90, 355);
     doc.text(`Rt & Lt sides  ${valueSides} mW/cm2`, 230, 355);
-    doc.text(`TL${valueTopL} `, 140, 370);
-    doc.text(`${valueTopR} TR`, 230, 370);
-    doc.text("Mark and record peak levels.", 150, 398);
-    doc.text(`BL${valueBotL} `, 140, 415);
-    doc.text(`${valueBotR} BR`, 230, 415);
+    doc.text(`TL ${valueTopL} `, 140, 370);
+    doc.text(`${valueTopR} TR`, 265, 370);
+    doc.text("Mark and record peak levels.", 150, 393);
+    doc.text(`BL ${valueBotL} `, 140, 415);
+    doc.text(`${valueBotR} BR`, 265, 415);
     doc.text(
       "Recheck Waveguide Covers ! Reset Cook Count and Accumulation Settings !",
       15,

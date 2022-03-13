@@ -141,9 +141,9 @@ export const HHDPdf = (props) => {
   }, [serial]);
 
   const jspdfGenerator = (s) => {
-    let doc = new jsPDF("p", "px", "a4", "false");
+    let doc = new jsPDF("p", "px", "a4", true);
     doc.addImage(Logo, "PNG", 120, 10, 220, 40);
-    doc.setFontSize(15);
+    doc.setFontSize(13);
 
     doc.text("HHD ovens Quality Assurance Checklist", 130, 70);
     doc.text("DATE:", 15, 90);
@@ -153,7 +153,7 @@ export const HHDPdf = (props) => {
     doc.text("S/N:", 270, 90);
     doc.text(`${serial}`, 300, 90);
     doc.text("1) VISUAL INSPECTION: DO NOT APPLY POWER TO OVEN!!!", 30, 120);
-    doc.setFontSize(12);
+    doc.setFontSize(10);
     doc.text(
       "A) Remove side panels. Check the Schematic on RS panel. Correct?",
       15,
@@ -274,9 +274,9 @@ export const HHDPdf = (props) => {
     doc.text(`${valueJ ? "ACC" : "NO ACC"}`, 370, 500);
     doc.addPage("a4", "p");
     doc.addImage(Logo, "PNG", 120, 10, 220, 40);
-    doc.setFontSize(15);
+    doc.setFontSize(13);
     doc.text("2) OPERATIONAL INSPECTION: APPLY POWER TO OVEN.", 30, 70);
-    doc.setFontSize(12);
+    doc.setFontSize(10);
     doc.text("A) Plug in the oven, as the Display Boots, Check for:", 15, 90);
     doc.text(`i) Displayed software version: ${valueA_I}`, 30, 105);
     doc.text(`ii) Displayed Voltage: ${valueA_II} VAC`, 30, 120);
