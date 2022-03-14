@@ -9,6 +9,7 @@ import {
   Space,
   Input,
   DatePicker,
+  Modal,
 } from "antd";
 import { AiFillDelete, AiFillEdit, AiOutlineFileAdd } from "react-icons/ai";
 import { SearchOutlined, FilePdfOutlined } from "@ant-design/icons";
@@ -20,26 +21,68 @@ import {
   getFirestore,
   doc,
   getDocs,
+  getDoc,
   collection,
   deleteDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { I3Pdf } from "../pdf/I3Pdf";
+import { I1Pdf } from "../pdf/I1Pdf";
+import { HHDPdf } from "../pdf/HHDPdf";
+import { ENCPdf } from "../pdf/ENCPdf";
+import { ECONewPdf } from "../pdf/ECONewPdf";
+import { ECOSTPdf } from "../pdf/ECOSTPdf";
 const storage = getStorage();
 const { Content, Footer } = Layout;
 const db = getFirestore();
 
 export const Dashboard = () => {
   const [arrayOvens, setArrayOvens] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [ovenType, setOvenType] = useState(null);
+  const [pdf, setPdf] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const ovenRef = collection(db, "oven");
-  function navigatePdf(serial, oven) {
-    navigate(`/pdf/${serial}/${oven}`);
-  }
   function navigateEdit(serial, oven) {
     navigate(`/edit/${serial}/${oven}`);
   }
+  const showModal = (o, s) => {
+    setIsModalVisible(true);
+
+    switch (o) {
+      case "ENC":
+        setPdf(<ENCPdf serial={s} />);
+        break;
+      case "I1":
+        setPdf(<I1Pdf serial={s} />);
+        break;
+      case "I3":
+        setPdf(<I3Pdf serial={s} />);
+        break;
+      case "HHD":
+        setPdf(<HHDPdf serial={s} />);
+        break;
+      case "ECOST":
+        setPdf(<ECOSTPdf serial={s} />);
+        break;
+      case "ECONew":
+        setPdf(<ECONewPdf serial={s} />);
+        break;
+      default:
+        console.log("nada que ver");
+        break;
+    }
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   const columns = [
     {
@@ -128,10 +171,21 @@ export const Dashboard = () => {
             loading={loading}
             onClick={async () => {
               setLoading(true);
-              for (let i = 0; i <= 4; i++) {
-                const storageRef = ref(storage, `${record.serial}/image-${i}`);
-                await deleteObject(storageRef).catch((error) => {});
+              let getData = [];
+              const docRef = doc(db, "Images", `${record.serial}`);
+              const docSnap = await getDoc(docRef).catch((error) => {});
+              const data = docSnap.data();
+              if (data) {
+                getData = Object.keys(data);
+                getData.forEach(async (e) => {
+                  const storageRef = ref(
+                    storage,
+                    `${record.serial}/image-${e}`
+                  );
+                  await deleteObject(storageRef).catch((error) => {});
+                });
               }
+
               await deleteDoc(doc(db, "Images", record.serial));
               await deleteDoc(doc(db, "oven", record.id));
               await deleteDoc(doc(db, "VisualInspection", `${record.serial}`));
@@ -167,13 +221,24 @@ export const Dashboard = () => {
           <Button
             style={{ borderRadius: "6px" }}
             onClick={async () => {
-              navigatePdf(record.serial, record.oven);
+              setIsModalVisible(true);
+              showModal(record.oven, record.serial);
+              setOvenType(record.serial);
+              /*navigatePdf(record.serial, record.oven);*/
             }}
           >
             <a>
               <FilePdfOutlined />
             </a>
           </Button>
+          <Modal
+            title={ovenType + ".pdf"}
+            visible={isModalVisible}
+            onOk={handleOk}
+            onCancel={handleCancel}
+          >
+            {pdf}
+          </Modal>
         </Space>
       ),
     },
@@ -212,6 +277,7 @@ export const Dashboard = () => {
   return (
     <Layout className="app-layout">
       <Header dashboard={true} />
+
       <Content>
         <Container>
           <div className="container">

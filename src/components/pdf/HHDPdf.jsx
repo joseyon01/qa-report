@@ -1,135 +1,150 @@
-import react, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import jsPDF from "jspdf";
+import { FilePdfOutlined } from "@ant-design/icons";
 import { Button, Col, Row } from "antd";
 import Logo from "../../assets/img/turboChefLogo.png";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
-import moment from "moment";
 const db = getFirestore();
 
 export const HHDPdf = (props) => {
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [loading, setLoading] = useState(true);
   const ovenSerial = props.serial;
-  const [serial, setSerial] = useState(null);
-  const [name, setName] = useState(null);
-  const [date, setDate] = useState(null);
-  const [valueA, setValueA] = useState(null);
-  const [valueB_1, setValueB_1] = useState(null);
-  const [valueB_2, setValueB_2] = useState(null);
-  const [valueB_3, setValueB_3] = useState(null);
-  const [valueB_4, setValueB_4] = useState(null);
-  const [valueB_5, setValueB_5] = useState(null);
-  const [valueB_6, setValueB_6] = useState(null);
-  const [valueB_7, setValueB_7] = useState(null);
-  const [valueC, setValueC] = useState(null);
-  const [valueD, setValueD] = useState(null);
-  const [valueE, setValueE] = useState(null);
-  const [valueF, setValueF] = useState(null);
-  const [valueG, setValueG] = useState(null);
-  const [valueH, setValueH] = useState(null);
-  const [valueI_1, setValueI_1] = useState(null);
-  const [valueI_2, setValueI_2] = useState(null);
-  const [valueI_3, setValueI_3] = useState(null);
-  const [valueI_4, setValueI_4] = useState(null);
-  const [valueI_5, setValueI_5] = useState(null);
-  const [valueJ, setValueJ] = useState(null);
-  const [valueA_I, setValueA_I] = useState(null);
-  const [valueA_II, setValueA_II] = useState(null);
-  const [valueA_III, setValueA_III] = useState(null);
-  const [valueB_I, setValueB_I] = useState(null);
-  const [valueC_I, setValueC_I] = useState(null);
-  const [valueD_I, setValueD_I] = useState(null);
-  const [valueE_I, setValueE_I] = useState(null);
-  const [valueF_I, setValueF_I] = useState(null);
-  const [valueG_I, setValueG_I] = useState(null);
-  const [valueH_I, setValueH_I] = useState(null);
-  const [valueI_I, setValueI_I] = useState(null);
-  const [valueI_II, setValueI_II] = useState(null);
-  const [valueI_III, setValueI_III] = useState(null);
-  const [valueJ_I, setValueJ_I] = useState(null);
-  const [valueK, setValueK] = useState(null);
-  const [valueL_I, setValueL_I] = useState(null);
-  const [valueL_II, setValueL_II] = useState(null);
-  const [valueM, setValueM] = useState(null);
-  const [valueN, setValueN] = useState(null);
-  const [valueO, setValueO] = useState(null);
-  const [valueP, setValueP] = useState(null);
-  const [valueNOTE, setValueNOTE] = useState(null);
-  const [valuePON, setValuePON] = useState(null);
+  let serial = "";
+  let name = "";
+  let date = "";
+  let valueA = "";
+  let valueB_1 = "";
+  let valueB_2 = "";
+  let valueB_3 = "";
+  let valueB_4 = "";
+  let valueB_5 = "";
+  let valueB_6 = "";
+  let valueB_7 = "";
+  let valueC = "";
+  let valueD = "";
+  let valueE = "";
+  let valueF = "";
+  let valueG = "";
+  let valueH = "";
+  let valueI_1 = "";
+  let valueI_2 = "";
+  let valueI_3 = "";
+  let valueI_4 = "";
+  let valueI_5 = "";
+  let valueJ = "";
+  let valueA_I = "";
+  let valueA_II = "";
+  let valueA_III = "";
+  let valueB_I = "";
+  let valueC_I = "";
+  let valueD_I = "";
+  let valueE_I = "";
+  let valueF_I = "";
+  let valueG_I = "";
+  let valueH_I = "";
+  let valueI_I = "";
+  let valueI_II = "";
+  let valueI_III = "";
+  let valueJ_I = "";
+  let valueK = "";
+  let valueL_I = "";
+  let valueL_II = "";
+  let valueM = "";
+  let valueN = "";
+  let valueO = "";
+  let valueP = "";
+  let valueNOTE = "";
+  let valuePON = "";
+
   const getOperational = async () => {
     try {
+      setIsDisabled(true);
+      setLoading(true);
       const docRef = doc(db, "OperationalInspection", `${ovenSerial}`);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
       if (valueA_I == null) {
-        setValueA_I(data?.OPERATIONAL_A_I);
-        setValueA_II(data?.OPERATIONAL_A_II);
-        setValueA_III(data?.OPERATIONAL_A_III);
-        setValueB_I(data?.OPERATIONAL_B_I);
-        setValueC_I(data?.OPERATIONAL_C);
-        setValueD_I(data?.OPERATIONAL_D);
-        setValueE_I(data?.OPERATIONAL_E);
-        setValueF_I(data?.OPERATIONAL_F);
-        setValueG_I(data?.OPERATIONAL_G);
-        setValueH_I(data?.OPERATIONAL_H_I);
-        setValueI_I(data?.OPERATIONAL_I_I);
-        setValueI_II(data?.OPERATIONAL_I_II);
-        setValueI_III(data?.OPERATIONAL_I_III);
-        setValueJ_I(data?.OPERATIONAL_J);
-        setValueK(data?.OPERATIONAL_K);
-        setValueL_I(data?.OPERATIONAL_L_I);
-        setValueL_II(data?.OPERATIONAL_L_II);
-        setValueM(data?.OPERATIONAL_M);
-        setValueN(data?.OPERATIONAL_N);
-        setValueO(data?.OPERATIONAL_O);
-        setValueP(data?.OPERATIONAL_P);
-        setValueNOTE(data?.OPERATIONAL_NOTE);
-        setValuePON(data?.OPERATIONAL_PON);
+        valueA_I = data?.OPERATIONAL_A_I;
+        valueA_II = data?.OPERATIONAL_A_II;
+        valueA_III = data?.OPERATIONAL_A_III;
+        valueB_I = data?.OPERATIONAL_B_I;
+        valueC_I = data?.OPERATIONAL_C;
+        valueD_I = data?.OPERATIONAL_D;
+        valueE_I = data?.OPERATIONAL_E;
+        valueF_I = data?.OPERATIONAL_F;
+        valueG_I = data?.OPERATIONAL_G;
+        valueH_I = data?.OPERATIONAL_H_I;
+        valueI_I = data?.OPERATIONAL_I_I;
+        valueI_II = data?.OPERATIONAL_I_II;
+        valueI_III = data?.OPERATIONAL_I_III;
+        valueJ_I = data?.OPERATIONAL_J;
+        valueK = data?.OPERATIONAL_K;
+        valueL_I = data?.OPERATIONAL_L_I;
+        valueL_II = data?.OPERATIONAL_L_II;
+        valueM = data?.OPERATIONAL_M;
+        valueN = data?.OPERATIONAL_N;
+        valueO = data?.OPERATIONAL_O;
+        valueP = data?.OPERATIONAL_P;
+        valueNOTE = data?.OPERATIONAL_NOTE;
+        valuePON = data?.OPERATIONAL_PON;
       }
+      setIsDisabled(false);
+      setLoading(false);
     } catch (error) {
       console.error("error", error);
     }
   };
   const getDataVisual = async () => {
     try {
+      setIsDisabled(true);
+      setLoading(true);
       const docRef = doc(db, "VisualInspection", `${ovenSerial}`);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
       if (valueA == null) {
-        setValueA(data?.VISUALQA);
-        setValueB_1(data?.VISUALQB_1);
-        setValueB_2(data?.VISUALQB_2);
-        setValueB_3(data?.VISUALQB_3);
-        setValueB_4(data?.VISUALQB_4);
-        setValueB_5(data?.VISUALQB_5);
-        setValueB_6(data?.VISUALQB_6);
-        setValueB_7(data?.VISUALQB_7);
-        setValueC(data?.VISUALQC);
-        setValueD(data?.VISUALQD);
-        setValueE(data?.VISUALQE);
-        setValueF(data?.VISUALQF);
-        setValueG(data?.VISUALQG);
-        setValueH(data?.VISUALQH);
-        setValueI_1(data?.VISUALQI_1);
-        setValueI_2(data?.VISUALQI_2);
-        setValueI_3(data?.VISUALQI_3);
-        setValueI_4(data?.VISUALQI_4);
-        setValueI_5(data?.VISUALQI_5);
-        setValueJ(data?.VISUALQJ);
+        valueA = data?.VISUALQA;
+        valueB_1 = data?.VISUALQB_1;
+        valueB_2 = data?.VISUALQB_2;
+        valueB_3 = data?.VISUALQB_3;
+        valueB_4 = data?.VISUALQB_4;
+        valueB_5 = data?.VISUALQB_5;
+        valueB_6 = data?.VISUALQB_6;
+        valueB_7 = data?.VISUALQB_7;
+        valueC = data?.VISUALQC;
+        valueD = data?.VISUALQD;
+        valueE = data?.VISUALQE;
+        valueF = data?.VISUALQF;
+        valueG = data?.VISUALQG;
+        valueH = data?.VISUALQH;
+        valueI_1 = data?.VISUALQI_1;
+        valueI_2 = data?.VISUALQI_2;
+        valueI_3 = data?.VISUALQI_3;
+        valueI_4 = data?.VISUALQI_4;
+        valueI_5 = data?.VISUALQI_5;
+        valueJ = data?.VISUALQJ;
       }
+      setIsDisabled(false);
+      setLoading(false);
     } catch (error) {
       console.error("error", error);
     }
   };
   const getDataOven = async () => {
     try {
+      setIsDisabled(true);
+      setLoading(true);
       const docRef = doc(db, "oven", `${ovenSerial}`);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
       const docRefO = doc(db, "OperationalInspection", `${ovenSerial}`);
       const docSnapO = await getDoc(docRefO);
       const dataO = docSnapO.data();
-      setSerial(data.serial);
-      setDate(data.date);
-      setName(data.name);
+      serial = data.serial;
+      date = data.date;
+      name = data.name;
+      setIsDisabled(false);
+      setLoading(false);
     } catch (error) {
       console.error("error", error);
     }
@@ -363,20 +378,21 @@ export const HHDPdf = (props) => {
       435
     );
     doc.text(`${valueP ? "ACC" : "NO ACC"}`, 370, 435);
-    doc.text("NOTES: ", 15, 450);
-    doc.text(`${valueNOTE}`, 55, 450);
+    doc.text(`NOTES: ${valueNOTE}`, 15, 450, { maxWidth: 400 });
     doc.save(`${s}.pdf`);
   };
   return (
-    <Row justify="center">
-      <Col xs={12}>
+    <Row justify="center" style={{ height: 100 }}>
+      <Col xs={12} style={{ height: "100%" }}>
         <Button
+          disabled={isDisabled}
+          loading={loading}
           block
-          style={{ width: "100%" }}
+          style={{ width: "100%", height: "100%" }}
           type={"primary"}
-          onClick={() => jspdfGenerator(serial)}
+          onClick={() => jspdfGenerator(ovenSerial)}
         >
-          pdf
+          {loading ? "" : "Generate PDF"} <FilePdfOutlined />
         </Button>
       </Col>
     </Row>

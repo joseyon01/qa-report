@@ -1,13 +1,15 @@
 import react, { useState, useEffect } from "react";
 import jsPDF from "jspdf";
+import { FilePdfOutlined } from "@ant-design/icons";
 import { Button, Col, Row } from "antd";
 import Logo from "../../assets/img/turboChefLogo.png";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
-import moment from "moment";
 const db = getFirestore();
 
 export const ENCPdf = (props) => {
   const ovenSerial = props.serial;
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [loading, setLoading] = useState(true);
   let serial = "";
   let name = "";
   let date = "";
@@ -64,6 +66,8 @@ export const ENCPdf = (props) => {
 
   const getDataOven = async () => {
     try {
+      setIsDisabled(true);
+      setLoading(true);
       const docRef = doc(db, "oven", `${ovenSerial}`);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
@@ -73,12 +77,16 @@ export const ENCPdf = (props) => {
       serial = data?.serial;
       date = data?.date;
       name = data?.name;
+      setIsDisabled(false);
+      setLoading(false);
     } catch (error) {
       console.error("error", error);
     }
   };
   const getDataVisual = async () => {
     try {
+      setIsDisabled(true);
+      setLoading(true);
       const docRef = doc(db, "VisualInspection", `${ovenSerial}`);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
@@ -92,12 +100,16 @@ export const ENCPdf = (props) => {
         valueG = data?.VISUALQG;
         valueH = data?.VISUALQH;
       }
+      setIsDisabled(false);
+      setLoading(false);
     } catch (error) {
       console.error("error", error);
     }
   };
   const getOperational = async () => {
     try {
+      setIsDisabled(true);
+      setLoading(true);
       const docRef = doc(db, "OperationalInspection", `${ovenSerial}`);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
@@ -132,12 +144,16 @@ export const ENCPdf = (props) => {
       value_D = data?.OPERATIONAL_D_IV;
       value_F = data?.OPERATIONAL_F;
       value_J = data?.OPERATIONAL_J;
+      setIsDisabled(false);
+      setLoading(false);
     } catch (error) {
       console.error("error", error);
     }
   };
   const getHotOven = async () => {
     try {
+      setIsDisabled(true);
+      setLoading(true);
       const docRef = doc(db, "HotOvenInspection", `${ovenSerial}`);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
@@ -152,6 +168,8 @@ export const ENCPdf = (props) => {
       value_E_H = data?.HOT_OVEN_E;
       valueOvenR = data?.HOT_OVEN_RECHECK;
       valueAON = data?.OVEN_APROVE_OR_NOT;
+      setIsDisabled(false);
+      setLoading(false);
     } catch (error) {
       console.error("error", error);
     }
@@ -277,7 +295,7 @@ export const ENCPdf = (props) => {
       25,
       380
     );
-    doc.text(`iv) HV XFMR #2: ${operational_B_III}`, 25, 390);
+    doc.text(`iv) HV XFMR #2: ${operational_B_IV}`, 25, 390);
     doc.text(
       `v) Filament XFMR #1 Primary: terminal 1 & 2: ${operational_B_V_I} | terminal 1 & 3: ${operational_B_V_II}`,
       25,
@@ -486,15 +504,17 @@ export const ENCPdf = (props) => {
   };
 
   return (
-    <Row justify="center">
-      <Col xs={12}>
+    <Row justify="center" style={{ height: 100 }}>
+      <Col xs={12} style={{ height: "100%" }}>
         <Button
+          disabled={isDisabled}
+          loading={loading}
           block
-          style={{ width: "100%" }}
+          style={{ width: "100%", height: "100%" }}
           type={"primary"}
           onClick={() => jspdfGenerator(ovenSerial)}
         >
-          pdf
+          {loading ? "" : "Generate PDF"} <FilePdfOutlined />
         </Button>
       </Col>
     </Row>

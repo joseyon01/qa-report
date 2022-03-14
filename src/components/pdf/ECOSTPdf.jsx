@@ -1,13 +1,15 @@
-import react, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import jsPDF from "jspdf";
+import { FilePdfOutlined } from "@ant-design/icons";
 import { Button, Col, Row } from "antd";
 import Logo from "../../assets/img/turboChefLogo.png";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
-import moment from "moment";
 const db = getFirestore();
 
 export const ECOSTPdf = (props) => {
   const ovenSerial = props.serial;
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [serial, setSerial] = useState(null);
   const [name, setName] = useState(null);
   const [date, setDate] = useState(null);
@@ -59,6 +61,8 @@ export const ECOSTPdf = (props) => {
 
   const getHotOven = async () => {
     try {
+      setIsDisabled(true);
+      setLoading(true);
       const docRef = doc(db, "HotOvenInspection", `${ovenSerial}`);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
@@ -72,12 +76,16 @@ export const ECOSTPdf = (props) => {
       setValue_D(data?.HOT_OVEN_D);
       setValueOvenR(data?.HOT_OVEN_RECHECK);
       setValueAON(data?.OVEN_APROVE_OR_NOT);
+      setIsDisabled(false);
+      setLoading(false);
     } catch (error) {
       console.error("error", error);
     }
   };
   const getOperational = async () => {
     try {
+      setIsDisabled(true);
+      setLoading(true);
       const docRef = doc(db, "OperationalInspection", `${ovenSerial}`);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
@@ -105,6 +113,8 @@ export const ECOSTPdf = (props) => {
       setOperational_OPENING(data?.OPERATIONAL_OPENING);
       setOperational_CLOSING(data?.OPERATIONAL_CLOSING);
       setValueJ(data?.OPERATIONAL_J);
+      setIsDisabled(false);
+      setLoading(false);
     } catch (error) {
       console.error("error", error);
     }
@@ -112,6 +122,8 @@ export const ECOSTPdf = (props) => {
 
   const getDataVisual = async () => {
     try {
+      setIsDisabled(true);
+      setLoading(true);
       const docRef = doc(db, "VisualInspection", `${ovenSerial}`);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
@@ -125,12 +137,16 @@ export const ECOSTPdf = (props) => {
         setValueG(data?.VISUALQG);
         setValueH(data?.VISUALQH);
       }
+      setIsDisabled(false);
+      setLoading(false);
     } catch (error) {
       console.error("error", error);
     }
   };
   const getDataOven = async () => {
     try {
+      setIsDisabled(true);
+      setLoading(true);
       const docRef = doc(db, "oven", `${ovenSerial}`);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
@@ -140,6 +156,8 @@ export const ECOSTPdf = (props) => {
       setSerial(data.serial);
       setDate(data.date);
       setName(data.name);
+      setIsDisabled(false);
+      setLoading(false);
     } catch (error) {
       console.error("error", error);
     }
@@ -158,16 +176,13 @@ export const ECOSTPdf = (props) => {
 
     doc.text(
       "ECO ST new and Refurbished Ovens Quality Assurance CheckList",
-      130,
+      50,
       70
     );
-    doc.text("DATE:", 15, 90);
-    doc.text(`${date}`, 55, 90);
-    doc.text("NAME:", 120, 90);
-    doc.text(`${name}`, 160, 90);
-    doc.text("S/N:", 270, 90);
-    doc.text(`${serial}`, 300, 90);
-    doc.text("1) VISUAL INSPECTION: DO NOT APPLY POWER TO OVEN!!!", 30, 120);
+    doc.text(`DATE: ${date}`, 15, 90);
+    doc.text(`NAME: ${name}`, 120, 90);
+    doc.text(`S/N: ${serial}`, 270, 90);
+    doc.text("1) VISUAL INSPECTION: DO NOT APPLY POWER TO OVEN!!!", 15, 120);
     doc.setFontSize(10);
     doc.text(
       "A) Check Consumables and Accessories to comply with proper Packaging",
@@ -223,8 +238,10 @@ export const ECOSTPdf = (props) => {
     );
     doc.text(`${valueH ? "ACC" : "NO ACC "}`, 370, 295);
 
+    doc.line(5, 305, 440, 305);
+
     doc.setFontSize(13);
-    doc.text("2) OPERATIONAL INSPECTION: DO NOT APPLY POWER TO OVEN.", 30, 325);
+    doc.text("2) OPERATIONAL INSPECTION: DO NOT APPLY POWER TO OVEN.", 15, 325);
     doc.setFontSize(10);
     doc.text(
       "A) Using the OHMS function on your meter Measure and Record the resistance between the:",
@@ -360,19 +377,21 @@ export const ECOSTPdf = (props) => {
       25,
       250
     );
-    doc.text(`NOTES: ${operational_NOTE}`, 15, 265);
+    doc.text(`NOTES: ${operational_NOTE}`, 15, 265, { maxWidth: 400 });
     doc.text(
       `Slowly opening the Door, the order of the indicators are ${operational_OPENING}`,
       15,
-      280
+      295
     );
     doc.text(
       `Slowly closing the Door, the order of the indicators are ${operational_CLOSING}`,
       15,
-      295
+      305
     );
-    doc.text("J) Are Switch arms still engaging?", 15, 310);
-    doc.text(`${valueJ ? "ACC" : "NO ACC"}`, 370, 310);
+    doc.text("J) Are Switch arms still engaging?", 15, 315);
+    doc.text(`${valueJ ? "ACC" : "NO ACC"}`, 370, 315);
+    doc.line(5, 320, 440, 320);
+
     doc.setFontSize(13);
     doc.text("3) HOT OVEN OPERATIONAL CHECKOUT:", 30, 335);
     doc.setFontSize(10);
@@ -405,10 +424,14 @@ export const ECOSTPdf = (props) => {
     );
     doc.text(`DOOR  ${valueDoor} mW/cm2`, 90, 430);
     doc.text(`Rt & Lt sides  ${valueSides} mW/cm2`, 230, 430);
-    doc.text(`TL${valueTopL} `, 140, 445);
+    doc.text(`TL${valueTopL} `, 120, 445);
+    doc.line(140, 445, 260, 445);
+    doc.line(140, 445, 140, 480);
     doc.text(`${valueTopR} TR`, 230, 445);
-    doc.text("Mark and record peak levels.", 140, 463);
-    doc.text(`BL${valueBotL} `, 140, 490);
+    doc.text("Mark and record peak levels.", 150, 463);
+    doc.text(`BL${valueBotL} `, 120, 490);
+    doc.line(140, 480, 260, 480);
+    doc.line(260, 445, 260, 480);
     doc.text(`${valueBotR} BR`, 230, 490);
     doc.text(
       "Recheck Waveguide Covers ! Reset Cook Count and Accumulation Settings !",
@@ -422,15 +445,17 @@ export const ECOSTPdf = (props) => {
     doc.save(`${s}.pdf`);
   };
   return (
-    <Row justify="center">
-      <Col xs={12}>
+    <Row justify="center" style={{ height: 100 }}>
+      <Col xs={12} style={{ height: "100%" }}>
         <Button
+          disabled={isDisabled}
+          loading={loading}
           block
-          style={{ width: "100%" }}
+          style={{ width: "100%", height: "100%" }}
           type={"primary"}
-          onClick={() => jspdfGenerator(serial)}
+          onClick={() => jspdfGenerator(ovenSerial)}
         >
-          pdf
+          {loading ? "" : "Generate PDF"} <FilePdfOutlined />
         </Button>
       </Col>
     </Row>
