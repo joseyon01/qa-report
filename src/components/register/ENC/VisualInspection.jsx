@@ -126,14 +126,14 @@ export const VisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={18}>
+        <Col xs={{ span: 22, offset: 1 }} sm={18}>
           <Text>
             A) Check Consumables and Accessories to comply with proper Packaging
             Kit. Remove Rack, Left, Right and Top panels. Confirm proper
             Schematic is on RS Panel.
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 22, offset: 1 }} sm={4}>
           <Radio.Group required name={VISUALQA} onChange={onChangeA}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
@@ -142,7 +142,7 @@ export const VisualInspection = (props) => {
       </Row>
       <br />
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={18}>
+        <Col xs={{ span: 22, offset: 1 }} sm={18}>
           <Text>
             B) Remove the Bubble wrap and insert the Oven Rack insuring flush
             contact with all surfaces. Check IR Element lies flat and
@@ -150,7 +150,7 @@ export const VisualInspection = (props) => {
             Covers (ar the ends only) by squeezing with hands for looseness.
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 22, offset: 1 }} sm={4}>
           <Form.Item>
             <Radio.Group name={VISUALQB} required onChange={onChangeB}>
               <Radio value={true}>ACC</Radio>
@@ -159,15 +159,14 @@ export const VisualInspection = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <br />
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={18}>
+        <Col xs={{ span: 22, offset: 1 }} sm={18}>
           <Text>
             C) Check wiring CC & IR Heaters, Mag1 & 2, Dual SSR, Mag, EC Fans,
             Convection Blower, Hi-Limit and Control circuits.
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 22, offset: 1 }} sm={4}>
           <Form.Item>
             <Radio.Group name={VISUALQC} required onChange={onChangeC}>
               <Radio value={true}>ACC</Radio>
@@ -176,14 +175,13 @@ export const VisualInspection = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <br />
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={18}>
+        <Col xs={{ span: 22, offset: 1 }} sm={18}>
           <Text>
             D) Check for loose hardware and debris on floor of the oven cabinet.
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 22, offset: 1 }} sm={4}>
           <Form.Item>
             <Radio.Group name={VISUALQD} required onChange={onChangeD}>
               <Radio value={true}>ACC</Radio>
@@ -192,15 +190,14 @@ export const VisualInspection = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <br />
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={18}>
+        <Col xs={{ span: 22, offset: 1 }} sm={18}>
           <Text>
             E) Check for Door flush to the Oven Flange (no pinching on bottom),
             door clears Louvered Panel?
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 22, offset: 1 }} sm={4}>
           <Form.Item>
             <Radio.Group name={VISUALQE} required onChange={onChangeE}>
               <Radio value={true}>ACC</Radio>
@@ -209,15 +206,14 @@ export const VisualInspection = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <br />
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={18}>
+        <Col xs={{ span: 22, offset: 1 }} sm={18}>
           <Text>
             F) Are the CC Heater Terminal Posts insulated with Silicone Caps and
             Mica Disks?
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 22, offset: 1 }} sm={4}>
           <Form.Item>
             <Radio.Group name={VISUALQF} required onChange={onChangeF}>
               <Radio value={true}>ACC</Radio>
@@ -226,15 +222,14 @@ export const VisualInspection = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <br />
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={18}>
+        <Col xs={{ span: 22, offset: 1 }} sm={18}>
           <Text>
             G) Split open insulation over Hi-Limit Capillary, is it mounted in
             the correct position?
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 22, offset: 1 }} sm={4}>
           <Form.Item>
             <Radio.Group name={VISUALQG} required onChange={onChangeG}>
               <Radio value={true}>ACC</Radio>
@@ -243,16 +238,15 @@ export const VisualInspection = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <br />
       <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={18}>
+        <Col xs={{ span: 22, offset: 1 }} sm={18}>
           <Text>
             H) Are interlock Switches adjusted with actuator rotation if door is
             closed slowly, are the switch arms .020" to .030" fron switch body?
             is the actuator at 87° +- 2°?
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 22, offset: 1 }} sm={4}>
           <Form.Item required>
             <Radio.Group name={VISUALQH} required onChange={onChangeH}>
               <Radio value={true}>ACC</Radio>

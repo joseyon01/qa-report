@@ -30,7 +30,7 @@ export const EditImage = (props) => {
   let totalImages = 0;
   const [count, setCount] = useState(0);
   const [uploading, setUploading] = useState("");
-  const [upLoadDisabled, setUpLoadDisabled] = useState(false);
+  const [upLoadDisabled, setUpLoadDisabled] = useState(true);
   const [imageLoading, setImageLoading] = useState(false);
 
   const GetImagesUrls = async () => {
@@ -39,6 +39,10 @@ export const EditImage = (props) => {
     const data = docSnap.data();
     setGetData(Object.keys(data));
     setGetImages(Object.values(data));
+    if (getData.length === 0) {
+      console.log(getData);
+      setUpLoadDisabled(false);
+    }
     setCount(getData.length);
   };
 
@@ -65,14 +69,15 @@ export const EditImage = (props) => {
 
   const ImageDisplay = () => {
     totalImages = getImages.length;
+
     return getImages.map((e) => {
       const index = getImages.indexOf(e);
       const imgNum = getData[index];
       return (
         <Col xs={20} sm={{ span: 6, offset: 1 }}>
           <Image
-            preview={false}
             width={"100%"}
+            style={{ paddingBottom: "1em" }}
             onClick={() => {
               setImgUrl(e);
               setImgDelete(imgNum);
@@ -144,7 +149,7 @@ export const EditImage = (props) => {
         </Col>
       </Row>
       <Row justify="center" style={{ paddingBottom: "6em" }}>
-        <Col xs={10}>
+        <Col xs={4}>
           <Upload {...fileProps}>
             <Button
               loading={imageLoading}

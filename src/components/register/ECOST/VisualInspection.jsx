@@ -157,7 +157,6 @@ export const VisualInspection = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <br />
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
@@ -174,7 +173,6 @@ export const VisualInspection = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <br />
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
@@ -190,7 +188,6 @@ export const VisualInspection = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <br />
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>E) Check for Door opens and close freely,</Text>
@@ -204,7 +201,6 @@ export const VisualInspection = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <br />
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
@@ -220,7 +216,6 @@ export const VisualInspection = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <br />
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
@@ -237,7 +232,6 @@ export const VisualInspection = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <br />
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>

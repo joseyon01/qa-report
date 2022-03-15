@@ -190,8 +190,8 @@ export const HotOven = (props) => {
         </Col>
       </Row>
 
-      <Row>
-        <Col xs={{ span: 22, offset: 1 }} sm={24}>
+      <Row justify="center">
+        <Col xs={{ span: 22 }}>
           <Text>
             The equipment needed to complete the Oven inspection is a moder 1501
             Survey Meter, three 500 ml beakers with 275 ml +/- 15ml of cold
@@ -200,14 +200,14 @@ export const HotOven = (props) => {
         </Col>
       </Row>
       <br />
-      <Row>
-        <Col xs={{ span: 22, offset: 1 }} sm={24}>
+      <Row justify="center">
+        <Col xs={{ span: 22 }}>
           <Text>A) Door Closed Microwave Leakege Test:</Text>
         </Col>
       </Row>
       <br />
-      <Row>
-        <Col xs={{ span: 22, offset: 1 }} sm={24}>
+      <Row justify="center">
+        <Col xs={{ span: 22 }}>
           <Text>
             B) Repeat process checking the IR Element exits, around the
             Magnetrons and waveguide ends, left and right sides. Maximum
@@ -219,7 +219,8 @@ export const HotOven = (props) => {
       </Row>
       <Row justify="space-around">
         <Col xs={8} sm={6}>
-          <Form.Item name={HOT_OVEN_B_DOOR} label="DOOR">
+          <Text>DOOR</Text>
+          <Form.Item name={HOT_OVEN_B_DOOR}>
             <Input
               type="number"
               size="small"
@@ -229,7 +230,8 @@ export const HotOven = (props) => {
           </Form.Item>
         </Col>
         <Col xs={8} sm={6}>
-          <Form.Item name={HOT_OVEN_B_SIDES} label="Rt & Lt Sides">
+          <Text>Rt & Lt Sides</Text>
+          <Form.Item name={HOT_OVEN_B_SIDES}>
             <Input
               type="number"
               placeholder={"mW/cm2"}
@@ -357,7 +359,7 @@ export const HotOven = (props) => {
         </Col>
       </Row>
       <Row justify="center">
-        <Col xs={13}>
+        <Col xs={6}>
           <Upload {...fileProps}>
             <Button
               loading={imageLoading}
@@ -369,10 +371,11 @@ export const HotOven = (props) => {
           </Upload>
         </Col>
       </Row>
-
+      <br />
       <Row justify="center">
-        <Col xs={20}>
-          <Form.Item label="APROVED">
+        <Col xs={6}>
+          <Text>APROOVED</Text>
+          <Form.Item>
             <Radio.Group name={OVEN_APROVE_OR_NOT} onChange={onChangeAON}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
@@ -381,7 +384,7 @@ export const HotOven = (props) => {
         </Col>
       </Row>
       <Row justify="center">
-        <Col xs={20} sm={24}>
+        <Col xs={20} sm={18}>
           <Form.Item>
             <Button
               size="large"

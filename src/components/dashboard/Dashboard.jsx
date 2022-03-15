@@ -71,7 +71,7 @@ export const Dashboard = () => {
         setPdf(<ECONewPdf serial={s} />);
         break;
       default:
-        console.log("nada que ver");
+        console.log("Error");
         break;
     }
   };
@@ -224,7 +224,6 @@ export const Dashboard = () => {
               setIsModalVisible(true);
               showModal(record.oven, record.serial);
               setOvenType(record.serial);
-              /*navigatePdf(record.serial, record.oven);*/
             }}
           >
             <a>

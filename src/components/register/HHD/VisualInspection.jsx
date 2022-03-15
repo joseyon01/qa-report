@@ -238,10 +238,10 @@ export const VisualInspection = (props) => {
           <Row className={"sub-question"}>
             <Col xs={23}>
               <Row justify="space-around">
-                <Col xs={14}>
+                <Col xs={22} sm={14}>
                   <Text>1) Tug test the Line Voltage Wires.</Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={22} sm={5}>
                   <Form.Item>
                     <Radio.Group
                       name={VISUALQB_1}
@@ -253,13 +253,13 @@ export const VisualInspection = (props) => {
                     </Radio.Group>
                   </Form.Item>
                 </Col>
-                <Col xs={14}>
+                <Col xs={22} sm={14}>
                   <Text>
                     2) Ensure the wires going to the Heater Terminals are not
                     Kinked.
                   </Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={22} sm={5}>
                   <Form.Item>
                     <Radio.Group
                       name={VISUALQB_2}
@@ -271,10 +271,10 @@ export const VisualInspection = (props) => {
                     </Radio.Group>
                   </Form.Item>
                 </Col>
-                <Col xs={14}>
+                <Col xs={22} sm={14}>
                   <Text>3) Ensure all insulation Tape is neatly applied.</Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={22} sm={5}>
                   <Form.Item>
                     <Radio.Group
                       name={VISUALQB_3}
@@ -286,13 +286,13 @@ export const VisualInspection = (props) => {
                     </Radio.Group>
                   </Form.Item>
                 </Col>
-                <Col xs={14}>
+                <Col xs={22} sm={14}>
                   <Text>
                     4) Ensure tape around the Heater Terminals is at least 1/4
                     inch away from the terminals.
                   </Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={22} sm={5}>
                   <Form.Item>
                     <Radio.Group
                       name={VISUALQB_4}
@@ -304,12 +304,12 @@ export const VisualInspection = (props) => {
                     </Radio.Group>
                   </Form.Item>
                 </Col>
-                <Col xs={14}>
+                <Col xs={22} sm={14}>
                   <Text>
                     5) Ensure the oven door hinge screws are seated tight.
                   </Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={22} sm={5}>
                   <Form.Item>
                     <Radio.Group
                       name={VISUALQB_5}
@@ -321,12 +321,12 @@ export const VisualInspection = (props) => {
                     </Radio.Group>
                   </Form.Item>
                 </Col>
-                <Col xs={14}>
+                <Col xs={22} sm={14}>
                   <Text>
                     6) Ensure the oven door fits squarely and is not crooked
                   </Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={22} sm={5}>
                   <Form.Item>
                     <Radio.Group
                       name={VISUALQB_6}
@@ -338,13 +338,13 @@ export const VisualInspection = (props) => {
                     </Radio.Group>
                   </Form.Item>
                 </Col>
-                <Col xs={14}>
+                <Col xs={22} sm={14}>
                   <Text>
                     7) Ensure the oven door opens and closes smoothly and
                     doesn't get caught on sides.
                   </Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={22} sm={5}>
                   <Form.Item>
                     <Radio.Group
                       name={VISUALQB_7}
@@ -361,7 +361,6 @@ export const VisualInspection = (props) => {
           </Row>
         </Col>
       </Row>
-      <br />
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>
@@ -475,10 +474,10 @@ export const VisualInspection = (props) => {
           <Row className={"sub-question"}>
             <Col xs={23}>
               <Row justify="space-around">
-                <Col xs={14}>
+                <Col xs={22}>
                   <Text>1) Frane and the Ground pin on the plug:</Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={22}>
                   <Form.Item name={VISUALQI_1}>
                     <Input
                       type="number"
@@ -488,10 +487,10 @@ export const VisualInspection = (props) => {
                     />
                   </Form.Item>
                 </Col>
-                <Col xs={14}>
+                <Col xs={22}>
                   <Text>2) L1 & Gnd</Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={22}>
                   <Form.Item name={VISUALQI_2}>
                     <Input
                       type="number"
@@ -501,10 +500,10 @@ export const VisualInspection = (props) => {
                     />
                   </Form.Item>
                 </Col>
-                <Col xs={14}>
+                <Col xs={22}>
                   <Text>3) L2 & Gnd</Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={22}>
                   <Form.Item name={VISUALQI_3}>
                     <Input
                       type="number"
@@ -514,10 +513,10 @@ export const VisualInspection = (props) => {
                     />
                   </Form.Item>
                 </Col>
-                <Col xs={14}>
+                <Col xs={22}>
                   <Text>4) L3 & Gnd</Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={22}>
                   <Form.Item name={VISUALQI_4}>
                     <Input
                       type="number"
@@ -527,10 +526,10 @@ export const VisualInspection = (props) => {
                     />
                   </Form.Item>
                 </Col>
-                <Col xs={14}>
+                <Col xs={22}>
                   <Text>5) Neutral & Gnd</Text>
                 </Col>
-                <Col xs={5} sm={5}>
+                <Col xs={22}>
                   <Form.Item name={VISUALQI_5}>
                     <Input
                       type="number"
@@ -545,7 +544,6 @@ export const VisualInspection = (props) => {
           </Row>
         </Col>
       </Row>
-      <br />
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
           <Text>

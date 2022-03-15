@@ -356,14 +356,14 @@ export const OperationalInspection = (props) => {
           </Row>
         </Col>
       </Row>
-      <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={18}>
+      <Row justify="center">
+        <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
           <Text>
             B) Meter to Volts AC: Measure the Voltage at Power Supply Input
             Terminals.
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 23, offset: 1 }} sm={4}>
           <Form.Item name={OPERATIONAL_B_I}>
             <Input
               type="number"
@@ -376,14 +376,14 @@ export const OperationalInspection = (props) => {
         </Col>
       </Row>
       <br />
-      <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={18}>
+      <Row justify="center">
+        <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
           <Text>
             C) Does Voltage & Frequency (on rating plate) match the Ratings on
             traveler?
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 23, offset: 1 }} sm={4}>
           <Radio.Group required name={OPERATIONAL_C} onChange={onChangeC}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
@@ -392,14 +392,14 @@ export const OperationalInspection = (props) => {
       </Row>
 
       <br />
-      <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
+      <Row justify="center">
+        <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
           <Text>
             D) Entein INFO MODE, check that the menu version and firmware are
             correct according to oven spec.
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 23, offset: 1 }} sm={4}>
           <Radio.Group name={OPERATIONAL_D} onChange={onChangeD}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
@@ -407,11 +407,11 @@ export const OperationalInspection = (props) => {
         </Col>
       </Row>
       <br />
-      <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
+      <Row justify="center">
+        <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
           <Text>E) Enter "Test Mode", make sure "Faults" are cleared.</Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 23, offset: 1 }} sm={4}>
           <Radio.Group name={OPERATIONAL_E} onChange={onChangeE}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
@@ -419,11 +419,11 @@ export const OperationalInspection = (props) => {
         </Col>
       </Row>
       <br />
-      <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
+      <Row justify="center">
+        <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
           <Text>F) Make sure the Door says closed when it is closed.</Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 23, offset: 1 }} sm={4}>
           <Radio.Group name={OPERATIONAL_F} onChange={onChangeF}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
@@ -431,15 +431,15 @@ export const OperationalInspection = (props) => {
         </Col>
       </Row>
       <br />
-      <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
+      <Row justify="center">
+        <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
           <Text>
             G) Using an insulated screw driver check the EC Cooling Fan by
             bridging between the terminals on the "Close on Rise" switch, which
             controls the EC cooling fan.
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 23, offset: 1 }} sm={4}>
           <Radio.Group name={OPERATIONAL_G} onChange={onChangeG}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
@@ -447,13 +447,13 @@ export const OperationalInspection = (props) => {
         </Col>
       </Row>
       <br />
-      <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
+      <Row justify="center">
+        <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
           <Text>
             H) Install jet plates and rack. Ensure the rack oscilates when cold.
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 23, offset: 1 }} sm={4}>
           <Radio.Group name={OPERATIONAL_H_I} onChange={onChangeH}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
@@ -461,18 +461,18 @@ export const OperationalInspection = (props) => {
         </Col>
       </Row>
       <br />
-      <Row>
-        <Col xs={{ span: 20, offset: 1 }} sm={23}>
+      <Row justify="center">
+        <Col xs={{ span: 22 }} sm={23}>
           <Text>I) Turn oven on. Heat Oven to its preset temperature.</Text>
         </Col>
         <Col xs={23}>
-          <Row className="sub-question">
+          <Row className={"sub-question"}>
             <Col xs={23}>
-              <Row>
-                <Col xs={14}>
+              <Row justify="space-around">
+                <Col xs={23}>
                   <Text>i) Record time oven starts warm up:</Text>
                 </Col>
-                <Col xs={5}>
+                <Col xs={23}>
                   <Form.Item name={OPERATIONAL_I_I}>
                     <TimePicker
                       size="small"
@@ -484,15 +484,13 @@ export const OperationalInspection = (props) => {
                     />
                   </Form.Item>
                 </Col>
-              </Row>
-              <Row>
-                <Col xs={14}>
+                <Col xs={23}>
                   <Text>
                     ii) Record time when oven reaches preset temperature and
                     menu appears
                   </Text>
                 </Col>
-                <Col xs={5}>
+                <Col xs={23}>
                   <Form.Item name={OPERATIONAL_I_II}>
                     <TimePicker
                       size="small"
@@ -504,9 +502,7 @@ export const OperationalInspection = (props) => {
                     />
                   </Form.Item>
                 </Col>
-              </Row>
-              <Row>
-                <Col xs={14}>
+                <Col xs={23} sm={14}>
                   <Text>
                     Total Warm-Up time:{" "}
                     {valueI_I
@@ -520,21 +516,21 @@ export const OperationalInspection = (props) => {
                     minutes
                   </Text>
                 </Col>
-              </Row>
-              <Row>
-                <Col xs={23}>
+                <Col xs={0} sm={8}></Col>
+                <Col xs={23} sm={14}>
                   <Text>Allow Oven "heat soak" for 1 hour</Text>
                 </Col>
+                <Col xs={0} sm={8}></Col>
               </Row>
             </Col>
           </Row>
         </Col>
       </Row>
-      <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
+      <Row justify="center">
+        <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
           <Text>J) Ensure the rack oscilates when oven is hot.</Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 23, offset: 1 }} sm={4}>
           <Radio.Group name={OPERATIONAL_J} onChange={onChangeJ}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
@@ -542,11 +538,11 @@ export const OperationalInspection = (props) => {
         </Col>
       </Row>
       <br />
-      <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
+      <Row justify="center">
+        <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
           <Text>K) Ensure Blower Fan is rotating counter-clockwise</Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 23, offset: 1 }} sm={4}>
           <Radio.Group name={OPERATIONAL_K} onChange={onChangeK}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
@@ -554,14 +550,14 @@ export const OperationalInspection = (props) => {
         </Col>
       </Row>
       <br />
-      <Row>
-        <Col xs={{ span: 20, offset: 1 }} sm={23}>
+      <Row justify="center">
+        <Col xs={{ span: 22 }} sm={23}>
           <Text>L) Conduct Amp drawn of Heaters A and B</Text>
         </Col>
         <Col xs={23}>
           <Row className="sub-question">
             <Col xs={23}>
-              <Row>
+              <Row justify="space-around">
                 <Col xs={23}>
                   <Text>i) Heater A:</Text>
                 </Col>
@@ -576,8 +572,6 @@ export const OperationalInspection = (props) => {
                     />
                   </Form.Item>
                 </Col>
-              </Row>
-              <Row>
                 <Col xs={23}>
                   <Text>ii) Heater B:</Text>
                 </Col>
@@ -593,15 +587,16 @@ export const OperationalInspection = (props) => {
                   </Form.Item>
                 </Col>
               </Row>
+              <Row></Row>
             </Col>
           </Row>
         </Col>
       </Row>
-      <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
+      <Row justify="center">
+        <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
           <Text>M) Check the Door Switch</Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 23, offset: 1 }} sm={4}>
           <Radio.Group name={OPERATIONAL_M} onChange={onChangeM}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
@@ -609,11 +604,11 @@ export const OperationalInspection = (props) => {
         </Col>
       </Row>
       <br />
-      <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
+      <Row justify="center">
+        <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
           <Text>N) Install panels.</Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 23, offset: 1 }} sm={4}>
           <Radio.Group name={OPERATIONAL_N} onChange={onChangeN}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
@@ -621,11 +616,11 @@ export const OperationalInspection = (props) => {
         </Col>
       </Row>
       <br />
-      <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
+      <Row justify="center">
+        <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
           <Text>O) Clear all Cook Cycles and Faults.</Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 23, offset: 1 }} sm={4}>
           <Radio.Group name={OPERATIONAL_O} onChange={onChangeO}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
@@ -633,13 +628,13 @@ export const OperationalInspection = (props) => {
         </Col>
       </Row>
       <br />
-      <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
+      <Row justify="center">
+        <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
           <Text>
             P) Check packaged accessories. Do they match oven model checklist?
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 23, offset: 1 }} sm={4}>
           <Radio.Group name={OPERATIONAL_P} onChange={onChangeP}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
@@ -647,18 +642,18 @@ export const OperationalInspection = (props) => {
         </Col>
       </Row>
       <br />
-      <Row>
-        <Col xs={{ span: 20, offset: 1 }} sm={3}>
+      <Row justify="center">
+        <Col xs={{ span: 23, offset: 1 }} sm={{ span: 3, offset: 0 }}>
           <Text>NOTES</Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={20}>
+        <Col xs={{ span: 23, offset: 1 }} sm={{ span: 19, offset: 0 }}>
           <Form.Item name={OPERATIONAL_NOTE}>
             <TextArea autoSize={{ minRows: 3, maxRows: 4 }} maxLength={320} />
           </Form.Item>
         </Col>
       </Row>
       <Row justify="center" style={{ paddingBottom: "1em" }}>
-        <Col xs={13}>
+        <Col xs={5}>
           <Upload {...fileProps}>
             <Button
               loading={imageLoading}
@@ -670,8 +665,9 @@ export const OperationalInspection = (props) => {
           </Upload>
         </Col>
       </Row>
-      <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
+      <br />
+      <Row justify="center">
+        <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Text>Aprooved</Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
@@ -683,7 +679,7 @@ export const OperationalInspection = (props) => {
       </Row>
       <br />
       <Row justify="center">
-        <Col xs={20} sm={23}>
+        <Col xs={20} sm={18}>
           <Form.Item>
             <Button
               size="large"

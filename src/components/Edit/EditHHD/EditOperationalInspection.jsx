@@ -732,7 +732,7 @@ export const EditOperationalInspection = (props) => {
       </Row>
       <br />
       <Row justify="center">
-        <Col xs={20} sm={23}>
+        <Col xs={20} sm={18}>
           <Form.Item>
             <Button
               size="large"

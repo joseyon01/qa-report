@@ -427,18 +427,18 @@ export const ECOSTPdf = (props) => {
     doc.text(`TL${valueTopL} `, 120, 445);
     doc.line(140, 445, 260, 445);
     doc.line(140, 445, 140, 480);
-    doc.text(`${valueTopR} TR`, 230, 445);
+    doc.text(`${valueTopR} TR`, 265, 445);
     doc.text("Mark and record peak levels.", 150, 463);
     doc.text(`BL${valueBotL} `, 120, 490);
     doc.line(140, 480, 260, 480);
     doc.line(260, 445, 260, 480);
-    doc.text(`${valueBotR} BR`, 230, 490);
+    doc.text(`${valueBotR} BR`, 265, 490);
     doc.text(
       "Recheck Waveguide Covers ! Reset Cook Count and Accumulation Settings !",
       15,
       510
     );
-    doc.text(`${valueOvenR}`, 370, 510);
+    doc.text(`${valueOvenR ? "ACC" : "NO ACC"}`, 370, 510);
     doc.text(`C) Reset all faults and count: ${value_C}`, 15, 525);
     doc.text(`D) Survey meter#: ${value_D}`, 15, 535);
     doc.text(`APROOVED: ${valueAON ? "YES" : "NO"}`, 170, 600);

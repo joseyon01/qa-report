@@ -183,8 +183,8 @@ export const EditFinalInspection = (props) => {
           <strong>4) FINAL INSPECTION</strong>
         </Col>
       </Row>
-      <Row>
-        <Col xs={{ span: 22, offset: 1 }} sm={24}>
+      <Row justify="center">
+        <Col xs={22}>
           <Text>
             The equipment needed to complete the Oven inspection is a model 1501
             Survey Meter, three 500ml beakers with 275 ml +/- 15ml of cold
@@ -193,8 +193,8 @@ export const EditFinalInspection = (props) => {
         </Col>
       </Row>
       <br />
-      <Row>
-        <Col xs={{ span: 22, offset: 1 }} sm={24}>
+      <Row justify="center">
+        <Col xs={22}>
           <Text>
             A) Door Closed Microwave Leakege Test: Whith the oven warmed to
             operating temperature, use the "UNIT" (9428) then the "up arrow" to
@@ -211,8 +211,8 @@ export const EditFinalInspection = (props) => {
         </Col>
       </Row>
       <br />
-      <Row>
-        <Col xs={{ span: 22, offset: 1 }} sm={24}>
+      <Row justify="center">
+        <Col xs={22}>
           <Text>
             Once the oven is set to run the test, set up the survey meter and
             place into the lowest operating range of 2mW/cm<sup>2</sup>, place
@@ -224,8 +224,8 @@ export const EditFinalInspection = (props) => {
         </Col>
       </Row>
       <br />
-      <Row>
-        <Col xs={{ span: 22, offset: 1 }} sm={24}>
+      <Row justify="center">
+        <Col xs={22}>
           <Text>
             <strong>
               Maximum allowable leakage is 0.8mW/cm<sup>2</sup>
@@ -240,9 +240,9 @@ export const EditFinalInspection = (props) => {
       </Row>
       <Row justify="space-around">
         <Col xs={8} sm={6}>
+          <Text>DOOR</Text>
           <Form.Item
             name={HOT_OVEN_B_DOOR}
-            label="DOOR"
             value={valueDoor}
             onChange={onChangeDoor}
           >
@@ -255,9 +255,9 @@ export const EditFinalInspection = (props) => {
           </Form.Item>
         </Col>
         <Col xs={8} sm={6}>
+          <Text>Rt & Lt Sides</Text>
           <Form.Item
             name={HOT_OVEN_B_SIDES}
-            label="Rt & Lt Sides"
             value={valueSides}
             onChange={onChangeSides}
           >
@@ -350,14 +350,14 @@ export const EditFinalInspection = (props) => {
         </Col>
       </Row>
       <br />
-      <Row justify="space-between">
-        <Col xs={{ span: 22, offset: 1 }} sm={16}>
+      <Row justify="center">
+        <Col xs={{ span: 23 }} sm={{ span: 18, offset: 0 }}>
           <Text type="danger">
             Recheck Waveguide Covers ! Reset Cook Count and Accumulation
             Settings !
           </Text>
         </Col>
-        <Col xs={{ span: 22, offset: 1 }} sm={4}>
+        <Col xs={{ span: 23 }} sm={{ span: 4, offset: 0 }}>
           <Radio.Group
             name={HOT_OVEN_RECHECK}
             onChange={onChangeRC}
@@ -370,8 +370,8 @@ export const EditFinalInspection = (props) => {
       </Row>
       <br />
       <Row justify="center">
-        <Col xs={22} sm={24}>
-          <Row>
+        <Col xs={24}>
+          <Row justify="center">
             <Col xs={24}>
               <Form.Item
                 label="C) Meter:"
@@ -387,8 +387,6 @@ export const EditFinalInspection = (props) => {
                 />
               </Form.Item>
             </Col>
-          </Row>
-          <Row>
             <Col xs={24}>
               <Form.Item
                 label="D) Counter and faults:"
@@ -404,8 +402,6 @@ export const EditFinalInspection = (props) => {
                 />
               </Form.Item>
             </Col>
-          </Row>
-          <Row>
             <Col xs={24}>
               <Form.Item
                 label="E) Coock:"
@@ -425,8 +421,9 @@ export const EditFinalInspection = (props) => {
         </Col>
       </Row>
       <Row justify="center">
-        <Col xs={10}>
-          <Form.Item label="APROVED">
+        <Col xs={6}>
+          <Text>APROVED</Text>
+          <Form.Item>
             <Radio.Group
               name={OVEN_APROVE_OR_NOT}
               onChange={onChangeAON}
@@ -439,7 +436,7 @@ export const EditFinalInspection = (props) => {
         </Col>
       </Row>
       <Row justify="center">
-        <Col xs={20} sm={24}>
+        <Col xs={20} sm={18}>
           <Form.Item>
             <Button
               size="large"

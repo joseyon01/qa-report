@@ -55,7 +55,6 @@ export const EditHotOven = (props) => {
   const handleOk2 = () => {
     setModalVisible(false);
     window.scrollTo(0, 0);
-    navigate(`/dashboard`);
   };
   const handleCancel2 = () => {
     setModalVisible(false);
@@ -190,8 +189,8 @@ export const EditHotOven = (props) => {
         </Col>
       </Row>
 
-      <Row>
-        <Col xs={{ span: 22, offset: 1 }} sm={24}>
+      <Row justify="center">
+        <Col xs={22}>
           <Text>
             The equipment needed to complete the Oven inspection is a moder 1501
             Survey Meter, three 500 ml beakers with 275 ml +/- 15ml of cold
@@ -200,8 +199,8 @@ export const EditHotOven = (props) => {
         </Col>
       </Row>
       <br />
-      <Row>
-        <Col xs={{ span: 22, offset: 1 }} sm={24}>
+      <Row justify="center">
+        <Col xs={22}>
           <Text>
             A) Door Closed Microwave Leakege Test: With the oven warmed to
             operating temperature, use the "UNIT" (8648) then the "up arrow" to
@@ -236,8 +235,8 @@ export const EditHotOven = (props) => {
         </Col>
       </Row>
       <br />
-      <Row>
-        <Col xs={{ span: 22, offset: 1 }} sm={24}>
+      <Row justify="center">
+        <Col xs={22}>
           <Text>
             B) Repeat process checking the IR Element exits, around the
             Magnetrons and waveguide ends, left and right sides.{" "}
@@ -251,9 +250,9 @@ export const EditHotOven = (props) => {
       </Row>
       <Row justify="space-around">
         <Col xs={8} sm={6}>
+          <Text>DOOR</Text>
           <Form.Item
             name={HOT_OVEN_B_DOOR}
-            label="DOOR"
             value={valueDoor}
             onChange={onChangeDoor}
           >
@@ -266,9 +265,9 @@ export const EditHotOven = (props) => {
           </Form.Item>
         </Col>
         <Col xs={8} sm={6}>
+          <Text>Rt & Lt Sides</Text>
           <Form.Item
             name={HOT_OVEN_B_SIDES}
-            label="Rt & Lt Sides"
             value={valueSides}
             onChange={onChangeSides}
           >
@@ -282,7 +281,6 @@ export const EditHotOven = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <br />
       <Row justify="spaceAround">
         <Col xs={{ span: 7, offset: 1 }} sm={{ span: 5, offset: 3 }}>
           <Form.Item
@@ -361,15 +359,14 @@ export const EditHotOven = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <br />
-      <Row justify="space-between">
-        <Col xs={{ span: 22, offset: 1 }} sm={16}>
+      <Row justify="center">
+        <Col xs={{ span: 23 }} sm={{ span: 18, offset: 0 }}>
           <Text type="danger">
             Recheck Waveguide Covers ! Reset Cook Count and Accumulation
             Settings !
           </Text>
         </Col>
-        <Col xs={{ span: 22, offset: 1 }} sm={4}>
+        <Col xs={{ span: 23 }} sm={{ span: 4, offset: 0 }}>
           <Radio.Group
             name={HOT_OVEN_RECHECK}
             onChange={onChangeRC}
@@ -381,7 +378,7 @@ export const EditHotOven = (props) => {
         </Col>
       </Row>
       <Row justify="center">
-        <Col xs={22} sm={24}>
+        <Col xs={22}>
           <Row>
             <Col xs={24}>
               <Form.Item
@@ -437,8 +434,9 @@ export const EditHotOven = (props) => {
       </Row>
 
       <Row justify="center">
-        <Col xs={20}>
-          <Form.Item label="APROVED">
+        <Col xs={6}>
+          <Text>APROVED</Text>
+          <Form.Item>
             <Radio.Group
               name={OVEN_APROVE_OR_NOT}
               onChange={onChangeAON}
@@ -451,7 +449,7 @@ export const EditHotOven = (props) => {
         </Col>
       </Row>
       <Row justify="center">
-        <Col xs={20} sm={24}>
+        <Col xs={20} sm={18}>
           <Form.Item>
             <Button
               size="large"

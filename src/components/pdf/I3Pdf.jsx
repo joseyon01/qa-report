@@ -10,46 +10,46 @@ export const I3Pdf = (props) => {
   const ovenSerial = props.serial;
   const [isDisabled, setIsDisabled] = useState(true);
   const [loading, setLoading] = useState(true);
-  let serial = "";
-  let name = "";
-  let date = "";
-  let valueA = "";
-  let valueB = "";
-  let valueC = "";
-  let valueD = "";
-  let valueE = "";
-  let valueF = "";
-  let valueG = "";
-  let operational_A_I = "";
-  let value_B = "";
-  let operational_D_I = "";
-  let operational_D_II = "";
-  let operational_D_III = "";
-  let value_D = "";
-  let operational_E = "";
-  let value_F = "";
-  let value_G = "";
-  let operational_H_I = "";
-  let operational_H_IV = "";
-  let operational_H_V = "";
-  let operational_H_VI = "";
-  let operational_I_I = "";
-  let operational_I_II = "";
-  let operational_NOTE = "";
-  let value_J = "";
-  let operational_OPENING = "";
-  let operational_CLOSING = "";
-  let valueDoor = "";
-  let valueSides = "";
-  let valueTopR = "";
-  let valueTopL = "";
-  let valueBotR = "";
-  let valueBotL = "";
-  let valueOvenR = "";
-  let value_C_H = "";
-  let value_D_H = "";
-  let value_E_H = "";
-  let valueAON = "";
+  const [serial, setserial] = useState("");
+  const [name, setname] = useState("");
+  const [date, setdate] = useState("");
+  const [valueA, setvalueA] = useState("");
+  const [valueB, setvalueB] = useState("");
+  const [valueC, setvalueC] = useState("");
+  const [valueD, setvalueD] = useState("");
+  const [valueE, setvalueE] = useState("");
+  const [valueF, setvalueF] = useState("");
+  const [valueG, setvalueG] = useState("");
+  const [operational_A_I, setoperational_A_I] = useState("");
+  const [value_B, setvalue_B] = useState("");
+  const [operational_D_I, setoperational_D_I] = useState("");
+  const [operational_D_II, setoperational_D_II] = useState("");
+  const [operational_D_III, setoperational_D_III] = useState("");
+  const [value_D, setvalue_D] = useState("");
+  const [operational_E, setoperational_E] = useState("");
+  const [value_F, setvalue_F] = useState("");
+  const [value_G, setvalue_G] = useState("");
+  const [operational_H_I, setoperational_H_I] = useState("");
+  const [operational_H_IV, setoperational_H_IV] = useState("");
+  const [operational_H_V, setoperational_H_V] = useState("");
+  const [operational_H_VI, setoperational_H_VI] = useState("");
+  const [operational_I_I, setoperational_I_I] = useState("");
+  const [operational_I_II, setoperational_I_II] = useState("");
+  const [operational_NOTE, setoperational_NOTE] = useState("");
+  const [value_J, setvalue_J] = useState("");
+  const [operational_OPENING, setoperational_OPENING] = useState("");
+  const [operational_CLOSING, setoperational_CLOSING] = useState("");
+  const [valueDoor, setvalueDoor] = useState("");
+  const [valueSides, setvalueSides] = useState("");
+  const [valueTopR, setvalueTopR] = useState("");
+  const [valueTopL, setvalueTopL] = useState("");
+  const [valueBotR, setvalueBotR] = useState("");
+  const [valueBotL, setvalueBotL] = useState("");
+  const [valueOvenR, setvalueOvenR] = useState("");
+  const [value_C_H, setvalue_C_H] = useState("");
+  const [value_D_H, setvalue_D_H] = useState("");
+  const [value_E_H, setvalue_E_H] = useState("");
+  const [valueAON, setvalueAON] = useState("");
   const getDataOven = async () => {
     try {
       setIsDisabled(true);
@@ -60,9 +60,9 @@ export const I3Pdf = (props) => {
       const docRefO = doc(db, "OperationalInspection", `${ovenSerial}`);
       const docSnapO = await getDoc(docRefO);
       const dataO = docSnapO.data();
-      serial = data?.serial;
-      date = data?.date;
-      name = data?.name;
+      setserial(data?.serial);
+      setdate(data?.date);
+      setname(data?.name);
       setIsDisabled(false);
       setLoading(false);
     } catch (error) {
@@ -77,13 +77,13 @@ export const I3Pdf = (props) => {
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
       if (valueA == "") {
-        valueA = data?.VISUALQA;
-        valueB = data?.VISUALQB;
-        valueC = data?.VISUALQC;
-        valueD = data?.VISUALQD;
-        valueE = data?.VISUALQE;
-        valueF = data?.VISUALQF;
-        valueG = data?.VISUALQG;
+        setvalueA(data?.VISUALQA);
+        setvalueB(data?.VISUALQB);
+        setvalueC(data?.VISUALQC);
+        setvalueD(data?.VISUALQD);
+        setvalueE(data?.VISUALQE);
+        setvalueF(data?.VISUALQF);
+        setvalueG(data?.VISUALQG);
       }
       setIsDisabled(false);
       setLoading(false);
@@ -98,25 +98,25 @@ export const I3Pdf = (props) => {
       const docRef = doc(db, "OperationalInspection", `${ovenSerial}`);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
-      operational_A_I = data?.OPERATIONAL_A_I;
-      value_B = data?.OPERATIONAL_B_I_I;
-      operational_D_I = data?.OPERATIONAL_D_I;
-      operational_D_II = data?.OPERATIONAL_D_II;
-      operational_D_III = data?.OPERATIONAL_D_III;
-      value_D = data?.OPERATIONAL_D_IV;
-      operational_E = data?.OPERATIONAL_E;
-      value_F = data?.OPERATIONAL_F;
-      value_G = data?.OPERATIONAL_G;
-      operational_H_I = data?.OPERATIONAL_H_I;
-      operational_H_IV = data?.OPERATIONAL_H_IV;
-      operational_H_V = data?.OPERATIONAL_H_V;
-      operational_H_VI = data?.OPERATIONAL_H_VI;
-      operational_I_I = data?.OPERATIONAL_I_I;
-      operational_I_II = data?.OPERATIONAL_I_II;
-      operational_NOTE = data?.OPERATIONAL_NOTE;
-      value_J = data?.OPERATIONAL_J;
-      operational_OPENING = data?.OPERATIONAL_OPENING;
-      operational_CLOSING = data?.OPERATIONAL_CLOSING;
+      setoperational_A_I(data?.OPERATIONAL_A_I);
+      setvalue_B(data?.OPERATIONAL_B_I_I);
+      setoperational_D_I(data?.OPERATIONAL_D_I);
+      setoperational_D_II(data?.OPERATIONAL_D_II);
+      setoperational_D_III(data?.OPERATIONAL_D_III);
+      setvalue_D(data?.OPERATIONAL_D_IV);
+      setoperational_E(data?.OPERATIONAL_E);
+      setvalue_F(data?.OPERATIONAL_F);
+      setvalue_G(data?.OPERATIONAL_G);
+      setoperational_H_I(data?.OPERATIONAL_H_I);
+      setoperational_H_IV(data?.OPERATIONAL_H_IV);
+      setoperational_H_V(data?.OPERATIONAL_H_V);
+      setoperational_H_VI(data?.OPERATIONAL_H_VI);
+      setoperational_I_I(data?.OPERATIONAL_I_I);
+      setoperational_I_II(data?.OPERATIONAL_I_II);
+      setoperational_NOTE(data?.OPERATIONAL_NOTE);
+      setvalue_J(data?.OPERATIONAL_J);
+      setoperational_OPENING(data?.OPERATIONAL_OPENING);
+      setoperational_CLOSING(data?.OPERATIONAL_CLOSING);
       setIsDisabled(false);
       setLoading(false);
     } catch (error) {
@@ -131,17 +131,17 @@ export const I3Pdf = (props) => {
       const docRef = doc(db, "FinalInspection", `${ovenSerial}`);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
-      valueDoor = data?.HOT_OVEN_B_DOOR;
-      valueSides = data?.HOT_OVEN_B_SIDES;
-      valueTopR = data?.HOT_OVEN_TOP_R;
-      valueTopL = data?.HOT_OVEN_TOP_L;
-      valueBotR = data?.HOT_OVEN_BOT_R;
-      valueBotL = data?.HOT_OVEN_BOT_L;
-      value_C_H = data?.HOT_OVEN_C;
-      value_D_H = data?.HOT_OVEN_D;
-      value_E_H = data?.HOT_OVEN_E;
-      valueOvenR = data?.HOT_OVEN_RECHECK;
-      valueAON = data?.OVEN_APROVE_OR_NOT;
+      setvalueDoor(data?.HOT_OVEN_B_DOOR);
+      setvalueSides(data?.HOT_OVEN_B_SIDES);
+      setvalueTopR(data?.HOT_OVEN_TOP_R);
+      setvalueTopL(data?.HOT_OVEN_TOP_L);
+      setvalueBotR(data?.HOT_OVEN_BOT_R);
+      setvalueBotL(data?.HOT_OVEN_BOT_L);
+      setvalue_C_H(data?.HOT_OVEN_C);
+      setvalue_D_H(data?.HOT_OVEN_D);
+      setvalue_E_H(data?.HOT_OVEN_E);
+      setvalueOvenR(data?.HOT_OVEN_RECHECK);
+      setvalueAON(data?.OVEN_APROVE_OR_NOT);
       setIsDisabled(false);
       setLoading(false);
     } catch (error) {
@@ -383,7 +383,7 @@ export const I3Pdf = (props) => {
 
     doc.line(5, 205, 440, 205);
     doc.setFontSize(13);
-    doc.text("3) HOT OVEN OPERATIONAL CHECKOUT:", 15, 225);
+    doc.text("3) FINAL INSPECTION:", 15, 225);
     doc.setFontSize(10);
     doc.text(
       "The equipment needed to complete the Oven inspection is a model 1501 Survey Meter, three 500ml beakers with 275 ml +/- 15ml of cold water, spring loaded tongs",
@@ -401,35 +401,35 @@ export const I3Pdf = (props) => {
     doc.text(
       "  Once the oven is set to run the test, set up the survey meter and place into the lowest operating range of 2mW/cm2, place the beaker of water in the oven and close the door. Next, activate the mivrowave and slowly move the wand of the survey meter, making sure toy are holding it perpendicular to the pag as you traverse the perimeter of the door at a slow pace of 1.25 inches/second.",
       15,
-      360,
+      330,
       { maxWidth: 350 }
     );
     doc.text(
       "B) Repeat process checking the IR Element exits, around the Magnetrons and waveguide ends, left and right sides. Maximum allowale leakage is 0.8mW/cm2 surrounding the perimeter of the door and 0.2mW/cm2 around the EC and left and right side IR Element through hole.",
       15,
-      400,
+      370,
       { maxWidth: 350 }
     );
-    doc.text(`DOOR  ${valueDoor} mW/cm2`, 90, 430);
-    doc.text(`Rt & Lt sides  ${valueSides} mW/cm2`, 230, 430);
-    doc.text(`TL ${valueTopL} `, 120, 445);
-    doc.line(140, 445, 260, 445);
-    doc.line(140, 445, 140, 485);
-    doc.text(`${valueTopR} TR`, 265, 445);
-    doc.text("Mark and record peak levels.", 150, 465);
-    doc.text(`BL ${valueBotL} `, 120, 495);
-    doc.line(140, 485, 260, 485);
-    doc.line(260, 445, 260, 485);
-    doc.text(`${valueBotR} BR`, 265, 495);
+    doc.text(`DOOR  ${valueDoor} mW/cm2`, 90, 400);
+    doc.text(`Rt & Lt sides  ${valueSides} mW/cm2`, 230, 400);
+    doc.text(`TL ${valueTopL} `, 120, 415);
+    doc.line(140, 415, 260, 415);
+    doc.line(140, 415, 140, 455);
+    doc.text(`${valueTopR} TR`, 265, 415);
+    doc.text("Mark and record peak levels.", 150, 435);
+    doc.text(`BL ${valueBotL} `, 120, 465);
+    doc.line(140, 455, 260, 455);
+    doc.line(260, 415, 260, 455);
+    doc.text(`${valueBotR} BR`, 265, 465);
     doc.text(
       "Recheck Waveguide Covers ! Reset Cook Count and Accumulation Settings !",
       15,
-      510
+      480
     );
-    doc.text(`${valueOvenR ? "ACC" : "NO ACC"}`, 370, 510);
-    doc.text(`Cook time count: ${value_C_H}`, 15, 525);
-    doc.text(`Survey meter#: ${value_D_H}`, 15, 535);
-    doc.text(`Clear cook time foults: ${value_E_H}`, 15, 545);
+    doc.text(`${valueOvenR ? "ACC" : "NO ACC"}`, 370, 480);
+    doc.text(`Cook time count: ${value_C_H}`, 15, 495);
+    doc.text(`Survey meter#: ${value_D_H}`, 15, 505);
+    doc.text(`Clear cook time foults: ${value_E_H}`, 15, 515);
     doc.text(`APROOVED: ${valueAON ? "YES" : "NO"}`, 170, 600);
 
     doc.save(`${s}.pdf`);

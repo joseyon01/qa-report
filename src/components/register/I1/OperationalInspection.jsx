@@ -209,53 +209,55 @@ export const OperationalInspection = (props) => {
         </Col>
       </Row>
       <Row justify="center">
-        <Col xs={22} sm={24}>
+        <Col xs={22}>
           <Text>
             A) Using the OHMS function on your meter:{" "}
             <strong>Measure and Record the resistance between:</strong>
           </Text>
         </Col>
-        <Col span={24}>
+        <Col span={23}>
           <Row className="sub-question">
-            <Col xs={20} sm={10}>
-              <Text>i) Frame and the Ground Pin on the plug:</Text>
-            </Col>
-            <Col xs={10} sm={6}>
-              <Form.Item name={OPERATIONAL_A_I}>
-                <Input
-                  type="number"
-                  style={{ width: "100%" }}
-                  size="small"
-                  required
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row className="sub-question">
-            <Col xs={20} sm={10}>
-              <Text>ii) L1 & Ground: </Text>
-            </Col>
-            <Col xs={10} sm={6}>
-              <Form.Item name={OPERATIONAL_A_II}>
-                <Input
-                  type="number"
-                  style={{ width: "100%" }}
-                  size="small"
-                  required
-                />
-              </Form.Item>
+            <Col xs={23}>
+              <Row justify="center">
+                <Col xs={22}>
+                  <Text>i) Frame and the Ground Pin on the plug:</Text>
+                </Col>
+                <Col xs={22}>
+                  <Form.Item name={OPERATIONAL_A_I}>
+                    <Input
+                      type="number"
+                      style={{ width: 150 }}
+                      size="small"
+                      required
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={22}>
+                  <Text>ii) L1 & Ground: </Text>
+                </Col>
+                <Col xs={22}>
+                  <Form.Item name={OPERATIONAL_A_II}>
+                    <Input
+                      type="number"
+                      style={{ width: 150 }}
+                      size="small"
+                      required
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
             </Col>
           </Row>
         </Col>
       </Row>
       <Row justify="center">
-        <Col xs={22} sm={20}>
+        <Col xs={{ span: 23 }} sm={{ span: 18, offset: 0 }}>
           <Text>
             B) Open Fuse #1, #2 and #3 and check rating, Class CC ATMR 12, ATMR
             12, and ATMR 20 respectively.
           </Text>
         </Col>
-        <Col xs={22} sm={4}>
+        <Col xs={{ span: 23 }} sm={{ span: 4, offset: 0 }}>
           <Radio.Group required name={OPERATIONAL_B_I_I} onChange={onChangeB}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
@@ -264,17 +266,17 @@ export const OperationalInspection = (props) => {
       </Row>
       <br />
       <Row justify="center">
-        <Col xs={22} sm={24}>
+        <Col xs={22}>
           <Text>C) Plug in the oven, as the Display Boots, check for:</Text>
         </Col>
-        <Col xs={24}>
+        <Col xs={23}>
           <Row className="sub-question">
-            <Col xs={24}>
-              <Row>
-                <Col xs={24}>
+            <Col xs={23}>
+              <Row justify="center">
+                <Col xs={22}>
                   <Text>i) Displayed software version</Text>
                 </Col>
-                <Col xs={24}>
+                <Col xs={22}>
                   <Form.Item name={OPERATIONAL_C_I}>
                     <Input
                       placeholder="Version"
@@ -285,10 +287,10 @@ export const OperationalInspection = (props) => {
                     />
                   </Form.Item>
                 </Col>
-                <Col xs={24}>
+                <Col xs={22}>
                   <Text>ii) Display voltage</Text>
                 </Col>
-                <Col xs={24}>
+                <Col xs={22}>
                   <Form.Item name={OPERATIONAL_C_II}>
                     <Input
                       placeholder="VAC"
@@ -299,10 +301,10 @@ export const OperationalInspection = (props) => {
                     />
                   </Form.Item>
                 </Col>
-                <Col xs={24}>
+                <Col xs={22}>
                   <Text>iii) Serial Number</Text>
                 </Col>
-                <Col xs={24}>
+                <Col xs={22}>
                   <Form.Item name={OPERATIONAL_C_III}>
                     <Input
                       placeholder="S/N"
@@ -313,39 +315,36 @@ export const OperationalInspection = (props) => {
                     />
                   </Form.Item>
                 </Col>
-                <Col xs={24}>
-                  <Row justify="space-between">
-                    <Col xs={20} sm={16}>
-                      <Text>
-                        iv) DOES THE I/D PLATE HAVE CORRECT VOLTAGE RATING?
-                      </Text>
-                    </Col>
-                    <Col xs={20} sm={5}>
-                      <Radio.Group
-                        required
-                        name={OPERATIONAL_C_IV}
-                        onChange={onChangeC}
-                      >
-                        <Radio value={true}>ACC</Radio>
-                        <Radio value={false}>NO ACC</Radio>
-                      </Radio.Group>
-                    </Col>
-                  </Row>
+                <Col xs={22}>
+                  <Col xs={22}>
+                    <Text>
+                      iv) DOES THE I/D PLATE HAVE CORRECT VOLTAGE RATING?
+                    </Text>
+                  </Col>
+                  <Col xs={22}>
+                    <Radio.Group
+                      required
+                      name={OPERATIONAL_C_IV}
+                      onChange={onChangeC}
+                    >
+                      <Radio value={true}>ACC</Radio>
+                      <Radio value={false}>NO ACC</Radio>
+                    </Radio.Group>
+                  </Col>
                 </Col>
               </Row>
             </Col>
           </Row>
         </Col>
       </Row>
-      <br />
-      <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
+      <Row justify="center">
+        <Col xs={{ span: 23 }} sm={{ span: 18, offset: 0 }}>
           <Text>
             D) Set your meter to Volts AC: Measure the AC voltage at EMI Filter
             Terminals.
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 23 }} sm={{ span: 4, offset: 0 }}>
           <Form.Item name={OPERATIONAL_D_I}>
             <Input
               type="number"
@@ -357,15 +356,14 @@ export const OperationalInspection = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <br />
-      <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
+      <Row justify="center">
+        <Col xs={{ span: 23 }} sm={{ span: 18, offset: 0 }}>
           <Text>
             E) Enter "Test Mode". Make sure "Faults" are Cleared and then run
             "Self Test". Pass all test?
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 23 }} sm={{ span: 4, offset: 0 }}>
           <Radio.Group name={OPERATIONAL_E} onChange={onChangeE}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
@@ -373,15 +371,15 @@ export const OperationalInspection = (props) => {
         </Col>
       </Row>
       <br />
-      <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
+      <Row justify="center">
+        <Col xs={{ span: 23 }} sm={{ span: 18, offset: 0 }}>
           <Text>
             F) Using an insulated screwdriver check the EC Cooling Fan by
             bringing between the terminals on the "Close on Rise" Switch, which
             controls the EC cooling fan.
           </Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 23 }} sm={{ span: 4, offset: 0 }}>
           <Radio.Group name={OPERATIONAL_F} onChange={onChangeF}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
@@ -389,28 +387,28 @@ export const OperationalInspection = (props) => {
         </Col>
       </Row>
       <br />
-      <Row>
-        <Col xs={{ span: 22, offset: 1 }} sm={24}>
+      <Row justify="center">
+        <Col xs={{ span: 22 }}>
           <Text>
             G) Water Rise Test: Place Oven into the "UNIT" mode, and then scroll
             down to <strong>microwave</strong> on the first screen.
           </Text>
         </Col>
-        <Col xs={24}>
+        <Col xs={23}>
           <Row className="sub-question">
-            <Col xs={24}>
-              <Row>
-                <Col xs={24}>
+            <Col xs={23}>
+              <Row justify="center">
+                <Col xs={22}>
                   <Text>
                     i) Using Gradiated Cylinder measure 1 liter +/- 5ml of
                     water. While in graduated cylinder, measure and record the
                     Temp, T<sub>initial</sub>
                   </Text>
                 </Col>
-                <Col xs={24}>
+                <Col xs={22}>
+                  <Text>enter T inicial via Keypad</Text>
                   <Form.Item
                     name={OPERATIONAL_G_I}
-                    label="enter T inicial via Keypad"
                     onChange={onChangeTi}
                     value={valueTi}
                   >
@@ -423,26 +421,18 @@ export const OperationalInspection = (props) => {
                     />
                   </Form.Item>
                 </Col>
-              </Row>
-              <Row>
-                <Col xs={24}>
+                <Col xs={22}>
                   <Text>
                     ii) inmidiately pur water into 1000 ml vessel, place into
                     Cook Chamber and close the door.
                   </Text>
                 </Col>
-              </Row>
-              <br />
-              <Row>
-                <Col xs={24}>
+                <Col xs={22}>
                   <Text>
                     iii) Press "ENTER". The microwave will run for 30 seconds.
                   </Text>
                 </Col>
-              </Row>
-              <br />
-              <Row>
-                <Col xs={20} sm={16}>
+                <Col xs={22}>
                   <Text>
                     iv) While test is running, Verify the current is 16amps. +/-
                     2 amps. (208V)
@@ -450,7 +440,7 @@ export const OperationalInspection = (props) => {
                     (14amps. +/- 1.6amps. for the unit tested with 240V)
                   </Text>
                 </Col>
-                <Col xs={20} sm={3}>
+                <Col xs={22}>
                   <Form.Item name={OPERATIONAL_G_IV}>
                     <Input
                       type="number"
@@ -461,19 +451,17 @@ export const OperationalInspection = (props) => {
                     />
                   </Form.Item>
                 </Col>
-              </Row>
-              <Row>
-                <Col xs={24}>
+                <Col xs={22}>
                   <Text>
                     v) When the timer reaches Zero, immediately measure T
                     <sub>final</sub> while stirring to blend water as to have
                     one temperature throughout vessel. T<sub>FINAL</sub>=
                   </Text>
                 </Col>
-                <Col xs={24}>
+                <Col xs={22}>
+                  <Text>enter T final via Keypad</Text>
                   <Form.Item
                     name={OPERATIONAL_G_V}
-                    label="enter T final via Keypad"
                     value={valueTf}
                     onChange={onChangeTf}
                   >
@@ -486,15 +474,13 @@ export const OperationalInspection = (props) => {
                     />
                   </Form.Item>
                 </Col>
-              </Row>
-              <Row>
-                <Col xs={23} sm={16}>
+                <Col xs={22}>
                   <Text>
                     vi) The power output will show for 5 seconds. Record
                     microwave oven output power
                   </Text>
                 </Col>
-                <Col xs={10} sm={4}>
+                <Col xs={10}>
                   <Form.Item name={OPERATIONAL_G_VI}>
                     <Input
                       type="number"
@@ -506,7 +492,7 @@ export const OperationalInspection = (props) => {
                     />
                   </Form.Item>
                 </Col>
-                <Col xs={5} sm={3}>
+                <Col xs={5}>
                   <Button
                     size="small"
                     onClick={() => {
@@ -518,8 +504,6 @@ export const OperationalInspection = (props) => {
                     calc
                   </Button>
                 </Col>
-              </Row>
-              <Row justify="center">
                 <Col xs={22}>
                   <Text type="danger">
                     Output Power must be {">="} 1600W. But if it's more than
@@ -531,21 +515,21 @@ export const OperationalInspection = (props) => {
           </Row>
         </Col>
       </Row>
-      <Row>
-        <Col xs={{ span: 20, offset: 1 }} sm={24}>
+      <Row justify="center">
+        <Col xs={22}>
           <Text>
             H) Push "BACK" until display reads: "OVEN OFF" and then push the
             "OVEN ON" smart key and let the oven warm to its preset temperature.
           </Text>
         </Col>
-        <Col xs={24}>
+        <Col xs={23}>
           <Row className="sub-question">
-            <Col xs={24}>
-              <Row>
-                <Col xs={24}>
+            <Col xs={23}>
+              <Row justify="center">
+                <Col xs={22}>
                   <Text>i) Record time oven starts warm up:</Text>
                 </Col>
-                <Col xs={24}>
+                <Col xs={22}>
                   <Form.Item name={OPERATIONAL_H_I}>
                     <Input
                       type="time"
@@ -555,30 +539,24 @@ export const OperationalInspection = (props) => {
                     />
                   </Form.Item>
                 </Col>
-              </Row>
-              <Row>
-                <Col xs={24}>
+                <Col xs={22}>
                   <Text>
                     ii) Once the oven reaches the OPERATIONAL Temperature, the
                     menu is displayed
                   </Text>
                 </Col>
-              </Row>
-              <Row>
-                <Col xs={24}>
+                <Col xs={22}>
                   <Text>iii) Record the displayed menu</Text>
                 </Col>
-                <Col xs={24}>
+                <Col xs={22}>
                   <Form.Item name={OPERATIONAL_H_II}>
                     <Input size="small" style={{ width: 150 }} required />
                   </Form.Item>
                 </Col>
-              </Row>
-              <Row>
-                <Col xs={24}>
+                <Col xs={22}>
                   <Text>iv) Record the time</Text>
                 </Col>
-                <Col xs={24}>
+                <Col xs={22}>
                   <Form.Item name={OPERATIONAL_H_III}>
                     <Input
                       type="time"
@@ -588,9 +566,7 @@ export const OperationalInspection = (props) => {
                     />
                   </Form.Item>
                 </Col>
-              </Row>
-              <Row>
-                <Col xs={24}>
+                <Col xs={22}>
                   <Text>
                     This time should be 15 minutes or less!
                     <br />
@@ -603,22 +579,20 @@ export const OperationalInspection = (props) => {
         </Col>
       </Row>
 
-      <Row>
-        <Col xs={{ span: 20, offset: 1 }} sm={3}>
+      <Row justify="center">
+        <Col xs={22}>
           <Text>NOTES</Text>
-        </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={20}>
           <Form.Item name={OPERATIONAL_NOTE}>
             <TextArea autoSize={{ minRows: 3, maxRows: 4 }} maxLength={320} />
           </Form.Item>
         </Col>
       </Row>
 
-      <Row justify="space-between">
-        <Col xs={{ span: 20, offset: 1 }} sm={16}>
+      <Row justify="center">
+        <Col xs={{ span: 23 }} sm={{ span: 18, offset: 0 }}>
           <Text>I) Is there actuator rotation if door is closed slowly?</Text>
         </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={{ span: 23 }} sm={{ span: 4, offset: 0 }}>
           <Radio.Group name={OPERATIONAL_I_I} onChange={onChangeI}>
             <Radio value={true}>ACC</Radio>
             <Radio value={false}>NO ACC</Radio>
@@ -627,13 +601,13 @@ export const OperationalInspection = (props) => {
       </Row>
       <Row>
         <Col xs={24}>
-          <Row className="sub-question">
-            <Col xs={24}>
+          <Row justify="center">
+            <Col xs={22}>
               <Text>
                 Slowly opening the Door, the order of the indicators are
               </Text>
             </Col>
-            <Col xs={24}>
+            <Col xs={22}>
               <Form.Item name={OPERATIONAL_OPENING}>
                 <Input
                   type="text"
@@ -643,12 +617,12 @@ export const OperationalInspection = (props) => {
                 />
               </Form.Item>
             </Col>
-            <Col xs={24}>
+            <Col xs={22}>
               <Text>
                 Slowly closing the Door, the order of the indicators are
               </Text>
             </Col>
-            <Col xs={24}>
+            <Col xs={22}>
               <Form.Item name={OPERATIONAL_CLOSING}>
                 <Input
                   type="text"
@@ -658,13 +632,13 @@ export const OperationalInspection = (props) => {
                 />
               </Form.Item>
             </Col>
-            <Col xs={20} sm={16}>
+            <Col xs={22}>
               <Text>
                 Are Switch arms .020" to .030" from Switch body and is the
                 actuator at 87° +/- 2°
               </Text>
             </Col>
-            <Col xs={20} sm={5}>
+            <Col xs={22}>
               <Radio.Group name={OPERATIONAL_I_II} onChange={onChangeJ}>
                 <Radio value={true}>ACC</Radio>
                 <Radio value={false}>NO ACC</Radio>
@@ -673,8 +647,9 @@ export const OperationalInspection = (props) => {
           </Row>
         </Col>
       </Row>
+      <br />
       <Row justify="center">
-        <Col xs={20} sm={24}>
+        <Col xs={20} sm={18}>
           <Form.Item>
             <Button
               size="large"
