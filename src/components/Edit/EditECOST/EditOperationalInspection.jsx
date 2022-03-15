@@ -163,7 +163,6 @@ export const EditOperationalInspection = (props) => {
   }
 
   function addOperational(values) {
-    const [form] = Form.useForm();
     const OPERATIONAL_B_I_I = values.OPERATIONAL_B_I_I;
     const OPERATIONAL_B_I_II = values.OPERATIONAL_B_I_II;
     const OPERATIONAL_B_I_III = values.OPERATIONAL_B_I_III;

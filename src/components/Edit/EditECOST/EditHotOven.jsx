@@ -34,6 +34,7 @@ export const EditHotOven = (props) => {
   const [valueC, setValueC] = useState(null);
   const [valueD, setValueD] = useState(null);
   const [valueAON, setValueAON] = useState(null);
+  const [form] = Form.useForm();
 
   const onChangeRC = (e) => setValueOvenR(e.target.value);
   const onChangeAON = (e) => setValueAON(e.target.value);
@@ -90,7 +91,6 @@ export const EditHotOven = (props) => {
     );
     setLoading(false);
   }
-  const [form] = Form.useForm();
   async function addHotOven(values, arrayOvens) {
     const HOT_OVEN_B_DOOR = values.HOT_OVEN_B_DOOR;
     const HOT_OVEN_B_SIDES = values.HOT_OVEN_B_SIDES;
@@ -98,11 +98,11 @@ export const EditHotOven = (props) => {
     const HOT_OVEN_TOP_L = values.HOT_OVEN_TOP_L;
     const HOT_OVEN_BOT_R = values.HOT_OVEN_BOT_R;
     const HOT_OVEN_BOT_L = values.HOT_OVEN_BOT_L;
-    const HOT_OVEN_RECHECK = valueRC;
+    const HOT_OVEN_RECHECK = valueOvenR;
     const HOT_OVEN_C = values.HOT_OVEN_C;
     const HOT_OVEN_D = values.HOT_OVEN_D;
     const OVEN_APROVE_OR_NOT = valueAON;
-
+    console.log(HOT_OVEN_RECHECK);
     if (HOT_OVEN_RECHECK == null || OVEN_APROVE_OR_NOT == null) {
       showModal();
     } else {
