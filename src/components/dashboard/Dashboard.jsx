@@ -11,8 +11,12 @@ import {
   DatePicker,
   Modal,
 } from "antd";
-import { AiFillDelete, AiFillEdit, AiOutlineFileAdd } from "react-icons/ai";
-import { SearchOutlined, FilePdfOutlined } from "@ant-design/icons";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import {
+  SearchOutlined,
+  FilePdfOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import { Header } from "../layout/Header";
 import { Container } from "../layout/Container";
 import { useNavigate, Link } from "react-router-dom";
@@ -32,6 +36,8 @@ import { HHDPdf } from "../pdf/HHDPdf";
 import { ENCPdf } from "../pdf/ENCPdf";
 import { ECONewPdf } from "../pdf/ECONewPdf";
 import { ECOSTPdf } from "../pdf/ECOSTPdf";
+import { Excel } from "../excel/Excel";
+import { ExcelForm } from "../ExcelForm/ExcelForm";
 const storage = getStorage();
 const { Content, Footer } = Layout;
 const db = getFirestore();
@@ -39,8 +45,11 @@ const db = getFirestore();
 export const Dashboard = () => {
   const [arrayOvens, setArrayOvens] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [ovenType, setOvenType] = useState(null);
+  const [disabled, setDisabled] = useState(false);
+  const [ovenType, setOvenType] = useState({
+    type: null,
+    serial: null,
+  });
   const [pdf, setPdf] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -48,27 +57,28 @@ export const Dashboard = () => {
   function navigateEdit(serial, oven) {
     navigate(`/edit/${serial}/${oven}`);
   }
+
   const showModal = (o, s) => {
     setIsModalVisible(true);
 
     switch (o) {
       case "ENC":
-        setPdf(<ENCPdf serial={s} />);
+        setPdf(<ENCPdf serial={s} oven={o} />);
         break;
       case "I1":
-        setPdf(<I1Pdf serial={s} />);
+        setPdf(<I1Pdf serial={s} oven={o} />);
         break;
       case "I3":
-        setPdf(<I3Pdf serial={s} />);
+        setPdf(<I3Pdf serial={s} oven={o} />);
         break;
       case "HHD":
-        setPdf(<HHDPdf serial={s} />);
+        setPdf(<HHDPdf serial={s} oven={o} />);
         break;
       case "ECOST":
-        setPdf(<ECOSTPdf serial={s} />);
+        setPdf(<ECOSTPdf serial={s} oven={o} />);
         break;
       case "ECONew":
-        setPdf(<ECONewPdf serial={s} />);
+        setPdf(<ECONewPdf serial={s} oven={o} />);
         break;
       default:
         console.log("Error");
@@ -187,6 +197,7 @@ export const Dashboard = () => {
               }
 
               await deleteDoc(doc(db, "Images", record.serial));
+              await deleteDoc(doc(db, "Excel", record.serial));
               await deleteDoc(doc(db, "oven", record.id));
               await deleteDoc(doc(db, "VisualInspection", `${record.serial}`));
               await deleteDoc(
@@ -223,7 +234,11 @@ export const Dashboard = () => {
             onClick={async () => {
               setIsModalVisible(true);
               showModal(record.oven, record.serial);
-              setOvenType(record.serial);
+              setOvenType({
+                ...ovenType,
+                serial: record.serial,
+                type: record.oven,
+              });
             }}
           >
             <a>
@@ -231,7 +246,7 @@ export const Dashboard = () => {
             </a>
           </Button>
           <Modal
-            title={ovenType + ".pdf"}
+            title={ovenType.type + ovenType.serial + ".pdf"}
             visible={isModalVisible}
             onOk={handleOk}
             onCancel={handleCancel}
@@ -262,7 +277,6 @@ export const Dashboard = () => {
             _data[i].id = _id[i];
           }
           setArrayOvens(_data);
-          setCurrentUser(user);
         }
       } catch (error) {
         console.error("error", error);
@@ -280,30 +294,59 @@ export const Dashboard = () => {
       <Content>
         <Container>
           <div className="container">
-            <Row justify="end">
-              <Col xs={4}>
-                <Button
-                  style={{
-                    marginBottom: "1em",
-                    background: "#2ECC71",
-                    color: "#fff",
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    borderRadius: "6px",
-                  }}
-                >
-                  <Link to="/register">
-                    <AiOutlineFileAdd />
-                  </Link>
-                </Button>
-              </Col>
-            </Row>
             <Table
               columns={columns}
               dataSource={arrayOvens}
               pagination={{ pageSize: 5 }}
             />{" "}
+            <Row justify="end">
+              <Col xs={3} md={2} xl={1}>
+                <Button
+                  shape="circle"
+                  size="large"
+                  style={{
+                    marginTop: "1em",
+                  }}
+                  type="default"
+                  disabled={disabled}
+                >
+                  <Excel
+                    setDisabled={setDisabled}
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  />
+                </Button>
+              </Col>
+              <Col xs={3} md={2} xl={1}>
+                <Button
+                  shape="circle"
+                  size="large"
+                  style={{
+                    marginTop: "1em",
+                  }}
+                  type="primary"
+                >
+                  <Link
+                    to="/register"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <PlusOutlined />
+                  </Link>
+                </Button>
+              </Col>
+            </Row>
+          </div>
+          <div className="container">
+            <Row>
+              <ExcelForm />
+            </Row>
           </div>
         </Container>
       </Content>

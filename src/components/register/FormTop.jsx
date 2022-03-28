@@ -8,12 +8,13 @@ import {
   Button,
   Modal,
   Typography,
+  message,
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import { SERIAL, DATE, NAME, OVEN } from "../constants/ConstFormTop";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
-
+import moment from "moment";
 import { useState, useEffect } from "react";
 const auth = getAuth();
 const { Option } = Select;
@@ -24,35 +25,25 @@ export const FormTop = (props) => {
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [loading, setLoading] = useState(false);
   const [globalUser, setGlobalUser] = useState(null);
-  const [startDate, setStartDate] = useState();
-  const [ovenSerial, setOvenSerial] = useState(null);
-  const [ovenName, setOvenName] = useState(null);
-  const [ovenDate, setOvenDate] = useState(null);
-  const [ovenUserId, setOvenUserId] = useState(null);
-  const [ovenId, setOvenId] = useState(null);
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalVisible2, setIsModalVisible2] = useState(false);
   const [userName, setUserName] = useState(null);
 
-  const showModal = () => setIsModalVisible(true);
-  const handleOk = () => setIsModalVisible(false);
-  const handleCancel = () => setIsModalVisible(false);
   const showModal2 = () => setIsModalVisible2(true);
   const handleOk2 = () => {
     setIsModalVisible2(false);
     navigate(`/dashboard`);
   };
   const handleCancel2 = () => {
-    setIsModalVisible(false);
+    setIsModalVisible2(false);
     navigate(`/dashboard`);
   };
 
   async function onClickF(serial, date, status, name, oven, userId) {
     setLoading(true);
 
-    const docRef = await setDoc(doc(db, "oven", `${serial}`), {
+    await setDoc(doc(db, "oven", `${serial}`), {
       serial: serial,
       date: date,
       status: status,
@@ -61,43 +52,43 @@ export const FormTop = (props) => {
       userId: userId,
       key: serial,
     }).catch((error) => {});
-    const newDocRef = doc(db, "oven", `${serial}`);
-    const docSnap = await getDoc(newDocRef).catch((error) => {});
-    setOvenSerial(docSnap.serial);
-    setOvenName(docSnap.name);
-    setOvenDate(docSnap.date);
-    setOvenUserId(docSnap.userId);
-    setOvenId(docSnap.id);
+
+    await setDoc(doc(db, "Excel", `${serial}`), {
+      oven: oven,
+      serial: serial,
+      date: date,
+      status: status,
+      name: name,
+    });
+    const docRef = doc(db, "oven", `${serial}`);
+    const docSnap = await getDoc(docRef).catch((error) => {});
+
     setButtonDisabled(true);
-    showModal();
-    handleChange(oven);
+    message.success("You May Start with the Inspection");
+    handleChange(serial, oven);
     setLoading(false);
   }
 
-  async function handleChange(value) {
-    navigate(`/register/${value}`);
+  async function handleChange(serial, oven) {
+    navigate(`/register/${oven}/${serial}`);
   }
 
   async function addOven(values) {
     const userUID = globalUser.uid;
     const serialNumber = values.SERIAL;
-    const date = startDate;
+    const date = values.DATE.format("MM/DD/YY");
     const name = values.NAME;
     const oven = values.OVEN;
     const key = values.SERIAL;
     const status = "Rejected";
-    const serialTimeOut = new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(serialNumber);
-      }, 500);
-    });
-    setOvenId(serialNumber);
 
     const docRefOven = doc(db, "oven", `${serialNumber}`);
     const docSnapOven = await getDoc(docRefOven).catch((error) => {});
     const data = docSnapOven.data();
     if (data) {
       showModal2();
+    } else if (serialNumber == undefined || oven == undefined) {
+      message.error("all fields are required");
     } else {
       onClickF(serialNumber, date, status, name, oven, userUID, key);
     }
@@ -117,7 +108,9 @@ export const FormTop = (props) => {
   };
   form.setFieldsValue({
     NAME: userName,
+    DATE: moment(),
   });
+
   useEffect(() => {
     onAuthStateChanged(auth, (fireBaseUser) => {
       if (fireBaseUser) {
@@ -158,9 +151,8 @@ export const FormTop = (props) => {
             <DatePicker
               style={{ width: "100%" }}
               size="large"
-              selected={startDate}
-              onChange={(date, dateString) => setStartDate(dateString)}
-              disabled={buttonDisabled}
+              format="MM/DD/YY"
+              disabled={true}
               required
             />
           </Form.Item>
@@ -179,12 +171,20 @@ export const FormTop = (props) => {
           </Form.Item>
         </Col>
         <Col xs={11} sm={12}>
-          <Form.Item label="Type" name={OVEN} required>
+          <Form.Item
+            label="Type"
+            name={OVEN}
+            rules={[
+              {
+                required: true,
+                message: "Select",
+              },
+            ]}
+          >
             <Select
               style={{ width: "100%" }}
               size="large"
               placeholder="Oven"
-              required
               disabled={buttonDisabled}
             >
               <Option value="I1">I1</Option>
@@ -213,19 +213,6 @@ export const FormTop = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      <Modal
-        style={{
-          backgroundColor: "#2ECC71",
-          borderRadius: "1em",
-        }}
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <Title level={3}>OK..!</Title>
-
-        <Text>The data has been successfully stored</Text>
-      </Modal>
       <Modal
         style={{
           backgroundColor: "#E74C3C",

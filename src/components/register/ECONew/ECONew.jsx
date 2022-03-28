@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { generatePath, useParams } from "react-router-dom";
 import { Tabs } from "antd";
 import { VisualInspection } from "./VisualInspection";
 import { OperationalInspection } from "./OperationalInspection";
@@ -6,14 +7,16 @@ import { HotOven } from "./HotOven";
 const { TabPane } = Tabs;
 
 export const ECONew = (props) => {
-  const serial = props.serial;
+  const param = useParams();
+  const serial = param.id;
+  const [selectedKey, setSelectedKey] = useState("1");
   return (
-    <Tabs defaultActiveKey="1" centered size="small">
+    <Tabs activeKey={selectedKey} centered size="small">
       <TabPane tab="VISUAL" key="1" id="1">
-        <VisualInspection serial={serial} />
+        <VisualInspection serial={serial} setState={setSelectedKey} />
       </TabPane>
       <TabPane tab="OPERATIONAL" key="2" id="2">
-        <OperationalInspection serial={serial} />
+        <OperationalInspection serial={serial} setState={setSelectedKey} />
       </TabPane>
       <TabPane tab="HOT OVEN" key="3" id="3">
         <HotOven serial={serial} />

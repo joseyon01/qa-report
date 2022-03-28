@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
+import { getMessaging } from "firebase/messaging/sw";
+
 const firebaseConfig = {
   apiKey: "AIzaSyDsoONwJ6lk9pjU86ctDW4nXIlDdcPIEsc",
   authDomain: "qa-report-testing.firebaseapp.com",
@@ -11,4 +13,5 @@ const firebaseConfig = {
 
 const QaReportFirebase = initializeApp(firebaseConfig);
 const storage = getStorage(QaReportFirebase);
+const messaging = getMessaging(QaReportFirebase);
 export default QaReportFirebase;

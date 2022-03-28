@@ -7,6 +7,7 @@ import { getFirestore, doc, getDoc } from "firebase/firestore";
 const db = getFirestore();
 
 export const HHDPdf = (props) => {
+  const ovenType = props.oven;
   const [isDisabled, setIsDisabled] = useState(true);
   const [loading, setLoading] = useState(true);
   const ovenSerial = props.serial;
@@ -155,7 +156,7 @@ export const HHDPdf = (props) => {
     getOperational();
   }, [serial]);
 
-  const jspdfGenerator = (s) => {
+  const jspdfGenerator = (s, o) => {
     let doc = new jsPDF("p", "px", "a4", true);
     doc.addImage(Logo, "PNG", 120, 10, 220, 40);
     doc.setFontSize(13);
@@ -381,7 +382,7 @@ export const HHDPdf = (props) => {
     doc.text(`NOTES: ${valueNOTE}`, 15, 450, { maxWidth: 400 });
 
     doc.text(`APROOVED: ${valuePON ? "YES" : "NO"}`, 170, 600);
-    doc.save(`${s}.pdf`);
+    doc.save(`${o + s}.pdf`);
   };
   return (
     <Row justify="center" style={{ height: 100 }}>
@@ -392,7 +393,7 @@ export const HHDPdf = (props) => {
           block
           style={{ width: "100%", height: "100%" }}
           type={"primary"}
-          onClick={() => jspdfGenerator(ovenSerial)}
+          onClick={() => jspdfGenerator(ovenSerial, ovenType)}
         >
           {loading ? "" : "Generate PDF"} <FilePdfOutlined />
         </Button>

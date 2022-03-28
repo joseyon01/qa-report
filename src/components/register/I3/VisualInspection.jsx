@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Form, Row, Col, Typography, Radio, Button, Modal } from "antd";
+import {
+  Form,
+  Row,
+  Col,
+  Typography,
+  Radio,
+  Button,
+  Modal,
+  message,
+} from "antd";
 const { Text, Title } = Typography;
 import {
   VISUALQA,
@@ -14,8 +23,6 @@ import { getFirestore, doc, setDoc } from "firebase/firestore";
 const db = getFirestore();
 
 export const VisualInspection = (props) => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [loading, setLoading] = useState(false);
   const [valueA, setValueA] = useState(null);
@@ -25,26 +32,41 @@ export const VisualInspection = (props) => {
   const [valueE, setValueE] = useState(null);
   const [valueF, setValueF] = useState(null);
   const [valueG, setValueG] = useState(null);
+  const [textA, settextA] = useState("default");
+  const [textB, settextB] = useState("default");
+  const [textC, settextC] = useState("default");
+  const [textD, settextD] = useState("default");
+  const [textE, settextE] = useState("default");
+  const [textF, settextF] = useState("default");
+  const [textG, settextG] = useState("default");
 
-  const onChangeA = (e) => setValueA(e.target.value);
-  const onChangeB = (e) => setValueB(e.target.value);
-  const onChangeC = (e) => setValueC(e.target.value);
-  const onChangeD = (e) => setValueD(e.target.value);
-  const onChangeE = (e) => setValueE(e.target.value);
-  const onChangeF = (e) => setValueF(e.target.value);
-  const onChangeG = (e) => setValueG(e.target.value);
-  const showModal = () => setIsModalVisible(true);
-  const handleOk = () => setIsModalVisible(false);
-  const handleCancel = () => setIsModalVisible(false);
-  const showModal2 = () => setModalVisible(true);
-  const handleOk2 = () => {
-    setModalVisible(false);
-    window.scrollTo(0, 0);
+  const onChangeA = (e) => {
+    settextA("default");
+    setValueA(e.target.value);
   };
-
-  const handleCancel2 = () => {
-    setModalVisible(false);
-    window.scrollTo(0, 0);
+  const onChangeB = (e) => {
+    settextB("default");
+    setValueB(e.target.value);
+  };
+  const onChangeC = (e) => {
+    settextC("default");
+    setValueC(e.target.value);
+  };
+  const onChangeD = (e) => {
+    settextD("default");
+    setValueD(e.target.value);
+  };
+  const onChangeE = (e) => {
+    settextE("default");
+    setValueE(e.target.value);
+  };
+  const onChangeF = (e) => {
+    settextF("default");
+    setValueF(e.target.value);
+  };
+  const onChangeG = (e) => {
+    settextG("default");
+    setValueG(e.target.value);
   };
 
   async function onClickF(
@@ -90,7 +112,28 @@ export const VisualInspection = (props) => {
       valueF == null ||
       valueG == null
     ) {
-      showModal();
+      if (valueA == null) {
+        settextA("danger");
+      }
+      if (valueB == null) {
+        settextB("danger");
+      }
+      if (valueC == null) {
+        settextC("danger");
+      }
+      if (valueD == null) {
+        settextD("danger");
+      }
+      if (valueE == null) {
+        settextE("danger");
+      }
+      if (valueF == null) {
+        settextF("danger");
+      }
+      if (valueG == null) {
+        settextG("danger");
+      }
+      message.error("Complete all the fields");
     } else {
       onClickF(
         VISUALQA,
@@ -101,7 +144,9 @@ export const VisualInspection = (props) => {
         VISUALQF,
         VISUALQG
       );
-      showModal2();
+      message.success("Visual Inspection Completed");
+      window.scrollTo(0, 0);
+      props.setState("2");
     }
   }
   return (
@@ -118,7 +163,7 @@ export const VisualInspection = (props) => {
       <br />
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
-          <Text>
+          <Text type={textA}>
             A) Check Consumables and Accessories to comply with proper Packaging
             Kit. Remove Rack, Left, Right and Top panels. Confirm proper
             Schematic is on RS Panel.
@@ -138,7 +183,7 @@ export const VisualInspection = (props) => {
       <br />
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
-          <Text>
+          <Text type={textB}>
             B) Remove contents of oven cavity and insure the{" "}
             <strong>Grease pan</strong> is in place
           </Text>
@@ -155,7 +200,7 @@ export const VisualInspection = (props) => {
       <br />
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
-          <Text>
+          <Text type={textC}>
             C){" "}
             <strong>
               Check wiring CC & IR Heaters, Mags 1 & 2, Dual SSR, Mag EC Fans,
@@ -175,7 +220,7 @@ export const VisualInspection = (props) => {
       <br />
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
-          <Text>
+          <Text type={textD}>
             D) Check for loose hardware and debris on floor of the oven cabinet.
           </Text>
         </Col>
@@ -191,7 +236,7 @@ export const VisualInspection = (props) => {
       <br />
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
-          <Text>
+          <Text type={textE}>
             E) Check for <strong>Door flush</strong> to the{" "}
             <strong>Oven Flange</strong> and{" "}
             <strong>Door open and close smoothly (no pinching on bottom</strong>
@@ -209,7 +254,7 @@ export const VisualInspection = (props) => {
       <br />
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
-          <Text>
+          <Text type={textF}>
             F) Are the CC Heater Terminal Posts insulated with Silicone Caps and
             Mica Disks and terminals are torque to 33lbs-?
           </Text>
@@ -226,7 +271,7 @@ export const VisualInspection = (props) => {
       <br />
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
-          <Text>
+          <Text type={textG}>
             G) Split open insulation over Hi-Limit Capillary, is it mounted in
             the correct position?
           </Text>
@@ -254,24 +299,6 @@ export const VisualInspection = (props) => {
               >
                 {loading ? "" : "Submit"}
               </Button>
-              <Modal
-                visible={modalVisible}
-                onOk={handleCancel2}
-                style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
-                onCancel={handleCancel2}
-              >
-                <Title level={3}>OK..!</Title>
-                <Text>The data has been successfully stored</Text>
-              </Modal>
-              <Modal
-                visible={isModalVisible}
-                onOk={handleOk}
-                style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
-                onCancel={handleCancel}
-              >
-                <Title level={3}>Error..!</Title>
-                <Text>All fields are required</Text>
-              </Modal>
             </Form.Item>
           </div>
         </Col>

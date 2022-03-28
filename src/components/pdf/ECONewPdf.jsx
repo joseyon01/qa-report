@@ -7,6 +7,7 @@ import { getFirestore, doc, getDoc } from "firebase/firestore";
 const db = getFirestore();
 
 export const ECONewPdf = (props) => {
+  const ovenType = props.oven;
   const ovenSerial = props.serial;
   const [isDisabled, setIsDisabled] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -177,7 +178,7 @@ export const ECONewPdf = (props) => {
     getHotOven();
   }, [serial]);
 
-  const jspdfGenerator = (s) => {
+  const jspdfGenerator = (s, o) => {
     let doc = new jsPDF("p", "px", "a4", true);
     doc.addImage(Logo, "PNG", 120, 10, 220, 40);
     doc.setFontSize(13);
@@ -492,7 +493,7 @@ export const ECONewPdf = (props) => {
     doc.text(`Survey meter#: ${value_D}`, 15, 575);
     doc.text(`Clear cook time foults: ${value_E}`, 15, 585);
     doc.text(`APROOVED: ${valueAON ? "YES" : "NO"}`, 170, 600);
-    doc.save(`${s}.pdf`);
+    doc.save(`${o + s}.pdf`);
   };
   return (
     <Row justify="center" style={{ height: 100 }}>
@@ -503,7 +504,7 @@ export const ECONewPdf = (props) => {
           block
           style={{ width: "100%", height: "100%" }}
           type={"primary"}
-          onClick={() => jspdfGenerator(ovenSerial)}
+          onClick={() => jspdfGenerator(ovenSerial, ovenType)}
         >
           {loading ? "" : "Generate PDF"} <FilePdfOutlined />
         </Button>

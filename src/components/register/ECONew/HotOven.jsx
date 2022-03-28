@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Form,
   Input,
@@ -9,6 +9,7 @@ import {
   Button,
   Modal,
   Upload,
+  message,
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import {
@@ -32,15 +33,12 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { useState } from "react";
 const db = getFirestore();
 const storage = getStorage();
 const { Text, Title } = Typography;
 
 export const HotOven = (props) => {
   const navigate = useNavigate();
-
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(null);
@@ -50,9 +48,6 @@ export const HotOven = (props) => {
   const [uploading, setUploading] = useState("");
   const [imageLoading, setImageLoading] = useState(false);
   const [count, setCount] = useState(0);
-  const showModal = () => setIsModalVisible(true);
-  const handleOk = () => setIsModalVisible(false);
-  const handleCancel = () => setIsModalVisible(false);
   const showModal2 = () => setModalVisible(true);
   const onChangeRC = (e) => setValueRC(e.target.value);
   const onChangeAON = (e) => setValueAON(e.target.value);
@@ -63,7 +58,6 @@ export const HotOven = (props) => {
   };
   const handleCancel2 = () => {
     setModalVisible(false);
-    window.scrollTo(0, 0);
   };
 
   async function onClickF(
@@ -134,7 +128,9 @@ export const HotOven = (props) => {
       }
     },
   };
-
+  function onFinishFailed() {
+    message.error("Complete all the fields");
+  }
   async function addHotOven(values, arrayOvens) {
     const HOT_OVEN_B_DOOR = values.HOT_OVEN_B_DOOR;
     const HOT_OVEN_B_SIDES = values.HOT_OVEN_B_SIDES;
@@ -149,7 +145,7 @@ export const HotOven = (props) => {
     const OVEN_APROVE_OR_NOT = valueAON;
 
     if (HOT_OVEN_RECHECK == null || OVEN_APROVE_OR_NOT == null) {
-      showModal();
+      message.error("Complete all the fields");
     } else {
       if (OVEN_APROVE_OR_NOT) {
         const ovenRef = doc(db, "oven", `${props.serial}`);
@@ -180,6 +176,7 @@ export const HotOven = (props) => {
       labelCol={{ span: 7 }}
       style={{ paddingBottom: "5em" }}
       onFinish={addHotOven}
+      onFinishFailed={onFinishFailed}
     >
       <Row justify="center">
         <Col xs={20} align="center">
@@ -249,24 +246,34 @@ export const HotOven = (props) => {
       <Row justify="space-around">
         <Col xs={5} sm={5}>
           <Text>DOOR</Text>
-          <Form.Item name={HOT_OVEN_B_DOOR}>
-            <Input
-              type="number"
-              size="small"
-              style={{ width: "100%" }}
-              required
-            />
+          <Form.Item
+            name={HOT_OVEN_B_DOOR}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
+          >
+            <Input type="number" size="small" style={{ width: "100%" }} />
           </Form.Item>
         </Col>
         <Col xs={5} sm={5}>
           <Text>Rt & Lt Sides</Text>
-          <Form.Item name={HOT_OVEN_B_SIDES}>
+          <Form.Item
+            name={HOT_OVEN_B_SIDES}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
+          >
             <Input
               type="number"
               placeholder={"mW/cm2"}
               size="small"
               style={{ width: "100%" }}
-              required
             />
           </Form.Item>
         </Col>
@@ -274,23 +281,31 @@ export const HotOven = (props) => {
       <br />
       <Row justify="spaceAround">
         <Col xs={{ span: 7, offset: 1 }} sm={{ span: 5, offset: 3 }}>
-          <Form.Item name={HOT_OVEN_TOP_L} style={{ marginBottom: "0" }}>
-            <Input
-              type="number"
-              size="small"
-              style={{ width: "100%" }}
-              required
-            />
+          <Form.Item
+            name={HOT_OVEN_TOP_L}
+            style={{ marginBottom: "0" }}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
+          >
+            <Input type="number" size="small" style={{ width: "100%" }} />
           </Form.Item>
         </Col>
         <Col xs={{ span: 7, offset: 8 }} sm={{ span: 5, offset: 8 }}>
-          <Form.Item name={HOT_OVEN_TOP_R} style={{ marginBottom: "0" }}>
-            <Input
-              type="number"
-              size="small"
-              style={{ width: "100%" }}
-              required
-            />
+          <Form.Item
+            name={HOT_OVEN_TOP_R}
+            style={{ marginBottom: "0" }}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
+          >
+            <Input type="number" size="small" style={{ width: "100%" }} />
           </Form.Item>
         </Col>
       </Row>
@@ -312,23 +327,29 @@ export const HotOven = (props) => {
       </Row>
       <Row justify="spaceAround">
         <Col xs={{ span: 7, offset: 1 }} sm={{ span: 5, offset: 3 }}>
-          <Form.Item name={HOT_OVEN_BOT_L}>
-            <Input
-              type="number"
-              size="small"
-              style={{ width: "100%" }}
-              required
-            />
+          <Form.Item
+            name={HOT_OVEN_BOT_L}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
+          >
+            <Input type="number" size="small" style={{ width: "100%" }} />
           </Form.Item>
         </Col>
         <Col xs={{ span: 7, offset: 8 }} sm={{ span: 5, offset: 8 }}>
-          <Form.Item name={HOT_OVEN_BOT_R}>
-            <Input
-              type="number"
-              size="small"
-              style={{ width: "100%" }}
-              required
-            />
+          <Form.Item
+            name={HOT_OVEN_BOT_R}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
+          >
+            <Input type="number" size="small" style={{ width: "100%" }} />
           </Form.Item>
         </Col>
       </Row>
@@ -351,37 +372,49 @@ export const HotOven = (props) => {
         <Col xs={22} sm={24}>
           <Row>
             <Col xs={24}>
-              <Form.Item label="COOCK" name={HOT_OVEN_C}>
-                <Input
-                  type="number"
-                  size="small"
-                  style={{ width: 150 }}
-                  required
-                />
+              <Form.Item
+                label="COOCK"
+                name={HOT_OVEN_C}
+                rules={[
+                  {
+                    required: true,
+                    message: "Finish the inspection before submitting it",
+                  },
+                ]}
+              >
+                <Input type="number" size="small" style={{ width: 150 }} />
               </Form.Item>
             </Col>
           </Row>
           <Row>
             <Col xs={24}>
-              <Form.Item label="METER" name={HOT_OVEN_D}>
-                <Input
-                  type="number"
-                  size="small"
-                  style={{ width: 150 }}
-                  required
-                />
+              <Form.Item
+                label="METER"
+                name={HOT_OVEN_D}
+                rules={[
+                  {
+                    required: true,
+                    message: "Finish the inspection before submitting it",
+                  },
+                ]}
+              >
+                <Input type="number" size="small" style={{ width: 150 }} />
               </Form.Item>
             </Col>
           </Row>
           <Row>
             <Col xs={24}>
-              <Form.Item label="FAULTS AND COUNTERS" name={HOT_OVEN_E}>
-                <Input
-                  type="number"
-                  size="small"
-                  style={{ width: 150 }}
-                  required
-                />
+              <Form.Item
+                label="FAULTS AND COUNTERS"
+                name={HOT_OVEN_E}
+                rules={[
+                  {
+                    required: true,
+                    message: "Finish the inspection before submitting it",
+                  },
+                ]}
+              >
+                <Input type="number" size="small" style={{ width: 150 }} />
               </Form.Item>
             </Col>
           </Row>
@@ -426,15 +459,6 @@ export const HotOven = (props) => {
               {loading ? "" : "Submit"}
             </Button>
             <Modal
-              visible={isModalVisible}
-              onOk={handleOk}
-              onCancel={handleCancel}
-              style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
-            >
-              <Title level={3}>Error..!</Title>
-              <Text>All fields are required</Text>
-            </Modal>
-            <Modal
               visible={modalVisible}
               onOk={handleOk2}
               onCancel={handleCancel2}
@@ -443,7 +467,9 @@ export const HotOven = (props) => {
               <Title level={3}>OK..!</Title>
               <Text>The data has been successfully stored</Text>
               <br />
-              <Text>Go to dashboard</Text>
+              <Text>Click Ok to Finish the Inspection</Text>
+              <br />
+              <Text>Click cancel if you whant to upload some Images</Text>
             </Modal>
           </Form.Item>
         </Col>

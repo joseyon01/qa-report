@@ -22,12 +22,24 @@ import {
   setPersistence,
   browserLocalPersistence,
 } from "firebase/auth";
+import {
+  getFirestore,
+  doc,
+  getDocs,
+  getDoc,
+  collection,
+  query,
+  where,
+  deleteDoc,
+} from "firebase/firestore";
 const auth = getAuth();
+const db = getFirestore();
 
 export const Login = () => {
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [name, setName] = useState(null);
   const showModal = () => setIsModalVisible(true);
   const handleOk = () => setIsModalVisible(false);
   const handleCancel = () => setIsModalVisible(false);
@@ -61,11 +73,27 @@ export const Login = () => {
   });
 
   async function onLogin(values) {
-    const email = values.email;
-    const password = values.password;
-    const logIn = await persistenceLocal(auth, email, password);
-    if (logIn) {
-      showModal2();
+    const UserRef = collection(db, "User");
+
+    // Create a query against the collection.
+    const q = query(UserRef, where("UserName", "==", `${values.userName}`));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.docs[0] != undefined) {
+      setName(
+        querySnapshot.docs[0]._document.data.value.mapValue.fields.NAME.stringValue.split(
+          " "
+        )[0]
+      );
+      const email =
+        querySnapshot.docs[0]._document.data.value.mapValue.fields.Email
+          .stringValue;
+      const password = values.password;
+      const logIn = await persistenceLocal(auth, email, password);
+      if (logIn) {
+        showModal2();
+      } else {
+        showModal();
+      }
     } else {
       showModal();
     }
@@ -110,14 +138,13 @@ export const Login = () => {
           <Row>
             <Col xs={{ span: 15, offset: 4 }} sm={{ span: 9, offset: 6 }}>
               <Form.Item
-                label="Email"
-                name="email"
+                label="UserName"
+                name="userName"
                 id="logEmail"
                 rules={[
                   {
-                    type: "email",
                     required: true,
-                    message: "Please input your email!",
+                    message: "Please input your User!",
                   },
                 ]}
               >
@@ -160,8 +187,8 @@ export const Login = () => {
                   onCancel={handleCancel2}
                   style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
                 >
-                  <Title level={3}>Welcome Back User</Title>
-                  <Text>Have a productive Day</Text>
+                  <Title level={3}>Welcome {name}</Title>
+                  <Text>Have a Productive Day</Text>
                 </Modal>
               </Form.Item>
             </Col>

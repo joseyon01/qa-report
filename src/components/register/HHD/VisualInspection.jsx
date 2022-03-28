@@ -1,5 +1,15 @@
 import React, { useState } from "react";
-import { Form, Row, Col, Typography, Radio, Button, Modal, Input } from "antd";
+import {
+  Form,
+  Row,
+  Col,
+  Typography,
+  Radio,
+  Button,
+  Modal,
+  Input,
+  message,
+} from "antd";
 const { Text, Title } = Typography;
 import {
   VISUALQA,
@@ -27,8 +37,6 @@ import { getFirestore, doc, setDoc } from "firebase/firestore";
 const db = getFirestore();
 
 export const VisualInspection = (props) => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [loading, setLoading] = useState(false);
   const [valueA, setValueA] = useState(null);
@@ -51,42 +59,88 @@ export const VisualInspection = (props) => {
   const [valueI_4, setValueI_4] = useState(null);
   const [valueI_5, setValueI_5] = useState(null);
   const [valueJ, setValueJ] = useState(null);
+  const [textA, setTextA] = useState("default");
+  const [textB_1, setTextB_1] = useState("default");
+  const [textB_2, setTextB_2] = useState("default");
+  const [textB_3, setTextB_3] = useState("default");
+  const [textB_4, setTextB_4] = useState("default");
+  const [textB_5, setTextB_5] = useState("default");
+  const [textB_6, setTextB_6] = useState("default");
+  const [textB_7, setTextB_7] = useState("default");
+  const [textC, setTextC] = useState("default");
+  const [textD, setTextD] = useState("default");
+  const [textE, setTextE] = useState("default");
+  const [textF, setTextF] = useState("default");
+  const [textG, setTextG] = useState("default");
+  const [textH, setTextH] = useState("default");
+  const [textJ, setTextJ] = useState("default");
 
-  const showModal = () => setIsModalVisible(true);
-  const handleOk = () => setIsModalVisible(false);
-  const handleCancel = () => setIsModalVisible(false);
-  const showModal2 = () => setModalVisible(true);
-  const onChangeA = (e) => setValueA(e.target.value);
-  const onChangeB_1 = (e) => setValueB_1(e.target.value);
-  const onChangeB_2 = (e) => setValueB_2(e.target.value);
-  const onChangeB_3 = (e) => setValueB_3(e.target.value);
-  const onChangeB_4 = (e) => setValueB_4(e.target.value);
-  const onChangeB_5 = (e) => setValueB_5(e.target.value);
-  const onChangeB_6 = (e) => setValueB_6(e.target.value);
-  const onChangeB_7 = (e) => setValueB_7(e.target.value);
-  const onChangeC = (e) => setValueC(e.target.value);
-  const onChangeD = (e) => setValueD(e.target.value);
-  const onChangeE = (e) => setValueE(e.target.value);
-  const onChangeF = (e) => setValueF(e.target.value);
-  const onChangeG = (e) => setValueG(e.target.value);
-  const onChangeH = (e) => setValueH(e.target.value);
+  const onChangeA = (e) => {
+    setTextA("default");
+    setValueA(e.target.value);
+  };
+
+  const onChangeB_1 = (e) => {
+    setTextB_1("default");
+    setValueB_1(e.target.value);
+  };
+  const onChangeB_2 = (e) => {
+    setTextB_2("default");
+    setValueB_2(e.target.value);
+  };
+  const onChangeB_3 = (e) => {
+    setTextB_3("default");
+    setValueB_3(e.target.value);
+  };
+  const onChangeB_4 = (e) => {
+    setTextB_4("default");
+    setValueB_4(e.target.value);
+  };
+  const onChangeB_5 = (e) => {
+    setTextB_5("default");
+    setValueB_5(e.target.value);
+  };
+  const onChangeB_6 = (e) => {
+    setTextB_6("default");
+    setValueB_6(e.target.value);
+  };
+  const onChangeB_7 = (e) => {
+    setTextB_7("default");
+    setValueB_7(e.target.value);
+  };
+  const onChangeC = (e) => {
+    setTextC("default");
+    setValueC(e.target.value);
+  };
+  const onChangeD = (e) => {
+    setTextD("default");
+    setValueD(e.target.value);
+  };
+  const onChangeE = (e) => {
+    setTextE("default");
+    setValueE(e.target.value);
+  };
+  const onChangeF = (e) => {
+    setTextF("default");
+    setValueF(e.target.value);
+  };
+  const onChangeG = (e) => {
+    setTextG("default");
+    setValueG(e.target.value);
+  };
+  const onChangeH = (e) => {
+    setTextH("default");
+    setValueH(e.target.value);
+  };
   const onChangeI_1 = (e) => setValueI_1(e.target.value);
   const onChangeI_2 = (e) => setValueI_2(e.target.value);
   const onChangeI_3 = (e) => setValueI_3(e.target.value);
   const onChangeI_4 = (e) => setValueI_4(e.target.value);
   const onChangeI_5 = (e) => setValueI_5(e.target.value);
-  const onChangeJ = (e) => setValueJ(e.target.value);
-
-  const handleOk2 = () => {
-    setModalVisible(false);
-    window.scrollTo(0, 0);
+  const onChangeJ = (e) => {
+    setTextJ("default");
+    setValueJ(e.target.value);
   };
-
-  const handleCancel2 = () => {
-    setModalVisible(false);
-    window.scrollTo(0, 0);
-  };
-
   async function onClickF(
     VISUALQA,
     VISUALQB_1,
@@ -138,6 +192,54 @@ export const VisualInspection = (props) => {
     );
     setLoading(false);
   }
+  function onFinishFailed() {
+    if (valueA == null) {
+      setTextA("danger");
+    }
+    if (valueB_1 == null) {
+      setTextB_1("danger");
+    }
+    if (valueB_2 == null) {
+      setTextB_2("danger");
+    }
+    if (valueB_3 == null) {
+      setTextB_3("danger");
+    }
+    if (valueB_4 == null) {
+      setTextB_4("danger");
+    }
+    if (valueB_5 == null) {
+      setTextB_5("danger");
+    }
+    if (valueB_6 == null) {
+      setTextB_6("danger");
+    }
+    if (valueB_7 == null) {
+      setTextB_7("danger");
+    }
+    if (valueC == null) {
+      setTextC("danger");
+    }
+    if (valueD == null) {
+      setTextD("danger");
+    }
+    if (valueE == null) {
+      setTextE("danger");
+    }
+    if (valueF == null) {
+      setTextF("danger");
+    }
+    if (valueG == null) {
+      setTextG("danger");
+    }
+    if (valueH == null) {
+      setTextH("danger");
+    }
+    if (valueJ == null) {
+      setTextJ("danger");
+    }
+    message.error("Complete all the fields");
+  }
 
   function addVisualInspection(values) {
     const VISUALQA = valueA;
@@ -177,7 +279,52 @@ export const VisualInspection = (props) => {
       valueH == null ||
       valueJ == null
     ) {
-      showModal();
+      if (valueA == null) {
+        setTextA("danger");
+      }
+      if (valueB_1 == null) {
+        setTextB_1("danger");
+      }
+      if (valueB_2 == null) {
+        setTextB_2("danger");
+      }
+      if (valueB_3 == null) {
+        setTextB_3("danger");
+      }
+      if (valueB_4 == null) {
+        setTextB_4("danger");
+      }
+      if (valueB_5 == null) {
+        setTextB_5("danger");
+      }
+      if (valueB_6 == null) {
+        setTextB_6("danger");
+      }
+      if (valueB_7 == null) {
+        setTextB_7("danger");
+      }
+      if (valueC == null) {
+        setTextC("danger");
+      }
+      if (valueD == null) {
+        setTextD("danger");
+      }
+      if (valueE == null) {
+        setTextE("danger");
+      }
+      if (valueF == null) {
+        setTextF("danger");
+      }
+      if (valueG == null) {
+        setTextG("danger");
+      }
+      if (valueH == null) {
+        setTextH("danger");
+      }
+      if (valueJ == null) {
+        setTextJ("danger");
+      }
+      message.error("Complete all the fields");
     } else {
       onClickF(
         VISUALQA,
@@ -201,7 +348,9 @@ export const VisualInspection = (props) => {
         VISUALQI_5,
         VISUALQJ
       );
-      showModal2();
+      message.success("Visual Inspection Completed");
+      window.scrollTo(0, 0);
+      props.setState("2");
     }
   }
   return (
@@ -209,6 +358,7 @@ export const VisualInspection = (props) => {
       labelCol={{ span: 7 }}
       style={{ paddingBottom: "5em" }}
       onFinish={addVisualInspection}
+      onFinishFailed={onFinishFailed}
     >
       <Row justify="center">
         <Col xs={20} align="center">
@@ -218,7 +368,7 @@ export const VisualInspection = (props) => {
       <br />
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
-          <Text>
+          <Text type={textA}>
             A) Remove side panels. Check the Schematic on RS panel. Correct?
           </Text>
         </Col>
@@ -239,7 +389,9 @@ export const VisualInspection = (props) => {
             <Col xs={23}>
               <Row justify="space-around">
                 <Col xs={22} sm={14}>
-                  <Text>1) Tug test the Line Voltage Wires.</Text>
+                  <Text type={textB_1}>
+                    1) Tug test the Line Voltage Wires.
+                  </Text>
                 </Col>
                 <Col xs={22} sm={5}>
                   <Form.Item>
@@ -254,7 +406,7 @@ export const VisualInspection = (props) => {
                   </Form.Item>
                 </Col>
                 <Col xs={22} sm={14}>
-                  <Text>
+                  <Text type={textB_2}>
                     2) Ensure the wires going to the Heater Terminals are not
                     Kinked.
                   </Text>
@@ -272,7 +424,9 @@ export const VisualInspection = (props) => {
                   </Form.Item>
                 </Col>
                 <Col xs={22} sm={14}>
-                  <Text>3) Ensure all insulation Tape is neatly applied.</Text>
+                  <Text type={textB_3}>
+                    3) Ensure all insulation Tape is neatly applied.
+                  </Text>
                 </Col>
                 <Col xs={22} sm={5}>
                   <Form.Item>
@@ -287,7 +441,7 @@ export const VisualInspection = (props) => {
                   </Form.Item>
                 </Col>
                 <Col xs={22} sm={14}>
-                  <Text>
+                  <Text type={textB_4}>
                     4) Ensure tape around the Heater Terminals is at least 1/4
                     inch away from the terminals.
                   </Text>
@@ -305,7 +459,7 @@ export const VisualInspection = (props) => {
                   </Form.Item>
                 </Col>
                 <Col xs={22} sm={14}>
-                  <Text>
+                  <Text type={textB_5}>
                     5) Ensure the oven door hinge screws are seated tight.
                   </Text>
                 </Col>
@@ -322,7 +476,7 @@ export const VisualInspection = (props) => {
                   </Form.Item>
                 </Col>
                 <Col xs={22} sm={14}>
-                  <Text>
+                  <Text type={textB_6}>
                     6) Ensure the oven door fits squarely and is not crooked
                   </Text>
                 </Col>
@@ -339,7 +493,7 @@ export const VisualInspection = (props) => {
                   </Form.Item>
                 </Col>
                 <Col xs={22} sm={14}>
-                  <Text>
+                  <Text type={textB_7}>
                     7) Ensure the oven door opens and closes smoothly and
                     doesn't get caught on sides.
                   </Text>
@@ -363,7 +517,7 @@ export const VisualInspection = (props) => {
       </Row>
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
-          <Text>
+          <Text type={textC}>
             C) Check wiring of Line Voltage Components, EX: CC Heaters, Dual
             SSR, EC Fans, Hi-Limint Switch, Control Circuits, Motor Racks,
             Replays and Convection Blower.
@@ -381,7 +535,7 @@ export const VisualInspection = (props) => {
       <br />
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
-          <Text>
+          <Text type={textD}>
             D) Check the screws that hold base to cavity. Ensure they are tight
             and there are no gaps.
           </Text>
@@ -398,7 +552,7 @@ export const VisualInspection = (props) => {
       <br />
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
-          <Text>
+          <Text type={textE}>
             E) Check for loose hardware and debris on floor of the oven cabinet.
           </Text>
         </Col>
@@ -414,7 +568,7 @@ export const VisualInspection = (props) => {
       <br />
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
-          <Text>
+          <Text type={textF}>
             F) open both doors. ensure door switch is not bent (switch plate
             should be straight)
           </Text>
@@ -431,7 +585,7 @@ export const VisualInspection = (props) => {
       <br />
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
-          <Text>
+          <Text type={textG}>
             G) If the thermostat wire is rubbing against power supply box, add
             tape to protect it.
           </Text>
@@ -448,7 +602,7 @@ export const VisualInspection = (props) => {
       <br />
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
-          <Text>
+          <Text type={textH}>
             H) Check that no wire are loose. if loose wires are found, tie with
             tie rod.
           </Text>
@@ -478,65 +632,80 @@ export const VisualInspection = (props) => {
                   <Text>1) Frane and the Ground pin on the plug:</Text>
                 </Col>
                 <Col xs={22}>
-                  <Form.Item name={VISUALQI_1}>
-                    <Input
-                      type="number"
-                      size="small"
-                      style={{ width: 150 }}
-                      required
-                    />
+                  <Form.Item
+                    name={VISUALQI_1}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
+                    <Input type="number" size="small" style={{ width: 150 }} />
                   </Form.Item>
                 </Col>
                 <Col xs={22}>
                   <Text>2) L1 & Gnd</Text>
                 </Col>
                 <Col xs={22}>
-                  <Form.Item name={VISUALQI_2}>
-                    <Input
-                      type="number"
-                      size="small"
-                      style={{ width: 150 }}
-                      required
-                    />
+                  <Form.Item
+                    name={VISUALQI_2}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
+                    <Input type="number" size="small" style={{ width: 150 }} />
                   </Form.Item>
                 </Col>
                 <Col xs={22}>
                   <Text>3) L2 & Gnd</Text>
                 </Col>
                 <Col xs={22}>
-                  <Form.Item name={VISUALQI_3}>
-                    <Input
-                      type="number"
-                      size="small"
-                      style={{ width: 150 }}
-                      required
-                    />
+                  <Form.Item
+                    name={VISUALQI_3}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
+                    <Input type="number" size="small" style={{ width: 150 }} />
                   </Form.Item>
                 </Col>
                 <Col xs={22}>
                   <Text>4) L3 & Gnd</Text>
                 </Col>
                 <Col xs={22}>
-                  <Form.Item name={VISUALQI_4}>
-                    <Input
-                      type="number"
-                      size="small"
-                      style={{ width: 150 }}
-                      required
-                    />
+                  <Form.Item
+                    name={VISUALQI_4}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
+                    <Input type="number" size="small" style={{ width: 150 }} />
                   </Form.Item>
                 </Col>
                 <Col xs={22}>
                   <Text>5) Neutral & Gnd</Text>
                 </Col>
                 <Col xs={22}>
-                  <Form.Item name={VISUALQI_5}>
-                    <Input
-                      type="number"
-                      size="small"
-                      style={{ width: 150 }}
-                      required
-                    />
+                  <Form.Item
+                    name={VISUALQI_5}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
+                    <Input type="number" size="small" style={{ width: 150 }} />
                   </Form.Item>
                 </Col>
               </Row>
@@ -546,7 +715,7 @@ export const VisualInspection = (props) => {
       </Row>
       <Row justify="space-between">
         <Col xs={{ span: 20, offset: 1 }} sm={18}>
-          <Text>
+          <Text type={textJ}>
             J) Open Fuse #1, #2 and check rating, should be Class CC ATMR 12.
           </Text>
         </Col>
@@ -573,24 +742,6 @@ export const VisualInspection = (props) => {
               >
                 {loading ? "" : "Submit"}
               </Button>
-              <Modal
-                visible={modalVisible}
-                onOk={handleCancel2}
-                style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
-                onCancel={handleCancel2}
-              >
-                <Title level={3}>OK..!</Title>
-                <Text>The data has been successfully stored</Text>
-              </Modal>
-              <Modal
-                visible={isModalVisible}
-                onOk={handleOk}
-                style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
-                onCancel={handleCancel}
-              >
-                <Title level={3}>Error..!</Title>
-                <Text>All fields are required</Text>
-              </Modal>
             </Form.Item>
           </div>
         </Col>

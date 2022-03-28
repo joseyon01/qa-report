@@ -1,5 +1,14 @@
 import React from "react";
-import { Form, Input, Row, Col, Typography, Radio, Button, Modal } from "antd";
+import {
+  Form,
+  Input,
+  Row,
+  Col,
+  Typography,
+  Radio,
+  Button,
+  message,
+} from "antd";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
 const db = getFirestore();
@@ -33,8 +42,6 @@ import {
 export const OperationalInspection = (props) => {
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
   const [valueB, setValueB] = useState(null);
   const [valueC, setValueC] = useState(null);
   const [valueE, setValueE] = useState(null);
@@ -44,28 +51,39 @@ export const OperationalInspection = (props) => {
   const [valueTf, setValueTf] = useState(null);
   const [valueTi, setValueTi] = useState(null);
   const [valueTo, setValueTo] = useState(null);
+  const [textB, setTextB] = useState("default");
+  const [textC, setTextC] = useState("default");
+  const [textE, setTextE] = useState("default");
+  const [textF, setTextF] = useState("default");
+  const [textI, setTextI] = useState("default");
+  const [textJ, setTextJ] = useState("default");
 
-  const showModal = () => setIsModalVisible(true);
-  const handleOk = () => setIsModalVisible(false);
-  const handleCancel = () => setIsModalVisible(false);
-  const showModal2 = () => setModalVisible(true);
-  const onChangeB = (e) => setValueB(e.target.value);
-  const onChangeC = (e) => setValueC(e.target.value);
-  const onChangeE = (e) => setValueE(e.target.value);
-  const onChangeF = (e) => setValueF(e.target.value);
-  const onChangeI = (e) => setValueI(e.target.value);
-  const onChangeJ = (e) => setValueJ(e.target.value);
+  const onChangeB = (e) => {
+    setTextB("default");
+    setValueB(e.target.value);
+  };
+  const onChangeC = (e) => {
+    setTextC("default");
+    setValueC(e.target.value);
+  };
+  const onChangeE = (e) => {
+    setTextE("default");
+    setValueE(e.target.value);
+  };
+  const onChangeF = (e) => {
+    setTextF("default");
+    setValueF(e.target.value);
+  };
+  const onChangeI = (e) => {
+    setTextI("default");
+    setValueI(e.target.value);
+  };
+  const onChangeJ = (e) => {
+    setTextJ("default");
+    setValueJ(e.target.value);
+  };
   const onChangeTf = (e) => setValueTf(e.target.value);
   const onChangeTi = (e) => setValueTi(e.target.value);
-  const handleOk2 = () => {
-    setModalVisible(false);
-    window.scrollTo(0, 0);
-  };
-
-  const handleCancel2 = () => {
-    setModalVisible(false);
-    window.scrollTo(0, 0);
-  };
 
   async function onClickF(
     OPERATIONAL_A_I,
@@ -93,36 +111,66 @@ export const OperationalInspection = (props) => {
   ) {
     setButtonDisabled(true);
     setLoading(true);
-    const docRef = await setDoc(
-      doc(db, "OperationalInspection", `${props.serial}`),
+    await setDoc(doc(db, "OperationalInspection", `${props.serial}`), {
+      OPERATIONAL_A_I: OPERATIONAL_A_I,
+      OPERATIONAL_A_II: OPERATIONAL_A_II,
+      OPERATIONAL_B_I_I: OPERATIONAL_B_I_I,
+      OPERATIONAL_C_I: OPERATIONAL_C_I,
+      OPERATIONAL_C_II: OPERATIONAL_C_II,
+      OPERATIONAL_C_III: OPERATIONAL_C_III,
+      OPERATIONAL_C_IV: OPERATIONAL_C_IV,
+      OPERATIONAL_D_I: OPERATIONAL_D_I,
+      OPERATIONAL_E: OPERATIONAL_E,
+      OPERATIONAL_F: OPERATIONAL_F,
+      OPERATIONAL_G_I: OPERATIONAL_G_I,
+      OPERATIONAL_G_IV: OPERATIONAL_G_IV,
+      OPERATIONAL_G_V: OPERATIONAL_G_V,
+      OPERATIONAL_G_VI: OPERATIONAL_G_VI,
+      OPERATIONAL_H_I: OPERATIONAL_H_I,
+      OPERATIONAL_H_II: OPERATIONAL_H_II,
+      OPERATIONAL_H_III: OPERATIONAL_H_III,
+      OPERATIONAL_NOTE: OPERATIONAL_NOTE,
+      OPERATIONAL_I_I: OPERATIONAL_I_I,
+      OPERATIONAL_OPENING: OPERATIONAL_OPENING,
+      OPERATIONAL_CLOSING: OPERATIONAL_CLOSING,
+      OPERATIONAL_I_II: OPERATIONAL_I_II,
+    });
+    await setDoc(
+      doc(db, "Excel", `${props.serial}`),
       {
-        OPERATIONAL_A_I: OPERATIONAL_A_I,
-        OPERATIONAL_A_II: OPERATIONAL_A_II,
-        OPERATIONAL_B_I_I: OPERATIONAL_B_I_I,
-        OPERATIONAL_C_I: OPERATIONAL_C_I,
-        OPERATIONAL_C_II: OPERATIONAL_C_II,
-        OPERATIONAL_C_III: OPERATIONAL_C_III,
-        OPERATIONAL_C_IV: OPERATIONAL_C_IV,
-        OPERATIONAL_D_I: OPERATIONAL_D_I,
-        OPERATIONAL_E: OPERATIONAL_E,
-        OPERATIONAL_F: OPERATIONAL_F,
-        OPERATIONAL_G_I: OPERATIONAL_G_I,
-        OPERATIONAL_G_IV: OPERATIONAL_G_IV,
-        OPERATIONAL_G_V: OPERATIONAL_G_V,
-        OPERATIONAL_G_VI: OPERATIONAL_G_VI,
-        OPERATIONAL_H_I: OPERATIONAL_H_I,
-        OPERATIONAL_H_II: OPERATIONAL_H_II,
-        OPERATIONAL_H_III: OPERATIONAL_H_III,
-        OPERATIONAL_NOTE: OPERATIONAL_NOTE,
-        OPERATIONAL_I_I: OPERATIONAL_I_I,
-        OPERATIONAL_OPENING: OPERATIONAL_OPENING,
-        OPERATIONAL_CLOSING: OPERATIONAL_CLOSING,
-        OPERATIONAL_I_II: OPERATIONAL_I_II,
-      }
+        voltage: OPERATIONAL_C_II,
+        amps: OPERATIONAL_G_IV,
+        powerOutput: OPERATIONAL_G_VI,
+        sageFrimware: "--",
+        phoniexFrimware: "--",
+        notes: OPERATIONAL_NOTE,
+        actionTaken: "--",
+      },
+      { merge: true }
     );
     setLoading(false);
   }
-
+  function onFinishFailed() {
+    if (valueB == null) {
+      setTextB("danger");
+    }
+    if (valueC == null) {
+      setTextC("danger");
+    }
+    if (valueE == null) {
+      setTextE("danger");
+    }
+    if (valueF == null) {
+      setTextF("danger");
+    }
+    if (valueI == null) {
+      setTextI("danger");
+    }
+    if (valueJ == null) {
+      setTextJ("danger");
+    }
+    message.error("Complete all the fields");
+  }
   function addOperational(values) {
     const OPERATIONAL_A_I = values.OPERATIONAL_A_I;
     const OPERATIONAL_A_II = values.OPERATIONAL_A_II;
@@ -151,7 +199,9 @@ export const OperationalInspection = (props) => {
     const OPERATIONAL_H_I = values.OPERATIONAL_H_I;
     const OPERATIONAL_H_II = values.OPERATIONAL_H_II;
     const OPERATIONAL_H_III = values.OPERATIONAL_H_III;
-    const OPERATIONAL_NOTE = values.OPERATIONAL_NOTE;
+    const OPERATIONAL_NOTE = values.OPERATIONAL_NOTE
+      ? values.OPERATIONAL_NOTE
+      : "";
     const OPERATIONAL_I_I = valueI;
     const OPERATIONAL_OPENING = values.OPERATIONAL_OPENING;
     const OPERATIONAL_CLOSING = values.OPERATIONAL_CLOSING;
@@ -165,7 +215,25 @@ export const OperationalInspection = (props) => {
       OPERATIONAL_I_I == null ||
       OPERATIONAL_I_II == null
     ) {
-      showModal();
+      if (valueB == null) {
+        setTextB("danger");
+      }
+      if (valueC == null) {
+        setTextC("danger");
+      }
+      if (valueE == null) {
+        setTextE("danger");
+      }
+      if (valueF == null) {
+        setTextF("danger");
+      }
+      if (valueI == null) {
+        setTextI("danger");
+      }
+      if (valueJ == null) {
+        setTextJ("danger");
+      }
+      message.error("Complete all the fields");
     } else {
       onClickF(
         OPERATIONAL_A_I,
@@ -191,7 +259,9 @@ export const OperationalInspection = (props) => {
         OPERATIONAL_CLOSING,
         OPERATIONAL_I_II
       );
-      showModal2();
+      message.success("Operational Inspection Completed");
+      props.setState("3");
+      window.scrollTo(0, 0);
     }
   }
 
@@ -200,6 +270,7 @@ export const OperationalInspection = (props) => {
       labelCol={{ span: 7 }}
       style={{ paddingBottom: "5em" }}
       onFinish={addOperational}
+      onFinishFailed={onFinishFailed}
     >
       <Row justify="center">
         <Col xs={20} align="center">
@@ -223,26 +294,32 @@ export const OperationalInspection = (props) => {
                   <Text>i) Frame and the Ground Pin on the plug:</Text>
                 </Col>
                 <Col xs={22}>
-                  <Form.Item name={OPERATIONAL_A_I}>
-                    <Input
-                      type="number"
-                      style={{ width: 150 }}
-                      size="small"
-                      required
-                    />
+                  <Form.Item
+                    name={OPERATIONAL_A_I}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
+                    <Input type="number" style={{ width: 150 }} size="small" />
                   </Form.Item>
                 </Col>
                 <Col xs={22}>
                   <Text>ii) L1 & Ground: </Text>
                 </Col>
                 <Col xs={22}>
-                  <Form.Item name={OPERATIONAL_A_II}>
-                    <Input
-                      type="number"
-                      style={{ width: 150 }}
-                      size="small"
-                      required
-                    />
+                  <Form.Item
+                    name={OPERATIONAL_A_II}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
+                    <Input type="number" style={{ width: 150 }} size="small" />
                   </Form.Item>
                 </Col>
               </Row>
@@ -252,7 +329,7 @@ export const OperationalInspection = (props) => {
       </Row>
       <Row justify="center">
         <Col xs={{ span: 23 }} sm={{ span: 18, offset: 0 }}>
-          <Text>
+          <Text type={textB}>
             B) Open Fuse #1, #2 and #3 and check rating, Class CC ATMR 12, ATMR
             12, and ATMR 20 respectively.
           </Text>
@@ -277,13 +354,20 @@ export const OperationalInspection = (props) => {
                   <Text>i) Displayed software version</Text>
                 </Col>
                 <Col xs={22}>
-                  <Form.Item name={OPERATIONAL_C_I}>
+                  <Form.Item
+                    name={OPERATIONAL_C_I}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
                     <Input
                       placeholder="Version"
                       style={{ width: 150 }}
                       size="small"
                       type="number"
-                      required
                     />
                   </Form.Item>
                 </Col>
@@ -291,13 +375,20 @@ export const OperationalInspection = (props) => {
                   <Text>ii) Display voltage</Text>
                 </Col>
                 <Col xs={22}>
-                  <Form.Item name={OPERATIONAL_C_II}>
+                  <Form.Item
+                    name={OPERATIONAL_C_II}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
                     <Input
                       placeholder="VAC"
                       style={{ width: 150 }}
                       size="small"
                       type="number"
-                      required
                     />
                   </Form.Item>
                 </Col>
@@ -305,19 +396,26 @@ export const OperationalInspection = (props) => {
                   <Text>iii) Serial Number</Text>
                 </Col>
                 <Col xs={22}>
-                  <Form.Item name={OPERATIONAL_C_III}>
+                  <Form.Item
+                    name={OPERATIONAL_C_III}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
                     <Input
                       placeholder="S/N"
                       style={{ width: 150 }}
                       size="small"
                       type="text"
-                      required
                     />
                   </Form.Item>
                 </Col>
                 <Col xs={22}>
                   <Col xs={22}>
-                    <Text>
+                    <Text type={textC}>
                       iv) DOES THE I/D PLATE HAVE CORRECT VOLTAGE RATING?
                     </Text>
                   </Col>
@@ -345,20 +443,27 @@ export const OperationalInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 23 }} sm={{ span: 4, offset: 0 }}>
-          <Form.Item name={OPERATIONAL_D_I}>
+          <Form.Item
+            name={OPERATIONAL_D_I}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
+          >
             <Input
               type="number"
               size="small"
               style={{ width: 150 }}
               placeholder="VAC"
-              required
             />
           </Form.Item>
         </Col>
       </Row>
       <Row justify="center">
         <Col xs={{ span: 23 }} sm={{ span: 18, offset: 0 }}>
-          <Text>
+          <Text type={textE}>
             E) Enter "Test Mode". Make sure "Faults" are Cleared and then run
             "Self Test". Pass all test?
           </Text>
@@ -373,7 +478,7 @@ export const OperationalInspection = (props) => {
       <br />
       <Row justify="center">
         <Col xs={{ span: 23 }} sm={{ span: 18, offset: 0 }}>
-          <Text>
+          <Text type={textF}>
             F) Using an insulated screwdriver check the EC Cooling Fan by
             bringing between the terminals on the "Close on Rise" Switch, which
             controls the EC cooling fan.
@@ -411,13 +516,18 @@ export const OperationalInspection = (props) => {
                     name={OPERATIONAL_G_I}
                     onChange={onChangeTi}
                     value={valueTi}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
                   >
                     <Input
                       type="number"
                       size="small"
                       style={{ width: 150 }}
                       placeholder="°C"
-                      required
                     />
                   </Form.Item>
                 </Col>
@@ -441,13 +551,20 @@ export const OperationalInspection = (props) => {
                   </Text>
                 </Col>
                 <Col xs={22}>
-                  <Form.Item name={OPERATIONAL_G_IV}>
+                  <Form.Item
+                    name={OPERATIONAL_G_IV}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
                     <Input
                       type="number"
                       size="small"
                       style={{ width: 150 }}
                       placeholder="AMPS"
-                      required
                     />
                   </Form.Item>
                 </Col>
@@ -464,13 +581,18 @@ export const OperationalInspection = (props) => {
                     name={OPERATIONAL_G_V}
                     value={valueTf}
                     onChange={onChangeTf}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
                   >
                     <Input
                       type="number"
                       size="small"
                       style={{ width: 150 }}
                       placeholder="°C"
-                      required
                     />
                   </Form.Item>
                 </Col>
@@ -488,7 +610,6 @@ export const OperationalInspection = (props) => {
                       placeholder={valueTo ? valueTo : "W"}
                       style={{ width: 100 }}
                       disabled
-                      required
                     />
                   </Form.Item>
                 </Col>
@@ -530,13 +651,16 @@ export const OperationalInspection = (props) => {
                   <Text>i) Record time oven starts warm up:</Text>
                 </Col>
                 <Col xs={22}>
-                  <Form.Item name={OPERATIONAL_H_I}>
-                    <Input
-                      type="time"
-                      size="small"
-                      style={{ width: 150 }}
-                      required
-                    />
+                  <Form.Item
+                    name={OPERATIONAL_H_I}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
+                    <Input type="time" size="small" style={{ width: 150 }} />
                   </Form.Item>
                 </Col>
                 <Col xs={22}>
@@ -549,21 +673,32 @@ export const OperationalInspection = (props) => {
                   <Text>iii) Record the displayed menu</Text>
                 </Col>
                 <Col xs={22}>
-                  <Form.Item name={OPERATIONAL_H_II}>
-                    <Input size="small" style={{ width: 150 }} required />
+                  <Form.Item
+                    name={OPERATIONAL_H_II}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
+                    <Input size="small" style={{ width: 150 }} />
                   </Form.Item>
                 </Col>
                 <Col xs={22}>
                   <Text>iv) Record the time</Text>
                 </Col>
                 <Col xs={22}>
-                  <Form.Item name={OPERATIONAL_H_III}>
-                    <Input
-                      type="time"
-                      size="small"
-                      style={{ width: 150 }}
-                      required
-                    />
+                  <Form.Item
+                    name={OPERATIONAL_H_III}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
+                    <Input type="time" size="small" style={{ width: 150 }} />
                   </Form.Item>
                 </Col>
                 <Col xs={22}>
@@ -590,7 +725,9 @@ export const OperationalInspection = (props) => {
 
       <Row justify="center">
         <Col xs={{ span: 23 }} sm={{ span: 18, offset: 0 }}>
-          <Text>I) Is there actuator rotation if door is closed slowly?</Text>
+          <Text type={textI}>
+            I) Is there actuator rotation if door is closed slowly?
+          </Text>
         </Col>
         <Col xs={{ span: 23 }} sm={{ span: 4, offset: 0 }}>
           <Radio.Group name={OPERATIONAL_I_I} onChange={onChangeI}>
@@ -608,13 +745,16 @@ export const OperationalInspection = (props) => {
               </Text>
             </Col>
             <Col xs={22}>
-              <Form.Item name={OPERATIONAL_OPENING}>
-                <Input
-                  type="text"
-                  size="small"
-                  style={{ width: 150 }}
-                  required
-                />
+              <Form.Item
+                name={OPERATIONAL_OPENING}
+                rules={[
+                  {
+                    required: true,
+                    message: "Finish the inspection before submitting it",
+                  },
+                ]}
+              >
+                <Input type="text" size="small" style={{ width: 150 }} />
               </Form.Item>
             </Col>
             <Col xs={22}>
@@ -623,17 +763,20 @@ export const OperationalInspection = (props) => {
               </Text>
             </Col>
             <Col xs={22}>
-              <Form.Item name={OPERATIONAL_CLOSING}>
-                <Input
-                  type="text"
-                  size="small"
-                  style={{ width: 150 }}
-                  required
-                />
+              <Form.Item
+                name={OPERATIONAL_CLOSING}
+                rules={[
+                  {
+                    required: true,
+                    message: "Finish the inspection before submitting it",
+                  },
+                ]}
+              >
+                <Input type="text" size="small" style={{ width: 150 }} />
               </Form.Item>
             </Col>
             <Col xs={22}>
-              <Text>
+              <Text type={textJ}>
                 Are Switch arms .020" to .030" from Switch body and is the
                 actuator at 87° +/- 2°
               </Text>
@@ -661,24 +804,6 @@ export const OperationalInspection = (props) => {
             >
               {loading ? "" : "Submit"}
             </Button>
-            <Modal
-              visible={isModalVisible}
-              onOk={handleOk}
-              style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
-              onCancel={handleCancel}
-            >
-              <Title level={3}>Error..!</Title>
-              <Text>All fields are required</Text>
-            </Modal>
-            <Modal
-              visible={modalVisible}
-              onOk={handleCancel2}
-              style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
-              onCancel={handleCancel2}
-            >
-              <Title level={3}>OK..!</Title>
-              <Text>The data has been successfully stored</Text>
-            </Modal>
           </Form.Item>
         </Col>
       </Row>

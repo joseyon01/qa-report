@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Form,
   Input,
@@ -10,11 +10,11 @@ import {
   Modal,
   Upload,
   TimePicker,
+  message,
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-
 import { getFirestore, doc, setDoc } from "firebase/firestore";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import {
   getDownloadURL,
@@ -27,7 +27,8 @@ const storage = getStorage();
 const { Text, Title } = Typography;
 const { TextArea } = Input;
 import {
-  OPERATIONAL_A_I,
+  OPERATIONAL_A_I_I,
+  OPERATIONAL_A_I_II,
   OPERATIONAL_A_II,
   OPERATIONAL_A_III,
   OPERATIONAL_B_I,
@@ -53,11 +54,10 @@ import {
 } from "../../constants/ConstOperational";
 
 export const OperationalInspection = (props) => {
+  const navigate = useNavigate();
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-
   const [valueC, setValueC] = useState(null);
   const [valueD, setValueD] = useState(null);
   const [valueE, setValueE] = useState(null);
@@ -73,39 +73,87 @@ export const OperationalInspection = (props) => {
   const [valueO, setValueO] = useState(null);
   const [valueP, setValueP] = useState(null);
   const [valuePON, setValuePON] = useState(null);
-
-  const showModal = () => setIsModalVisible(true);
-  const handleOk = () => setIsModalVisible(false);
-  const handleCancel = () => setIsModalVisible(false);
-  const showModal2 = () => setModalVisible(true);
-  const onChangeC = (e) => setValueC(e.target.value);
-  const onChangeD = (e) => setValueD(e.target.value);
-  const onChangeE = (e) => setValueE(e.target.value);
-  const onChangeF = (e) => setValueF(e.target.value);
-  const onChangeG = (e) => setValueG(e.target.value);
-  const onChangeH = (e) => setValueH(e.target.value);
-  const onChangeI_I = (e) => setValueI_I(e);
-  const onChangeI_II = (e) => setValueI_II(e);
-  const onChangeJ = (e) => setValueJ(e.target.value);
-  const onChangeK = (e) => setValueK(e.target.value);
-  const onChangeM = (e) => setValueM(e.target.value);
-  const onChangeN = (e) => setValueN(e.target.value);
-  const onChangeO = (e) => setValueO(e.target.value);
-  const onChangeP = (e) => setValueP(e.target.value);
-  const onChangePON = (e) => setValuePON(e.target.value);
+  const [textC, setTextC] = useState("default");
+  const [textD, setTextD] = useState("default");
+  const [textE, setTextE] = useState("default");
+  const [textF, setTextF] = useState("default");
+  const [textG, setTextG] = useState("default");
+  const [textH, setTextH] = useState("default");
+  const [textJ, setTextJ] = useState("default");
+  const [textK, setTextK] = useState("default");
+  const [textM, setTextM] = useState("default");
+  const [textN, setTextN] = useState("default");
+  const [textO, setTextO] = useState("default");
+  const [textP, setTextP] = useState("default");
+  const [textPON, setTextPON] = useState("default");
   const [upLoadDisabled, setUpLoadDisabled] = useState(false);
   const [uploading, setUploading] = useState("");
   const [imageLoading, setImageLoading] = useState(false);
   const [count, setCount] = useState(0);
+  const showModal2 = () => setModalVisible(true);
+  const onChangeC = (e) => {
+    setTextC("default");
+    setValueC(e.target.value);
+  };
+  const onChangeD = (e) => {
+    setTextD("default");
+    setValueD(e.target.value);
+  };
+  const onChangeE = (e) => {
+    setTextE("default");
+    setValueE(e.target.value);
+  };
+  const onChangeF = (e) => {
+    setTextF("default");
+    setValueF(e.target.value);
+  };
+  const onChangeG = (e) => {
+    setTextG("default");
+    setValueG(e.target.value);
+  };
+  const onChangeH = (e) => {
+    setTextH("default");
+    setValueH(e.target.value);
+  };
+  const onChangeI_I = (e) => setValueI_I(e);
+  const onChangeI_II = (e) => setValueI_II(e);
+  const onChangeJ = (e) => {
+    setTextJ("default");
+    setValueJ(e.target.value);
+  };
+  const onChangeK = (e) => {
+    setTextK("default");
+    setValueK(e.target.value);
+  };
+  const onChangeM = (e) => {
+    setTextM("default");
+    setValueM(e.target.value);
+  };
+  const onChangeN = (e) => {
+    setTextN("default");
+    setValueN(e.target.value);
+  };
+  const onChangeO = (e) => {
+    setTextO("default");
+    setValueO(e.target.value);
+  };
+  const onChangeP = (e) => {
+    setTextP("default");
+    setValueP(e.target.value);
+  };
+  const onChangePON = (e) => {
+    setTextPON("default");
+    setValuePON(e.target.value);
+  };
 
   const handleOk2 = () => {
     setModalVisible(false);
     window.scrollTo(0, 0);
+    navigate(`/dashboard`);
   };
 
   const handleCancel2 = () => {
     setModalVisible(false);
-    window.scrollTo(0, 0);
   };
   const fileProps = {
     action: "none",
@@ -143,7 +191,8 @@ export const OperationalInspection = (props) => {
   };
 
   async function onClickF(
-    OPERATIONAL_A_I,
+    OPERATIONAL_A_I_I,
+    OPERATIONAL_A_I_II,
     OPERATIONAL_A_II,
     OPERATIONAL_A_III,
     OPERATIONAL_B_I,
@@ -169,39 +218,93 @@ export const OperationalInspection = (props) => {
   ) {
     setButtonDisabled(true);
     setLoading(true);
-    const docRef = await setDoc(
-      doc(db, "OperationalInspection", `${props.serial}`),
+    await setDoc(doc(db, "OperationalInspection", `${props.serial}`), {
+      OPERATIONAL_A_I_I: OPERATIONAL_A_I_I,
+      OPERATIONAL_A_I_II: OPERATIONAL_A_I_II,
+      OPERATIONAL_A_II: OPERATIONAL_A_II,
+      OPERATIONAL_A_III: OPERATIONAL_A_III,
+      OPERATIONAL_B_I: OPERATIONAL_B_I,
+      OPERATIONAL_C: OPERATIONAL_C,
+      OPERATIONAL_D: OPERATIONAL_D,
+      OPERATIONAL_E: OPERATIONAL_E,
+      OPERATIONAL_F: OPERATIONAL_F,
+      OPERATIONAL_G: OPERATIONAL_G,
+      OPERATIONAL_H_I: OPERATIONAL_H_I,
+      OPERATIONAL_I_I: OPERATIONAL_I_I,
+      OPERATIONAL_I_II: OPERATIONAL_I_II,
+      OPERATIONAL_I_III: OPERATIONAL_I_III,
+      OPERATIONAL_J: OPERATIONAL_J,
+      OPERATIONAL_K: OPERATIONAL_K,
+      OPERATIONAL_L_I: OPERATIONAL_L_I,
+      OPERATIONAL_L_II: OPERATIONAL_L_II,
+      OPERATIONAL_M: OPERATIONAL_M,
+      OPERATIONAL_N: OPERATIONAL_N,
+      OPERATIONAL_O: OPERATIONAL_O,
+      OPERATIONAL_P: OPERATIONAL_P,
+      OPERATIONAL_NOTE: OPERATIONAL_NOTE,
+      OPERATIONAL_PON: OPERATIONAL_PON,
+    });
+    await setDoc(
+      doc(db, "Excel", `${props.serial}`),
       {
-        OPERATIONAL_A_I: OPERATIONAL_A_I,
-        OPERATIONAL_A_II: OPERATIONAL_A_II,
-        OPERATIONAL_A_III: OPERATIONAL_A_III,
-        OPERATIONAL_B_I: OPERATIONAL_B_I,
-        OPERATIONAL_C: OPERATIONAL_C,
-        OPERATIONAL_D: OPERATIONAL_D,
-        OPERATIONAL_E: OPERATIONAL_E,
-        OPERATIONAL_F: OPERATIONAL_F,
-        OPERATIONAL_G: OPERATIONAL_G,
-        OPERATIONAL_H_I: OPERATIONAL_H_I,
-        OPERATIONAL_I_I: OPERATIONAL_I_I,
-        OPERATIONAL_I_II: OPERATIONAL_I_II,
-        OPERATIONAL_I_III: OPERATIONAL_I_III,
-        OPERATIONAL_J: OPERATIONAL_J,
-        OPERATIONAL_K: OPERATIONAL_K,
-        OPERATIONAL_L_I: OPERATIONAL_L_I,
-        OPERATIONAL_L_II: OPERATIONAL_L_II,
-        OPERATIONAL_M: OPERATIONAL_M,
-        OPERATIONAL_N: OPERATIONAL_N,
-        OPERATIONAL_O: OPERATIONAL_O,
-        OPERATIONAL_P: OPERATIONAL_P,
-        OPERATIONAL_NOTE: OPERATIONAL_NOTE,
-        OPERATIONAL_PON: OPERATIONAL_PON,
-      }
+        voltage: OPERATIONAL_A_II,
+        amps: "--",
+        powerOutput: "--",
+        sageFrimware: OPERATIONAL_A_I_I,
+        phoniexFrimware: OPERATIONAL_A_I_II,
+        notes: OPERATIONAL_NOTE,
+        actionTaken: "--",
+      },
+      { merge: true }
     );
     setLoading(false);
   }
+  function onFinishFailed() {
+    if (valueC == null) {
+      setTextC("danger");
+    }
+    if (valueD == null) {
+      setTextD("danger");
+    }
+    if (valueE == null) {
+      setTextE("danger");
+    }
+    if (valueF == null) {
+      setTextF("danger");
+    }
+    if (valueG == null) {
+      setTextG("danger");
+    }
+    if (valueH == null) {
+      setTextH("danger");
+    }
+    if (valueJ == null) {
+      setTextJ("danger");
+    }
+    if (valueK == null) {
+      setTextK("danger");
+    }
+    if (valueM == null) {
+      setTextM("danger");
+    }
+    if (valueN == null) {
+      setTextN("danger");
+    }
+    if (valueO == null) {
+      setTextO("danger");
+    }
+    if (valueP == null) {
+      setTextP("danger");
+    }
+    if (valuePON == null) {
+      setTextPON("danger");
+    }
+    message.error("Complete all the fields");
+  }
 
   function addOperational(values) {
-    const OPERATIONAL_A_I = values.OPERATIONAL_A_I;
+    const OPERATIONAL_A_I_I = values.OPERATIONAL_A_I_I;
+    const OPERATIONAL_A_I_II = values.OPERATIONAL_A_I_II;
     const OPERATIONAL_A_II = values.OPERATIONAL_A_II;
     const OPERATIONAL_A_III = values.OPERATIONAL_A_III;
     const OPERATIONAL_B_I = values.OPERATIONAL_B_I;
@@ -232,7 +335,9 @@ export const OperationalInspection = (props) => {
     const OPERATIONAL_N = valueN;
     const OPERATIONAL_O = valueO;
     const OPERATIONAL_P = valueP;
-    const OPERATIONAL_NOTE = values.OPERATIONAL_NOTE;
+    const OPERATIONAL_NOTE = values.OPERATIONAL_NOTE
+      ? values.OPERATIONAL_NOTE
+      : "";
     const OPERATIONAL_PON = valuePON;
 
     if (
@@ -250,7 +355,46 @@ export const OperationalInspection = (props) => {
       OPERATIONAL_P == null ||
       OPERATIONAL_PON == null
     ) {
-      showModal();
+      if (valueC == null) {
+        setTextC("danger");
+      }
+      if (valueD == null) {
+        setTextD("danger");
+      }
+      if (valueE == null) {
+        setTextE("danger");
+      }
+      if (valueF == null) {
+        setTextF("danger");
+      }
+      if (valueG == null) {
+        setTextG("danger");
+      }
+      if (valueH == null) {
+        setTextH("danger");
+      }
+      if (valueJ == null) {
+        setTextJ("danger");
+      }
+      if (valueK == null) {
+        setTextK("danger");
+      }
+      if (valueM == null) {
+        setTextM("danger");
+      }
+      if (valueN == null) {
+        setTextN("danger");
+      }
+      if (valueO == null) {
+        setTextO("danger");
+      }
+      if (valueP == null) {
+        setTextP("danger");
+      }
+      if (valuePON == null) {
+        setTextPON("danger");
+      }
+      message.error("Complete all the fields");
     } else {
       if (OPERATIONAL_PON) {
         const ovenRef = doc(db, "oven", `${props.serial}`);
@@ -260,7 +404,8 @@ export const OperationalInspection = (props) => {
         setDoc(ovenRef, { status: "Rejected" }, { merge: true });
       }
       onClickF(
-        OPERATIONAL_A_I,
+        OPERATIONAL_A_I_I,
+        OPERATIONAL_A_I_II,
         OPERATIONAL_A_II,
         OPERATIONAL_A_III,
         OPERATIONAL_B_I,
@@ -293,6 +438,7 @@ export const OperationalInspection = (props) => {
       labelCol={{ span: 7 }}
       style={{ paddingBottom: "5em" }}
       onFinish={addOperational}
+      onFinishFailed={onFinishFailed}
     >
       <Row justify="center">
         <Col xs={20} align="center">
@@ -313,13 +459,40 @@ export const OperationalInspection = (props) => {
                   <Text>i) Displayed software version</Text>
                 </Col>
                 <Col xs={23}>
-                  <Form.Item name={OPERATIONAL_A_I}>
+                  <Form.Item
+                    name={OPERATIONAL_A_I_I}
+                    label="sage"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
                     <Input
-                      placeholder="Version"
+                      placeholder="sage"
                       style={{ width: 150 }}
                       size="small"
                       type="number"
-                      required
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={23}>
+                  <Form.Item
+                    name={OPERATIONAL_A_I_II}
+                    label="Phoniex/HLUI"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
+                    <Input
+                      placeholder="Phoniex/HLUI"
+                      style={{ width: 150 }}
+                      size="small"
+                      type="number"
                     />
                   </Form.Item>
                 </Col>
@@ -327,13 +500,20 @@ export const OperationalInspection = (props) => {
                   <Text>ii) Display voltage</Text>
                 </Col>
                 <Col xs={23}>
-                  <Form.Item name={OPERATIONAL_A_II}>
+                  <Form.Item
+                    name={OPERATIONAL_A_II}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
                     <Input
                       placeholder="VAC"
                       style={{ width: 150 }}
                       size="small"
                       type="number"
-                      required
                     />
                   </Form.Item>
                 </Col>
@@ -341,13 +521,20 @@ export const OperationalInspection = (props) => {
                   <Text>iii) VAC, Serial Number HHD/HHS</Text>
                 </Col>
                 <Col xs={23}>
-                  <Form.Item name={OPERATIONAL_A_III}>
+                  <Form.Item
+                    name={OPERATIONAL_A_III}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
                     <Input
                       placeholder="S/N"
                       style={{ width: 150 }}
                       size="small"
                       type="text"
-                      required
                     />
                   </Form.Item>
                 </Col>
@@ -364,13 +551,20 @@ export const OperationalInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 23, offset: 1 }} sm={4}>
-          <Form.Item name={OPERATIONAL_B_I}>
+          <Form.Item
+            name={OPERATIONAL_B_I}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
+          >
             <Input
               type="number"
               size="small"
               style={{ width: 150 }}
               placeholder="VAC"
-              required
             />
           </Form.Item>
         </Col>
@@ -378,7 +572,7 @@ export const OperationalInspection = (props) => {
       <br />
       <Row justify="center">
         <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
-          <Text>
+          <Text type={textC}>
             C) Does Voltage & Frequency (on rating plate) match the Ratings on
             traveler?
           </Text>
@@ -394,7 +588,7 @@ export const OperationalInspection = (props) => {
       <br />
       <Row justify="center">
         <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
-          <Text>
+          <Text type={textD}>
             D) Entein INFO MODE, check that the menu version and firmware are
             correct according to oven spec.
           </Text>
@@ -409,7 +603,9 @@ export const OperationalInspection = (props) => {
       <br />
       <Row justify="center">
         <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
-          <Text>E) Enter "Test Mode", make sure "Faults" are cleared.</Text>
+          <Text type={textE}>
+            E) Enter "Test Mode", make sure "Faults" are cleared.
+          </Text>
         </Col>
         <Col xs={{ span: 23, offset: 1 }} sm={4}>
           <Radio.Group name={OPERATIONAL_E} onChange={onChangeE}>
@@ -421,7 +617,9 @@ export const OperationalInspection = (props) => {
       <br />
       <Row justify="center">
         <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
-          <Text>F) Make sure the Door says closed when it is closed.</Text>
+          <Text type={textF}>
+            F) Make sure the Door says closed when it is closed.
+          </Text>
         </Col>
         <Col xs={{ span: 23, offset: 1 }} sm={4}>
           <Radio.Group name={OPERATIONAL_F} onChange={onChangeF}>
@@ -433,7 +631,7 @@ export const OperationalInspection = (props) => {
       <br />
       <Row justify="center">
         <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
-          <Text>
+          <Text type={textG}>
             G) Using an insulated screw driver check the EC Cooling Fan by
             bridging between the terminals on the "Close on Rise" switch, which
             controls the EC cooling fan.
@@ -449,7 +647,7 @@ export const OperationalInspection = (props) => {
       <br />
       <Row justify="center">
         <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
-          <Text>
+          <Text type={textH}>
             H) Install jet plates and rack. Ensure the rack oscilates when cold.
           </Text>
         </Col>
@@ -473,14 +671,21 @@ export const OperationalInspection = (props) => {
                   <Text>i) Record time oven starts warm up:</Text>
                 </Col>
                 <Col xs={23}>
-                  <Form.Item name={OPERATIONAL_I_I}>
+                  <Form.Item
+                    name={OPERATIONAL_I_I}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
                     <TimePicker
                       size="small"
                       style={{ width: 150 }}
                       onChange={onChangeI_I}
                       value={valueI_I}
                       format={"HH:mm"}
-                      required
                     />
                   </Form.Item>
                 </Col>
@@ -491,14 +696,21 @@ export const OperationalInspection = (props) => {
                   </Text>
                 </Col>
                 <Col xs={23}>
-                  <Form.Item name={OPERATIONAL_I_II}>
+                  <Form.Item
+                    name={OPERATIONAL_I_II}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
                     <TimePicker
                       size="small"
                       style={{ width: 150 }}
                       value={valueI_II}
                       onChange={onChangeI_II}
                       format={"HH:mm"}
-                      required
                     />
                   </Form.Item>
                 </Col>
@@ -528,7 +740,9 @@ export const OperationalInspection = (props) => {
       </Row>
       <Row justify="center">
         <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
-          <Text>J) Ensure the rack oscilates when oven is hot.</Text>
+          <Text type={textJ}>
+            J) Ensure the rack oscilates when oven is hot.
+          </Text>
         </Col>
         <Col xs={{ span: 23, offset: 1 }} sm={4}>
           <Radio.Group name={OPERATIONAL_J} onChange={onChangeJ}>
@@ -540,7 +754,9 @@ export const OperationalInspection = (props) => {
       <br />
       <Row justify="center">
         <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
-          <Text>K) Ensure Blower Fan is rotating counter-clockwise</Text>
+          <Text type={textK}>
+            K) Ensure Blower Fan is rotating counter-clockwise
+          </Text>
         </Col>
         <Col xs={{ span: 23, offset: 1 }} sm={4}>
           <Radio.Group name={OPERATIONAL_K} onChange={onChangeK}>
@@ -562,13 +778,20 @@ export const OperationalInspection = (props) => {
                   <Text>i) Heater A:</Text>
                 </Col>
                 <Col xs={23}>
-                  <Form.Item name={OPERATIONAL_L_I}>
+                  <Form.Item
+                    name={OPERATIONAL_L_I}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
                     <Input
                       placeholder={"Amps"}
                       type="number"
                       size="small"
                       style={{ width: 150 }}
-                      required
                     />
                   </Form.Item>
                 </Col>
@@ -576,13 +799,20 @@ export const OperationalInspection = (props) => {
                   <Text>ii) Heater B:</Text>
                 </Col>
                 <Col xs={23}>
-                  <Form.Item name={OPERATIONAL_L_II}>
+                  <Form.Item
+                    name={OPERATIONAL_L_II}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
                     <Input
                       placeholder={"Amps"}
                       type="number"
                       size="small"
                       style={{ width: 150 }}
-                      required
                     />
                   </Form.Item>
                 </Col>
@@ -594,7 +824,7 @@ export const OperationalInspection = (props) => {
       </Row>
       <Row justify="center">
         <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
-          <Text>M) Check the Door Switch</Text>
+          <Text type={textM}>M) Check the Door Switch</Text>
         </Col>
         <Col xs={{ span: 23, offset: 1 }} sm={4}>
           <Radio.Group name={OPERATIONAL_M} onChange={onChangeM}>
@@ -606,7 +836,7 @@ export const OperationalInspection = (props) => {
       <br />
       <Row justify="center">
         <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
-          <Text>N) Install panels.</Text>
+          <Text type={textN}>N) Install panels.</Text>
         </Col>
         <Col xs={{ span: 23, offset: 1 }} sm={4}>
           <Radio.Group name={OPERATIONAL_N} onChange={onChangeN}>
@@ -618,7 +848,7 @@ export const OperationalInspection = (props) => {
       <br />
       <Row justify="center">
         <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
-          <Text>O) Clear all Cook Cycles and Faults.</Text>
+          <Text type={textO}>O) Clear all Cook Cycles and Faults.</Text>
         </Col>
         <Col xs={{ span: 23, offset: 1 }} sm={4}>
           <Radio.Group name={OPERATIONAL_O} onChange={onChangeO}>
@@ -630,7 +860,7 @@ export const OperationalInspection = (props) => {
       <br />
       <Row justify="center">
         <Col xs={{ span: 23, offset: 1 }} sm={{ span: 18, offset: 0 }}>
-          <Text>
+          <Text type={textP}>
             P) Check packaged accessories. Do they match oven model checklist?
           </Text>
         </Col>
@@ -668,7 +898,7 @@ export const OperationalInspection = (props) => {
       <br />
       <Row justify="center">
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Text>Aprooved</Text>
+          <Text type={textPON}>Aprooved</Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Radio.Group name={OPERATIONAL_PON} onChange={onChangePON}>
@@ -692,15 +922,6 @@ export const OperationalInspection = (props) => {
               {loading ? "" : "Submit"}
             </Button>
             <Modal
-              visible={isModalVisible}
-              onOk={handleOk}
-              style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
-              onCancel={handleCancel}
-            >
-              <Title level={3}>Error..!</Title>
-              <Text>All fields are required</Text>
-            </Modal>
-            <Modal
               visible={modalVisible}
               onOk={handleOk2}
               style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
@@ -708,6 +929,10 @@ export const OperationalInspection = (props) => {
             >
               <Title level={3}>OK..!</Title>
               <Text>The data has been successfully stored</Text>
+              <br />
+              <Text>Click Ok to Finish the Inspection</Text>
+              <br />
+              <Text>Click cancel if you whant to upload some Images</Text>
             </Modal>
           </Form.Item>
         </Col>

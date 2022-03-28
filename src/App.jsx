@@ -23,7 +23,7 @@ export default function App() {
             path="/register/*"
             element={
               <PrivateRoute>
-                <Register />{" "}
+                <Register />
               </PrivateRoute>
             }
           />

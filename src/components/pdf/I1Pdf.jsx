@@ -7,6 +7,7 @@ import { getFirestore, doc, getDoc } from "firebase/firestore";
 const db = getFirestore();
 
 export const I1Pdf = (props) => {
+  const ovenType = props.oven;
   const ovenSerial = props.serial;
   const [isDisabled, setIsDisabled] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -164,7 +165,7 @@ export const I1Pdf = (props) => {
     getHotOven();
   }, []);
 
-  const jspdfGenerator = (s) => {
+  const jspdfGenerator = (s, o) => {
     let doc = new jsPDF("p", "px", "a4", true);
     doc.addImage(Logo, "PNG", 120, 10, 220, 40);
     doc.setFontSize(13);
@@ -444,7 +445,7 @@ export const I1Pdf = (props) => {
     doc.text(`Clear cook time foults: ${value_E_H}`, 15, 435);
     doc.text(`APROOVED: ${valueAON ? "YES" : "NO"}`, 170, 600);
 
-    doc.save(`${s}.pdf`);
+    doc.save(`${o + s}.pdf`);
   };
 
   return (
@@ -456,7 +457,7 @@ export const I1Pdf = (props) => {
           block
           style={{ width: "100%", height: "100%" }}
           type={"primary"}
-          onClick={() => jspdfGenerator(ovenSerial)}
+          onClick={() => jspdfGenerator(ovenSerial, ovenType)}
         >
           {loading ? "" : "Generate PDF"} <FilePdfOutlined />
         </Button>

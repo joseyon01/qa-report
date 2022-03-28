@@ -41,12 +41,12 @@ export const Register = (props) => {
             date={date}
           />
           <Routes>
-            <Route path="ENC" element={<ENC serial={serial} />} />
-            <Route path="I1" element={<I1 serial={serial} />} />
-            <Route path="I3" element={<I3 serial={serial} />} />
-            <Route path="ECOST" element={<ECOST serial={serial} />} />
-            <Route path="HHD" element={<HHD serial={serial} />} />
-            <Route path="ECONew" element={<ECONew serial={serial} />} />
+            <Route path="ENC/:id/*" element={<ENC serial={serial} />} />
+            <Route path="I1/:id/*" element={<I1 serial={serial} />} />
+            <Route path="I3/:id/*" element={<I3 serial={serial} />} />
+            <Route path="ECOST/:id/*" element={<ECOST serial={serial} />} />
+            <Route path="HHD/:id/*" element={<HHD serial={serial} />} />
+            <Route path={`ECONew/:id/*`} element={<ECONew serial={serial} />} />
           </Routes>
         </Container>
       </Content>
