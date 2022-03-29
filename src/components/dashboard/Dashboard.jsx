@@ -36,8 +36,7 @@ import { HHDPdf } from "../pdf/HHDPdf";
 import { ENCPdf } from "../pdf/ENCPdf";
 import { ECONewPdf } from "../pdf/ECONewPdf";
 import { ECOSTPdf } from "../pdf/ECOSTPdf";
-import { Excel } from "../excel/Excel";
-import { ExcelForm } from "../ExcelForm/ExcelForm";
+import { ExcelForm } from "../excelForm/ExcelForm";
 const storage = getStorage();
 const { Content, Footer } = Layout;
 const db = getFirestore();
@@ -307,26 +306,6 @@ export const Dashboard = () => {
                   style={{
                     marginTop: "1em",
                   }}
-                  type="default"
-                  disabled={disabled}
-                >
-                  <Excel
-                    setDisabled={setDisabled}
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  />
-                </Button>
-              </Col>
-              <Col xs={3} md={2} xl={1}>
-                <Button
-                  shape="circle"
-                  size="large"
-                  style={{
-                    marginTop: "1em",
-                  }}
                   type="primary"
                 >
                   <Link
@@ -344,7 +323,7 @@ export const Dashboard = () => {
             </Row>
           </div>
           <div className="container">
-            <Row>
+            <Row justify="center">
               <ExcelForm />
             </Row>
           </div>

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Layout, Typography, Button, Row, Col } from "antd";
 import QaReportFirebase from "../../../Credentials";
-import { AiOutlineLogout, AiFillHome } from "react-icons/ai";
+import { AiFillHome } from "react-icons/ai";
+import { PoweroffOutlined } from "@ant-design/icons";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { Link } from "react-router-dom";
 const auth = getAuth(QaReportFirebase);
@@ -30,7 +31,16 @@ export const Header = (props) => {
           setLoading(false);
         }}
       >
-        <Link to="/">{loading ? "" : <AiOutlineLogout />}</Link>
+        <Link
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          to="/"
+        >
+          {loading ? "" : <PoweroffOutlined />}
+        </Link>
       </Button>
     );
   };

@@ -51,9 +51,10 @@ export const Excel = (props) => {
         alignItems: "center",
       }}
       headers={headers}
-      asyncOnClick={true}
-      data={data}
-      onClick={getData}
+      onClick={() => {
+        console.log(data);
+      }}
+      data={props.data}
       filename={"QA-Report.csv"}
     >
       <FileExcelOutlined />
