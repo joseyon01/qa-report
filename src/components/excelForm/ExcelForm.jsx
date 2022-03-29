@@ -55,6 +55,7 @@ export const ExcelForm = (props) => {
   ];
   function onChange(e) {
     setRange(e);
+    setData([]);
   }
 
   const sendData = () => {
