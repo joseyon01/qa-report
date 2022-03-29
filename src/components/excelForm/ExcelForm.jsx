@@ -30,7 +30,9 @@ export const ExcelForm = (props) => {
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [data, setData] = useState([]);
   const [range, setRange] = useState([]);
+  const [noData, setNoData] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  let _data = [];
   const handleOk = () => {
     setIsModalVisible(false);
   };
@@ -38,7 +40,6 @@ export const ExcelForm = (props) => {
     setIsModalVisible(false);
   };
   const [form] = Form.useForm();
-  let _data = [];
   const headers = [
     { label: "Oven", key: "oven" },
     { label: "Serial", key: "serial" },
@@ -58,53 +59,62 @@ export const ExcelForm = (props) => {
 
   const sendData = () => {
     getData();
+    if (data.length == 0) {
+      setNoData(true);
+    } else {
+      setNoData(false);
+    }
     setIsModalVisible(true);
   };
 
   const getData = () => {
-    console.log(range);
+    console.log("range: ", range.length);
     let dateArr = [];
     const dayFormat = "DD";
     const monthFormat = "MM";
     const yearFormat = "YY";
     let day1, day2, month1, month2, year1, year2;
-    day1 = parseInt(moment(range[0]).format(dayFormat));
-    day2 = parseInt(moment(range[1]).format(dayFormat));
-    month1 = parseInt(moment(range[0]).format(monthFormat));
-    month2 = parseInt(moment(range[1]).format(monthFormat));
-    year1 = parseInt(moment(range[0]).format(yearFormat));
-    year2 = parseInt(moment(range[1]).format(yearFormat));
-
-    if (month1 == month2) {
-      for (let i = day1; i <= day2; i++) {
-        if (i < 10 && month1 < 10) {
-          dateArr.push(`0${month1}/0${i}/${year1}`);
-        } else if (i < 10 && month1 > 10) {
-          dateArr.push(`${month1}/0${i}/${year1}`);
-        } else if (i > 10 && month1 < 10) {
-          dateArr.push(`0${month1}/${i}/${year1}`);
-        } else {
-          dateArr.push(`${month1}/${i}/${year1}`);
+    if (range.length != 2) {
+      setData([]);
+    } else {
+      day1 = parseInt(moment(range[0]).format(dayFormat));
+      day2 = parseInt(moment(range[1]).format(dayFormat));
+      month1 = parseInt(moment(range[0]).format(monthFormat));
+      month2 = parseInt(moment(range[1]).format(monthFormat));
+      year1 = parseInt(moment(range[0]).format(yearFormat));
+      year2 = parseInt(moment(range[1]).format(yearFormat));
+      console.log(day1, month1, year1);
+      if (month1 == month2) {
+        for (let i = day1; i <= day2; i++) {
+          if (i < 10 && month1 < 10) {
+            dateArr.push(`0${month1}/0${i}/${year1}`);
+          } else if (i < 10 && month1 > 10) {
+            dateArr.push(`${month1}/0${i}/${year1}`);
+          } else if (i > 10 && month1 < 10) {
+            dateArr.push(`0${month1}/${i}/${year1}`);
+          } else {
+            dateArr.push(`${month1}/${i}/${year1}`);
+          }
         }
       }
-    }
 
-    dateArr?.forEach(async (e) => {
-      const q = query(collection(db, "Excel"), where("date", "==", `${e}`));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        _data.push(doc.data());
-        setData(_data);
+      dateArr?.forEach(async (e) => {
+        const q = query(collection(db, "Excel"), where("date", "==", e));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          _data.push(doc.data());
+          setData(_data);
+        });
+        console.log("data: ", data);
+        if (data == []) {
+          setButtonDisabled(true);
+        } else {
+          data?.length == _data?.length
+            ? setButtonDisabled(false)
+            : setButtonDisabled(true);
+        }
       });
-      console.log("data: ", data);
-      if (data == []) {
-        setButtonDisabled(true);
-      } else {
-        data?.length == _data?.length
-          ? setButtonDisabled(false)
-          : setButtonDisabled(true);
-      }
-    });
+    }
   };
   useEffect(() => {
     getData();
@@ -135,23 +145,27 @@ export const ExcelForm = (props) => {
             onOk={handleOk}
             onCancel={handleOk}
           >
-            <CSVLink
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              headers={headers}
-              data={data}
-              onClick={() => {
-                setIsModalVisible(false);
-              }}
-              disabled={buttonDisabled}
-              filename={"QA-Report.csv"}
-            >
-              {" "}
-              <FileExcelOutlined />
-            </CSVLink>
+            {noData ? (
+              "No Oven Found"
+            ) : (
+              <CSVLink
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                headers={headers}
+                data={data}
+                onClick={() => {
+                  setIsModalVisible(false);
+                }}
+                disabled={buttonDisabled}
+                filename={"QA-Report.csv"}
+              >
+                {" "}
+                <FileExcelOutlined />
+              </CSVLink>
+            )}
           </Modal>
         </Col>
       </Row>
