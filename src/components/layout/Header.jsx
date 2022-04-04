@@ -14,7 +14,7 @@ export const Header = (props) => {
   const LoginButton = () => {
     return (
       <Button>
-        <Link to="/">Login</Link>
+        <Link to="/login">Login</Link>
       </Button>
     );
   };
@@ -37,7 +37,7 @@ export const Header = (props) => {
             justifyContent: "center",
             alignItems: "center",
           }}
-          to="/"
+          to="/login"
         >
           {loading ? "" : <PoweroffOutlined />}
         </Link>
@@ -70,7 +70,7 @@ export const Header = (props) => {
                 )
               ) : (
                 <Button>
-                  <Link to="/dashboard">
+                  <Link to="/">
                     <AiFillHome />
                   </Link>
                 </Button>

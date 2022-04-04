@@ -1,15 +1,5 @@
 import react, { useState, useEffect } from "react";
-import {
-  Form,
-  Input,
-  Button,
-  message,
-  DatePicker,
-  Row,
-  Col,
-  Typography,
-  Modal,
-} from "antd";
+import { Form, Button, DatePicker, Row, Col, Typography, Modal } from "antd";
 import moment from "moment";
 import {
   getFirestore,
@@ -20,8 +10,6 @@ import {
 } from "firebase/firestore";
 import { FileExcelOutlined } from "@ant-design/icons";
 import { CSVLink } from "react-csv";
-import { Excel } from "../excel/Excel";
-import { getMetadata } from "firebase/storage";
 const db = getFirestore();
 const { Text, Title } = Typography;
 const { RangePicker } = DatePicker;
@@ -53,6 +41,7 @@ export const ExcelForm = (props) => {
     { label: "Notes", key: "notes" },
     { label: "Action Taken", key: "actionTaken" },
   ];
+
   function onChange(e) {
     setRange(e);
     setData([]);
@@ -69,7 +58,6 @@ export const ExcelForm = (props) => {
   };
 
   const getData = () => {
-    console.log("range: ", range.length);
     let dateArr = [];
     const dayFormat = "DD";
     const monthFormat = "MM";
@@ -84,7 +72,6 @@ export const ExcelForm = (props) => {
       month2 = parseInt(moment(range[1]).format(monthFormat));
       year1 = parseInt(moment(range[0]).format(yearFormat));
       year2 = parseInt(moment(range[1]).format(yearFormat));
-      console.log(day1, month1, year1);
       if (month1 == month2) {
         for (let i = day1; i <= day2; i++) {
           if (i < 10 && month1 < 10) {
@@ -106,7 +93,6 @@ export const ExcelForm = (props) => {
           _data.push(doc.data());
           setData(_data);
         });
-        console.log("data: ", data);
         if (data == []) {
           setButtonDisabled(true);
         } else {
@@ -117,28 +103,26 @@ export const ExcelForm = (props) => {
       });
     }
   };
+
   useEffect(() => {
     getData();
   }, [range]);
   return (
-    <Col xs={12}>
-      <Row justify="center">
-        <Col xs={24}>
-          <Form>
-            <Form.Item name="rangePicker">
-              <RangePicker
-                value={range}
-                onChange={onChange}
-                format={"MM/DD/YY"}
-              />
-            </Form.Item>
-          </Form>
+    <Form>
+      <Row justify="space-around">
+        <Col xs={22} md={10}>
+          <Form.Item name="rangePicker">
+            <RangePicker
+              value={range}
+              onChange={onChange}
+              format={"MM/DD/YY"}
+              style={{ width: "100%" }}
+            />
+          </Form.Item>
         </Col>
-      </Row>
-      <Row justify="center">
-        <Col xs={12}>
-          <Button type="primary" block={true} onClick={sendData}>
-            Get The data
+        <Col xs={22} md={10}>
+          <Button type="primary" block={true} size="middle" onClick={sendData}>
+            Get CSV
           </Button>
           <Modal
             title={"QA-Report.csv"}
@@ -170,6 +154,6 @@ export const ExcelForm = (props) => {
           </Modal>
         </Col>
       </Row>
-    </Col>
+    </Form>
   );
 };

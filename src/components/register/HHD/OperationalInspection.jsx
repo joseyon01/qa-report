@@ -7,14 +7,12 @@ import {
   Typography,
   Radio,
   Button,
-  Modal,
   Upload,
   TimePicker,
   message,
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import {
   getDownloadURL,
@@ -52,9 +50,10 @@ import {
   OPERATIONAL_NOTE,
   OPERATIONAL_PON,
 } from "../../constants/ConstOperational";
+import { ModalComp } from "../modalComp/ModalComp";
+import { ProblemSelection } from "../problemSelection/ProblemSelection";
 
 export const OperationalInspection = (props) => {
-  const navigate = useNavigate();
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -146,15 +145,6 @@ export const OperationalInspection = (props) => {
     setValuePON(e.target.value);
   };
 
-  const handleOk2 = () => {
-    setModalVisible(false);
-    window.scrollTo(0, 0);
-    navigate(`/dashboard`);
-  };
-
-  const handleCancel2 = () => {
-    setModalVisible(false);
-  };
   const fileProps = {
     action: "none",
     onChange({ file, fileList }) {
@@ -901,12 +891,15 @@ export const OperationalInspection = (props) => {
           <Text type={textPON}>Aprooved</Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Radio.Group name={OPERATIONAL_PON} onChange={onChangePON}>
-            <Radio value={true}>ACC</Radio>
-            <Radio value={false}>NO ACC</Radio>
-          </Radio.Group>
+          <Form.Item>
+            <Radio.Group name={OPERATIONAL_PON} onChange={onChangePON}>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
+            </Radio.Group>
+          </Form.Item>
         </Col>
       </Row>
+      {!valuePON ? <ProblemSelection /> : ""}
       <br />
       <Row justify="center">
         <Col xs={20} sm={18}>
@@ -921,19 +914,10 @@ export const OperationalInspection = (props) => {
             >
               {loading ? "" : "Submit"}
             </Button>
-            <Modal
-              visible={modalVisible}
-              onOk={handleOk2}
-              style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
-              onCancel={handleCancel2}
-            >
-              <Title level={3}>OK..!</Title>
-              <Text>The data has been successfully stored</Text>
-              <br />
-              <Text>Click Ok to Finish the Inspection</Text>
-              <br />
-              <Text>Click cancel if you whant to upload some Images</Text>
-            </Modal>
+            <ModalComp
+              ModalVisible={modalVisible}
+              setModalVisible={setModalVisible}
+            />
           </Form.Item>
         </Col>
       </Row>

@@ -13,10 +13,12 @@ export const PrivateRoute = ({ children }) => {
       const uid = fireBaseUser.uid;
       setGlobalUser(uid);
       setLoading(false);
+    } else {
+      setLoading(false);
     }
   });
   if (loading) {
     return <AuthLoader />;
   }
-  return auth.currentUser ? children : <Navigate to="/" />;
+  return auth.currentUser ? children : <Navigate to="/login" />;
 };

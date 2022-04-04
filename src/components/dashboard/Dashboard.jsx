@@ -36,7 +36,6 @@ import { HHDPdf } from "../pdf/HHDPdf";
 import { ENCPdf } from "../pdf/ENCPdf";
 import { ECONewPdf } from "../pdf/ECONewPdf";
 import { ECOSTPdf } from "../pdf/ECOSTPdf";
-import { ExcelForm } from "../excelForm/ExcelForm";
 const storage = getStorage();
 const { Content, Footer } = Layout;
 const db = getFirestore();
@@ -309,6 +308,27 @@ export const Dashboard = () => {
                   type="primary"
                 >
                   <Link
+                    to="/search"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <SearchOutlined />
+                  </Link>
+                </Button>
+              </Col>
+              <Col xs={3} md={2} xl={1}>
+                <Button
+                  shape="circle"
+                  size="large"
+                  style={{
+                    marginTop: "1em",
+                  }}
+                  type="primary"
+                >
+                  <Link
                     to="/register"
                     style={{
                       display: "flex",
@@ -320,11 +340,6 @@ export const Dashboard = () => {
                   </Link>
                 </Button>
               </Col>
-            </Row>
-          </div>
-          <div className="container">
-            <Row justify="center">
-              <ExcelForm />
             </Row>
           </div>
         </Container>

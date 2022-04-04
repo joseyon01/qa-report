@@ -47,12 +47,12 @@ export const Login = () => {
 
   const handleOk2 = () => {
     setModalVisible(false);
-    navigate(`/dashboard`);
+    navigate(`/`);
   };
 
   const handleCancel2 = () => {
     setModalVisible(false);
-    navigate(`/dashboard`);
+    navigate(`/`);
   };
   const persistenceLocal = (auth, email, password) =>
     setPersistence(auth, browserLocalPersistence)

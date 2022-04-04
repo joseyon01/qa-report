@@ -46,7 +46,7 @@ export const Register = (props) => {
             <Route path="I3/:id/*" element={<I3 serial={serial} />} />
             <Route path="ECOST/:id/*" element={<ECOST serial={serial} />} />
             <Route path="HHD/:id/*" element={<HHD serial={serial} />} />
-            <Route path={`ECONew/:id/*`} element={<ECONew serial={serial} />} />
+            <Route path="ECONew/:id/*" element={<ECONew serial={serial} />} />
           </Routes>
         </Container>
       </Content>

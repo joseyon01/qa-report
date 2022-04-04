@@ -5,6 +5,7 @@ import { Login } from "./components/auth/login/Login";
 import { Register } from "./components/register/Register";
 import { EditPage } from "./components/Edit/EditPage";
 import { PrivateRoute } from "./components/privateRoute/PrivateRoute";
+import { Search } from "./components/search/Search";
 export default function App() {
   return (
     <>
@@ -28,7 +29,15 @@ export default function App() {
             }
           />
           <Route
-            path="/dashboard/*"
+            path="/search/*"
+            element={
+              <PrivateRoute>
+                <Search />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/*"
             element={
               <PrivateRoute>
                 <Dashboard />
@@ -36,7 +45,7 @@ export default function App() {
             }
           />
 
-          <Route path="/*" element={<Login />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </Router>
     </>

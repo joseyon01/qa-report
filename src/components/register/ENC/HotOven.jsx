@@ -7,7 +7,6 @@ import {
   Typography,
   Radio,
   Button,
-  Modal,
   Upload,
   message,
 } from "antd";
@@ -25,7 +24,6 @@ import {
   HOT_OVEN_E,
   OVEN_APROVE_OR_NOT,
 } from "../../constants/ConstantHotOven";
-import { useNavigate } from "react-router-dom";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import {
   getDownloadURL,
@@ -33,12 +31,13 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
+import { ModalComp } from "../modalComp/ModalComp";
+import { ProblemSelection } from "../problemSelection/ProblemSelection";
 const db = getFirestore();
 const storage = getStorage();
 const { Text, Title } = Typography;
 
 export const HotOven = (props) => {
-  const navigate = useNavigate();
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(null);
@@ -51,14 +50,6 @@ export const HotOven = (props) => {
   const showModal2 = () => setModalVisible(true);
   const onChangeRC = (e) => setValueRC(e.target.value);
   const onChangeAON = (e) => setValueAON(e.target.value);
-  const handleOk2 = () => {
-    setModalVisible(false);
-    window.scrollTo(0, 0);
-    navigate(`/dashboard`);
-  };
-  const handleCancel2 = () => {
-    setModalVisible(false);
-  };
 
   async function onClickF(
     HOT_OVEN_B_DOOR,
@@ -413,6 +404,8 @@ export const HotOven = (props) => {
           </Form.Item>
         </Col>
       </Row>
+      {!valueAON ? <ProblemSelection /> : ""}
+      <br />
       <Row justify="center">
         <Col xs={20} sm={18}>
           <Form.Item>
@@ -427,19 +420,10 @@ export const HotOven = (props) => {
               {loading ? "" : "Submit"}
             </Button>
 
-            <Modal
-              visible={modalVisible}
-              onOk={handleOk2}
-              onCancel={handleCancel2}
-              style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
-            >
-              <Title level={3}>OK..!</Title>
-              <Text>The data has been successfully stored</Text>
-              <br />
-              <Text>Click Ok to Finish the Inspection</Text>
-              <br />
-              <Text>Click cancel if you whant to upload some Images</Text>
-            </Modal>
+            <ModalComp
+              ModalVisible={modalVisible}
+              setModalVisible={setModalVisible}
+            />
           </Form.Item>
         </Col>
       </Row>
