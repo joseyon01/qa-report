@@ -10,7 +10,9 @@ import {
   Upload,
   TimePicker,
   message,
+  Modal,
 } from "antd";
+import { useNavigate } from "react-router-dom";
 import { UploadOutlined } from "@ant-design/icons";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import moment from "moment";
@@ -50,7 +52,6 @@ import {
   OPERATIONAL_NOTE,
   OPERATIONAL_PON,
 } from "../../constants/ConstOperational";
-import { ModalComp } from "../modalComp/ModalComp";
 import { ProblemSelection } from "../problemSelection/ProblemSelection";
 
 export const OperationalInspection = (props) => {
@@ -89,7 +90,16 @@ export const OperationalInspection = (props) => {
   const [uploading, setUploading] = useState("");
   const [imageLoading, setImageLoading] = useState(false);
   const [count, setCount] = useState(0);
-  const showModal2 = () => setModalVisible(true);
+  const navigate = useNavigate();
+  const handleOk = () => {
+    setModalVisible(false);
+    window.scrollTo(0, 0);
+    navigate(`/dashboard`);
+  };
+  const handleCancel = () => {
+    setModalVisible(false);
+  };
+  const showModal = () => setModalVisible(true);
   const onChangeC = (e) => {
     setTextC("default");
     setValueC(e.target.value);
@@ -419,7 +429,7 @@ export const OperationalInspection = (props) => {
         OPERATIONAL_NOTE,
         OPERATIONAL_PON
       );
-      showModal2();
+      showModal();
     }
   }
 
@@ -914,10 +924,19 @@ export const OperationalInspection = (props) => {
             >
               {loading ? "" : "Submit"}
             </Button>
-            <ModalComp
-              ModalVisible={modalVisible}
-              setModalVisible={setModalVisible}
-            />
+            <Modal
+              visible={modalVisible}
+              onOk={handleOk}
+              onCancel={handleCancel}
+              style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
+            >
+              <Title level={3}>OK..!</Title>
+              <Text>The data has been successfully stored</Text>
+              <br />
+              <Text>Click Ok to Finish the Inspection</Text>
+              <br />
+              <Text>Click cancel if you whant to upload some Images</Text>
+            </Modal>
           </Form.Item>
         </Col>
       </Row>

@@ -9,8 +9,10 @@ import {
   Button,
   Upload,
   message,
+  Modal,
 } from "antd";
-import { UploadOutlined, StarOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+import { UploadOutlined } from "@ant-design/icons";
 import {
   HOT_OVEN_B_DOOR,
   HOT_OVEN_B_SIDES,
@@ -31,7 +33,6 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import { ModalComp } from "../modalComp/ModalComp";
 import { ProblemSelection } from "../problemSelection/ProblemSelection";
 const db = getFirestore();
 const storage = getStorage();
@@ -47,7 +48,16 @@ export const HotOven = (props) => {
   const [uploading, setUploading] = useState("");
   const [imageLoading, setImageLoading] = useState(false);
   const [count, setCount] = useState(0);
-  const showModal2 = () => setModalVisible(true);
+  const navigate = useNavigate();
+  const handleOk = () => {
+    setModalVisible(false);
+    window.scrollTo(0, 0);
+    navigate(`/dashboard`);
+  };
+  const handleCancel = () => {
+    setModalVisible(false);
+  };
+  const showModal = () => setModalVisible(true);
   const onChangeRC = (e) => setValueRC(e.target.value);
   const onChangeAON = (e) => setValueAON(e.target.value);
 
@@ -159,7 +169,7 @@ export const HotOven = (props) => {
         HOT_OVEN_E,
         OVEN_APROVE_OR_NOT
       );
-      showModal2();
+      showModal();
     }
   }
   return (
@@ -420,10 +430,19 @@ export const HotOven = (props) => {
               {loading ? "" : "Submit"}
             </Button>
 
-            <ModalComp
-              ModalVisible={modalVisible}
-              setModalVisible={setModalVisible}
-            />
+            <Modal
+              visible={modalVisible}
+              onOk={handleOk}
+              onCancel={handleCancel}
+              style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
+            >
+              <Title level={3}>OK..!</Title>
+              <Text>The data has been successfully stored</Text>
+              <br />
+              <Text>Click Ok to Finish the Inspection</Text>
+              <br />
+              <Text>Click cancel if you whant to upload some Images</Text>
+            </Modal>
           </Form.Item>
         </Col>
       </Row>
