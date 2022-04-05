@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Dashboard } from "./components/dashboard/Dashboard";
 import { Login } from "./components/auth/login/Login";
+import { Dashboard } from "./components/dashboard/Dashboard";
 import { Register } from "./components/register/Register";
 import { EditPage } from "./components/Edit/EditPage";
-import { PrivateRoute } from "./components/privateRoute/PrivateRoute";
 import { Search } from "./components/search/Search";
+import { PrivateRoute } from "./components/privateRoute/PrivateRoute";
 export default function App() {
   return (
     <>
