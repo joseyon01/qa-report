@@ -129,8 +129,6 @@ export const OperationalInspection = (props) => {
         voltage: OPERATIONAL_D_II,
         amps: OPERATIONAL_H_IV,
         powerOutput: OPERATIONAL_H_VI,
-        sageFrimware: "--",
-        phoniexFrimware: "--",
         notes: OPERATIONAL_NOTE,
         actionTaken: "--",
       },
@@ -685,6 +683,8 @@ export const OperationalInspection = (props) => {
           </Radio.Group>
         </Col>
       </Row>
+      <br />
+
       <Row>
         <Col xs={23}>
           <Row justify="center">
@@ -711,6 +711,7 @@ export const OperationalInspection = (props) => {
                 Slowly closing the Door, the order of the indicators are
               </Text>
             </Col>
+
             <Col xs={22}>
               <Form.Item
                 name={OPERATIONAL_CLOSING}

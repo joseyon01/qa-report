@@ -11,7 +11,7 @@ const firebaseConfig = {
   appId: "1:701271521705:web:e07ca5d4e6e3b8b810acb8",
 };
 
-const QaReportFirebase = initializeApp(firebaseConfig);
-const storage = getStorage(QaReportFirebase);
-const messaging = getMessaging(QaReportFirebase);
-export default QaReportFirebase;
+const firebaseApp = initializeApp(firebaseConfig);
+const storage = getStorage(firebaseApp);
+const messaging = getMessaging(firebaseApp);
+export default firebaseApp;

@@ -144,8 +144,6 @@ export const OperationalInspection = (props) => {
         voltage: OPERATIONAL_D_II,
         amps: OPERATIONAL_H_IV,
         powerOutput: OPERATIONAL_H_VI,
-        sageFrimware: "--",
-        phoniexFrimware: "--",
         notes: OPERATIONAL_NOTE,
         actionTaken: "--",
       },

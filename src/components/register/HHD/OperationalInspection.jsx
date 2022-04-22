@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Form,
   Input,
@@ -90,6 +90,11 @@ export const OperationalInspection = (props) => {
   const [uploading, setUploading] = useState("");
   const [imageLoading, setImageLoading] = useState(false);
   const [count, setCount] = useState(0);
+  const [problems, setProblems] = useState({
+    MECHANICAL: false,
+    ELECTRICAL: false,
+    TEMPERATURE: false,
+  });
   const navigate = useNavigate();
   const handleOk = () => {
     setModalVisible(false);
@@ -214,7 +219,10 @@ export const OperationalInspection = (props) => {
     OPERATIONAL_O,
     OPERATIONAL_P,
     OPERATIONAL_NOTE,
-    OPERATIONAL_PON
+    OPERATIONAL_PON,
+    MECHANICAL,
+    ELECTRICAL,
+    TEMPERATURE
   ) {
     setButtonDisabled(true);
     setLoading(true);
@@ -243,13 +251,16 @@ export const OperationalInspection = (props) => {
       OPERATIONAL_P: OPERATIONAL_P,
       OPERATIONAL_NOTE: OPERATIONAL_NOTE,
       OPERATIONAL_PON: OPERATIONAL_PON,
+      MECHANICAL: MECHANICAL,
+      ELECTRICAL: ELECTRICAL,
+      TEMPERATURE: TEMPERATURE,
     });
     await setDoc(
       doc(db, "Excel", `${props.serial}`),
       {
         voltage: OPERATIONAL_A_II,
-        amps: "--",
-        powerOutput: "--",
+        ampsA: OPERATIONAL_L_I,
+        ampsB: OPERATIONAL_L_II,
         sageFrimware: OPERATIONAL_A_I_I,
         phoniexFrimware: OPERATIONAL_A_I_II,
         notes: OPERATIONAL_NOTE,
@@ -427,12 +438,14 @@ export const OperationalInspection = (props) => {
         OPERATIONAL_O,
         OPERATIONAL_P,
         OPERATIONAL_NOTE,
-        OPERATIONAL_PON
+        OPERATIONAL_PON,
+        problems.MECHANICAL,
+        problems.ELECTRICAL,
+        problems.TEMPERATURE
       );
       showModal();
     }
   }
-
   return (
     <Form
       labelCol={{ span: 7 }}
@@ -909,7 +922,11 @@ export const OperationalInspection = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      {!valuePON ? <ProblemSelection /> : ""}
+      {valuePON == false ? (
+        <ProblemSelection problems={problems} setProblems={setProblems} />
+      ) : (
+        ""
+      )}
       <br />
       <Row justify="center">
         <Col xs={20} sm={18}>

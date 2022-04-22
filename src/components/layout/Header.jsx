@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Layout, Typography, Button, Row, Col } from "antd";
-import QaReportFirebase from "../../../Credentials";
+import firebaseApp from "../../../Credentials";
 import { AiFillHome } from "react-icons/ai";
 import { PoweroffOutlined } from "@ant-design/icons";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { Link } from "react-router-dom";
-const auth = getAuth(QaReportFirebase);
+const auth = getAuth(firebaseApp);
 const { Title } = Typography;
 const { Header: ANTDHeader } = Layout;
 

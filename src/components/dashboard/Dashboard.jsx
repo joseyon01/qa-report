@@ -17,6 +17,7 @@ import {
   FilePdfOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
+import firebaseApp from "../../../Credentials";
 import { Header } from "../layout/Header";
 import { Container } from "../layout/Container";
 import { useNavigate, Link } from "react-router-dom";
@@ -36,9 +37,9 @@ import { HHDPdf } from "../pdf/HHDPdf";
 import { ENCPdf } from "../pdf/ENCPdf";
 import { ECONewPdf } from "../pdf/ECONewPdf";
 import { ECOSTPdf } from "../pdf/ECOSTPdf";
-const storage = getStorage();
+const storage = getStorage(firebaseApp);
 const { Content, Footer } = Layout;
-const db = getFirestore();
+const db = getFirestore(firebaseApp);
 
 export const Dashboard = () => {
   const [arrayOvens, setArrayOvens] = useState(null);
@@ -215,7 +216,7 @@ export const Dashboard = () => {
               setLoading(false);
             }}
           >
-            <a>{loading ? "" : <AiFillDelete />}</a>
+            <a>{loading ? "" : <AiFillDelete style={{ color: "red" }} />}</a>
           </Button>
           <Button
             style={{ borderRadius: "6px" }}
@@ -224,25 +225,29 @@ export const Dashboard = () => {
             }}
           >
             <a>
-              <AiFillEdit />
+              <AiFillEdit style={{ color: "green" }} />
             </a>
           </Button>
-          <Button
-            style={{ borderRadius: "6px" }}
-            onClick={async () => {
-              setIsModalVisible(true);
-              showModal(record.oven, record.serial);
-              setOvenType({
-                ...ovenType,
-                serial: record.serial,
-                type: record.oven,
-              });
-            }}
-          >
-            <a>
-              <FilePdfOutlined />
-            </a>
-          </Button>
+          {record.status == "In Progress" ? (
+            ""
+          ) : (
+            <Button
+              style={{ borderRadius: "6px" }}
+              onClick={async () => {
+                setIsModalVisible(true);
+                showModal(record.oven, record.serial);
+                setOvenType({
+                  ...ovenType,
+                  serial: record.serial,
+                  type: record.oven,
+                });
+              }}
+            >
+              <a>
+                <FilePdfOutlined />
+              </a>
+            </Button>
+          )}
           <Modal
             title={ovenType.type + ovenType.serial + ".pdf"}
             visible={isModalVisible}

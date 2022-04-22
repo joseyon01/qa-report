@@ -16,24 +16,22 @@ const { TabPane } = Tabs;
 import Logo from "../../../assets/img/turboChefLogo.png";
 import {
   getAuth,
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
   setPersistence,
   browserLocalPersistence,
 } from "firebase/auth";
+import firebaseApp from "../../../../Credentials";
+
 import {
   getFirestore,
-  doc,
   getDocs,
-  getDoc,
   collection,
   query,
   where,
-  deleteDoc,
 } from "firebase/firestore";
-const auth = getAuth();
-const db = getFirestore();
+const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -68,14 +66,12 @@ export const Login = () => {
     if (fireBaseUser) {
       const uid = fireBaseUser.uid;
       return uid;
-      // ...
     }
   });
 
   async function onLogin(values) {
     const UserRef = collection(db, "User");
 
-    // Create a query against the collection.
     const q = query(UserRef, where("UserName", "==", `${values.userName}`));
     const querySnapshot = await getDocs(q);
     if (querySnapshot.docs[0] != undefined) {
@@ -102,7 +98,7 @@ export const Login = () => {
     showModal();
   };
 
-  async function onRegister(values) {
+  /* async function onRegister(values) {
     const email = values.email;
     const password = values.password;
     Tabs.key = 1;
@@ -112,7 +108,7 @@ export const Login = () => {
   }
   const onRegisterFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
-  };
+  }; */
 
   return (
     <Tabs defaultActiveKey="1" style={{ paddingLeft: "1em", width: "100%" }}>

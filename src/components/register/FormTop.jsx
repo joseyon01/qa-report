@@ -40,12 +40,13 @@ export const FormTop = (props) => {
     navigate(`/dashboard`);
   };
 
-  async function onClickF(serial, date, status, name, oven, userId) {
+  async function onClickF(serial, date, timeStamp, status, name, oven, userId) {
     setLoading(true);
 
     await setDoc(doc(db, "oven", `${serial}`), {
       serial: serial,
       date: date,
+      timeStamp: timeStamp,
       status: status,
       name: name,
       oven: oven,
@@ -56,12 +57,13 @@ export const FormTop = (props) => {
     await setDoc(doc(db, "Excel", `${serial}`), {
       oven: oven,
       serial: serial,
+      timeStamp: timeStamp,
       date: date,
       status: status,
       name: name,
     });
     const docRef = doc(db, "oven", `${serial}`);
-    const docSnap = await getDoc(docRef).catch((error) => {});
+    await getDoc(docRef).catch((error) => {});
 
     setButtonDisabled(true);
     message.success("You May Start with the Inspection");
@@ -77,10 +79,12 @@ export const FormTop = (props) => {
     const userUID = globalUser.uid;
     const serialNumber = values.SERIAL;
     const date = values.DATE.format("MM/DD/YY");
+    const time = new Date(values.DATE);
+    const timeStamp = time.getTime();
     const name = values.NAME;
     const oven = values.OVEN;
     const key = values.SERIAL;
-    const status = "Rejected";
+    const status = "In Progress";
 
     const docRefOven = doc(db, "oven", `${serialNumber}`);
     const docSnapOven = await getDoc(docRefOven).catch((error) => {});
@@ -90,7 +94,7 @@ export const FormTop = (props) => {
     } else if (serialNumber == undefined || oven == undefined) {
       message.error("all fields are required");
     } else {
-      onClickF(serialNumber, date, status, name, oven, userUID, key);
+      onClickF(serialNumber, date, timeStamp, status, name, oven, userUID, key);
     }
   }
 

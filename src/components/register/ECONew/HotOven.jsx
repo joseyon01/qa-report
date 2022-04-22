@@ -48,6 +48,11 @@ export const HotOven = (props) => {
   const [uploading, setUploading] = useState("");
   const [imageLoading, setImageLoading] = useState(false);
   const [count, setCount] = useState(0);
+  const [problems, setProblems] = useState({
+    MECHANICAL: false,
+    ELECTRICAL: false,
+    TEMPERATURE: false,
+  });
   const navigate = useNavigate();
   const handleOk = () => {
     setModalVisible(false);
@@ -72,7 +77,10 @@ export const HotOven = (props) => {
     HOT_OVEN_C,
     HOT_OVEN_D,
     HOT_OVEN_E,
-    OVEN_APROVE_OR_NOT
+    OVEN_APROVE_OR_NOT,
+    MECHANICAL,
+    ELECTRICAL,
+    TEMPERATURE
   ) {
     setButtonDisabled(true);
     setLoading(true);
@@ -88,6 +96,9 @@ export const HotOven = (props) => {
       HOT_OVEN_D: HOT_OVEN_D,
       HOT_OVEN_E: HOT_OVEN_E,
       OVEN_APROVE_OR_NOT: OVEN_APROVE_OR_NOT,
+      MECHANICAL: MECHANICAL,
+      ELECTRICAL: ELECTRICAL,
+      TEMPERATURE: TEMPERATURE,
     });
     setLoading(false);
   }
@@ -164,7 +175,10 @@ export const HotOven = (props) => {
         HOT_OVEN_C,
         HOT_OVEN_D,
         HOT_OVEN_E,
-        OVEN_APROVE_OR_NOT
+        OVEN_APROVE_OR_NOT,
+        problems.MECHANICAL,
+        problems.ELECTRICAL,
+        problems.TEMPERATURE
       );
       showModal();
     }
@@ -443,7 +457,11 @@ export const HotOven = (props) => {
           </Form.Item>
         </Col>
       </Row>
-      {!valueAON ? <ProblemSelection /> : ""}
+      {valueAON == false ? (
+        <ProblemSelection problems={problems} setProblems={setProblems} />
+      ) : (
+        ""
+      )}
       <br />
       <Row justify="center">
         <Col xs={20} sm={18}>
