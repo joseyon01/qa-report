@@ -49,9 +49,17 @@ export const HotOven = (props) => {
   const [imageLoading, setImageLoading] = useState(false);
   const [count, setCount] = useState(0);
   const [problems, setProblems] = useState({
-    MECHANICAL: false,
-    ELECTRICAL: false,
-    TEMPERATURE: false,
+    COSMETICS: false,
+    ELECTRICALCOMPONENTS: false,
+    BLOWERSYSTEM: false,
+    HEATINGANDTEMPERATURESYSTEM: false,
+    WIRING: false,
+    LOOSEOREXTRAPARTS: false,
+    INCORRECTSOFTWAREUPLOADED: false,
+    INCORRECTMENUUPLOADED: false,
+    MICROWAVCIRCUIT: false,
+    COOCKINGCOMPONENTS: false,
+    DOORSYSTEM: false,
   });
   const navigate = useNavigate();
   const handleOk = () => {
@@ -78,9 +86,17 @@ export const HotOven = (props) => {
     HOT_OVEN_D,
     HOT_OVEN_E,
     OVEN_APROVE_OR_NOT,
-    MECHANICAL,
-    ELECTRICAL,
-    TEMPERATURE
+    COSMETICS,
+    ELECTRICALCOMPONENTS,
+    BLOWERSYSTEM,
+    HEATINGANDTEMPERATURESYSTEM,
+    WIRING,
+    LOOSEOREXTRAPARTS,
+    INCORRECTSOFTWAREUPLOADED,
+    INCORRECTMENUUPLOADED,
+    MICROWAVCIRCUIT,
+    COOCKINGCOMPONENTS,
+    DOORSYSTEM
   ) {
     setButtonDisabled(true);
     setLoading(true);
@@ -98,9 +114,17 @@ export const HotOven = (props) => {
         HOT_OVEN_D: HOT_OVEN_D,
         HOT_OVEN_E: HOT_OVEN_E,
         OVEN_APROVE_OR_NOT: OVEN_APROVE_OR_NOT,
-        MECHANICAL: MECHANICAL,
-        ELECTRICAL: ELECTRICAL,
-        TEMPERATURE: TEMPERATURE,
+        COSMETICS: COSMETICS,
+        ELECTRICALCOMPONENTS: ELECTRICALCOMPONENTS,
+        BLOWERSYSTEM: BLOWERSYSTEM,
+        HEATINGANDTEMPERATURESYSTEM: HEATINGANDTEMPERATURESYSTEM,
+        WIRING: WIRING,
+        LOOSEOREXTRAPARTS: LOOSEOREXTRAPARTS,
+        INCORRECTSOFTWAREUPLOADED: INCORRECTSOFTWAREUPLOADED,
+        INCORRECTMENUUPLOADED: INCORRECTMENUUPLOADED,
+        MICROWAVCIRCUIT: MICROWAVCIRCUIT,
+        COOCKINGCOMPONENTS: COOCKINGCOMPONENTS,
+        DOORSYSTEM: DOORSYSTEM,
       }
     );
     setLoading(false);
@@ -179,9 +203,17 @@ export const HotOven = (props) => {
         HOT_OVEN_D,
         HOT_OVEN_E,
         OVEN_APROVE_OR_NOT,
-        problems.MECHANICAL,
-        problems.ELECTRICAL,
-        problems.TEMPERATURE
+        problems.COSMETICS,
+        problems.ELECTRICALCOMPONENTS,
+        problems.BLOWERSYSTEM,
+        problems.HEATINGANDTEMPERATURESYSTEM,
+        problems.WIRING,
+        problems.LOOSEOREXTRAPARTS,
+        problems.INCORRECTSOFTWAREUPLOADED,
+        problems.INCORRECTMENUUPLOADED,
+        problems.MICROWAVCIRCUIT,
+        problems.COOCKINGCOMPONENTS,
+        problems.DOORSYSTEM
       );
       showModal();
     }

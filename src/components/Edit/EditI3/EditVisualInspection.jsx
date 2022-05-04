@@ -27,7 +27,6 @@ export const EditVisualInspection = (props) => {
   const [valueC, setValueC] = useState(null);
   const [valueB, setValueB] = useState(null);
   const [valueA, setValueA] = useState(null);
-
   const showModal = () => setIsModalVisible(true);
   const handleOk = () => setIsModalVisible(false);
   const handleCancel = () => setIsModalVisible(false);

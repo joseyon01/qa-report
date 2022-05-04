@@ -14,6 +14,7 @@ import {
 } from "../../constants/ConstantHotOven";
 import { useNavigate } from "react-router-dom";
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { ProblemSelection } from "../problemSelection/ProblemSelection";
 const db = getFirestore();
 const { Text, Title } = Typography;
 
@@ -34,6 +35,20 @@ export const EditHotOven = (props) => {
   const [valueC, setValueC] = useState(null);
   const [valueD, setValueD] = useState(null);
   const [valueAON, setValueAON] = useState(null);
+  const [problemSelected, setProblemSelected] = useState([]);
+  const [problems, setProblems] = useState({
+    COSMETICS: false,
+    ELECTRICALCOMPONENTS: false,
+    BLOWERSYSTEM: false,
+    HEATINGANDTEMPERATURESYSTEM: false,
+    WIRING: false,
+    LOOSEOREXTRAPARTS: false,
+    INCORRECTSOFTWAREUPLOADED: false,
+    INCORRECTMENUUPLOADED: false,
+    MICROWAVCIRCUIT: false,
+    COOCKINGCOMPONENTS: false,
+    DOORSYSTEM: false,
+  });
   const [form] = Form.useForm();
 
   const onChangeRC = (e) => setValueOvenR(e.target.value);
@@ -70,7 +85,18 @@ export const EditHotOven = (props) => {
     HOT_OVEN_RECHECK,
     HOT_OVEN_C,
     HOT_OVEN_D,
-    OVEN_APROVE_OR_NOT
+    OVEN_APROVE_OR_NOT,
+    COSMETICS,
+    ELECTRICALCOMPONENTS,
+    BLOWERSYSTEM,
+    HEATINGANDTEMPERATURESYSTEM,
+    WIRING,
+    LOOSEOREXTRAPARTS,
+    INCORRECTSOFTWAREUPLOADED,
+    INCORRECTMENUUPLOADED,
+    MICROWAVCIRCUIT,
+    COOCKINGCOMPONENTS,
+    DOORSYSTEM
   ) {
     setButtonDisabled(true);
     setLoading(true);
@@ -87,6 +113,17 @@ export const EditHotOven = (props) => {
         HOT_OVEN_C: HOT_OVEN_C,
         HOT_OVEN_D: HOT_OVEN_D,
         OVEN_APROVE_OR_NOT: OVEN_APROVE_OR_NOT,
+        COSMETICS: COSMETICS,
+        ELECTRICALCOMPONENTS: ELECTRICALCOMPONENTS,
+        BLOWERSYSTEM: BLOWERSYSTEM,
+        HEATINGANDTEMPERATURESYSTEM: HEATINGANDTEMPERATURESYSTEM,
+        WIRING: WIRING,
+        LOOSEOREXTRAPARTS: LOOSEOREXTRAPARTS,
+        INCORRECTSOFTWAREUPLOADED: INCORRECTSOFTWAREUPLOADED,
+        INCORRECTMENUUPLOADED: INCORRECTMENUUPLOADED,
+        MICROWAVCIRCUIT: MICROWAVCIRCUIT,
+        COOCKINGCOMPONENTS: COOCKINGCOMPONENTS,
+        DOORSYSTEM: DOORSYSTEM,
       }
     );
     setLoading(false);
@@ -102,7 +139,6 @@ export const EditHotOven = (props) => {
     const HOT_OVEN_C = values.HOT_OVEN_C;
     const HOT_OVEN_D = values.HOT_OVEN_D;
     const OVEN_APROVE_OR_NOT = valueAON;
-    console.log(HOT_OVEN_RECHECK);
     if (HOT_OVEN_RECHECK == null || OVEN_APROVE_OR_NOT == null) {
       showModal();
     } else {
@@ -124,7 +160,18 @@ export const EditHotOven = (props) => {
         HOT_OVEN_RECHECK,
         HOT_OVEN_C,
         HOT_OVEN_D,
-        OVEN_APROVE_OR_NOT
+        OVEN_APROVE_OR_NOT,
+        problems.COSMETICS,
+        problems.ELECTRICALCOMPONENTS,
+        problems.BLOWERSYSTEM,
+        problems.HEATINGANDTEMPERATURESYSTEM,
+        problems.WIRING,
+        problems.LOOSEOREXTRAPARTS,
+        problems.INCORRECTSOFTWAREUPLOADED,
+        problems.INCORRECTMENUUPLOADED,
+        problems.MICROWAVCIRCUIT,
+        problems.COOCKINGCOMPONENTS,
+        problems.DOORSYSTEM
       );
       showModal2();
     }
@@ -144,6 +191,22 @@ export const EditHotOven = (props) => {
       setValueD(data?.HOT_OVEN_D);
       setValueOvenR(data?.HOT_OVEN_RECHECK);
       setValueAON(data?.OVEN_APROVE_OR_NOT);
+      problems.COSMETICS = data?.COSMETICS;
+      problems.ELECTRICALCOMPONENTS = data?.ELECTRICALCOMPONENTS;
+      problems.BLOWERSYSTEM = data?.BLOWERSYSTEM;
+      problems.HEATINGANDTEMPERATURESYSTEM = data?.HEATINGANDTEMPERATURESYSTEM;
+      problems.WIRING = data?.WIRING;
+      problems.LOOSEOREXTRAPARTS = data?.LOOSEOREXTRAPARTS;
+      problems.INCORRECTSOFTWAREUPLOADED = data?.INCORRECTSOFTWAREUPLOADED;
+      problems.INCORRECTMENUUPLOADED = data?.INCORRECTMENUUPLOADED;
+      problems.MICROWAVCIRCUIT = data?.MICROWAVCIRCUIT;
+      problems.COOCKINGCOMPONENTS = data?.COOCKINGCOMPONENTS;
+      problems.DOORSYSTEM = data?.DOORSYSTEM;
+      Object.entries(problems).forEach(([key, value]) => {
+        if (value == true) {
+          problemSelected.push(key);
+        }
+      });
     } catch (error) {
       console.error("error", error);
     }
@@ -394,6 +457,16 @@ export const EditHotOven = (props) => {
           </Form.Item>
         </Col>
       </Row>
+      {valueAON == false ? (
+        <ProblemSelection
+          problems={problems}
+          setProblems={setProblems}
+          problemSelected={problemSelected}
+        />
+      ) : (
+        ""
+      )}
+      <br />
       <Row justify="center">
         <Col xs={20} sm={18}>
           <Form.Item>

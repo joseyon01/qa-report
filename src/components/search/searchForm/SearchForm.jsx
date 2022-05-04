@@ -1,4 +1,13 @@
-import { Button, Checkbox, Col, Row, DatePicker, Form, Select } from "antd";
+import {
+  Button,
+  Checkbox,
+  Col,
+  Row,
+  DatePicker,
+  Form,
+  Select,
+  Typography,
+} from "antd";
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import {
@@ -8,12 +17,14 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import { SearchTable } from "../searchTable/SearchTable";
 const db = getFirestore();
 const { RangePicker } = DatePicker;
 const { Option } = Select;
-
+const { Text } = Typography;
 export const SearchForm = () => {
   const [range, setRange] = useState([]);
+  const [textrange, setTextRange] = useState([]);
   const [data, setData] = useState([]);
   const [newData, setNewData] = useState([]);
   const [disabled, setDisabled] = useState(true);
@@ -24,14 +35,20 @@ export const SearchForm = () => {
   const [oven, setOven] = useState(false);
   const [total, setTotal] = useState(false);
   let dayRange = [];
+  let textDayRange = [];
   let allOvens = [];
   let newOvenArr = [];
 
   function onChange(e) {
+    console.log(e);
     const day1 = new Date(e[0].format("MM/DD/YY")).getTime();
     const day2 = new Date(e[1].format("MM/DD/YY")).getTime();
+    const textDay1 = new Date(e[0].format("MM/DD/YY")).toLocaleDateString();
+    const textDay2 = new Date(e[1].format("MM/DD/YY")).toLocaleDateString();
     dayRange = [day1, day2 + 86400000];
+    textDayRange = [textDay1, textDay2];
     setRange(dayRange);
+    setTextRange(textDayRange);
     setData([]);
     setDisabled(false);
   }
@@ -72,6 +89,7 @@ export const SearchForm = () => {
       setOven(true);
       setTotal(false);
     } else if (value == "total") {
+      setNewData([]);
       setInspector(false);
       setStatus(false);
       setOven(false);
@@ -91,6 +109,7 @@ export const SearchForm = () => {
     setNewData(newOvenArr);
   }
   function totalChange(value) {
+    setNewData([]);
     let count = 0;
     data.map((e) => {
       count++;
@@ -107,6 +126,7 @@ export const SearchForm = () => {
           <Form.Item name="rangePicker">
             <RangePicker
               value={range}
+              format="MM/DD/YY"
               onChange={onChange}
               style={{ width: "100%" }}
             />
@@ -197,6 +217,21 @@ export const SearchForm = () => {
               </Select>
             ) : (
               ""
+            )}
+          </Col>
+
+          <Col xs={22}>
+            <br />
+            {newData.length == 0 ? (
+              ""
+            ) : total ? (
+              <Text>
+                The total of Ovens inspected from {textrange[0]} to{" "}
+                {textrange[1]} is{" "}
+                <strong style={{ fontSize: "1.25em" }}>{newData}</strong>
+              </Text>
+            ) : (
+              <SearchTable data={newData} />
             )}
           </Col>
         </Row>

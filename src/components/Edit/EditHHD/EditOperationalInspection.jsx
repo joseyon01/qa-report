@@ -17,7 +17,8 @@ const db = getFirestore();
 const { Text, Title } = Typography;
 const { TextArea } = Input;
 import {
-  OPERATIONAL_A_I,
+  OPERATIONAL_A_I_I,
+  OPERATIONAL_A_I_II,
   OPERATIONAL_A_II,
   OPERATIONAL_A_III,
   OPERATIONAL_B_I,
@@ -41,6 +42,7 @@ import {
   OPERATIONAL_NOTE,
   OPERATIONAL_PON,
 } from "../../constants/ConstOperational";
+import { ProblemSelection } from "../problemSelection/ProblemSelection";
 
 export const EditOperationalInspection = (props) => {
   const ovenSerial = props.serial;
@@ -49,7 +51,8 @@ export const EditOperationalInspection = (props) => {
   const [loading, setLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [valueA_I, setValueA_I] = useState(null);
+  const [valueA_I_I, setValueA_I_I] = useState(null);
+  const [valueA_I_II, setValueA_I_II] = useState(null);
   const [valueA_II, setValueA_II] = useState(null);
   const [valueA_III, setValueA_III] = useState(null);
   const [valueB_I, setValueB_I] = useState(null);
@@ -72,12 +75,26 @@ export const EditOperationalInspection = (props) => {
   const [valueP, setValueP] = useState(null);
   const [valueNOTE, setValueNOTE] = useState(null);
   const [valuePON, setValuePON] = useState(null);
-
+  const [problemSelected, setProblemSelected] = useState([]);
+  const [problems, setProblems] = useState({
+    COSMETICS: false,
+    ELECTRICALCOMPONENTS: false,
+    BLOWERSYSTEM: false,
+    HEATINGANDTEMPERATURESYSTEM: false,
+    WIRING: false,
+    LOOSEOREXTRAPARTS: false,
+    INCORRECTSOFTWAREUPLOADED: false,
+    INCORRECTMENUUPLOADED: false,
+    MICROWAVCIRCUIT: false,
+    COOCKINGCOMPONENTS: false,
+    DOORSYSTEM: false,
+  });
   const showModal = () => setIsModalVisible(true);
   const handleOk = () => setIsModalVisible(false);
   const handleCancel = () => setIsModalVisible(false);
   const showModal2 = () => setModalVisible(true);
-  const onChangeA_I = (e) => setValueA_I(e.target.value);
+  const onChangeA_I_I = (e) => setValueA_I_I(e.target.value);
+  const onChangeA_I_II = (e) => setValueA_I_II(e.target.value);
   const onChangeA_II = (e) => setValueA_II(e.target.value);
   const onChangeA_III = (e) => setValueA_III(e.target.value);
   const onChangeB_I = (e) => setValueB_I(e.target.value);
@@ -111,7 +128,8 @@ export const EditOperationalInspection = (props) => {
   };
 
   async function onClickF(
-    OPERATIONAL_A_I,
+    OPERATIONAL_A_I_I,
+    OPERATIONAL_A_I_II,
     OPERATIONAL_A_II,
     OPERATIONAL_A_III,
     OPERATIONAL_B_I,
@@ -133,14 +151,26 @@ export const EditOperationalInspection = (props) => {
     OPERATIONAL_O,
     OPERATIONAL_P,
     OPERATIONAL_NOTE,
-    OPERATIONAL_PON
+    OPERATIONAL_PON,
+    COSMETICS,
+    ELECTRICALCOMPONENTS,
+    BLOWERSYSTEM,
+    HEATINGANDTEMPERATURESYSTEM,
+    WIRING,
+    LOOSEOREXTRAPARTS,
+    INCORRECTSOFTWAREUPLOADED,
+    INCORRECTMENUUPLOADED,
+    MICROWAVCIRCUIT,
+    COOCKINGCOMPONENTS,
+    DOORSYSTEM
   ) {
     setButtonDisabled(true);
     setLoading(true);
     const docRef = await setDoc(
       doc(db, "OperationalInspection", `${props.serial}`),
       {
-        OPERATIONAL_A_I: OPERATIONAL_A_I,
+        OPERATIONAL_A_I_I: OPERATIONAL_A_I_I,
+        OPERATIONAL_A_I_II: OPERATIONAL_A_I_II,
         OPERATIONAL_A_II: OPERATIONAL_A_II,
         OPERATIONAL_A_III: OPERATIONAL_A_III,
         OPERATIONAL_B_I: OPERATIONAL_B_I,
@@ -163,7 +193,31 @@ export const EditOperationalInspection = (props) => {
         OPERATIONAL_P: OPERATIONAL_P,
         OPERATIONAL_NOTE: OPERATIONAL_NOTE,
         OPERATIONAL_PON: OPERATIONAL_PON,
+        COSMETICS: COSMETICS,
+        ELECTRICALCOMPONENTS: ELECTRICALCOMPONENTS,
+        BLOWERSYSTEM: BLOWERSYSTEM,
+        HEATINGANDTEMPERATURESYSTEM: HEATINGANDTEMPERATURESYSTEM,
+        WIRING: WIRING,
+        LOOSEOREXTRAPARTS: LOOSEOREXTRAPARTS,
+        INCORRECTSOFTWAREUPLOADED: INCORRECTSOFTWAREUPLOADED,
+        INCORRECTMENUUPLOADED: INCORRECTMENUUPLOADED,
+        MICROWAVCIRCUIT: MICROWAVCIRCUIT,
+        COOCKINGCOMPONENTS: COOCKINGCOMPONENTS,
+        DOORSYSTEM: DOORSYSTEM,
       }
+    );
+    await setDoc(
+      doc(db, "Excel", `${props.serial}`),
+      {
+        voltage: OPERATIONAL_A_II,
+        ampsA: OPERATIONAL_L_I,
+        ampsB: OPERATIONAL_L_II,
+        sageFrimware: OPERATIONAL_A_I_I,
+        phoniexFrimware: OPERATIONAL_A_I_II,
+        notes: OPERATIONAL_NOTE,
+        actionTaken: "--",
+      },
+      { merge: true }
     );
     setLoading(false);
   }
@@ -172,8 +226,9 @@ export const EditOperationalInspection = (props) => {
       const docRef = doc(db, "OperationalInspection", `${ovenSerial}`);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
-      if (valueA_I == null) {
-        setValueA_I(data?.OPERATIONAL_A_I);
+      if (valueA_I_I == null) {
+        setValueA_I_I(data?.OPERATIONAL_A_I_I);
+        setValueA_I_II(data?.OPERATIONAL_A_I_II);
         setValueA_II(data?.OPERATIONAL_A_II);
         setValueA_III(data?.OPERATIONAL_A_III);
         setValueB_I(data?.OPERATIONAL_B_I);
@@ -196,6 +251,23 @@ export const EditOperationalInspection = (props) => {
         setValueP(data?.OPERATIONAL_P);
         setValueNOTE(data?.OPERATIONAL_NOTE);
         setValuePON(data?.OPERATIONAL_PON);
+        problems.COSMETICS = data?.COSMETICS;
+        problems.ELECTRICALCOMPONENTS = data?.ELECTRICALCOMPONENTS;
+        problems.BLOWERSYSTEM = data?.BLOWERSYSTEM;
+        problems.HEATINGANDTEMPERATURESYSTEM =
+          data?.HEATINGANDTEMPERATURESYSTEM;
+        problems.WIRING = data?.WIRING;
+        problems.LOOSEOREXTRAPARTS = data?.LOOSEOREXTRAPARTS;
+        problems.INCORRECTSOFTWAREUPLOADED = data?.INCORRECTSOFTWAREUPLOADED;
+        problems.INCORRECTMENUUPLOADED = data?.INCORRECTMENUUPLOADED;
+        problems.MICROWAVCIRCUIT = data?.MICROWAVCIRCUIT;
+        problems.COOCKINGCOMPONENTS = data?.COOCKINGCOMPONENTS;
+        problems.DOORSYSTEM = data?.DOORSYSTEM;
+        Object.entries(problems).forEach(([key, value]) => {
+          if (value == true) {
+            problemSelected.push(key);
+          }
+        });
       }
     } catch (error) {
       console.error("error", error);
@@ -206,7 +278,8 @@ export const EditOperationalInspection = (props) => {
   }, []);
 
   function addOperational(values) {
-    const OPERATIONAL_A_I = values.OPERATIONAL_A_I;
+    const OPERATIONAL_A_I_I = values.OPERATIONAL_A_I_I;
+    const OPERATIONAL_A_I_II = values.OPERATIONAL_A_I_II;
     const OPERATIONAL_A_II = values.OPERATIONAL_A_II;
     const OPERATIONAL_A_III = values.OPERATIONAL_A_III;
     const OPERATIONAL_B_I = values.OPERATIONAL_B_I;
@@ -265,7 +338,8 @@ export const EditOperationalInspection = (props) => {
         setDoc(ovenRef, { status: "Rejected" }, { merge: true });
       }
       onClickF(
-        OPERATIONAL_A_I,
+        OPERATIONAL_A_I_I,
+        OPERATIONAL_A_I_II,
         OPERATIONAL_A_II,
         OPERATIONAL_A_III,
         OPERATIONAL_B_I,
@@ -287,13 +361,25 @@ export const EditOperationalInspection = (props) => {
         OPERATIONAL_O,
         OPERATIONAL_P,
         OPERATIONAL_NOTE,
-        OPERATIONAL_PON
+        OPERATIONAL_PON,
+        problems.COSMETICS,
+        problems.ELECTRICALCOMPONENTS,
+        problems.BLOWERSYSTEM,
+        problems.HEATINGANDTEMPERATURESYSTEM,
+        problems.WIRING,
+        problems.LOOSEOREXTRAPARTS,
+        problems.INCORRECTSOFTWAREUPLOADED,
+        problems.INCORRECTMENUUPLOADED,
+        problems.MICROWAVCIRCUIT,
+        problems.COOCKINGCOMPONENTS,
+        problems.DOORSYSTEM
       );
       showModal2();
     }
   }
   form.setFieldsValue({
-    OPERATIONAL_A_I: valueA_I,
+    OPERATIONAL_A_I_I: valueA_I_I,
+    OPERATIONAL_A_I_II: valueA_I_II,
     OPERATIONAL_A_II: valueA_II,
     OPERATIONAL_A_III: valueA_III,
     OPERATIONAL_B_I: valueB_I,
@@ -335,16 +421,43 @@ export const EditOperationalInspection = (props) => {
                 </Col>
                 <Col xs={23}>
                   <Form.Item
-                    name={OPERATIONAL_A_I}
-                    onChange={onChangeA_I}
-                    value={valueA_I}
+                    name={OPERATIONAL_A_I_I}
+                    onChange={onChangeA_I_I}
+                    value={valueA_I_I}
+                    label="sage"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
                   >
                     <Input
-                      placeholder="Version"
+                      placeholder="sage"
                       style={{ width: 150 }}
                       size="small"
                       type="number"
-                      required
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={23}>
+                  <Form.Item
+                    name={OPERATIONAL_A_I_II}
+                    onChange={onChangeA_I_II}
+                    value={valueA_I_II}
+                    label="Phoniex/HLUI"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
+                  >
+                    <Input
+                      placeholder="Phoniex/HLUI"
+                      style={{ width: 150 }}
+                      size="small"
+                      type="number"
                     />
                   </Form.Item>
                 </Col>
@@ -730,6 +843,15 @@ export const EditOperationalInspection = (props) => {
           </Form.Item>
         </Col>
       </Row>
+      {valuePON == false ? (
+        <ProblemSelection
+          problems={problems}
+          setProblems={setProblems}
+          problemSelected={problemSelected}
+        />
+      ) : (
+        ""
+      )}
       <br />
       <Row justify="center">
         <Col xs={20} sm={18}>

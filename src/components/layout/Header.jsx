@@ -24,7 +24,7 @@ export const Header = (props) => {
         loading={loading}
         danger
         type="primary"
-        style={{}}
+        style={{ height: "80%", width: "100%" }}
         onClick={() => {
           setLoading(true);
           signOut(auth);
@@ -35,7 +35,6 @@ export const Header = (props) => {
           style={{
             display: "flex",
             justifyContent: "center",
-            alignItems: "center",
           }}
           to="/login"
         >
@@ -69,8 +68,11 @@ export const Header = (props) => {
                   <LogOutButton />
                 )
               ) : (
-                <Button>
-                  <Link to="/">
+                <Button style={{ height: "80%", width: "100%" }}>
+                  <Link
+                    to="/"
+                    style={{ display: "flex", justifyContent: "center" }}
+                  >
                     <AiFillHome />
                   </Link>
                 </Button>

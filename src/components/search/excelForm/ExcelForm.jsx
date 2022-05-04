@@ -55,22 +55,14 @@ export const ExcelForm = (props) => {
     { label: "Serial", key: "serial" },
     { label: "Date", key: "date" },
     { label: "Name", key: "name" },
-    { label: "Voltage Selection", key: "voltage" },
-    { label: "current verification value (AMPS)", key: "amps" },
-    { label: "MW Power Output Result", key: "powerOutput" },
-    { label: "Notes", key: "notes" },
-    { label: "Action Taken", key: "actionTaken" },
-  ];
-  const HHDheaders = [
-    { label: "Oven", key: "oven" },
-    { label: "Serial", key: "serial" },
-    { label: "Date", key: "date" },
-    { label: "Name", key: "name" },
-    { label: "Voltage Selection", key: "voltage" },
+    { label: "Software version", key: "softwareVersion" },
     { label: "Sage Frimware", key: "sageFrimware" },
     { label: "Phoniex/HLUI Frimwae", key: "phoniexFrimware" },
+    { label: "Voltage Selection", key: "voltage" },
+    { label: "current verification value (AMPS)", key: "amps" },
     { label: "current verification value A(AMPS)", key: "ampsA" },
     { label: "current verification value B(AMPS)", key: "ampsB" },
+    { label: "MW Power Output Result", key: "powerOutput" },
     { label: "Notes", key: "notes" },
     { label: "Action Taken", key: "actionTaken" },
   ];
@@ -81,8 +73,8 @@ export const ExcelForm = (props) => {
     dayRange = [day1, day2 + 86400000];
     setRange(dayRange);
     setDateRange([
-      moment(e[0].format("MM/DD/YY"))._i,
-      moment(e[1].format("MM/DD/YY"))._i,
+      new Date(e[0]).toLocaleDateString(),
+      new Date(e[1]).toLocaleDateString(),
     ]);
     setData([]);
     setDataHHD([]);
@@ -101,17 +93,11 @@ export const ExcelForm = (props) => {
     );
     const querySnapshot = await getDocs(q);
     querySnapshot?.forEach((doc) => {
-      if (doc.data().oven != "HHD") {
-        _data.push(doc.data());
-        setData(_data);
-        setButtonDisabled(false);
-      } else {
-        _dataHHD.push(doc.data());
-        setDataHHD(_dataHHD);
-        setHHDButtonDisabled(false);
-      }
+      _data.push(doc?.data());
+      setData(_data);
+      setButtonDisabled(false);
     });
-    if (_data.length == 0 && _dataHHD.length == 0) {
+    if (_data.length == 0) {
       setNoData(true);
     } else {
       setNoData(false);
@@ -127,6 +113,7 @@ export const ExcelForm = (props) => {
         <Col xs={22} md={10}>
           <Form.Item name="rangePicker">
             <RangePicker
+              format="MM/DD/YY"
               value={range}
               onChange={onChange}
               style={{ width: "100%" }}
@@ -166,29 +153,9 @@ export const ExcelForm = (props) => {
                     disabled={buttonDisabled}
                     filename={`QA-Report-${dateRange[0]}-${dateRange[1]}.csv`}
                   >
-                    I1-I3-ENC-ECOST-ECONew-CSV
+                    Get CSV
                     <FileExcelOutlined />
                     <br />
-                  </CSVLink>
-                ) : (
-                  ""
-                )}
-
-                {!HHDbuttonDisabled ? (
-                  <CSVLink
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                    headers={HHDheaders}
-                    data={dataHHD}
-                    disabled={HHDbuttonDisabled}
-                    filename={`QA-Report-HHD-${dateRange[0]}-${dateRange[1]}.csv`}
-                  >
-                    {" "}
-                    HHD-CSV
-                    <FileExcelOutlined />
                   </CSVLink>
                 ) : (
                   ""

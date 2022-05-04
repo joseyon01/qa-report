@@ -138,6 +138,7 @@ export const OperationalInspection = (props) => {
     await setDoc(
       doc(db, "Excel", `${props.serial}`),
       {
+        softwareVersion: OPERATIONAL_C_I,
         voltage: OPERATIONAL_C_II,
         amps: OPERATIONAL_G_IV,
         powerOutput: OPERATIONAL_G_VI,

@@ -135,6 +135,18 @@ export const EditOperationalInspection = (props) => {
         OPERATIONAL_CLOSING: OPERATIONAL_CLOSING,
       }
     );
+    await setDoc(
+      doc(db, "Excel", `${props.serial}`),
+      {
+        softwareVersion: OPERATIONAL_D_I,
+        voltage: OPERATIONAL_D_II,
+        amps: OPERATIONAL_H_IV,
+        powerOutput: OPERATIONAL_H_VI,
+        notes: OPERATIONAL_NOTE,
+        actionTaken: "--",
+      },
+      { merge: true }
+    );
     setLoading(false);
   }
 

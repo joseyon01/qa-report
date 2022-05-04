@@ -18,3 +18,13 @@
   justify-content: center;
   align-items: center;
 }
+.table-row-light {
+  background-color: rgb(243, 243, 243);
+}
+.table-row-dark {
+  background-color: rgb(255, 255, 255);
+}
+.center {
+  display: flex;
+  justify-content: center;
+}

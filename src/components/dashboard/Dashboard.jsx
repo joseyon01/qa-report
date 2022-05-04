@@ -12,6 +12,7 @@ import {
   Modal,
 } from "antd";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import moment from "moment";
 import {
   SearchOutlined,
   FilePdfOutlined,
@@ -98,6 +99,7 @@ export const Dashboard = () => {
       title: "Serial Number",
       dataIndex: "serial",
       key: "serial",
+
       render: (text) => <a>{text}</a>,
       filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => {
         return (
@@ -134,7 +136,7 @@ export const Dashboard = () => {
           <DatePicker
             selected={selectedKeys[0]}
             onChange={(e, a) => {
-              setSelectedKeys(a ? [a] : []);
+              setSelectedKeys(e ? [e.format("MM/DD/YY")] : []);
             }}
             autoFocus
             onBlur={() => {
@@ -164,12 +166,20 @@ export const Dashboard = () => {
           text: "Rejected",
           value: "Rejected",
         },
+        {
+          text: "In Progress",
+          value: "In Progress",
+        },
       ],
+      filterIcon: () => {
+        return <SearchOutlined />;
+      },
       onFilter: (value, record) => record.status.indexOf(value) === 0,
     },
     {
       title: "Actions",
       key: "actions",
+      align: "center",
       render: (text, record) => (
         <Space
           size="middle"
@@ -300,7 +310,10 @@ export const Dashboard = () => {
             <Table
               columns={columns}
               dataSource={arrayOvens}
-              pagination={{ pageSize: 5 }}
+              pagination={{ pageSize: 6 }}
+              rowClassName={(record, index) =>
+                index % 2 === 0 ? "table-row-light" : "table-row-dark"
+              }
             />{" "}
             <Row justify="end">
               <Col xs={3} md={2} xl={1}>
