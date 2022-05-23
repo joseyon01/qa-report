@@ -125,6 +125,7 @@ export const SearchForm = () => {
         <Col xs={22} md={10}>
           <Form.Item name="rangePicker">
             <RangePicker
+              size="large"
               value={range}
               format="MM/DD/YY"
               onChange={onChange}
@@ -134,21 +135,23 @@ export const SearchForm = () => {
         </Col>
         <Col xs={22} md={10}>
           <Button
+            size="large"
             disabled={disabled}
             loading={loading}
             onClick={onDateSelected}
             type="primary"
             block={true}
-            size="middle"
           >
             Search
           </Button>
         </Col>
       </Row>
+
       {search ? (
         <Row justify="space-around">
           <Col xs={22} md={10}>
             <Select
+              size="large"
               style={{ width: "100%" }}
               onChange={searchChange}
               placeholder="Search Options"
@@ -163,6 +166,7 @@ export const SearchForm = () => {
           <Col xs={22} md={10}>
             {inspector ? (
               <Select
+                size="large"
                 style={{ width: " 100% " }}
                 onChange={inspectorChange}
                 placeholder="Select Inspector"
@@ -180,6 +184,7 @@ export const SearchForm = () => {
             )}
             {status ? (
               <Select
+                size="large"
                 style={{ width: " 100% " }}
                 onChange={statusChange}
                 placeholder="Select Status"
@@ -193,6 +198,7 @@ export const SearchForm = () => {
             )}
             {oven ? (
               <Select
+                size="large"
                 style={{ width: " 100% " }}
                 onChange={ovenChange}
                 placeholder="Select Oven Type"
@@ -209,6 +215,7 @@ export const SearchForm = () => {
             )}
             {total ? (
               <Select
+                size="large"
                 style={{ width: " 100% " }}
                 onChange={totalChange}
                 placeholder="Total of Ovens"
@@ -225,7 +232,7 @@ export const SearchForm = () => {
             {newData.length == 0 ? (
               ""
             ) : total ? (
-              <Text>
+              <Text size="large">
                 The total of Ovens inspected from {textrange[0]} to{" "}
                 {textrange[1]} is{" "}
                 <strong style={{ fontSize: "1.25em" }}>{newData}</strong>

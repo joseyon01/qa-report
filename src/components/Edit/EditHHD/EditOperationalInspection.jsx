@@ -251,18 +251,32 @@ export const EditOperationalInspection = (props) => {
         setValueP(data?.OPERATIONAL_P);
         setValueNOTE(data?.OPERATIONAL_NOTE);
         setValuePON(data?.OPERATIONAL_PON);
-        problems.COSMETICS = data?.COSMETICS;
-        problems.ELECTRICALCOMPONENTS = data?.ELECTRICALCOMPONENTS;
-        problems.BLOWERSYSTEM = data?.BLOWERSYSTEM;
-        problems.HEATINGANDTEMPERATURESYSTEM =
-          data?.HEATINGANDTEMPERATURESYSTEM;
-        problems.WIRING = data?.WIRING;
-        problems.LOOSEOREXTRAPARTS = data?.LOOSEOREXTRAPARTS;
-        problems.INCORRECTSOFTWAREUPLOADED = data?.INCORRECTSOFTWAREUPLOADED;
-        problems.INCORRECTMENUUPLOADED = data?.INCORRECTMENUUPLOADED;
-        problems.MICROWAVCIRCUIT = data?.MICROWAVCIRCUIT;
-        problems.COOCKINGCOMPONENTS = data?.COOCKINGCOMPONENTS;
-        problems.DOORSYSTEM = data?.DOORSYSTEM;
+        if (data?.COSMETICS == undefined) {
+          problems.COSMETICS = false;
+          problems.ELECTRICALCOMPONENTS = false;
+          problems.BLOWERSYSTEM = false;
+          problems.HEATINGANDTEMPERATURESYSTEM = false;
+          problems.WIRING = false;
+          problems.LOOSEOREXTRAPARTS = false;
+          problems.INCORRECTSOFTWAREUPLOADED = false;
+          problems.INCORRECTMENUUPLOADED = false;
+          problems.MICROWAVCIRCUIT = false;
+          problems.COOCKINGCOMPONENTS = false;
+          problems.DOORSYSTEM = false;
+        } else {
+          problems.COSMETICS = data?.COSMETICS;
+          problems.ELECTRICALCOMPONENTS = data?.ELECTRICALCOMPONENTS;
+          problems.BLOWERSYSTEM = data?.BLOWERSYSTEM;
+          problems.HEATINGANDTEMPERATURESYSTEM =
+            data?.HEATINGANDTEMPERATURESYSTEM;
+          problems.WIRING = data?.WIRING;
+          problems.LOOSEOREXTRAPARTS = data?.LOOSEOREXTRAPARTS;
+          problems.INCORRECTSOFTWAREUPLOADED = data?.INCORRECTSOFTWAREUPLOADED;
+          problems.INCORRECTMENUUPLOADED = data?.INCORRECTMENUUPLOADED;
+          problems.MICROWAVCIRCUIT = data?.MICROWAVCIRCUIT;
+          problems.COOCKINGCOMPONENTS = data?.COOCKINGCOMPONENTS;
+          problems.DOORSYSTEM = data?.DOORSYSTEM;
+        }
         Object.entries(problems).forEach(([key, value]) => {
           if (value == true) {
             problemSelected.push(key);

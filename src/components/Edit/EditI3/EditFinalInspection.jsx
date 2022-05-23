@@ -58,7 +58,7 @@ export const EditFinalInspection = (props) => {
   const onChangeSides = (e) => setValueSides(e.target.value);
   const onChangeTopR = (e) => setValueTopR(e.target.value);
   const onChangeTopL = (e) => setValueTopL(e.target.value);
-  const onChangeBotR = (e) => setValueBotL(e.target.value);
+  const onChangeBotR = (e) => setValueBotR(e.target.value);
   const onChangeBotL = (e) => setValueBotL(e.target.value);
   const onChangeC = (e) => setValueC(e.target.value);
   const onChangeD = (e) => setValueD(e.target.value);
@@ -132,6 +132,21 @@ export const EditFinalInspection = (props) => {
   }
   const [form] = Form.useForm();
   async function addHotOven(values, arrayOvens) {
+    console.log(
+      values.HOT_OVEN_B_DOOR,
+      values.HOT_OVEN_B_SIDES,
+      values.HOT_OVEN_TOP_R,
+      values.HOT_OVEN_TOP_L,
+      values.HOT_OVEN_BOT_R,
+      values.HOT_OVEN_BOT_L,
+      valueOvenR,
+      values.HOT_OVEN_C,
+      values.HOT_OVEN_D,
+      values.HOT_OVEN_E,
+      valueAON,
+      problems
+    );
+    console.log(valueOvenR, valueAON);
     const HOT_OVEN_B_DOOR = values.HOT_OVEN_B_DOOR;
     const HOT_OVEN_B_SIDES = values.HOT_OVEN_B_SIDES;
     const HOT_OVEN_TOP_R = values.HOT_OVEN_TOP_R;
@@ -196,17 +211,32 @@ export const EditFinalInspection = (props) => {
       setValueE(data?.HOT_OVEN_E);
       setValueOvenR(data?.HOT_OVEN_RECHECK);
       setValueAON(data?.OVEN_APROVE_OR_NOT);
-      problems.COSMETICS = data?.COSMETICS;
-      problems.ELECTRICALCOMPONENTS = data?.ELECTRICALCOMPONENTS;
-      problems.BLOWERSYSTEM = data?.BLOWERSYSTEM;
-      problems.HEATINGANDTEMPERATURESYSTEM = data?.HEATINGANDTEMPERATURESYSTEM;
-      problems.WIRING = data?.WIRING;
-      problems.LOOSEOREXTRAPARTS = data?.LOOSEOREXTRAPARTS;
-      problems.INCORRECTSOFTWAREUPLOADED = data?.INCORRECTSOFTWAREUPLOADED;
-      problems.INCORRECTMENUUPLOADED = data?.INCORRECTMENUUPLOADED;
-      problems.MICROWAVCIRCUIT = data?.MICROWAVCIRCUIT;
-      problems.COOCKINGCOMPONENTS = data?.COOCKINGCOMPONENTS;
-      problems.DOORSYSTEM = data?.DOORSYSTEM;
+      if (data?.COSMETICS == undefined) {
+        problems.COSMETICS = false;
+        problems.ELECTRICALCOMPONENTS = false;
+        problems.BLOWERSYSTEM = false;
+        problems.HEATINGANDTEMPERATURESYSTEM = false;
+        problems.WIRING = false;
+        problems.LOOSEOREXTRAPARTS = false;
+        problems.INCORRECTSOFTWAREUPLOADED = false;
+        problems.INCORRECTMENUUPLOADED = false;
+        problems.MICROWAVCIRCUIT = false;
+        problems.COOCKINGCOMPONENTS = false;
+        problems.DOORSYSTEM = false;
+      } else {
+        problems.COSMETICS = data?.COSMETICS;
+        problems.ELECTRICALCOMPONENTS = data?.ELECTRICALCOMPONENTS;
+        problems.BLOWERSYSTEM = data?.BLOWERSYSTEM;
+        problems.HEATINGANDTEMPERATURESYSTEM =
+          data?.HEATINGANDTEMPERATURESYSTEM;
+        problems.WIRING = data?.WIRING;
+        problems.LOOSEOREXTRAPARTS = data?.LOOSEOREXTRAPARTS;
+        problems.INCORRECTSOFTWAREUPLOADED = data?.INCORRECTSOFTWAREUPLOADED;
+        problems.INCORRECTMENUUPLOADED = data?.INCORRECTMENUUPLOADED;
+        problems.MICROWAVCIRCUIT = data?.MICROWAVCIRCUIT;
+        problems.COOCKINGCOMPONENTS = data?.COOCKINGCOMPONENTS;
+        problems.DOORSYSTEM = data?.DOORSYSTEM;
+      }
       Object.entries(problems).forEach(([key, value]) => {
         if (value == true) {
           problemSelected.push(key);
