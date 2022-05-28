@@ -7,8 +7,8 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
+import "./editImage.css";
 import { UploadOutlined, StarOutlined } from "@ant-design/icons";
-
 import {
   getFirestore,
   doc,
@@ -77,7 +77,7 @@ export const EditImage = (props) => {
         <Col xs={20} sm={{ span: 6, offset: 1 }}>
           <Image
             width={"100%"}
-            style={{ paddingBottom: "1em" }}
+            className={"image-report"}
             onClick={() => {
               setImgUrl(e);
               setImgDelete(imgNum);

@@ -42,12 +42,10 @@ export const FinalInspection = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(null);
-  const [valueRC, setValueRC] = useState(null);
   const [valueAON, setValueAON] = useState(null);
   const [upLoadDisabled, setUpLoadDisabled] = useState(false);
   const [uploading, setUploading] = useState("");
   const [imageLoading, setImageLoading] = useState(false);
-  const [count, setCount] = useState(0);
   const [problems, setProblems] = useState({
     COSMETICS: false,
     ELECTRICALCOMPONENTS: false,
@@ -71,154 +69,112 @@ export const FinalInspection = (props) => {
     setModalVisible(false);
   };
   const showModal = () => setModalVisible(true);
-  const onChangeRC = (e) => setValueRC(e.target.value);
   const onChangeAON = (e) => setValueAON(e.target.value);
 
-  async function onClickF(
-    HOT_OVEN_B_DOOR,
-    HOT_OVEN_B_SIDES,
-    HOT_OVEN_TOP_R,
-    HOT_OVEN_TOP_L,
-    HOT_OVEN_BOT_R,
-    HOT_OVEN_BOT_L,
-    HOT_OVEN_RECHECK,
-    HOT_OVEN_C,
-    HOT_OVEN_D,
-    HOT_OVEN_E,
-    OVEN_APROVE_OR_NOT,
-    COSMETICS,
-    ELECTRICALCOMPONENTS,
-    BLOWERSYSTEM,
-    HEATINGANDTEMPERATURESYSTEM,
-    WIRING,
-    LOOSEOREXTRAPARTS,
-    INCORRECTSOFTWAREUPLOADED,
-    INCORRECTMENUUPLOADED,
-    MICROWAVCIRCUIT,
-    COOCKINGCOMPONENTS,
-    DOORSYSTEM
-  ) {
-    setButtonDisabled(true);
-    setLoading(true);
-    const docRef = await setDoc(doc(db, "FinalInspection", `${props.serial}`), {
-      HOT_OVEN_B_DOOR: HOT_OVEN_B_DOOR,
-      HOT_OVEN_B_SIDES: HOT_OVEN_B_SIDES,
-      HOT_OVEN_TOP_R: HOT_OVEN_TOP_R,
-      HOT_OVEN_TOP_L: HOT_OVEN_TOP_L,
-      HOT_OVEN_BOT_R: HOT_OVEN_BOT_R,
-      HOT_OVEN_BOT_L: HOT_OVEN_BOT_L,
-      HOT_OVEN_RECHECK: HOT_OVEN_RECHECK,
-      HOT_OVEN_C: HOT_OVEN_C,
-      HOT_OVEN_D: HOT_OVEN_D,
-      HOT_OVEN_E: HOT_OVEN_E,
-      OVEN_APROVE_OR_NOT: OVEN_APROVE_OR_NOT,
-      COSMETICS: COSMETICS,
-      ELECTRICALCOMPONENTS: ELECTRICALCOMPONENTS,
-      BLOWERSYSTEM: BLOWERSYSTEM,
-      HEATINGANDTEMPERATURESYSTEM: HEATINGANDTEMPERATURESYSTEM,
-      WIRING: WIRING,
-      LOOSEOREXTRAPARTS: LOOSEOREXTRAPARTS,
-      INCORRECTSOFTWAREUPLOADED: INCORRECTSOFTWAREUPLOADED,
-      INCORRECTMENUUPLOADED: INCORRECTMENUUPLOADED,
-      MICROWAVCIRCUIT: MICROWAVCIRCUIT,
-      COOCKINGCOMPONENTS: COOCKINGCOMPONENTS,
-      DOORSYSTEM: DOORSYSTEM,
-    });
-    setLoading(false);
-  }
-
   const fileProps = {
-    action: "none",
+    maxCount: 5,
     onChange({ file, fileList }) {
-      file.status = uploading;
+      file.status = "done";
+      file.progres = 100;
     },
-    showUploadList: {
-      showDownloadIcon: false,
-      showRemoveIcon: false,
+    beforeUpload: (file) => {
+      return true;
     },
     customRequest: async (e) => {
       const file = e.file;
-      if (file) {
-        setCount(count + 1);
-        setUpLoadDisabled(true);
-        setImageLoading(true);
-        const storageRef = ref(storage, `${props.serial}/image-${count}`);
-        const name = `image-${count}`;
-        await uploadBytesResumable(storageRef, file).catch((error) => {});
-        const urlRef = await getDownloadURL(storageRef).catch((error) => {});
-        const ovenRef = doc(db, "Images", `${props.serial}`);
-        await setDoc(ovenRef, { [count]: `${urlRef}` }, { merge: true });
-        setImageLoading(false);
-        setUploading("done");
-        setUpLoadDisabled(false);
-        if (count >= 4) {
-          setUpLoadDisabled(true);
-        } else {
-          setUpLoadDisabled(false);
-        }
-      }
     },
   };
-  function onFinishFailed() {
+  function onFinishFailed(errorInfo) {
     message.error("Complete all the fields");
   }
-  async function addHotOven(values, arrayOvens) {
-    const HOT_OVEN_B_DOOR = values.HOT_OVEN_B_DOOR;
-    const HOT_OVEN_B_SIDES = values.HOT_OVEN_B_SIDES;
-    const HOT_OVEN_TOP_R = values.HOT_OVEN_TOP_R;
-    const HOT_OVEN_TOP_L = values.HOT_OVEN_TOP_L;
-    const HOT_OVEN_BOT_R = values.HOT_OVEN_BOT_R;
-    const HOT_OVEN_BOT_L = values.HOT_OVEN_BOT_L;
-    const HOT_OVEN_RECHECK = valueRC;
-    const HOT_OVEN_C = values.HOT_OVEN_C;
-    const HOT_OVEN_D = values.HOT_OVEN_D;
-    const HOT_OVEN_E = values.HOT_OVEN_E;
-    const OVEN_APROVE_OR_NOT = valueAON;
 
-    if (HOT_OVEN_RECHECK == null || OVEN_APROVE_OR_NOT == null) {
-      message.error("Complete all the fields");
-    } else {
-      if (OVEN_APROVE_OR_NOT) {
-        const ovenRef = doc(db, "oven", `${props.serial}`);
-        setDoc(ovenRef, { status: "Aprooved" }, { merge: true });
-      } else {
-        const ovenRef = doc(db, "oven", `${props.serial}`);
-        setDoc(ovenRef, { status: "Rejected" }, { merge: true });
-      }
+  const addHotOven = async (values) => {
+    setButtonDisabled(true);
+    setLoading(true);
+    setUpLoadDisabled(true);
+    setUploading(true);
+    let imageArr = values.image?.fileList;
+    imageArr?.map(async (img) => {
+      let i = imageArr.indexOf(img);
+      const name = `image-${i}`;
+      const storageRef = ref(storage, `${props.serial}/image-${i}`);
+      await uploadBytesResumable(storageRef, img.originFileObj);
+      const urlRef = await getDownloadURL(storageRef);
+      const ovenRef = doc(db, "Images", `${props.serial}`);
+      await setDoc(ovenRef, { [i]: `${urlRef}` }, { merge: true });
+    });
 
-      onClickF(
-        HOT_OVEN_B_DOOR,
-        HOT_OVEN_B_SIDES,
-        HOT_OVEN_TOP_R,
-        HOT_OVEN_TOP_L,
-        HOT_OVEN_BOT_R,
-        HOT_OVEN_BOT_L,
-        HOT_OVEN_RECHECK,
-        HOT_OVEN_C,
-        HOT_OVEN_D,
-        HOT_OVEN_E,
-        OVEN_APROVE_OR_NOT,
-        problems.COSMETICS,
-        problems.ELECTRICALCOMPONENTS,
-        problems.BLOWERSYSTEM,
-        problems.HEATINGANDTEMPERATURESYSTEM,
-        problems.WIRING,
-        problems.LOOSEOREXTRAPARTS,
-        problems.INCORRECTSOFTWAREUPLOADED,
-        problems.INCORRECTMENUUPLOADED,
-        problems.MICROWAVCIRCUIT,
-        problems.COOCKINGCOMPONENTS,
-        problems.DOORSYSTEM
-      );
-      showModal();
-    }
-  }
+    await setDoc(doc(db, "FinalInspection", `${props.serial}`), {
+      HOT_OVEN_B_DOOR: values.HOT_OVEN_B_DOOR,
+      HOT_OVEN_B_SIDES: values.HOT_OVEN_B_SIDES,
+      HOT_OVEN_TOP_R: values.HOT_OVEN_TOP_R,
+      HOT_OVEN_TOP_L: values.HOT_OVEN_TOP_L,
+      HOT_OVEN_BOT_R: values.HOT_OVEN_BOT_R,
+      HOT_OVEN_BOT_L: values.HOT_OVEN_BOT_L,
+      HOT_OVEN_RECHECK: values.HOT_OVEN_RECHECK,
+      HOT_OVEN_C: values.HOT_OVEN_C,
+      HOT_OVEN_D: values.HOT_OVEN_D,
+      HOT_OVEN_E: values.HOT_OVEN_E,
+      OVEN_APROVE_OR_NOT: values.OVEN_APROVE_OR_NOT,
+      COSMETICS: problems.COSMETICS,
+      ELECTRICALCOMPONENTS: problems.ELECTRICALCOMPONENTS,
+      BLOWERSYSTEM: problems.BLOWERSYSTEM,
+      HEATINGANDTEMPERATURESYSTEM: problems.HEATINGANDTEMPERATURESYSTEM,
+      WIRING: problems.WIRING,
+      LOOSEOREXTRAPARTS: problems.LOOSEOREXTRAPARTS,
+      INCORRECTSOFTWAREUPLOADED: problems.INCORRECTSOFTWAREUPLOADED,
+      INCORRECTMENUUPLOADED: problems.INCORRECTMENUUPLOADED,
+      MICROWAVCIRCUIT: problems.MICROWAVCIRCUIT,
+      COOCKINGCOMPONENTS: problems.COOCKINGCOMPONENTS,
+      DOORSYSTEM: problems.DOORSYSTEM,
+    })
+      .then(() => {
+        if (OVEN_APROVE_OR_NOT) {
+          const ovenRef = doc(db, "oven", `${props.serial}`);
+          setDoc(ovenRef, { status: "Aprooved" }, { merge: true });
+          setDoc(
+            doc(db, "Excel", `${props.serial}`),
+            { status: "Aprooved" },
+            { merge: true }
+          );
+        } else {
+          const ovenRef = doc(db, "oven", `${props.serial}`);
+          setDoc(ovenRef, { status: "Rejected" }, { merge: true });
+          setDoc(
+            doc(db, "Excel", `${props.serial}`),
+            { status: "Rejected" },
+            { merge: true }
+          );
+        }
+        setLoading(false);
+        setButtonDisabled(false);
+        setUpLoadDisabled(false);
+        showModal();
+      })
+      .catch((error) => {
+        setLoading(false);
+        setButtonDisabled(false);
+        setUpLoadDisabled(false);
+        message.success("Error sending the Data");
+      });
+  };
+  const [form] = Form.useForm();
   return (
     <Form
+      form={form}
       labelCol={{ span: 7 }}
       style={{ paddingBottom: "5em" }}
       onFinish={addHotOven}
       onFinishFailed={onFinishFailed}
+      initialValues={{
+        HOT_OVEN_B_DOOR: 0,
+        HOT_OVEN_B_SIDES: 0,
+        HOT_OVEN_TOP_R: 0,
+        HOT_OVEN_TOP_L: 0,
+        HOT_OVEN_BOT_R: 0,
+        HOT_OVEN_BOT_L: 0,
+        HOT_OVEN_C: 213084,
+      }}
     >
       <Row justify="center">
         <Col xs={20} align="center">
@@ -401,10 +357,20 @@ export const FinalInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 23 }} sm={{ span: 4, offset: 0 }}>
-          <Radio.Group name={HOT_OVEN_RECHECK} onChange={onChangeRC}>
-            <Radio value={true}>ACC</Radio>
-            <Radio value={false}>NO ACC</Radio>
-          </Radio.Group>
+          <Form.Item
+            name={HOT_OVEN_RECHECK}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
+          >
+            <Radio.Group>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
+            </Radio.Group>
+          </Form.Item>
         </Col>
       </Row>
       <br />
@@ -422,7 +388,12 @@ export const FinalInspection = (props) => {
                   },
                 ]}
               >
-                <Input type="number" size="small" style={{ width: 150 }} />
+                <Input
+                  type="number"
+                  size="small"
+                  style={{ width: 150 }}
+                  disabled
+                />
               </Form.Item>
             </Col>
           </Row>
@@ -462,23 +433,36 @@ export const FinalInspection = (props) => {
       </Row>
       <Row justify="center">
         <Col xs={6}>
-          <Upload {...fileProps}>
-            <Button
-              loading={imageLoading}
-              disabled={upLoadDisabled}
-              icon={imageLoading ? "" : <UploadOutlined />}
-            >
-              Upload
-            </Button>
-          </Upload>
+          <Form.Item
+            name="image"
+            rules={[{ required: false, message: "Please upload your file!" }]}
+          >
+            <Upload {...fileProps}>
+              <Button
+                loading={imageLoading}
+                disabled={upLoadDisabled}
+                icon={uploading ? uploading : <UploadOutlined />}
+              >
+                Upload
+              </Button>
+            </Upload>
+          </Form.Item>
         </Col>
       </Row>
       <br />
       <Row justify="center">
         <Col xs={6}>
           <Text>APROVED</Text>
-          <Form.Item>
-            <Radio.Group name={OVEN_APROVE_OR_NOT} onChange={onChangeAON}>
+          <Form.Item
+            name={OVEN_APROVE_OR_NOT}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeAON}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>

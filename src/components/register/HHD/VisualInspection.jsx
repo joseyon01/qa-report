@@ -141,7 +141,7 @@ export const VisualInspection = (props) => {
     setTextJ("default");
     setValueJ(e.target.value);
   };
-  async function onClickF(
+  /* async function onClickF(
     VISUALQA,
     VISUALQB_1,
     VISUALQB_2,
@@ -191,58 +191,65 @@ export const VisualInspection = (props) => {
       }
     );
     setLoading(false);
-  }
-  function onFinishFailed() {
-    if (valueA == null) {
-      setTextA("danger");
-    }
-    if (valueB_1 == null) {
-      setTextB_1("danger");
-    }
-    if (valueB_2 == null) {
-      setTextB_2("danger");
-    }
-    if (valueB_3 == null) {
-      setTextB_3("danger");
-    }
-    if (valueB_4 == null) {
-      setTextB_4("danger");
-    }
-    if (valueB_5 == null) {
-      setTextB_5("danger");
-    }
-    if (valueB_6 == null) {
-      setTextB_6("danger");
-    }
-    if (valueB_7 == null) {
-      setTextB_7("danger");
-    }
-    if (valueC == null) {
-      setTextC("danger");
-    }
-    if (valueD == null) {
-      setTextD("danger");
-    }
-    if (valueE == null) {
-      setTextE("danger");
-    }
-    if (valueF == null) {
-      setTextF("danger");
-    }
-    if (valueG == null) {
-      setTextG("danger");
-    }
-    if (valueH == null) {
-      setTextH("danger");
-    }
-    if (valueJ == null) {
-      setTextJ("danger");
-    }
+  } */
+
+  function onFinishFailed(errorInfo) {
+    if (errorInfo.values.VISUAL_Q_A == null) setTextA("danger");
+    if (errorInfo.values.VISUAL_Q_B_1 == null) setTextB_1("danger");
+    if (errorInfo.values.VISUAL_Q_B_2 == null) setTextB_2("danger");
+    if (errorInfo.values.VISUAL_Q_B_3 == null) setTextB_3("danger");
+    if (errorInfo.values.VISUAL_Q_B_4 == null) setTextB_4("danger");
+    if (errorInfo.values.VISUAL_Q_B_5 == null) setTextB_5("danger");
+    if (errorInfo.values.VISUAL_Q_B_6 == null) setTextB_6("danger");
+    if (errorInfo.values.VISUAL_Q_B_7 == null) setTextB_7("danger");
+    if (errorInfo.values.VISUAL_Q_C == null) setTextC("danger");
+    if (errorInfo.values.VISUAL_Q_D == null) setTextD("danger");
+    if (errorInfo.values.VISUAL_Q_E == null) setTextE("danger");
+    if (errorInfo.values.VISUAL_Q_F == null) setTextF("danger");
+    if (errorInfo.values.VISUAL_Q_G == null) setTextG("danger");
+    if (errorInfo.values.VISUAL_Q_H == null) setTextH("danger");
+    if (errorInfo.values.VISUAL_Q_J == null) setTextJ("danger");
     message.error("Complete all the fields");
   }
 
-  function addVisualInspection(values) {
-    const VISUALQA = valueA;
+  const addVisualInspection = async (values) => {
+    setButtonDisabled(true);
+    setLoading(true);
+    await setDoc(doc(db, "VisualInspection", `${props.serial}`), {
+      VISUALQA: values.VISUAL_Q_A,
+      VISUALQB_1: values.VISUAL_Q_B_1,
+      VISUALQB_2: values.VISUAL_Q_B_2,
+      VISUALQB_3: values.VISUAL_Q_B_3,
+      VISUALQB_4: values.VISUAL_Q_B_4,
+      VISUALQB_5: values.VISUAL_Q_B_5,
+      VISUALQB_6: values.VISUAL_Q_B_6,
+      VISUALQB_7: values.VISUAL_Q_B_7,
+      VISUALQC: values.VISUAL_Q_C,
+      VISUALQD: values.VISUAL_Q_D,
+      VISUALQE: values.VISUAL_Q_E,
+      VISUALQF: values.VISUAL_Q_F,
+      VISUALQG: values.VISUAL_Q_G,
+      VISUALQH: values.VISUAL_Q_H,
+      VISUALQI_1: values.VISUALQI_1,
+      VISUALQI_2: values.VISUALQI_2,
+      VISUALQI_3: values.VISUALQI_3,
+      VISUALQI_4: values.VISUALQI_4,
+      VISUALQI_5: values.VISUALQI_5,
+      VISUALQJ: values.VISUAL_Q_J,
+    })
+      .then(() => {
+        message.success("Visual Inspection Completed");
+        setButtonDisabled(false);
+        setLoading(false);
+        window.scrollTo(0, 0);
+        props.setState("2");
+      })
+      .catch((error) => {
+        setButtonDisabled(false);
+        setLoading(false);
+        message.error("error sending the data");
+      });
+    /* const VISUALQA = valueA;
     const VISUALQB_1 = valueB_1;
     const VISUALQB_2 = valueB_2;
     const VISUALQB_3 = valueB_3;
@@ -351,14 +358,36 @@ export const VisualInspection = (props) => {
       message.success("Visual Inspection Completed");
       window.scrollTo(0, 0);
       props.setState("2");
-    }
-  }
+    } */
+  };
+  const [form] = Form.useForm();
+
   return (
     <Form
       labelCol={{ span: 7 }}
+      name="I3VisualInspection"
+      onFinishFailed={onFinishFailed}
       style={{ paddingBottom: "5em" }}
       onFinish={addVisualInspection}
-      onFinishFailed={onFinishFailed}
+      form={form}
+      autoComplete="off"
+      initialValues={{
+        VISUAL_Q_A: true,
+        VISUAL_Q_B_1: true,
+        VISUAL_Q_B_2: true,
+        VISUAL_Q_B_3: true,
+        VISUAL_Q_B_4: true,
+        VISUAL_Q_B_5: true,
+        VISUAL_Q_B_6: true,
+        VISUAL_Q_B_7: true,
+        VISUAL_Q_C: true,
+        VISUAL_Q_D: true,
+        VISUAL_Q_E: true,
+        VISUAL_Q_F: true,
+        VISUAL_Q_G: true,
+        VISUAL_Q_H: true,
+        VISUAL_Q_J: true,
+      }}
     >
       <Row justify="center">
         <Col xs={20} align="center">
@@ -373,10 +402,20 @@ export const VisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Radio.Group required name={VISUALQA} onChange={onChangeA}>
-            <Radio value={true}>ACC</Radio>
-            <Radio value={false}>NO ACC</Radio>
-          </Radio.Group>
+          <Form.Item
+            name={VISUALQA}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeA}>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
+            </Radio.Group>
+          </Form.Item>
         </Col>
       </Row>
       <br />
@@ -394,12 +433,16 @@ export const VisualInspection = (props) => {
                   </Text>
                 </Col>
                 <Col xs={22} sm={5}>
-                  <Form.Item>
-                    <Radio.Group
-                      name={VISUALQB_1}
-                      required
-                      onChange={onChangeB_1}
-                    >
+                  <Form.Item
+                    name={VISUALQB_1}
+                    rules={[
+                      {
+                        required: true,
+                        message: "FINISH THE INSPECTION!",
+                      },
+                    ]}
+                  >
+                    <Radio.Group onChange={onChangeB_1}>
                       <Radio value={true}>ACC</Radio>
                       <Radio value={false}>NO ACC</Radio>
                     </Radio.Group>
@@ -412,12 +455,16 @@ export const VisualInspection = (props) => {
                   </Text>
                 </Col>
                 <Col xs={22} sm={5}>
-                  <Form.Item>
-                    <Radio.Group
-                      name={VISUALQB_2}
-                      required
-                      onChange={onChangeB_2}
-                    >
+                  <Form.Item
+                    name={VISUALQB_2}
+                    rules={[
+                      {
+                        required: true,
+                        message: "FINISH THE INSPECTION!",
+                      },
+                    ]}
+                  >
+                    <Radio.Group onChange={onChangeB_2}>
                       <Radio value={true}>ACC</Radio>
                       <Radio value={false}>NO ACC</Radio>
                     </Radio.Group>
@@ -429,12 +476,16 @@ export const VisualInspection = (props) => {
                   </Text>
                 </Col>
                 <Col xs={22} sm={5}>
-                  <Form.Item>
-                    <Radio.Group
-                      name={VISUALQB_3}
-                      required
-                      onChange={onChangeB_3}
-                    >
+                  <Form.Item
+                    name={VISUALQB_3}
+                    rules={[
+                      {
+                        required: true,
+                        message: "FINISH THE INSPECTION!",
+                      },
+                    ]}
+                  >
+                    <Radio.Group onChange={onChangeB_3}>
                       <Radio value={true}>ACC</Radio>
                       <Radio value={false}>NO ACC</Radio>
                     </Radio.Group>
@@ -447,12 +498,16 @@ export const VisualInspection = (props) => {
                   </Text>
                 </Col>
                 <Col xs={22} sm={5}>
-                  <Form.Item>
-                    <Radio.Group
-                      name={VISUALQB_4}
-                      required
-                      onChange={onChangeB_4}
-                    >
+                  <Form.Item
+                    name={VISUALQB_4}
+                    rules={[
+                      {
+                        required: true,
+                        message: "FINISH THE INSPECTION!",
+                      },
+                    ]}
+                  >
+                    <Radio.Group onChange={onChangeB_4}>
                       <Radio value={true}>ACC</Radio>
                       <Radio value={false}>NO ACC</Radio>
                     </Radio.Group>
@@ -464,12 +519,16 @@ export const VisualInspection = (props) => {
                   </Text>
                 </Col>
                 <Col xs={22} sm={5}>
-                  <Form.Item>
-                    <Radio.Group
-                      name={VISUALQB_5}
-                      required
-                      onChange={onChangeB_5}
-                    >
+                  <Form.Item
+                    name={VISUALQB_5}
+                    rules={[
+                      {
+                        required: true,
+                        message: "FINISH THE INSPECTION!",
+                      },
+                    ]}
+                  >
+                    <Radio.Group onChange={onChangeB_5}>
                       <Radio value={true}>ACC</Radio>
                       <Radio value={false}>NO ACC</Radio>
                     </Radio.Group>
@@ -481,12 +540,16 @@ export const VisualInspection = (props) => {
                   </Text>
                 </Col>
                 <Col xs={22} sm={5}>
-                  <Form.Item>
-                    <Radio.Group
-                      name={VISUALQB_6}
-                      required
-                      onChange={onChangeB_6}
-                    >
+                  <Form.Item
+                    name={VISUALQB_6}
+                    rules={[
+                      {
+                        required: true,
+                        message: "FINISH THE INSPECTION!",
+                      },
+                    ]}
+                  >
+                    <Radio.Group onChange={onChangeB_6}>
                       <Radio value={true}>ACC</Radio>
                       <Radio value={false}>NO ACC</Radio>
                     </Radio.Group>
@@ -499,12 +562,16 @@ export const VisualInspection = (props) => {
                   </Text>
                 </Col>
                 <Col xs={22} sm={5}>
-                  <Form.Item>
-                    <Radio.Group
-                      name={VISUALQB_7}
-                      required
-                      onChange={onChangeB_7}
-                    >
+                  <Form.Item
+                    name={VISUALQB_7}
+                    rules={[
+                      {
+                        required: true,
+                        message: "FINISH THE INSPECTION!",
+                      },
+                    ]}
+                  >
+                    <Radio.Group onChange={onChangeB_7}>
                       <Radio value={true}>ACC</Radio>
                       <Radio value={false}>NO ACC</Radio>
                     </Radio.Group>
@@ -524,8 +591,16 @@ export const VisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Form.Item>
-            <Radio.Group name={VISUALQC} required onChange={onChangeC}>
+          <Form.Item
+            name={VISUALQC}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeC}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -541,8 +616,16 @@ export const VisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Form.Item>
-            <Radio.Group name={VISUALQD} required onChange={onChangeD}>
+          <Form.Item
+            name={VISUALQD}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeD}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -557,8 +640,16 @@ export const VisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Form.Item>
-            <Radio.Group name={VISUALQE} required onChange={onChangeE}>
+          <Form.Item
+            name={VISUALQE}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeE}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -574,8 +665,16 @@ export const VisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Form.Item>
-            <Radio.Group name={VISUALQF} required onChange={onChangeF}>
+          <Form.Item
+            name={VISUALQF}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeF}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -591,8 +690,16 @@ export const VisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Form.Item>
-            <Radio.Group name={VISUALQG} required onChange={onChangeG}>
+          <Form.Item
+            name={VISUALQG}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeG}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -608,8 +715,16 @@ export const VisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Form.Item required>
-            <Radio.Group name={VISUALQH} required onChange={onChangeH}>
+          <Form.Item
+            name={VISUALQH}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeH}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -720,8 +835,16 @@ export const VisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Form.Item>
-            <Radio.Group name={VISUALQJ} required onChange={onChangeJ}>
+          <Form.Item
+            name={VISUALQJ}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeJ}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>

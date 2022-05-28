@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Form, Row, Col, Typography, Radio, Button, Modal } from "antd";
+import {
+  Form,
+  Row,
+  Col,
+  Typography,
+  Radio,
+  Button,
+  Modal,
+  message,
+} from "antd";
 const { Text, Title } = Typography;
 import {
   VISUALQA,
@@ -16,8 +25,7 @@ const db = getFirestore();
 
 export const EditVisualInspection = (props) => {
   const ovenSerial = props.serial;
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [form] = Form.useForm();
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [loading, setLoading] = useState(false);
   const [valueA, setValueA] = useState(null);
@@ -28,11 +36,6 @@ export const EditVisualInspection = (props) => {
   const [valueF, setValueF] = useState(null);
   const [valueG, setValueG] = useState(null);
   const [valueH, setValueH] = useState(null);
-
-  const showModal = () => setIsModalVisible(true);
-  const handleOk = () => setIsModalVisible(false);
-  const handleCancel = () => setIsModalVisible(false);
-  const showModal2 = () => setModalVisible(true);
   const onChangeA = (e) => setValueA(e.target.value);
   const onChangeB = (e) => setValueB(e.target.value);
   const onChangeC = (e) => setValueC(e.target.value);
@@ -42,43 +45,6 @@ export const EditVisualInspection = (props) => {
   const onChangeG = (e) => setValueG(e.target.value);
   const onChangeH = (e) => setValueH(e.target.value);
 
-  const handleOk2 = () => {
-    setModalVisible(false);
-    window.scrollTo(0, 0);
-  };
-
-  const handleCancel2 = () => {
-    setModalVisible(false);
-    window.scrollTo(0, 0);
-  };
-
-  async function onClickF(
-    VISUALQA,
-    VISUALQB,
-    VISUALQC,
-    VISUALQD,
-    VISUALQE,
-    VISUALQF,
-    VISUALQG,
-    VISUALQH
-  ) {
-    setButtonDisabled(true);
-    setLoading(true);
-    const docRef = await setDoc(
-      doc(db, "VisualInspection", `${props.serial}`),
-      {
-        VISUALQA: VISUALQA,
-        VISUALQB: VISUALQB,
-        VISUALQC: VISUALQC,
-        VISUALQD: VISUALQD,
-        VISUALQE: VISUALQE,
-        VISUALQF: VISUALQF,
-        VISUALQG: VISUALQG,
-        VISUALQH: VISUALQH,
-      }
-    );
-    setLoading(false);
-  }
   const getDataOven = async () => {
     try {
       const docRef = doc(db, "VisualInspection", `${ovenSerial}`);
@@ -102,45 +68,55 @@ export const EditVisualInspection = (props) => {
     getDataOven();
   }, []);
 
-  function addVisualInspection() {
-    const VISUALQA = valueA;
-    const VISUALQB = valueB;
-    const VISUALQC = valueC;
-    const VISUALQD = valueD;
-    const VISUALQE = valueE;
-    const VISUALQF = valueF;
-    const VISUALQG = valueG;
-    const VISUALQH = valueH;
-    if (
-      valueA == null ||
-      valueB == null ||
-      valueC == null ||
-      valueD == null ||
-      valueE == null ||
-      valueF == null ||
-      valueG == null ||
-      valueH == null
-    ) {
-      showModal();
-    } else {
-      onClickF(
-        VISUALQA,
-        VISUALQB,
-        VISUALQC,
-        VISUALQD,
-        VISUALQE,
-        VISUALQF,
-        VISUALQG,
-        VISUALQH
-      );
-      showModal2();
-    }
-  }
+  const addVisualInspection = async (values) => {
+    setButtonDisabled(true);
+    setLoading(true);
+    await setDoc(doc(db, "VisualInspection", `${ovenSerial}`), {
+      VISUALQA: values.VISUAL_Q_A,
+      VISUALQB: values.VISUAL_Q_B,
+      VISUALQC: values.VISUAL_Q_C,
+      VISUALQD: values.VISUAL_Q_D,
+      VISUALQE: values.VISUAL_Q_E,
+      VISUALQF: values.VISUAL_Q_F,
+      VISUALQG: values.VISUAL_Q_G,
+      VISUALQH: values.VISUAL_Q_H,
+    })
+      .then(() => {
+        message.success("Visual Inspection Completed");
+        window.scrollTo(0, 0);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setButtonDisabled(false);
+        setLoading(false);
+      });
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    message.error("Finish the Visual Inspection to continue");
+  };
+  form.setFieldsValue({
+    VISUAL_Q_A: valueA,
+    VISUAL_Q_B: valueB,
+    VISUAL_Q_C: valueC,
+    VISUAL_Q_D: valueD,
+    VISUAL_Q_E: valueE,
+    VISUAL_Q_F: valueF,
+    VISUAL_Q_G: valueG,
+    VISUAL_Q_H: valueH,
+  });
   return (
     <Form
+      form={form}
+      name="ECONewVisualInspection"
       labelCol={{ span: 7 }}
       style={{ paddingBottom: "5em" }}
       onFinish={addVisualInspection}
+      onFinishFailed={onFinishFailed}
+      initialValues={{
+        remember: true,
+      }}
     >
       <Row justify="center">
         <Col xs={20} align="center">
@@ -157,15 +133,20 @@ export const EditVisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Radio.Group
-            required
+          <Form.Item
             name={VISUALQA}
-            onChange={onChangeA}
-            value={valueA}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
           >
-            <Radio value={true}>ACC</Radio>
-            <Radio value={false}>NO ACC</Radio>
-          </Radio.Group>
+            <Radio.Group onChange={onChangeA}>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
+            </Radio.Group>
+          </Form.Item>
         </Col>
       </Row>
       <br />
@@ -181,13 +162,16 @@ export const EditVisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Form.Item>
-            <Radio.Group
-              name={VISUALQB}
-              required
-              onChange={onChangeB}
-              value={valueB}
-            >
+          <Form.Item
+            name={VISUALQB}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeB}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -203,13 +187,16 @@ export const EditVisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Form.Item>
-            <Radio.Group
-              name={VISUALQC}
-              required
-              onChange={onChangeC}
-              value={valueC}
-            >
+          <Form.Item
+            name={VISUALQC}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeC}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -224,13 +211,16 @@ export const EditVisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Form.Item>
-            <Radio.Group
-              name={VISUALQD}
-              required
-              onChange={onChangeD}
-              value={valueD}
-            >
+          <Form.Item
+            name={VISUALQD}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeD}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -246,13 +236,16 @@ export const EditVisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Form.Item>
-            <Radio.Group
-              name={VISUALQE}
-              required
-              onChange={onChangeE}
-              value={valueE}
-            >
+          <Form.Item
+            name={VISUALQE}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeE}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -268,13 +261,16 @@ export const EditVisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Form.Item>
-            <Radio.Group
-              name={VISUALQF}
-              required
-              onChange={onChangeF}
-              value={valueF}
-            >
+          <Form.Item
+            name={VISUALQF}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeF}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -290,13 +286,16 @@ export const EditVisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Form.Item>
-            <Radio.Group
-              name={VISUALQG}
-              required
-              onChange={onChangeG}
-              value={valueG}
-            >
+          <Form.Item
+            name={VISUALQG}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeG}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -313,13 +312,16 @@ export const EditVisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Form.Item required>
-            <Radio.Group
-              name={VISUALQH}
-              required
-              onChange={onChangeH}
-              value={valueH}
-            >
+          <Form.Item
+            name={VISUALQH}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeH}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -340,24 +342,6 @@ export const EditVisualInspection = (props) => {
               >
                 {loading ? "" : "Submit"}
               </Button>
-              <Modal
-                visible={modalVisible}
-                onOk={handleCancel2}
-                style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
-                onCancel={handleCancel2}
-              >
-                <Title level={3}>OK..!</Title>
-                <Text>The data has been successfully stored</Text>
-              </Modal>
-              <Modal
-                visible={isModalVisible}
-                onOk={handleOk}
-                style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
-                onCancel={handleCancel}
-              >
-                <Title level={3}>Error..!</Title>
-                <Text>All fields are required</Text>
-              </Modal>
             </Form.Item>
           </div>
         </Col>

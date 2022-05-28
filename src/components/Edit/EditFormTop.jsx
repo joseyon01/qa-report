@@ -44,7 +44,7 @@ export const EditFormTop = (props) => {
       console.error("error", error);
     }
   };
-  const dateFormat = "YYYY-MM-DD";
+  const dateFormat = "MM/DD/YY";
 
   form.setFieldsValue({
     SERIAL: serial,

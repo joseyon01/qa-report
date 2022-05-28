@@ -131,6 +131,8 @@ export const Dashboard = () => {
       dataIndex: "date",
       key: "date",
       responsive: ["md"],
+      sorter: (a, b) => a.timeStamp - b.timeStamp,
+      sortOrder: "descend",
       filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => {
         return (
           <DatePicker
@@ -289,6 +291,7 @@ export const Dashboard = () => {
           for (let i = 0; i < _id.length; i++) {
             _data[i].id = _id[i];
           }
+
           setArrayOvens(_data);
         }
       } catch (error) {

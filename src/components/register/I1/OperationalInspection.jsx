@@ -42,12 +42,6 @@ import {
 export const OperationalInspection = (props) => {
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [valueB, setValueB] = useState(null);
-  const [valueC, setValueC] = useState(null);
-  const [valueE, setValueE] = useState(null);
-  const [valueF, setValueF] = useState(null);
-  const [valueI, setValueI] = useState(null);
-  const [valueJ, setValueJ] = useState(null);
   const [valueTf, setValueTf] = useState(null);
   const [valueTi, setValueTi] = useState(null);
   const [valueTo, setValueTo] = useState(null);
@@ -58,218 +52,107 @@ export const OperationalInspection = (props) => {
   const [textI, setTextI] = useState("default");
   const [textJ, setTextJ] = useState("default");
 
-  const onChangeB = (e) => {
-    setTextB("default");
-    setValueB(e.target.value);
-  };
-  const onChangeC = (e) => {
-    setTextC("default");
-    setValueC(e.target.value);
-  };
-  const onChangeE = (e) => {
-    setTextE("default");
-    setValueE(e.target.value);
-  };
-  const onChangeF = (e) => {
-    setTextF("default");
-    setValueF(e.target.value);
-  };
-  const onChangeI = (e) => {
-    setTextI("default");
-    setValueI(e.target.value);
-  };
-  const onChangeJ = (e) => {
-    setTextJ("default");
-    setValueJ(e.target.value);
-  };
+  const onChangeB = () => setTextB("default");
+  const onChangeC = () => setTextC("default");
+  const onChangeE = () => setTextE("default");
+  const onChangeF = () => setTextF("default");
+  const onChangeI = () => setTextI("default");
+  const onChangeJ = () => setTextJ("default");
   const onChangeTf = (e) => setValueTf(e.target.value);
   const onChangeTi = (e) => setValueTi(e.target.value);
 
-  async function onClickF(
-    OPERATIONAL_A_I,
-    OPERATIONAL_A_II,
-    OPERATIONAL_B_I_I,
-    OPERATIONAL_C_I,
-    OPERATIONAL_C_II,
-    OPERATIONAL_C_III,
-    OPERATIONAL_C_IV,
-    OPERATIONAL_D_I,
-    OPERATIONAL_E,
-    OPERATIONAL_F,
-    OPERATIONAL_G_I,
-    OPERATIONAL_G_IV,
-    OPERATIONAL_G_V,
-    OPERATIONAL_G_VI,
-    OPERATIONAL_H_I,
-    OPERATIONAL_H_II,
-    OPERATIONAL_H_III,
-    OPERATIONAL_NOTE,
-    OPERATIONAL_I_I,
-    OPERATIONAL_OPENING,
-    OPERATIONAL_CLOSING,
-    OPERATIONAL_I_II
-  ) {
-    setButtonDisabled(true);
-    setLoading(true);
-    await setDoc(doc(db, "OperationalInspection", `${props.serial}`), {
-      OPERATIONAL_A_I: OPERATIONAL_A_I,
-      OPERATIONAL_A_II: OPERATIONAL_A_II,
-      OPERATIONAL_B_I_I: OPERATIONAL_B_I_I,
-      OPERATIONAL_C_I: OPERATIONAL_C_I,
-      OPERATIONAL_C_II: OPERATIONAL_C_II,
-      OPERATIONAL_C_III: OPERATIONAL_C_III,
-      OPERATIONAL_C_IV: OPERATIONAL_C_IV,
-      OPERATIONAL_D_I: OPERATIONAL_D_I,
-      OPERATIONAL_E: OPERATIONAL_E,
-      OPERATIONAL_F: OPERATIONAL_F,
-      OPERATIONAL_G_I: OPERATIONAL_G_I,
-      OPERATIONAL_G_IV: OPERATIONAL_G_IV,
-      OPERATIONAL_G_V: OPERATIONAL_G_V,
-      OPERATIONAL_G_VI: OPERATIONAL_G_VI,
-      OPERATIONAL_H_I: OPERATIONAL_H_I,
-      OPERATIONAL_H_II: OPERATIONAL_H_II,
-      OPERATIONAL_H_III: OPERATIONAL_H_III,
-      OPERATIONAL_NOTE: OPERATIONAL_NOTE,
-      OPERATIONAL_I_I: OPERATIONAL_I_I,
-      OPERATIONAL_OPENING: OPERATIONAL_OPENING,
-      OPERATIONAL_CLOSING: OPERATIONAL_CLOSING,
-      OPERATIONAL_I_II: OPERATIONAL_I_II,
-    });
-    await setDoc(
-      doc(db, "Excel", `${props.serial}`),
-      {
-        softwareVersion: OPERATIONAL_C_I,
-        voltage: OPERATIONAL_C_II,
-        amps: OPERATIONAL_G_IV,
-        powerOutput: OPERATIONAL_G_VI,
-        notes: OPERATIONAL_NOTE,
-        actionTaken: "--",
-      },
-      { merge: true }
-    );
-    setLoading(false);
-  }
-  function onFinishFailed() {
-    if (valueB == null) {
-      setTextB("danger");
-    }
-    if (valueC == null) {
-      setTextC("danger");
-    }
-    if (valueE == null) {
-      setTextE("danger");
-    }
-    if (valueF == null) {
-      setTextF("danger");
-    }
-    if (valueI == null) {
-      setTextI("danger");
-    }
-    if (valueJ == null) {
-      setTextJ("danger");
-    }
+  function onFinishFailed(errorInfo) {
+    if (errorInfo.values.OPERATIONAL_B_I_I == null) setTextB("danger");
+    if (errorInfo.values.OPERATIONAL_C_IV == null) setTextC("danger");
+    if (errorInfo.values.OPERATIONAL_E == null) setTextE("danger");
+    if (errorInfo.values.OPERATIONAL_F == null) setTextF("danger");
+    if (errorInfo.values.OPERATIONAL_I_I == null) setTextI("danger");
+    if (errorInfo.values.OPERATIONAL_I_II == null) setTextJ("danger");
     message.error("Complete all the fields");
   }
-  function addOperational(values) {
-    const OPERATIONAL_A_I = values.OPERATIONAL_A_I;
-    const OPERATIONAL_A_II = values.OPERATIONAL_A_II;
-    const OPERATIONAL_B_I_I = valueB;
-    const OPERATIONAL_C_I = values.OPERATIONAL_C_I;
-    const OPERATIONAL_C_II = values.OPERATIONAL_C_II;
-    const OPERATIONAL_C_III = values.OPERATIONAL_C_III;
-    const OPERATIONAL_C_IV = valueC;
-    const OPERATIONAL_D_I = values.OPERATIONAL_D_I;
-    const OPERATIONAL_E = valueE;
-    const OPERATIONAL_F = valueF;
-    const OPERATIONAL_G_I = values.OPERATIONAL_G_I;
-    const OPERATIONAL_G_IV = values.OPERATIONAL_G_IV;
-    const OPERATIONAL_G_V = values.OPERATIONAL_G_V;
 
-    const value = (a, b) => {
-      let result = (b - a) * (4187 / 30);
-      result = Math.round(result);
-      return result;
-    };
-
-    const OPERATIONAL_G_VI = value(
-      values.OPERATIONAL_G_I,
-      values.OPERATIONAL_G_V
-    );
-    const OPERATIONAL_H_I = values.OPERATIONAL_H_I;
-    const OPERATIONAL_H_II = values.OPERATIONAL_H_II;
-    const OPERATIONAL_H_III = values.OPERATIONAL_H_III;
-    const OPERATIONAL_NOTE = values.OPERATIONAL_NOTE
-      ? values.OPERATIONAL_NOTE
-      : "";
-    const OPERATIONAL_I_I = valueI;
-    const OPERATIONAL_OPENING = values.OPERATIONAL_OPENING;
-    const OPERATIONAL_CLOSING = values.OPERATIONAL_CLOSING;
-    const OPERATIONAL_I_II = valueJ;
-
-    if (
-      OPERATIONAL_B_I_I == null ||
-      OPERATIONAL_C_IV == null ||
-      OPERATIONAL_E == null ||
-      OPERATIONAL_F == null ||
-      OPERATIONAL_I_I == null ||
-      OPERATIONAL_I_II == null
-    ) {
-      if (valueB == null) {
-        setTextB("danger");
-      }
-      if (valueC == null) {
-        setTextC("danger");
-      }
-      if (valueE == null) {
-        setTextE("danger");
-      }
-      if (valueF == null) {
-        setTextF("danger");
-      }
-      if (valueI == null) {
-        setTextI("danger");
-      }
-      if (valueJ == null) {
-        setTextJ("danger");
-      }
-      message.error("Complete all the fields");
-    } else {
-      onClickF(
-        OPERATIONAL_A_I,
-        OPERATIONAL_A_II,
-        OPERATIONAL_B_I_I,
-        OPERATIONAL_C_I,
-        OPERATIONAL_C_II,
-        OPERATIONAL_C_III,
-        OPERATIONAL_C_IV,
-        OPERATIONAL_D_I,
-        OPERATIONAL_E,
-        OPERATIONAL_F,
-        OPERATIONAL_G_I,
-        OPERATIONAL_G_IV,
-        OPERATIONAL_G_V,
-        OPERATIONAL_G_VI,
-        OPERATIONAL_H_I,
-        OPERATIONAL_H_II,
-        OPERATIONAL_H_III,
-        OPERATIONAL_NOTE,
-        OPERATIONAL_I_I,
-        OPERATIONAL_OPENING,
-        OPERATIONAL_CLOSING,
-        OPERATIONAL_I_II
-      );
-      message.success("Operational Inspection Completed");
-      props.setState("3");
-      window.scrollTo(0, 0);
+  const addOperational = async (values) => {
+    setButtonDisabled(true);
+    setLoading(true);
+    let result = (valueTf - valueTi) * (4187 / 30);
+    result = Math.round(result);
+    values.OPERATIONAL_G_VI = result;
+    {
+      values.OPERATIONAL_NOTE === undefined
+        ? (values.OPERATIONAL_NOTE = "")
+        : "";
     }
-  }
+    await setDoc(doc(db, "OperationalInspection", `${props.serial}`), {
+      OPERATIONAL_A_I: values.OPERATIONAL_A_I,
+      OPERATIONAL_A_II: values.OPERATIONAL_A_II,
+      OPERATIONAL_B_I_I: values.OPERATIONAL_B_I_I,
+      OPERATIONAL_C_I: values.OPERATIONAL_C_I,
+      OPERATIONAL_C_II: values.OPERATIONAL_C_II,
+      OPERATIONAL_C_III: values.OPERATIONAL_C_III,
+      OPERATIONAL_C_IV: values.OPERATIONAL_C_IV,
+      OPERATIONAL_D_I: values.OPERATIONAL_D_I,
+      OPERATIONAL_E: values.OPERATIONAL_E,
+      OPERATIONAL_F: values.OPERATIONAL_F,
+      OPERATIONAL_G_I: values.OPERATIONAL_G_I,
+      OPERATIONAL_G_IV: values.OPERATIONAL_G_IV,
+      OPERATIONAL_G_V: values.OPERATIONAL_G_V,
+      OPERATIONAL_G_VI: values.OPERATIONAL_G_VI,
+      OPERATIONAL_H_I: values.OPERATIONAL_H_I,
+      OPERATIONAL_H_II: values.OPERATIONAL_H_II,
+      OPERATIONAL_H_III: values.OPERATIONAL_H_III,
+      OPERATIONAL_NOTE: values.OPERATIONAL_NOTE,
+      OPERATIONAL_I_I: values.OPERATIONAL_I_I,
+      OPERATIONAL_OPENING: values.OPERATIONAL_OPENING,
+      OPERATIONAL_CLOSING: values.OPERATIONAL_CLOSING,
+      OPERATIONAL_I_II: values.OPERATIONAL_I_II,
+    })
+      .then(async () => {
+        await setDoc(
+          doc(db, "Excel", `${props.serial}`),
+          {
+            softwareVersion: values.OPERATIONAL_C_I,
+            voltage: values.OPERATIONAL_C_II,
+            amps: values.OPERATIONAL_G_IV,
+            powerOutput: values.OPERATIONAL_G_VI,
+            notes: values.OPERATIONAL_NOTE,
+            actionTaken: "--",
+          },
+          { merge: true }
+        )
+          .then(() => {
+            setButtonDisabled(false);
+            setLoading(false);
+            message.success("Operational Inspection Completed");
+            window.scrollTo(0, 0);
+            props.setState("3");
+          })
+          .catch((error) => {
+            setButtonDisabled(false);
+            setLoading(false);
+            message.error("error sending the data");
+          });
+      })
+      .catch((error) => {
+        setButtonDisabled(false);
+        setLoading(false);
+        message.error("error sending the data");
+      });
+  };
 
+  const [form] = Form.useForm();
+  form.setFieldsValue({
+    OPERATIONAL_C_III: props.serial,
+  });
   return (
     <Form
+      form={form}
       labelCol={{ span: 7 }}
       style={{ paddingBottom: "5em" }}
       onFinish={addOperational}
       onFinishFailed={onFinishFailed}
+      initialValues={{ remember: true }}
+      name="OperationalInspection"
+      autoComplete="off"
     >
       <Row justify="center">
         <Col xs={20} align="center">
@@ -334,10 +217,20 @@ export const OperationalInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 23 }} sm={{ span: 4, offset: 0 }}>
-          <Radio.Group required name={OPERATIONAL_B_I_I} onChange={onChangeB}>
-            <Radio value={true}>ACC</Radio>
-            <Radio value={false}>NO ACC</Radio>
-          </Radio.Group>
+          <Form.Item
+            name={OPERATIONAL_B_I_I}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeB}>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
+            </Radio.Group>
+          </Form.Item>
         </Col>
       </Row>
       <br />
@@ -409,6 +302,7 @@ export const OperationalInspection = (props) => {
                       style={{ width: 150 }}
                       size="small"
                       type="text"
+                      disabled
                     />
                   </Form.Item>
                 </Col>
@@ -419,14 +313,20 @@ export const OperationalInspection = (props) => {
                     </Text>
                   </Col>
                   <Col xs={22}>
-                    <Radio.Group
-                      required
+                    <Form.Item
                       name={OPERATIONAL_C_IV}
-                      onChange={onChangeC}
+                      rules={[
+                        {
+                          required: true,
+                          message: "Finish the inspection before submitting it",
+                        },
+                      ]}
                     >
-                      <Radio value={true}>ACC</Radio>
-                      <Radio value={false}>NO ACC</Radio>
-                    </Radio.Group>
+                      <Radio.Group onChange={onChangeC}>
+                        <Radio value={true}>ACC</Radio>
+                        <Radio value={false}>NO ACC</Radio>
+                      </Radio.Group>
+                    </Form.Item>
                   </Col>
                 </Col>
               </Row>
@@ -468,10 +368,20 @@ export const OperationalInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 23 }} sm={{ span: 4, offset: 0 }}>
-          <Radio.Group name={OPERATIONAL_E} onChange={onChangeE}>
-            <Radio value={true}>ACC</Radio>
-            <Radio value={false}>NO ACC</Radio>
-          </Radio.Group>
+          <Form.Item
+            name={OPERATIONAL_E}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeE}>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
+            </Radio.Group>
+          </Form.Item>
         </Col>
       </Row>
       <br />
@@ -484,10 +394,20 @@ export const OperationalInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 23 }} sm={{ span: 4, offset: 0 }}>
-          <Radio.Group name={OPERATIONAL_F} onChange={onChangeF}>
-            <Radio value={true}>ACC</Radio>
-            <Radio value={false}>NO ACC</Radio>
-          </Radio.Group>
+          <Form.Item
+            name={OPERATIONAL_F}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeF}>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
+            </Radio.Group>
+          </Form.Item>
         </Col>
       </Row>
       <br />
@@ -729,10 +649,20 @@ export const OperationalInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 23 }} sm={{ span: 4, offset: 0 }}>
-          <Radio.Group name={OPERATIONAL_I_I} onChange={onChangeI}>
-            <Radio value={true}>ACC</Radio>
-            <Radio value={false}>NO ACC</Radio>
-          </Radio.Group>
+          <Form.Item
+            name={OPERATIONAL_I_I}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
+          >
+            <Radio.Group name={OPERATIONAL_I_I} onChange={onChangeI}>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
+            </Radio.Group>
+          </Form.Item>
         </Col>
       </Row>
       <Row>
@@ -781,10 +711,20 @@ export const OperationalInspection = (props) => {
               </Text>
             </Col>
             <Col xs={22}>
-              <Radio.Group name={OPERATIONAL_I_II} onChange={onChangeJ}>
-                <Radio value={true}>ACC</Radio>
-                <Radio value={false}>NO ACC</Radio>
-              </Radio.Group>
+              <Form.Item
+                name={OPERATIONAL_I_II}
+                rules={[
+                  {
+                    required: true,
+                    message: "Finish the inspection before submitting it",
+                  },
+                ]}
+              >
+                <Radio.Group onChange={onChangeJ}>
+                  <Radio value={true}>ACC</Radio>
+                  <Radio value={false}>NO ACC</Radio>
+                </Radio.Group>
+              </Form.Item>
             </Col>
           </Row>
         </Col>

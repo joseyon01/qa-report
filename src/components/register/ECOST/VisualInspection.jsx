@@ -26,14 +26,6 @@ const db = getFirestore();
 export const VisualInspection = (props) => {
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [valueA, setValueA] = useState(null);
-  const [valueB, setValueB] = useState(null);
-  const [valueC, setValueC] = useState(null);
-  const [valueD, setValueD] = useState(null);
-  const [valueE, setValueE] = useState(null);
-  const [valueF, setValueF] = useState(null);
-  const [valueG, setValueG] = useState(null);
-  const [valueH, setValueH] = useState(null);
   const [textA, settextA] = useState("default");
   const [textB, settextB] = useState("default");
   const [textC, settextC] = useState("default");
@@ -43,132 +35,73 @@ export const VisualInspection = (props) => {
   const [textG, settextG] = useState("default");
   const [textH, settextH] = useState("default");
 
-  const onChangeA = (e) => {
-    settextA("default");
-    setValueA(e.target.value);
-  };
-  const onChangeB = (e) => {
-    settextB("default");
-    setValueB(e.target.value);
-  };
-  const onChangeC = (e) => {
-    settextC("default");
-    setValueC(e.target.value);
-  };
-  const onChangeD = (e) => {
-    settextD("default");
-    setValueD(e.target.value);
-  };
-  const onChangeE = (e) => {
-    settextE("default");
-    setValueE(e.target.value);
-  };
-  const onChangeF = (e) => {
-    settextF("default");
-    setValueF(e.target.value);
-  };
-  const onChangeG = (e) => {
-    settextG("default");
-    setValueG(e.target.value);
-  };
-  const onChangeH = (e) => {
-    settextH("default");
-    setValueH(e.target.value);
-  };
+  const onChangeA = () => settextA("default");
+  const onChangeB = () => settextB("default");
+  const onChangeC = () => settextC("default");
+  const onChangeD = () => settextD("default");
+  const onChangeE = () => settextE("default");
+  const onChangeF = () => settextF("default");
+  const onChangeG = () => settextG("default");
+  const onChangeH = () => settextH("default");
 
-  async function onClickF(
-    VISUALQA,
-    VISUALQB,
-    VISUALQC,
-    VISUALQD,
-    VISUALQE,
-    VISUALQF,
-    VISUALQG,
-    VISUALQH
-  ) {
+  const addVisualInspection = async (values) => {
     setButtonDisabled(true);
     setLoading(true);
-    const docRef = await setDoc(
-      doc(db, "VisualInspection", `${props.serial}`),
-      {
-        VISUALQA: VISUALQA,
-        VISUALQB: VISUALQB,
-        VISUALQC: VISUALQC,
-        VISUALQD: VISUALQD,
-        VISUALQE: VISUALQE,
-        VISUALQF: VISUALQF,
-        VISUALQG: VISUALQG,
-        VISUALQH: VISUALQH,
-      }
-    );
-    setLoading(false);
-  }
+    await setDoc(doc(db, "VisualInspection", `${props.serial}`), {
+      VISUALQA: values.VISUAL_Q_A,
+      VISUALQB: values.VISUAL_Q_B,
+      VISUALQC: values.VISUAL_Q_C,
+      VISUALQD: values.VISUAL_Q_D,
+      VISUALQE: values.VISUAL_Q_E,
+      VISUALQF: values.VISUAL_Q_F,
+      VISUALQG: values.VISUAL_Q_G,
+      VISUALQH: values.VISUAL_Q_H,
+    })
+      .then(() => {
+        message.success("Visual Inspection Completed");
+        setButtonDisabled(false);
+        setLoading(false);
+        window.scrollTo(0, 0);
+        props.setState("2");
+      })
+      .catch((error) => {
+        setButtonDisabled(false);
+        setLoading(false);
+        message.error("error sending the data");
+      });
+  };
+  const onFinishFailed = (errorInfo) => {
+    if (errorInfo.values.VISUAL_Q_A == null) settextA("danger");
+    if (errorInfo.values.VISUAL_Q_B == null) settextB("danger");
+    if (errorInfo.values.VISUAL_Q_C == null) settextC("danger");
+    if (errorInfo.values.VISUAL_Q_D == null) settextD("danger");
+    if (errorInfo.values.VISUAL_Q_E == null) settextE("danger");
+    if (errorInfo.values.VISUAL_Q_F == null) settextF("danger");
+    if (errorInfo.values.VISUAL_Q_G == null) settextG("danger");
+    if (errorInfo.values.VISUAL_Q_H == null) settextG("danger");
+    message.error("Finish the Visual Inspection to continue");
+  };
+  const [form] = Form.useForm();
 
-  function addVisualInspection() {
-    const VISUALQA = valueA;
-    const VISUALQB = valueB;
-    const VISUALQC = valueC;
-    const VISUALQD = valueD;
-    const VISUALQE = valueE;
-    const VISUALQF = valueF;
-    const VISUALQG = valueG;
-    const VISUALQH = valueH;
-    if (
-      valueA == null ||
-      valueB == null ||
-      valueC == null ||
-      valueD == null ||
-      valueE == null ||
-      valueF == null ||
-      valueG == null ||
-      valueH == null
-    ) {
-      if (valueA == null) {
-        settextA("danger");
-      }
-      if (valueB == null) {
-        settextB("danger");
-      }
-      if (valueC == null) {
-        settextC("danger");
-      }
-      if (valueD == null) {
-        settextD("danger");
-      }
-      if (valueE == null) {
-        settextE("danger");
-      }
-      if (valueF == null) {
-        settextF("danger");
-      }
-      if (valueG == null) {
-        settextG("danger");
-      }
-      if (valueH == null) {
-        settextH("danger");
-      }
-      message.error("Complete all the fields");
-    } else {
-      onClickF(
-        VISUALQA,
-        VISUALQB,
-        VISUALQC,
-        VISUALQD,
-        VISUALQE,
-        VISUALQF,
-        VISUALQG,
-        VISUALQH
-      );
-      message.success("Visual Inspection Completed");
-      window.scrollTo(0, 0);
-      props.setState("2");
-    }
-  }
   return (
     <Form
       labelCol={{ span: 7 }}
       style={{ paddingBottom: "5em" }}
       onFinish={addVisualInspection}
+      name="ECOSTVisualInspection"
+      onFinishFailed={onFinishFailed}
+      form={form}
+      autoComplete="off"
+      initialValues={{
+        VISUAL_Q_A: true,
+        VISUAL_Q_B: true,
+        VISUAL_Q_C: true,
+        VISUAL_Q_D: true,
+        VISUAL_Q_E: true,
+        VISUAL_Q_F: true,
+        VISUAL_Q_G: true,
+        VISUAL_Q_H: true,
+      }}
     >
       <Row justify="center">
         <Col xs={20} align="center">
@@ -185,10 +118,20 @@ export const VisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Radio.Group required name={VISUALQA} onChange={onChangeA}>
-            <Radio value={true}>ACC</Radio>
-            <Radio value={false}>NO ACC</Radio>
-          </Radio.Group>
+          <Form.Item
+            name={VISUALQA}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeA}>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
+            </Radio.Group>
+          </Form.Item>
         </Col>
       </Row>
       <br />
@@ -201,10 +144,20 @@ export const VisualInspection = (props) => {
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
           <Form.Item>
-            <Radio.Group name={VISUALQB} required onChange={onChangeB}>
-              <Radio value={true}>ACC</Radio>
-              <Radio value={false}>NO ACC</Radio>
-            </Radio.Group>
+            <Form.Item
+              name={VISUALQB}
+              rules={[
+                {
+                  required: true,
+                  message: "FINISH THE INSPECTION!",
+                },
+              ]}
+            >
+              <Radio.Group onChange={onChangeB}>
+                <Radio value={true}>ACC</Radio>
+                <Radio value={false}>NO ACC</Radio>
+              </Radio.Group>
+            </Form.Item>
           </Form.Item>
         </Col>
       </Row>
@@ -216,8 +169,16 @@ export const VisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Form.Item>
-            <Radio.Group name={VISUALQC} required onChange={onChangeC}>
+          <Form.Item
+            name={VISUALQC}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeC}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -231,8 +192,16 @@ export const VisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Form.Item>
-            <Radio.Group name={VISUALQD} required onChange={onChangeD}>
+          <Form.Item
+            name={VISUALQD}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeD}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -244,8 +213,16 @@ export const VisualInspection = (props) => {
           <Text type={textE}>E) Check for Door opens and close freely,</Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Form.Item>
-            <Radio.Group name={VISUALQE} required onChange={onChangeE}>
+          <Form.Item
+            name={VISUALQE}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeE}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -259,8 +236,16 @@ export const VisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Form.Item>
-            <Radio.Group name={VISUALQF} required onChange={onChangeF}>
+          <Form.Item
+            name={VISUALQF}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeF}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -275,8 +260,16 @@ export const VisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Form.Item>
-            <Radio.Group name={VISUALQG} required onChange={onChangeG}>
+          <Form.Item
+            name={VISUALQG}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeG}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -291,8 +284,16 @@ export const VisualInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Form.Item required>
-            <Radio.Group name={VISUALQH} required onChange={onChangeH}>
+          <Form.Item
+            name={VISUALQH}
+            rules={[
+              {
+                required: true,
+                message: "FINISH THE INSPECTION!",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeH}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>

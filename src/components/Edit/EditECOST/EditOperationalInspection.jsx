@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Row, Col, Typography, Radio, Button, Modal } from "antd";
+import {
+  Form,
+  Input,
+  Row,
+  Col,
+  Typography,
+  Radio,
+  Button,
+  Modal,
+  message,
+} from "antd";
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 const db = getFirestore();
 const { Text, Title } = Typography;
@@ -37,8 +47,6 @@ export const EditOperationalInspection = (props) => {
 
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
   const [operational_B_I_I, setOperational_B_I_I] = useState(null);
   const [operational_B_I_II, setOperational_B_I_II] = useState(null);
   const [operational_B_I_III, setOperational_B_I_III] = useState(null);
@@ -63,11 +71,6 @@ export const EditOperationalInspection = (props) => {
   const [operational_OPENING, setOperational_OPENING] = useState(null);
   const [operational_CLOSING, setOperational_CLOSING] = useState(null);
   const [valueJ, setValueJ] = useState(null);
-
-  const showModal = () => setIsModalVisible(true);
-  const handleOk = () => setIsModalVisible(false);
-  const handleCancel = () => setIsModalVisible(false);
-  const showModal2 = () => setModalVisible(true);
   const onChange_B_I_I = (e) => setOperational_B_I_I(e.target.value);
   const onChange_B_I_II = (e) => setOperational_B_I_II(e.target.value);
   const onChange_B_I_III = (e) => setOperational_B_I_III(e.target.value);
@@ -92,162 +95,77 @@ export const EditOperationalInspection = (props) => {
   const onChange_CLOSING = (e) => setOperational_CLOSING(e.target.value);
   const onChangeJ = (e) => setValueJ(e.target.value);
 
-  const handleOk2 = () => {
-    setModalVisible(false);
-    window.scrollTo(0, 0);
-  };
-
-  const handleCancel2 = () => {
-    setModalVisible(false);
-    window.scrollTo(0, 0);
-  };
-
-  async function onClickF(
-    OPERATIONAL_B_I_I,
-    OPERATIONAL_B_I_II,
-    OPERATIONAL_B_I_III,
-    OPERATIONAL_B_I_IV,
-    OPERATIONAL_B_I_V,
-    OPERATIONAL_C,
-    OPERATIONAL_D_I,
-    OPERATIONAL_D_II,
-    OPERATIONAL_D_III,
-    OPERATIONAL_D_IV,
-    OPERATIONAL_E,
-    OPERATIONAL_F,
-    OPERATIONAL_G,
-    OPERATIONAL_H_I,
-    OPERATIONAL_H_IV,
-    OPERATIONAL_H_V,
-    OPERATIONAL_H_VI,
-    OPERATIONAL_I_I,
-    OPERATIONAL_I_II,
-    OPERATIONAL_I_III,
-    OPERATIONAL_NOTE,
-    OPERATIONAL_OPENING,
-    OPERATIONAL_CLOSING,
-    OPERATIONAL_J
-  ) {
+  const addOperational = async (values) => {
+    let result = (operational_H_V - operational_H_I) * (4187 / 30);
+    result = Math.round(result);
+    values.OPERATIONAL_H_VI = result;
+    {
+      values.OPERATIONAL_NOTE == undefined
+        ? (values.OPERATIONAL_NOTE = "")
+        : "";
+    }
     setButtonDisabled(true);
     setLoading(true);
     const docRef = await setDoc(
       doc(db, "OperationalInspection", `${props.serial}`),
       {
-        OPERATIONAL_B_I_I: OPERATIONAL_B_I_I,
-        OPERATIONAL_B_I_II: OPERATIONAL_B_I_II,
-        OPERATIONAL_B_I_III: OPERATIONAL_B_I_III,
-        OPERATIONAL_B_I_IV: OPERATIONAL_B_I_IV,
-        OPERATIONAL_B_I_V: OPERATIONAL_B_I_V,
-        OPERATIONAL_C: OPERATIONAL_C,
-        OPERATIONAL_D_I: OPERATIONAL_D_I,
-        OPERATIONAL_D_II: OPERATIONAL_D_II,
-        OPERATIONAL_D_III: OPERATIONAL_D_III,
-        OPERATIONAL_D_IV: OPERATIONAL_D_IV,
-        OPERATIONAL_E: OPERATIONAL_E,
-        OPERATIONAL_F: OPERATIONAL_F,
-        OPERATIONAL_G: OPERATIONAL_G,
-        OPERATIONAL_H_I: OPERATIONAL_H_I,
-        OPERATIONAL_H_IV: OPERATIONAL_H_IV,
-        OPERATIONAL_H_V: OPERATIONAL_H_V,
-        OPERATIONAL_H_VI: OPERATIONAL_H_VI,
-        OPERATIONAL_I_I: OPERATIONAL_I_I,
-        OPERATIONAL_I_II: OPERATIONAL_I_II,
-        OPERATIONAL_I_III: OPERATIONAL_I_III,
-        OPERATIONAL_NOTE: OPERATIONAL_NOTE,
-        OPERATIONAL_OPENING: OPERATIONAL_OPENING,
-        OPERATIONAL_CLOSING: OPERATIONAL_CLOSING,
-        OPERATIONAL_J: OPERATIONAL_J,
+        OPERATIONAL_B_I_I: values.OPERATIONAL_B_I_I,
+        OPERATIONAL_B_I_II: values.OPERATIONAL_B_I_II,
+        OPERATIONAL_B_I_III: values.OPERATIONAL_B_I_III,
+        OPERATIONAL_B_I_IV: values.OPERATIONAL_B_I_IV,
+        OPERATIONAL_B_I_V: values.OPERATIONAL_B_I_V,
+        OPERATIONAL_C: values.OPERATIONAL_C,
+        OPERATIONAL_D_I: values.OPERATIONAL_D_I,
+        OPERATIONAL_D_II: values.OPERATIONAL_D_II,
+        OPERATIONAL_D_III: values.OPERATIONAL_D_III,
+        OPERATIONAL_D_IV: values.OPERATIONAL_D_IV,
+        OPERATIONAL_E: values.OPERATIONAL_E,
+        OPERATIONAL_F: values.OPERATIONAL_F,
+        OPERATIONAL_G: values.OPERATIONAL_G,
+        OPERATIONAL_H_I: values.OPERATIONAL_H_I,
+        OPERATIONAL_H_IV: values.OPERATIONAL_H_IV,
+        OPERATIONAL_H_V: values.OPERATIONAL_H_V,
+        OPERATIONAL_H_VI: values.OPERATIONAL_H_VI,
+        OPERATIONAL_I_I: values.OPERATIONAL_I_I,
+        OPERATIONAL_I_II: values.OPERATIONAL_I_II,
+        OPERATIONAL_I_III: values.OPERATIONAL_I_III,
+        OPERATIONAL_NOTE: values.OPERATIONAL_NOTE,
+        OPERATIONAL_OPENING: values.OPERATIONAL_OPENING,
+        OPERATIONAL_CLOSING: values.OPERATIONAL_CLOSING,
+        OPERATIONAL_J: values.OPERATIONAL_J,
       }
-    );
-    await setDoc(
-      doc(db, "Excel", `${props.serial}`),
-      {
-        softwareVersion: OPERATIONAL_D_I,
-        voltage: OPERATIONAL_D_II,
-        amps: OPERATIONAL_H_IV,
-        powerOutput: OPERATIONAL_H_VI,
-        notes: OPERATIONAL_NOTE,
-        actionTaken: "--",
-      },
-      { merge: true }
-    );
-    setLoading(false);
-  }
+    )
+      .then(async () => {
+        await setDoc(
+          doc(db, "Excel", `${props.serial}`),
+          {
+            softwareVersion: values.OPERATIONAL_D_I,
+            voltage: values.OPERATIONAL_D_II,
+            amps: values.OPERATIONAL_H_IV,
+            powerOutput: values.OPERATIONAL_H_VI,
+            notes: values.OPERATIONAL_NOTE,
+            actionTaken: "--",
+          },
+          { merge: true }
+        )
+          .then(() => {
+            setLoading(false);
+            message.success("Operational Inspection Completed");
+            window.scrollTo(0, 0);
+          })
+          .catch((error) => {
+            message.error("Error Sending the data");
+            setButtonDisabled(false);
+            setLoading(false);
+          });
+      })
+      .catch((error) => {
+        message.error("Error Sending the data");
+        setButtonDisabled(false);
+        setLoading(false);
+      });
+  };
 
-  function addOperational(values) {
-    const OPERATIONAL_B_I_I = values.OPERATIONAL_B_I_I;
-    const OPERATIONAL_B_I_II = values.OPERATIONAL_B_I_II;
-    const OPERATIONAL_B_I_III = values.OPERATIONAL_B_I_III;
-    const OPERATIONAL_B_I_IV = values.OPERATIONAL_B_I_IV;
-    const OPERATIONAL_B_I_V = values.OPERATIONAL_B_I_V;
-    const OPERATIONAL_C = valueC;
-    const OPERATIONAL_D_I = values.OPERATIONAL_D_I;
-    const OPERATIONAL_D_II = values.OPERATIONAL_D_II;
-    const OPERATIONAL_D_III = values.OPERATIONAL_D_III;
-    const OPERATIONAL_D_IV = valueD;
-    const OPERATIONAL_E = values.OPERATIONAL_E;
-    const OPERATIONAL_F = valueF;
-    const OPERATIONAL_G = valueG;
-    const OPERATIONAL_H_I = values.OPERATIONAL_H_I;
-    const OPERATIONAL_H_IV = values.OPERATIONAL_H_IV;
-    const OPERATIONAL_H_V = values.OPERATIONAL_H_V;
-
-    const value = (a, b) => {
-      let result = (b - a) * (4187 / 30);
-      result = Math.round(result);
-      return result;
-    };
-
-    const OPERATIONAL_H_VI = value(
-      values.OPERATIONAL_H_I,
-      values.OPERATIONAL_H_V
-    );
-    const OPERATIONAL_I_I = values.OPERATIONAL_I_I;
-    const OPERATIONAL_I_II = values.OPERATIONAL_I_II;
-    const OPERATIONAL_I_III = values.OPERATIONAL_I_III;
-    const OPERATIONAL_NOTE = values.OPERATIONAL_NOTE;
-    const OPERATIONAL_OPENING = values.OPERATIONAL_OPENING;
-    const OPERATIONAL_CLOSING = values.OPERATIONAL_CLOSING;
-    const OPERATIONAL_J = valueJ;
-
-    if (
-      OPERATIONAL_C == null ||
-      OPERATIONAL_D_IV == null ||
-      OPERATIONAL_F == null ||
-      OPERATIONAL_G == null ||
-      OPERATIONAL_J == null
-    ) {
-      showModal();
-    } else {
-      onClickF(
-        OPERATIONAL_B_I_I,
-        OPERATIONAL_B_I_II,
-        OPERATIONAL_B_I_III,
-        OPERATIONAL_B_I_IV,
-        OPERATIONAL_B_I_V,
-        OPERATIONAL_C,
-        OPERATIONAL_D_I,
-        OPERATIONAL_D_II,
-        OPERATIONAL_D_III,
-        OPERATIONAL_D_IV,
-        OPERATIONAL_E,
-        OPERATIONAL_F,
-        OPERATIONAL_G,
-        OPERATIONAL_H_I,
-        OPERATIONAL_H_IV,
-        OPERATIONAL_H_V,
-        OPERATIONAL_H_VI,
-        OPERATIONAL_I_I,
-        OPERATIONAL_I_II,
-        OPERATIONAL_I_III,
-        OPERATIONAL_NOTE,
-        OPERATIONAL_OPENING,
-        OPERATIONAL_CLOSING,
-        OPERATIONAL_J
-      );
-      showModal2();
-    }
-  }
   const getDataOven = async () => {
     try {
       const docRef = doc(db, "OperationalInspection", `${ovenSerial}`);
@@ -281,6 +199,10 @@ export const EditOperationalInspection = (props) => {
       console.error("error", error);
     }
   };
+  const onFinishFailed = (errorInfo) => {
+    console.log("error: ", errorInfo.values);
+    message.error("Finish the inspection!");
+  };
   form.setFieldsValue({
     OPERATIONAL_B_I_I: operational_B_I_I,
     OPERATIONAL_B_I_II: operational_B_I_II,
@@ -290,7 +212,7 @@ export const EditOperationalInspection = (props) => {
     OPERATIONAL_C: valueC,
     OPERATIONAL_D_I: operational_D_I,
     OPERATIONAL_D_II: operational_D_II,
-    OPERATIONAL_D_III: operational_D_III,
+    OPERATIONAL_D_III: props.serial,
     OPERATIONAL_D_IV: valueD,
     OPERATIONAL_E: operational_E,
     OPERATIONAL_F: valueF,
@@ -313,12 +235,13 @@ export const EditOperationalInspection = (props) => {
   return (
     <Form
       form={form}
-      initialValues={{
-        remember: true,
-      }}
+      name="ECOSTOperationalInspection"
+      initialValues={{ remember: true }}
       labelCol={{ span: 7 }}
       style={{ paddingBottom: "5em" }}
       onFinish={addOperational}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
     >
       <Row justify="center">
         <Col xs={20} align="center">
@@ -344,10 +267,15 @@ export const EditOperationalInspection = (props) => {
                 <Col xs={22}>
                   <Form.Item
                     name={OPERATIONAL_B_I_I}
-                    value={operational_B_I_I}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
                     onChange={onChange_B_I_I}
                   >
-                    <Input style={{ width: 150 }} size="small" required />
+                    <Input style={{ width: 150 }} size="small" />
                   </Form.Item>
                 </Col>
                 <Col xs={22}>
@@ -356,10 +284,15 @@ export const EditOperationalInspection = (props) => {
                 <Col xs={22}>
                   <Form.Item
                     name={OPERATIONAL_B_I_II}
-                    value={operational_B_I_II}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
                     onChange={onChange_B_I_II}
                   >
-                    <Input style={{ width: 150 }} size="small" required />
+                    <Input style={{ width: 150 }} size="small" />
                   </Form.Item>
                 </Col>
                 <Col xs={22}>
@@ -368,10 +301,15 @@ export const EditOperationalInspection = (props) => {
                 <Col xs={22}>
                   <Form.Item
                     name={OPERATIONAL_B_I_III}
-                    value={operational_B_I_III}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
                     onChange={onChange_B_I_III}
                   >
-                    <Input style={{ width: 150 }} size="small" required />
+                    <Input style={{ width: 150 }} size="small" />
                   </Form.Item>
                 </Col>
                 <Col xs={22}>
@@ -380,10 +318,15 @@ export const EditOperationalInspection = (props) => {
                 <Col xs={22}>
                   <Form.Item
                     name={OPERATIONAL_B_I_IV}
-                    value={operational_B_I_IV}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
                     onChange={onChange_B_I_IV}
                   >
-                    <Input style={{ width: 150 }} size="small" required />
+                    <Input style={{ width: 150 }} size="small" />
                   </Form.Item>
                 </Col>
                 <Col xs={22}>
@@ -392,10 +335,15 @@ export const EditOperationalInspection = (props) => {
                 <Col xs={22}>
                   <Form.Item
                     name={OPERATIONAL_B_I_V}
-                    value={operational_B_I_V}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
                     onChange={onChange_B_I_V}
                   >
-                    <Input style={{ width: 150 }} size="small" required />
+                    <Input style={{ width: 150 }} size="small" />
                   </Form.Item>
                 </Col>
               </Row>
@@ -411,15 +359,20 @@ export const EditOperationalInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 23 }} sm={{ span: 4, offset: 0 }}>
-          <Radio.Group
-            required
+          <Form.Item
             name={OPERATIONAL_C}
-            onChange={onChangeC}
-            value={valueC}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
           >
-            <Radio value={true}>ACC</Radio>
-            <Radio value={false}>NO ACC</Radio>
-          </Radio.Group>
+            <Radio.Group onChange={onChangeC}>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
+            </Radio.Group>
+          </Form.Item>
         </Col>
       </Row>
       <br />
@@ -437,7 +390,12 @@ export const EditOperationalInspection = (props) => {
                 <Col xs={22}>
                   <Form.Item
                     name={OPERATIONAL_D_I}
-                    value={operational_D_I}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
                     onChange={onChange_D_I}
                   >
                     <Input
@@ -445,7 +403,6 @@ export const EditOperationalInspection = (props) => {
                       style={{ width: 150 }}
                       size="small"
                       type="number"
-                      required
                     />
                   </Form.Item>
                 </Col>
@@ -455,7 +412,12 @@ export const EditOperationalInspection = (props) => {
                 <Col xs={22}>
                   <Form.Item
                     name={OPERATIONAL_D_II}
-                    value={operational_D_II}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
                     onChange={onChange_D_II}
                   >
                     <Input
@@ -463,7 +425,6 @@ export const EditOperationalInspection = (props) => {
                       style={{ width: 150 }}
                       size="small"
                       type="number"
-                      required
                     />
                   </Form.Item>
                 </Col>
@@ -473,7 +434,12 @@ export const EditOperationalInspection = (props) => {
                 <Col xs={22}>
                   <Form.Item
                     name={OPERATIONAL_D_III}
-                    value={operational_D_III}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
                     onChange={onChange_D_III}
                   >
                     <Input
@@ -481,7 +447,7 @@ export const EditOperationalInspection = (props) => {
                       style={{ width: 150 }}
                       size="small"
                       type="text"
-                      required
+                      disabled
                     />
                   </Form.Item>
                 </Col>
@@ -493,15 +459,21 @@ export const EditOperationalInspection = (props) => {
                       </Text>
                     </Col>
                     <Col xs={{ span: 22 }}>
-                      <Radio.Group
-                        required
+                      <Form.Item
                         name={OPERATIONAL_D_IV}
-                        onChange={onChangeD}
-                        value={valueD}
+                        rules={[
+                          {
+                            required: true,
+                            message:
+                              "Finish the inspection before submitting it",
+                          },
+                        ]}
                       >
-                        <Radio value={true}>ACC</Radio>
-                        <Radio value={false}>NO ACC</Radio>
-                      </Radio.Group>
+                        <Radio.Group onChange={onChangeD}>
+                          <Radio value={true}>ACC</Radio>
+                          <Radio value={false}>NO ACC</Radio>
+                        </Radio.Group>
+                      </Form.Item>
                     </Col>
                   </Row>
                 </Col>
@@ -520,7 +492,12 @@ export const EditOperationalInspection = (props) => {
         <Col xs={{ span: 23 }} sm={{ span: 4, offset: 0 }}>
           <Form.Item
             name={OPERATIONAL_E}
-            value={operational_E}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
             onChange={onChange_E}
           >
             <Input
@@ -528,7 +505,6 @@ export const EditOperationalInspection = (props) => {
               size="small"
               style={{ width: 150 }}
               placeholder="VAC"
-              required
             />
           </Form.Item>
         </Col>
@@ -541,10 +517,20 @@ export const EditOperationalInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 23 }} sm={{ span: 4, offset: 0 }}>
-          <Radio.Group name={OPERATIONAL_F} onChange={onChangeF} value={valueF}>
-            <Radio value={true}>ACC</Radio>
-            <Radio value={false}>NO ACC</Radio>
-          </Radio.Group>
+          <Form.Item
+            name={OPERATIONAL_F}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeF}>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
+            </Radio.Group>
+          </Form.Item>
         </Col>
       </Row>
       <br />
@@ -560,10 +546,20 @@ export const EditOperationalInspection = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 23 }} sm={{ span: 4, offset: 0 }}>
-          <Radio.Group name={OPERATIONAL_G} onChange={onChangeG} value={valueG}>
-            <Radio value={true}>ACC</Radio>
-            <Radio value={false}>NO ACC</Radio>
-          </Radio.Group>
+          <Form.Item
+            name={OPERATIONAL_G}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeG}>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
+            </Radio.Group>
+          </Form.Item>
         </Col>
       </Row>
       <br />
@@ -589,14 +585,18 @@ export const EditOperationalInspection = (props) => {
                   <Form.Item
                     name={OPERATIONAL_H_I}
                     onChange={onChange_H_I}
-                    value={operational_H_I}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
                   >
                     <Input
                       type="number"
                       size="small"
                       style={{ width: 150 }}
                       placeholder="°C"
-                      required
                     />
                   </Form.Item>
                 </Col>
@@ -622,7 +622,12 @@ export const EditOperationalInspection = (props) => {
                 <Col xs={22}>
                   <Form.Item
                     name={OPERATIONAL_H_IV}
-                    value={operational_H_IV}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
                     onChange={onChange_H_IV}
                   >
                     <Input
@@ -630,7 +635,6 @@ export const EditOperationalInspection = (props) => {
                       size="small"
                       style={{ width: 150 }}
                       placeholder="AMPS"
-                      required
                     />
                   </Form.Item>
                 </Col>
@@ -645,7 +649,12 @@ export const EditOperationalInspection = (props) => {
                   <Text>enter T final via Keypad</Text>
                   <Form.Item
                     name={OPERATIONAL_H_V}
-                    value={operational_H_V}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
                     onChange={onChange_H_V}
                   >
                     <Input
@@ -653,7 +662,6 @@ export const EditOperationalInspection = (props) => {
                       size="small"
                       style={{ width: 150 }}
                       placeholder="°C"
-                      required
                     />
                   </Form.Item>
                 </Col>
@@ -716,14 +724,14 @@ export const EditOperationalInspection = (props) => {
                   <Form.Item
                     name={OPERATIONAL_I_I}
                     onChange={onChange_I_I}
-                    value={operational_I_I}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
                   >
-                    <Input
-                      type="time"
-                      size="small"
-                      style={{ width: 150 }}
-                      required
-                    />
+                    <Input type="time" size="small" style={{ width: 150 }} />
                   </Form.Item>
                 </Col>
                 <Col xs={22}>
@@ -736,14 +744,18 @@ export const EditOperationalInspection = (props) => {
                   <Form.Item
                     name={OPERATIONAL_I_II}
                     onChange={onChange_I_II}
-                    value={operational_I_II}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
                   >
                     <Input
                       type="text"
                       size="small"
                       style={{ width: 150 }}
                       placeholder=""
-                      required
                     />
                   </Form.Item>
                 </Col>
@@ -754,14 +766,14 @@ export const EditOperationalInspection = (props) => {
                   <Form.Item
                     name={OPERATIONAL_I_III}
                     onChange={onChange_I_III}
-                    value={operational_I_III}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Finish the inspection before submitting it",
+                      },
+                    ]}
                   >
-                    <Input
-                      type="time"
-                      size="small"
-                      style={{ width: 150 }}
-                      required
-                    />
+                    <Input type="time" size="small" style={{ width: 150 }} />
                   </Form.Item>
                 </Col>
                 <Col xs={22}>
@@ -779,11 +791,7 @@ export const EditOperationalInspection = (props) => {
       <Row justify="center">
         <Col xs={22}>
           <Text>NOTES</Text>
-          <Form.Item
-            name={OPERATIONAL_NOTE}
-            onChange={onChange_NOTE}
-            value={operational_NOTE}
-          >
+          <Form.Item name={OPERATIONAL_NOTE} onChange={onChange_NOTE}>
             <TextArea autoSize={{ minRows: 3, maxRows: 4 }} maxLength={320} />
           </Form.Item>
         </Col>
@@ -801,14 +809,14 @@ export const EditOperationalInspection = (props) => {
               <Form.Item
                 name={OPERATIONAL_OPENING}
                 onChange={onChange_OPENING}
-                value={operational_OPENING}
+                rules={[
+                  {
+                    required: true,
+                    message: "Finish the inspection before submitting it",
+                  },
+                ]}
               >
-                <Input
-                  type="text"
-                  size="small"
-                  style={{ width: 150 }}
-                  required
-                />
+                <Input type="text" size="small" style={{ width: 150 }} />
               </Form.Item>
             </Col>
             <Col xs={22}>
@@ -820,14 +828,14 @@ export const EditOperationalInspection = (props) => {
               <Form.Item
                 name={OPERATIONAL_CLOSING}
                 onChange={onChange_CLOSING}
-                value={operational_CLOSING}
+                rules={[
+                  {
+                    required: true,
+                    message: "Finish the inspection before submitting it",
+                  },
+                ]}
               >
-                <Input
-                  type="text"
-                  size="small"
-                  style={{ width: 150 }}
-                  required
-                />
+                <Input type="text" size="small" style={{ width: 150 }} />
               </Form.Item>
             </Col>
           </Row>
@@ -838,10 +846,20 @@ export const EditOperationalInspection = (props) => {
           <Text>J) Are Switch arms still engaging?</Text>
         </Col>
         <Col xs={{ span: 23 }} sm={{ span: 4, offset: 0 }}>
-          <Radio.Group name={OPERATIONAL_J} onChange={onChangeJ} value={valueJ}>
-            <Radio value={true}>ACC</Radio>
-            <Radio value={false}>NO ACC</Radio>
-          </Radio.Group>
+          <Form.Item
+            name={OPERATIONAL_J}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeJ}>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
+            </Radio.Group>
+          </Form.Item>
         </Col>
       </Row>
       <br />
@@ -858,24 +876,6 @@ export const EditOperationalInspection = (props) => {
             >
               {loading ? "" : "Submit"}
             </Button>
-            <Modal
-              visible={isModalVisible}
-              onOk={handleOk}
-              style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
-              onCancel={handleCancel}
-            >
-              <Title level={3}>Error..!</Title>
-              <Text>All fields are required</Text>
-            </Modal>
-            <Modal
-              visible={modalVisible}
-              onOk={handleCancel2}
-              style={{ backgroundColor: "#2ECC71", borderRadius: "1em" }}
-              onCancel={handleCancel2}
-            >
-              <Title level={3}>OK..!</Title>
-              <Text>The data has been successfully stored</Text>
-            </Modal>
           </Form.Item>
         </Col>
       </Row>

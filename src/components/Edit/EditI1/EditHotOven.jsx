@@ -1,4 +1,14 @@
-import { Form, Input, Row, Col, Typography, Radio, Button, Modal } from "antd";
+import {
+  Form,
+  Input,
+  Row,
+  Col,
+  Typography,
+  Radio,
+  Button,
+  Modal,
+  message,
+} from "antd";
 import {
   HOT_OVEN_B_DOOR,
   HOT_OVEN_B_SIDES,
@@ -62,10 +72,7 @@ export const EditHotOven = (props) => {
   const onChangeC = (e) => setValueC(e.target.value);
   const onChangeD = (e) => setValueD(e.target.value);
   const onChangeE = (e) => setValueE(e.target.value);
-  const showModal = () => setIsModalVisible(true);
-  const handleOk = () => setIsModalVisible(false);
-  const handleCancel = () => setIsModalVisible(false);
-  const showModal2 = () => setModalVisible(true);
+
   const handleOk2 = () => {
     setModalVisible(false);
     window.scrollTo(0, 0);
@@ -76,113 +83,65 @@ export const EditHotOven = (props) => {
     window.scrollTo(0, 0);
   };
 
-  async function onClickF(
-    HOT_OVEN_B_DOOR,
-    HOT_OVEN_B_SIDES,
-    HOT_OVEN_TOP_R,
-    HOT_OVEN_TOP_L,
-    HOT_OVEN_BOT_R,
-    HOT_OVEN_BOT_L,
-    HOT_OVEN_RECHECK,
-    HOT_OVEN_C,
-    HOT_OVEN_D,
-    HOT_OVEN_E,
-    OVEN_APROVE_OR_NOT,
-    COSMETICS,
-    ELECTRICALCOMPONENTS,
-    BLOWERSYSTEM,
-    HEATINGANDTEMPERATURESYSTEM,
-    WIRING,
-    LOOSEOREXTRAPARTS,
-    INCORRECTSOFTWAREUPLOADED,
-    INCORRECTMENUUPLOADED,
-    MICROWAVCIRCUIT,
-    COOCKINGCOMPONENTS,
-    DOORSYSTEM
-  ) {
+  const [form] = Form.useForm();
+  const addHotOven = async (values) => {
     setButtonDisabled(true);
     setLoading(true);
     const docRef = await setDoc(
       doc(db, "HotOvenInspection", `${props.serial}`),
       {
-        HOT_OVEN_B_DOOR: HOT_OVEN_B_DOOR,
-        HOT_OVEN_B_SIDES: HOT_OVEN_B_SIDES,
-        HOT_OVEN_TOP_R: HOT_OVEN_TOP_R,
-        HOT_OVEN_TOP_L: HOT_OVEN_TOP_L,
-        HOT_OVEN_BOT_R: HOT_OVEN_BOT_R,
-        HOT_OVEN_BOT_L: HOT_OVEN_BOT_L,
-        HOT_OVEN_RECHECK: HOT_OVEN_RECHECK,
-        HOT_OVEN_C: HOT_OVEN_C,
-        HOT_OVEN_D: HOT_OVEN_D,
-        HOT_OVEN_E: HOT_OVEN_E,
-        OVEN_APROVE_OR_NOT: OVEN_APROVE_OR_NOT,
-        COSMETICS: COSMETICS,
-        ELECTRICALCOMPONENTS: ELECTRICALCOMPONENTS,
-        BLOWERSYSTEM: BLOWERSYSTEM,
-        HEATINGANDTEMPERATURESYSTEM: HEATINGANDTEMPERATURESYSTEM,
-        WIRING: WIRING,
-        LOOSEOREXTRAPARTS: LOOSEOREXTRAPARTS,
-        INCORRECTSOFTWAREUPLOADED: INCORRECTSOFTWAREUPLOADED,
-        INCORRECTMENUUPLOADED: INCORRECTMENUUPLOADED,
-        MICROWAVCIRCUIT: MICROWAVCIRCUIT,
-        COOCKINGCOMPONENTS: COOCKINGCOMPONENTS,
-        DOORSYSTEM: DOORSYSTEM,
+        HOT_OVEN_B_DOOR: values.HOT_OVEN_B_DOOR,
+        HOT_OVEN_B_SIDES: values.HOT_OVEN_B_SIDES,
+        HOT_OVEN_TOP_R: values.HOT_OVEN_TOP_R,
+        HOT_OVEN_TOP_L: values.HOT_OVEN_TOP_L,
+        HOT_OVEN_BOT_R: values.HOT_OVEN_BOT_R,
+        HOT_OVEN_BOT_L: values.HOT_OVEN_BOT_L,
+        HOT_OVEN_RECHECK: values.HOT_OVEN_RECHECK,
+        HOT_OVEN_C: values.HOT_OVEN_C,
+        HOT_OVEN_D: values.HOT_OVEN_D,
+        HOT_OVEN_E: values.HOT_OVEN_E,
+        OVEN_APROVE_OR_NOT: values.OVEN_APROVE_OR_NOT,
+        COSMETICS: problems.COSMETICS,
+        ELECTRICALCOMPONENTS: problems.ELECTRICALCOMPONENTS,
+        BLOWERSYSTEM: problems.BLOWERSYSTEM,
+        HEATINGANDTEMPERATURESYSTEM: problems.HEATINGANDTEMPERATURESYSTEM,
+        WIRING: problems.WIRING,
+        LOOSEOREXTRAPARTS: problems.LOOSEOREXTRAPARTS,
+        INCORRECTSOFTWAREUPLOADED: problems.INCORRECTSOFTWAREUPLOADED,
+        INCORRECTMENUUPLOADED: problems.INCORRECTMENUUPLOADED,
+        MICROWAVCIRCUIT: problems.MICROWAVCIRCUIT,
+        COOCKINGCOMPONENTS: problems.COOCKINGCOMPONENTS,
+        DOORSYSTEM: problems.DOORSYSTEM,
       }
-    );
-    setLoading(false);
-  }
-  const [form] = Form.useForm();
-  async function addHotOven(values, arrayOvens) {
-    const HOT_OVEN_B_DOOR = values.HOT_OVEN_B_DOOR;
-    const HOT_OVEN_B_SIDES = values.HOT_OVEN_B_SIDES;
-    const HOT_OVEN_TOP_R = values.HOT_OVEN_TOP_R;
-    const HOT_OVEN_TOP_L = values.HOT_OVEN_TOP_L;
-    const HOT_OVEN_BOT_R = values.HOT_OVEN_BOT_R;
-    const HOT_OVEN_BOT_L = values.HOT_OVEN_BOT_L;
-    const HOT_OVEN_RECHECK = valueOvenR;
-    const HOT_OVEN_C = values.HOT_OVEN_C;
-    const HOT_OVEN_D = values.HOT_OVEN_D;
-    const HOT_OVEN_E = values.HOT_OVEN_E;
-    const OVEN_APROVE_OR_NOT = valueAON;
-
-    if (HOT_OVEN_RECHECK == null || OVEN_APROVE_OR_NOT == null) {
-      showModal();
-    } else {
-      if (OVEN_APROVE_OR_NOT) {
-        const ovenRef = doc(db, "oven", `${props.serial}`);
-        setDoc(ovenRef, { status: "Aprooved" }, { merge: true });
-      } else {
-        const ovenRef = doc(db, "oven", `${props.serial}`);
-        setDoc(ovenRef, { status: "Rejected" }, { merge: true });
-      }
-
-      onClickF(
-        HOT_OVEN_B_DOOR,
-        HOT_OVEN_B_SIDES,
-        HOT_OVEN_TOP_R,
-        HOT_OVEN_TOP_L,
-        HOT_OVEN_BOT_R,
-        HOT_OVEN_BOT_L,
-        HOT_OVEN_RECHECK,
-        HOT_OVEN_C,
-        HOT_OVEN_D,
-        HOT_OVEN_E,
-        OVEN_APROVE_OR_NOT,
-        problems.COSMETICS,
-        problems.ELECTRICALCOMPONENTS,
-        problems.BLOWERSYSTEM,
-        problems.HEATINGANDTEMPERATURESYSTEM,
-        problems.WIRING,
-        problems.LOOSEOREXTRAPARTS,
-        problems.INCORRECTSOFTWAREUPLOADED,
-        problems.INCORRECTMENUUPLOADED,
-        problems.MICROWAVCIRCUIT,
-        problems.COOCKINGCOMPONENTS,
-        problems.DOORSYSTEM
-      );
-      showModal2();
-    }
-  }
+    )
+      .then(() => {
+        if (OVEN_APROVE_OR_NOT) {
+          const ovenRef = doc(db, "oven", `${props.serial}`);
+          setDoc(ovenRef, { status: "Aprooved" }, { merge: true });
+          setDoc(
+            doc(db, "Excel", `${props.serial}`),
+            { status: "Aprooved" },
+            { merge: true }
+          );
+        } else {
+          const ovenRef = doc(db, "oven", `${props.serial}`);
+          setDoc(ovenRef, { status: "Rejected" }, { merge: true });
+          setDoc(
+            doc(db, "Excel", `${props.serial}`),
+            { status: "Rejected" },
+            { merge: true }
+          );
+        }
+        setLoading(false);
+        message.success("Final Inspection Completed");
+        setModalVisible(true);
+      })
+      .catch((error) => {
+        setLoading(false);
+        setButtonDisabled(false);
+        message.error("Error sending the Data");
+      });
+  };
   const getDataOven = async () => {
     try {
       const docRef = doc(db, "HotOvenInspection", `${ovenSerial}`);
@@ -244,7 +203,7 @@ export const EditHotOven = (props) => {
     HOT_OVEN_BOT_L: valueBotL,
     HOT_OVEN_RECHECK: valueOvenR,
     HOT_OVEN_C: valueC,
-    HOT_OVEN_D: valueD,
+    HOT_OVEN_D: 213084,
     HOT_OVEN_E: valueE,
     OVEN_APROVE_OR_NOT: valueAON,
   });
@@ -306,22 +265,27 @@ export const EditHotOven = (props) => {
           <Text>DOOR</Text>
           <Form.Item
             name={HOT_OVEN_B_DOOR}
-            value={valueDoor}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
             onChange={onChangeDoor}
           >
-            <Input
-              type="number"
-              size="small"
-              style={{ width: "100%" }}
-              required
-            />
+            <Input type="number" size="small" style={{ width: "100%" }} />
           </Form.Item>
         </Col>
         <Col xs={8} sm={6}>
           <Text>Rt & Lt Sides</Text>
           <Form.Item
             name={HOT_OVEN_B_SIDES}
-            value={valueSides}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
             onChange={onChangeSides}
           >
             <Input
@@ -329,7 +293,6 @@ export const EditHotOven = (props) => {
               placeholder={"mW/cm2"}
               size="small"
               style={{ width: "100%" }}
-              required
             />
           </Form.Item>
         </Col>
@@ -339,31 +302,31 @@ export const EditHotOven = (props) => {
         <Col xs={{ span: 7, offset: 1 }} sm={{ span: 5, offset: 3 }}>
           <Form.Item
             name={HOT_OVEN_TOP_L}
-            value={valueTopL}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
             style={{ marginBottom: "0" }}
             onChange={onChangeTopL}
           >
-            <Input
-              type="number"
-              size="small"
-              style={{ width: "100%" }}
-              required
-            />
+            <Input type="number" size="small" style={{ width: "100%" }} />
           </Form.Item>
         </Col>
         <Col xs={{ span: 7, offset: 8 }} sm={{ span: 5, offset: 8 }}>
           <Form.Item
             name={HOT_OVEN_TOP_R}
-            value={valueTopR}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
             style={{ marginBottom: "0" }}
             onChange={onChangeTopR}
           >
-            <Input
-              type="number"
-              size="small"
-              style={{ width: "100%" }}
-              required
-            />
+            <Input type="number" size="small" style={{ width: "100%" }} />
           </Form.Item>
         </Col>
       </Row>
@@ -389,29 +352,29 @@ export const EditHotOven = (props) => {
         <Col xs={{ span: 7, offset: 1 }} sm={{ span: 5, offset: 3 }}>
           <Form.Item
             name={HOT_OVEN_BOT_L}
-            value={valueBotL}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
             onChange={onChangeBotL}
           >
-            <Input
-              type="number"
-              size="small"
-              style={{ width: "100%" }}
-              required
-            />
+            <Input type="number" size="small" style={{ width: "100%" }} />
           </Form.Item>
         </Col>
         <Col xs={{ span: 7, offset: 8 }} sm={{ span: 5, offset: 8 }}>
           <Form.Item
             name={HOT_OVEN_BOT_R}
-            value={valueBotR}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
             onChange={onChangeBotR}
           >
-            <Input
-              type="number"
-              size="small"
-              style={{ width: "100%" }}
-              required
-            />
+            <Input type="number" size="small" style={{ width: "100%" }} />
           </Form.Item>
         </Col>
       </Row>
@@ -424,14 +387,20 @@ export const EditHotOven = (props) => {
           </Text>
         </Col>
         <Col xs={{ span: 23 }} sm={{ span: 4, offset: 0 }}>
-          <Radio.Group
+          <Form.Item
             name={HOT_OVEN_RECHECK}
-            onChange={onChangeRC}
-            value={valueOvenR}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
           >
-            <Radio value={true}>ACC</Radio>
-            <Radio value={false}>NO ACC</Radio>
-          </Radio.Group>
+            <Radio.Group onChange={onChangeRC}>
+              <Radio value={true}>ACC</Radio>
+              <Radio value={false}>NO ACC</Radio>
+            </Radio.Group>
+          </Form.Item>
         </Col>
       </Row>
       <br />
@@ -442,15 +411,15 @@ export const EditHotOven = (props) => {
               <Form.Item
                 label="C) Cook time count"
                 name={HOT_OVEN_C}
-                value={valueC}
+                rules={[
+                  {
+                    required: true,
+                    message: "Finish the inspection before submitting it",
+                  },
+                ]}
                 onChange={onChangeC}
               >
-                <Input
-                  type="number"
-                  size="small"
-                  style={{ width: 150 }}
-                  required
-                />
+                <Input type="number" size="small" style={{ width: 150 }} />
               </Form.Item>
             </Col>
           </Row>
@@ -459,14 +428,19 @@ export const EditHotOven = (props) => {
               <Form.Item
                 label="D) survey meter #"
                 name={HOT_OVEN_D}
-                value={valueD}
+                rules={[
+                  {
+                    required: true,
+                    message: "Finish the inspection before submitting it",
+                  },
+                ]}
                 onChange={onChangeD}
               >
                 <Input
                   type="number"
                   size="small"
                   style={{ width: 150 }}
-                  required
+                  disabled
                 />
               </Form.Item>
             </Col>
@@ -476,15 +450,15 @@ export const EditHotOven = (props) => {
               <Form.Item
                 label="E) Clear cook time foults"
                 name={HOT_OVEN_E}
-                value={valueE}
+                rules={[
+                  {
+                    required: true,
+                    message: "Finish the inspection before submitting it",
+                  },
+                ]}
                 onChange={onChangeE}
               >
-                <Input
-                  type="number"
-                  size="small"
-                  style={{ width: 150 }}
-                  required
-                />
+                <Input type="number" size="small" style={{ width: 150 }} />
               </Form.Item>
             </Col>
           </Row>
@@ -493,12 +467,16 @@ export const EditHotOven = (props) => {
       <Row justify="center">
         <Col xs={6}>
           <Text>APROVED</Text>
-          <Form.Item>
-            <Radio.Group
-              name={OVEN_APROVE_OR_NOT}
-              onChange={onChangeAON}
-              value={valueAON}
-            >
+          <Form.Item
+            name={OVEN_APROVE_OR_NOT}
+            rules={[
+              {
+                required: true,
+                message: "Finish the inspection before submitting it",
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChangeAON}>
               <Radio value={true}>ACC</Radio>
               <Radio value={false}>NO ACC</Radio>
             </Radio.Group>
@@ -529,15 +507,6 @@ export const EditHotOven = (props) => {
               {loading ? "" : "Submit"}
             </Button>
             <Modal
-              visible={isModalVisible}
-              onOk={handleOk}
-              onCancel={handleCancel}
-              style={{ backgroundColor: "#E74C3C", borderRadius: "1em" }}
-            >
-              <Title level={3}>Error..!</Title>
-              <Text>All fields are required</Text>
-            </Modal>
-            <Modal
               visible={modalVisible}
               onOk={handleOk2}
               onCancel={handleCancel2}
@@ -546,7 +515,9 @@ export const EditHotOven = (props) => {
               <Title level={3}>OK..!</Title>
               <Text>The data has been successfully stored</Text>
               <br />
-              <Text>Go to dashboard</Text>
+              <Text>Click Ok to Finish the Inspection</Text>
+              <br />
+              <Text>Click cancel if you whant to upload some Images</Text>
             </Modal>
           </Form.Item>
         </Col>
