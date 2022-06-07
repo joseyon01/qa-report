@@ -162,7 +162,7 @@ export const I3Pdf = (props) => {
     doc.setFontSize(13);
 
     doc.text(
-      "ENC NEW AND REFURBISHED OVENS QUALITY ASSURANCE CHECKLIST",
+      "I3 NEW AND REFURBISHED OVENS QUALITY ASSURANCE CHECKLIST",
       40,
       70
     );

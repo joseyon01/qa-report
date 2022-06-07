@@ -171,7 +171,7 @@ export const I1Pdf = (props) => {
     doc.setFontSize(13);
 
     doc.text(
-      "ENC NEW AND REFURBISHED OVENS QUALITY ASSURANCE CHECKLIST",
+      "I1 NEW AND REFURBISHED OVENS QUALITY ASSURANCE CHECKLIST",
       40,
       70
     );

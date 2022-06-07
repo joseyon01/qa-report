@@ -201,8 +201,8 @@ export const EditFinalInspection = (props) => {
     HOT_OVEN_BOT_R: valueBotR,
     HOT_OVEN_BOT_L: valueBotL,
     HOT_OVEN_RECHECK: valueOvenR,
-    HOT_OVEN_C: valueC,
-    HOT_OVEN_D: 213084,
+    HOT_OVEN_C: 213084,
+    HOT_OVEN_D: valueD,
     HOT_OVEN_E: valueE,
     OVEN_APROVE_OR_NOT: valueAON,
   });
