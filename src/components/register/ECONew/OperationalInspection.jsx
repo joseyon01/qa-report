@@ -152,9 +152,7 @@ export const OperationalInspection = (props) => {
       });
   };
   const [form] = Form.useForm();
-  form.setFieldsValue({
-    OPERATIONAL_D_III: props.serial,
-  });
+  form.setFieldsValue({});
   return (
     <Form
       form={form}
@@ -162,7 +160,7 @@ export const OperationalInspection = (props) => {
       style={{ paddingBottom: "5em" }}
       onFinish={addOperational}
       onFinishFailed={onFinishFailed}
-      initialValues={{ remember: true }}
+      initialValues={{ OPERATIONAL_D_III: props.serial }}
       name="OperationalInspection"
       autoComplete="off"
     >
@@ -433,7 +431,6 @@ export const OperationalInspection = (props) => {
                       style={{ width: 150 }}
                       size="small"
                       type="text"
-                      disabled
                     />
                   </Form.Item>
                 </Col>

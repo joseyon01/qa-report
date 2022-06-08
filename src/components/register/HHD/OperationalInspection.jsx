@@ -283,15 +283,16 @@ export const OperationalInspection = (props) => {
   };
 
   const [form] = Form.useForm();
-  form.setFieldsValue({
-    OPERATIONAL_A_III: props.serial,
-  });
+  form.setFieldsValue({});
   return (
     <Form
       form={form}
       labelCol={{ span: 7 }}
       style={{ paddingBottom: "5em" }}
       onFinish={addOperational}
+      initialValues={{
+        OPERATIONAL_A_III: props.serial,
+      }}
       onFinishFailed={onFinishFailed}
     >
       <Row justify="center">
@@ -389,7 +390,6 @@ export const OperationalInspection = (props) => {
                       style={{ width: 150 }}
                       size="small"
                       type="text"
-                      disabled
                     />
                   </Form.Item>
                 </Col>

@@ -313,7 +313,7 @@ export const EditOperationalInspection = (props) => {
     OPERATIONAL_A_I_I: valueA_I_I,
     OPERATIONAL_A_I_II: valueA_I_II,
     OPERATIONAL_A_II: valueA_II,
-    OPERATIONAL_A_III: props.serial,
+    OPERATIONAL_A_III: valueA_III,
     OPERATIONAL_B_I: valueB_I,
     OPERATIONAL_C: valueC,
     OPERATIONAL_D: valueD,
@@ -428,7 +428,7 @@ export const EditOperationalInspection = (props) => {
                   </Form.Item>
                 </Col>
                 <Col xs={23}>
-                  <Text>iii) VAC, Serial Number HHD/HHS</Text>
+                  <Text>iii) Serial Number HHD/HHS</Text>
                 </Col>
                 <Col xs={23}>
                   <Form.Item
@@ -446,7 +446,6 @@ export const EditOperationalInspection = (props) => {
                       style={{ width: 150 }}
                       size="small"
                       type="text"
-                      disabled
                     />
                   </Form.Item>
                 </Col>

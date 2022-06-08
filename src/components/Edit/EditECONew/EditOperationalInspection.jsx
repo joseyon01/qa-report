@@ -227,7 +227,7 @@ export const EditOperationalInspection = (props) => {
     OPERATIONAL_C: valueC,
     OPERATIONAL_D_I: operational_D_I,
     OPERATIONAL_D_II: operational_D_II,
-    OPERATIONAL_D_III: props.serial,
+    OPERATIONAL_D_III: operational_D_III,
     OPERATIONAL_D_IV: valueD,
     OPERATIONAL_E: operational_E,
     OPERATIONAL_F: valueF,
@@ -532,7 +532,6 @@ export const EditOperationalInspection = (props) => {
                       style={{ width: 150 }}
                       size="small"
                       type="text"
-                      disabled
                     />
                   </Form.Item>
                 </Col>
