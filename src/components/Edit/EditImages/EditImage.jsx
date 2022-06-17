@@ -1,5 +1,5 @@
 import react, { useState, useEffect } from "react";
-import { Image, Row, Col, Button, Upload } from "antd";
+import { Image, Row, Col, Button, Upload, Form, message } from "antd";
 import {
   getStorage,
   ref,
@@ -8,7 +8,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import "./editImage.css";
-import { UploadOutlined, StarOutlined } from "@ant-design/icons";
+import { UploadOutlined } from "@ant-design/icons";
 import {
   getFirestore,
   doc,
@@ -16,38 +16,28 @@ import {
   setDoc,
   updateDoc,
   deleteField,
+  deleteDoc,
 } from "firebase/firestore";
 const db = getFirestore();
 const storage = getStorage();
 
 export const EditImage = (props) => {
   const [getImages, setGetImages] = useState([]);
-  const [imgDelete, setImgDelete] = useState(null);
   const [getData, setGetData] = useState({});
-  const [reload, setReload] = useState(false);
-  const [imgUrl, setImgUrl] = useState(null);
   const [indexArr, setIndexArr] = useState([]);
-  let totalImages = 0;
-  const [count, setCount] = useState(0);
-  const [uploading, setUploading] = useState("");
-  const [upLoadDisabled, setUpLoadDisabled] = useState(true);
   const [imageLoading, setImageLoading] = useState(false);
 
   const GetImagesUrls = async () => {
     const docRef = doc(db, "Images", `${props.serial}`);
     const docSnap = await getDoc(docRef);
-    const data = docSnap.data();
-    setGetData(Object.keys(data));
-    setGetImages(Object.values(data));
-    if (getData.length === 0) {
-      console.log(getData);
-      setUpLoadDisabled(false);
+    const data = docSnap?.data();
+    if (data != null) {
+      setGetData(Object.keys(data));
+      setGetImages(Object.values(data));
     }
-    setCount(getData.length);
   };
 
   const deleteImage = async () => {
-    setCount(0);
     getData?.map(async (e) => {
       const storageRef = ref(storage, `${props.serial}/image-${e}`);
       if (indexArr.indexOf(e) == -1) {
@@ -57,31 +47,22 @@ export const EditImage = (props) => {
       await deleteObject(storageRef).catch((error) => {});
       await updateDoc(doc(db, "Images", props.serial), {
         [e]: deleteField(),
+      }).then(() => {
+        GetImagesUrls();
       });
-      const docRef = doc(db, "Images", `${props.serial}`);
-      const docSnap = await getDoc(docRef);
-      const data = docSnap.data();
-      setGetData(Object.keys(data));
-      setGetImages(Object.values(data));
-      setUpLoadDisabled(false);
+      await deleteDoc(doc(db, "Images", props.serial));
     });
+    GetImagesUrls();
   };
 
   const ImageDisplay = () => {
-    totalImages = getImages.length;
-
     return getImages.map((e) => {
       const index = getImages.indexOf(e);
-      const imgNum = getData[index];
       return (
         <Col xs={20} sm={{ span: 6, offset: 1 }}>
           <Image
             width={"100%"}
             className={"image-report"}
-            onClick={() => {
-              setImgUrl(e);
-              setImgDelete(imgNum);
-            }}
             src={e}
             key={index}
           />
@@ -89,56 +70,49 @@ export const EditImage = (props) => {
       );
     });
   };
+
   const fileProps = {
-    action: "none",
+    maxCount: 5,
     onChange({ file, fileList }) {
-      file.status = uploading;
+      file.status = "done";
+      file.progres = 100;
     },
-    showUploadList: {
-      showDownloadIcon: false,
-      showRemoveIcon: false,
+    beforeUpload: (file, fileList) => {
+      return true;
     },
     customRequest: async (e) => {
       const file = e.file;
-      if (file) {
-        setCount(count + 1);
-        setUpLoadDisabled(true);
-        setImageLoading(true);
-        const storageRef = ref(storage, `${props.serial}/image-${count}`);
-        const name = `image-${count}`;
-        const uploadTask = await uploadBytesResumable(storageRef, file).catch(
-          (error) => {}
-        );
-        const urlRef = await getDownloadURL(storageRef).catch((error) => {});
-        const ovenRef = doc(db, "Images", `${props.serial}`);
-        await setDoc(ovenRef, { [count]: `${urlRef}` }, { merge: true });
-        const docSnap = await getDoc(ovenRef);
-        const data = docSnap.data();
-        setGetData(Object.keys(data));
-        setGetImages(Object.values(data));
-        setReload(true);
-        setImageLoading(false);
-        setUploading("done");
-        setUpLoadDisabled(false);
-        if (totalImages >= 4) {
-          setUpLoadDisabled(true);
-        } else {
-          setUpLoadDisabled(false);
-        }
-      }
     },
   };
+
+  const SendImages = async (e) => {
+    setImageLoading(true);
+    console.log("img start uploading");
+    let imageArr = e.image.fileList;
+    imageArr?.map(async (img) => {
+      let i = imageArr.indexOf(img);
+      const name = `image-${i}`;
+      const storageRef = ref(storage, `${props.serial}/image-${i}`);
+      await uploadBytesResumable(storageRef, img.originFileObj);
+      const urlRef = await getDownloadURL(storageRef);
+      const ovenRef = doc(db, "Images", `${props.serial}`);
+      await setDoc(ovenRef, { [i]: `${urlRef}` }, { merge: true });
+      GetImagesUrls();
+    });
+    console.log("img end uploading");
+    setImageLoading(false);
+  };
+
   useEffect(() => {
     GetImagesUrls();
-  }, []);
-  useEffect;
+  }, [getImages]);
   return (
     <Image.PreviewGroup>
       <Row justify="space-around">
         <ImageDisplay />
       </Row>
       <Row justify="center" style={{ paddingTop: "1em", paddingBottom: "1em" }}>
-        <Col xs={10}>
+        <Col xs={10} md={5} lg={4} xl={3}>
           <Button
             style={{ width: "100%" }}
             type="primary"
@@ -149,16 +123,24 @@ export const EditImage = (props) => {
         </Col>
       </Row>
       <Row justify="center" style={{ paddingBottom: "6em" }}>
-        <Col xs={4}>
-          <Upload {...fileProps}>
-            <Button
-              loading={imageLoading}
-              disabled={upLoadDisabled}
-              icon={imageLoading ? "" : <UploadOutlined />}
-            >
-              Upload
-            </Button>
-          </Upload>
+        <Col xs={10} md={5} lg={4} xl={3}>
+          <Form onFinish={SendImages}>
+            <Form.Item name="image">
+              <Upload {...fileProps}>
+                <Button
+                  loading={imageLoading}
+                  icon={imageLoading ? "" : <UploadOutlined />}
+                >
+                  Select Images
+                </Button>
+              </Upload>
+            </Form.Item>
+            <Form.Item>
+              <Button block type="primary" htmlType="submit">
+                Upload
+              </Button>
+            </Form.Item>
+          </Form>
         </Col>
       </Row>
     </Image.PreviewGroup>
