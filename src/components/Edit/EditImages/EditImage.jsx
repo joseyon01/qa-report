@@ -87,7 +87,6 @@ export const EditImage = (props) => {
 
   const SendImages = async (e) => {
     setImageLoading(true);
-    console.log("img start uploading");
     let imageArr = e.image.fileList;
     imageArr?.map(async (img) => {
       let i = imageArr.indexOf(img);
@@ -99,7 +98,6 @@ export const EditImage = (props) => {
       await setDoc(ovenRef, { [i]: `${urlRef}` }, { merge: true });
       GetImagesUrls();
     });
-    console.log("img end uploading");
     setImageLoading(false);
   };
 
