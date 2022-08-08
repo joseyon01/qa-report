@@ -26,10 +26,12 @@ import { getStorage, ref, deleteObject } from "firebase/storage";
 import {
   getFirestore,
   doc,
-  getDocs,
   getDoc,
-  collection,
   deleteDoc,
+  getDocs,
+  collection,
+  query,
+  where,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { I3Pdf } from "../pdf/I3Pdf";
@@ -206,7 +208,6 @@ export const Dashboard = () => {
                   await deleteObject(storageRef).catch((error) => {});
                 });
               }
-
               await deleteDoc(doc(db, "Images", record.serial));
               await deleteDoc(doc(db, "Excel", record.serial));
               await deleteDoc(doc(db, "oven", record.id));
@@ -278,10 +279,21 @@ export const Dashboard = () => {
     const user = auth.currentUser;
     if (user) {
       try {
-        const querySnapshot = await getDocs(collection(db, "oven"));
+        let allOvens = [];
+        const day1 = new Date(moment().format("MM/DD/YY")).getTime();
+        const q = query(
+          collection(db, "oven"),
+          where("timeStamp", ">=", day1 - 86400000 * 5),
+          where("timeStamp", "<=", day1 + 86400000)
+        );
+        const querySnapshot = await getDocs(q);
         if (!querySnapshot.empty) {
           let _id = [];
           let _data = [];
+
+          querySnapshot?.forEach((doc) => {
+            allOvens.push(doc.data());
+          });
           querySnapshot.forEach((e) => {
             if (e.data()) {
               _data.push(e.data());
@@ -291,8 +303,8 @@ export const Dashboard = () => {
           for (let i = 0; i < _id.length; i++) {
             _data[i].id = _id[i];
           }
-
           setArrayOvens(_data);
+          console.log(arrayOvens);
         }
       } catch (error) {
         console.error("error", error);
@@ -319,27 +331,6 @@ export const Dashboard = () => {
               }
             />{" "}
             <Row justify="end">
-              <Col xs={3} md={2} xl={1}>
-                <Button
-                  shape="circle"
-                  size="large"
-                  style={{
-                    marginTop: "1em",
-                  }}
-                  type="primary"
-                >
-                  <Link
-                    to="/search"
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <SearchOutlined />
-                  </Link>
-                </Button>
-              </Col>
               <Col xs={3} md={2} xl={1}>
                 <Button
                   shape="circle"

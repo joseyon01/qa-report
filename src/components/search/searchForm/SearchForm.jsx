@@ -171,13 +171,8 @@ export const SearchForm = () => {
                 onChange={inspectorChange}
                 placeholder="Select Inspector"
               >
-                <Option value="David">David Castillo</Option>
-                <Option value="Ruben">Ruben Becerra</Option>
-                <Option value="Ary">Ary Ventura</Option>
-                <Option value="Josh">Josh Kempf</Option>
-                <Option value="Rolando">Rolando Parada</Option>
-                <Option value="Michele">Michele Quintero</Option>
-                <Option value="Lucio">Lucio Gamboa</Option>
+                <Option value="Ary Ventura">Ary Ventura</Option>
+                <Option value="Lucio Gamboa">Lucio Gamboa</Option>
               </Select>
             ) : (
               ""
@@ -191,6 +186,7 @@ export const SearchForm = () => {
               >
                 <Option value="Aprooved">Aprooved</Option>
                 <Option value="Rejected">Rejected</Option>
+                <Option value="Repaired">Repaired</Option>
                 <Option value="In Progress">In Progress</Option>
               </Select>
             ) : (
@@ -235,10 +231,10 @@ export const SearchForm = () => {
               <Text size="large">
                 The total of Ovens inspected from {textrange[0]} to{" "}
                 {textrange[1]} is{" "}
-                <strong style={{ fontSize: "1.25em" }}>{newData}</strong>
+                <strong style={{ fontSize: "1.25em" }}>{newData} Ovens</strong>
               </Text>
             ) : (
-              <SearchTable data={newData} />
+              <SearchTable data={newData} setData={setNewData} />
             )}
           </Col>
         </Row>

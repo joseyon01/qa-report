@@ -1,0 +1,16 @@
+.statistics__all_bar,
+.statistics__aprooved,
+.statistics__aprooved_percent {
+  background-color: rgb(42, 80, 163);
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  border-radius: 0 0.5rem 0.5rem 0;
+  margin-bottom: 0.5rem;
+  padding-right: 0.5rem;
+  min-width: 3rem;
+  box-shadow: 2px 5px 10px 1px rgb(42, 80, 163);
+  color: #fff;
+  font-weight: 300;
+}

@@ -11,6 +11,7 @@ import {
   TimePicker,
   message,
   Modal,
+  Checkbox,
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import { UploadOutlined } from "@ant-design/icons";
@@ -103,6 +104,23 @@ export const OperationalInspection = (props) => {
     COOCKINGCOMPONENTS: false,
     DOORSYSTEM: false,
   });
+  const repariedChecker = (checkedValues) => {
+    console.log("checked = ", checkedValues);
+  };
+  const repariedOptions = [
+    {
+      label: "Electric",
+      value: "Electric",
+    },
+    {
+      label: "Mechanic",
+      value: "Mechanic",
+    },
+    {
+      label: "Workmanship",
+      value: "Workmanship",
+    },
+  ];
   const navigate = useNavigate();
   const handleOk = () => {
     setModalVisible(false);
@@ -128,7 +146,7 @@ export const OperationalInspection = (props) => {
   const onChangeN = () => setTextN("default");
   const onChangeO = () => setTextO("default");
   const onChangeP = () => setTextP("default");
-  const onChangePON = () => setTextPON("default");
+  const onChangePON = (e) => setValuePON(e.target.value);
 
   const fileProps = {
     maxCount: 5,
@@ -196,6 +214,9 @@ export const OperationalInspection = (props) => {
       const ovenRef = doc(db, "Images", `${props.serial}`);
       await setDoc(ovenRef, { [i]: `${urlRef}` }, { merge: true });
     });
+    values.OVEN_REPAIRED_OPTIONS == undefined
+      ? (values.OVEN_REPAIRED_OPTIONS = [])
+      : null;
     await setDoc(doc(db, "OperationalInspection", `${props.serial}`), {
       OPERATIONAL_A_I_I: values.OPERATIONAL_A_I_I,
       OPERATIONAL_A_I_II: values.OPERATIONAL_A_I_II,
@@ -221,6 +242,7 @@ export const OperationalInspection = (props) => {
       OPERATIONAL_P: values.OPERATIONAL_P,
       OPERATIONAL_NOTE: values.OPERATIONAL_NOTE,
       OPERATIONAL_PON: values.OPERATIONAL_PON,
+      OVEN_REPAIRED_OPTIONS: values.OVEN_REPAIRED_OPTIONS,
       COSMETICS: problems.COSMETICS,
       ELECTRICALCOMPONENTS: problems.ELECTRICALCOMPONENTS,
       BLOWERSYSTEM: problems.BLOWERSYSTEM,
@@ -234,23 +256,17 @@ export const OperationalInspection = (props) => {
       DOORSYSTEM: problems.DOORSYSTEM,
     })
       .then(async () => {
-        if (values.OPERATIONAL_PON) {
-          const ovenRef = doc(db, "oven", `${props.serial}`);
-          setDoc(ovenRef, { status: "Aprooved" }, { merge: true });
-          setDoc(
-            doc(db, "Excel", `${props.serial}`),
-            { status: "Aprooved" },
-            { merge: true }
-          );
-        } else {
-          const ovenRef = doc(db, "oven", `${props.serial}`);
-          setDoc(ovenRef, { status: "Rejected" }, { merge: true });
-          setDoc(
-            doc(db, "Excel", `${props.serial}`),
-            { status: "Rejected" },
-            { merge: true }
-          );
-        }
+        const ovenRef = doc(db, "oven", `${props.serial}`);
+        await setDoc(
+          ovenRef,
+          { status: values.OPERATIONAL_PON },
+          { merge: true }
+        );
+        await setDoc(
+          doc(db, "Excel", `${props.serial}`),
+          { status: values.OPERATIONAL_PON },
+          { merge: true }
+        );
         await setDoc(
           doc(db, "Excel", `${props.serial}`),
           {
@@ -877,10 +893,7 @@ export const OperationalInspection = (props) => {
       </Row>
       <br />
       <Row justify="center">
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
-          <Text type={textPON}>Aprooved</Text>
-        </Col>
-        <Col xs={{ span: 20, offset: 1 }} sm={4}>
+        <Col xs={4} sm={4}>
           <Form.Item
             name={OPERATIONAL_PON}
             rules={[
@@ -890,9 +903,10 @@ export const OperationalInspection = (props) => {
               },
             ]}
           >
-            <Radio.Group name={OPERATIONAL_PON} onChange={onChangePON}>
-              <Radio value={true}>ACC</Radio>
-              <Radio value={false}>NO ACC</Radio>
+            <Radio.Group onChange={onChangePON}>
+              <Radio value={"Aprooved"}>Aprooved</Radio>
+              <Radio value={"Rejected"}>Rejected</Radio>
+              <Radio value={"Repaired"}>Repaired</Radio>
             </Radio.Group>
           </Form.Item>
         </Col>
@@ -902,6 +916,28 @@ export const OperationalInspection = (props) => {
       ) : (
         ""
       )}
+      {valuePON == "Rejected" ? (
+        <ProblemSelection problems={problems} setProblems={setProblems} />
+      ) : valuePON == "Repaired" ? (
+        <Row justify="center">
+          <Col xs={10}>
+            <Form.Item
+              name={"OVEN_REPAIRED_OPTIONS"}
+              rules={[
+                {
+                  required: true,
+                  message: "Finish the inspection before submitting it",
+                },
+              ]}
+            >
+              <Checkbox.Group
+                options={repariedOptions}
+                onChange={repariedChecker}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+      ) : null}
       <br />
       <Row justify="center">
         <Col xs={20} sm={18}>

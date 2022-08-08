@@ -8,6 +8,7 @@ import {
   Button,
   Modal,
   message,
+  Checkbox,
 } from "antd";
 import {
   HOT_OVEN_B_DOOR,
@@ -47,6 +48,7 @@ export const EditHotOven = (props) => {
   const [valueD, setValueD] = useState(null);
   const [valueE, setValueE] = useState(null);
   const [valueAON, setValueAON] = useState(null);
+  const [valueOptions, setValueOptions] = useState(null);
   const [problemSelected, setProblemSelected] = useState([]);
   const [problems, setProblems] = useState({
     COSMETICS: false,
@@ -61,6 +63,23 @@ export const EditHotOven = (props) => {
     COOCKINGCOMPONENTS: false,
     DOORSYSTEM: false,
   });
+  const repariedChecker = (checkedValues) => {
+    setValueOptions(checkedValues);
+  };
+  const repariedOptions = [
+    {
+      label: "Electric",
+      value: "Electric",
+    },
+    {
+      label: "Mechanic",
+      value: "Mechanic",
+    },
+    {
+      label: "Workmanship",
+      value: "Workmanship",
+    },
+  ];
   const onChangeRC = (e) => setValueOvenR(e.target.value);
   const onChangeAON = (e) => setValueAON(e.target.value);
   const onChangeDoor = (e) => setValueDoor(e.target.value);
@@ -87,6 +106,9 @@ export const EditHotOven = (props) => {
   const addHotOven = async (values) => {
     setButtonDisabled(true);
     setLoading(true);
+    values.OVEN_REPAIRED_OPTIONS == undefined
+      ? (values.OVEN_REPAIRED_OPTIONS = [])
+      : null;
     const docRef = await setDoc(
       doc(db, "HotOvenInspection", `${props.serial}`),
       {
@@ -101,6 +123,7 @@ export const EditHotOven = (props) => {
         HOT_OVEN_D: values.HOT_OVEN_D,
         HOT_OVEN_E: values.HOT_OVEN_E,
         OVEN_APROVE_OR_NOT: values.OVEN_APROVE_OR_NOT,
+        OVEN_REPAIRED_OPTIONS: values.OVEN_REPAIRED_OPTIONS,
         COSMETICS: problems.COSMETICS,
         ELECTRICALCOMPONENTS: problems.ELECTRICALCOMPONENTS,
         BLOWERSYSTEM: problems.BLOWERSYSTEM,
@@ -114,24 +137,18 @@ export const EditHotOven = (props) => {
         DOORSYSTEM: problems.DOORSYSTEM,
       }
     )
-      .then(() => {
-        if (OVEN_APROVE_OR_NOT) {
-          const ovenRef = doc(db, "oven", `${props.serial}`);
-          setDoc(ovenRef, { status: "Aprooved" }, { merge: true });
-          setDoc(
-            doc(db, "Excel", `${props.serial}`),
-            { status: "Aprooved" },
-            { merge: true }
-          );
-        } else {
-          const ovenRef = doc(db, "oven", `${props.serial}`);
-          setDoc(ovenRef, { status: "Rejected" }, { merge: true });
-          setDoc(
-            doc(db, "Excel", `${props.serial}`),
-            { status: "Rejected" },
-            { merge: true }
-          );
-        }
+      .then(async () => {
+        const ovenRef = doc(db, "oven", `${props.serial}`);
+        await setDoc(
+          ovenRef,
+          { status: values.OVEN_APROVE_OR_NOT },
+          { merge: true }
+        );
+        await setDoc(
+          doc(db, "Excel", `${props.serial}`),
+          { status: values.OVEN_APROVE_OR_NOT },
+          { merge: true }
+        );
         setLoading(false);
         message.success("Final Inspection Completed");
         setModalVisible(true);
@@ -158,6 +175,7 @@ export const EditHotOven = (props) => {
       setValueE(data?.HOT_OVEN_E);
       setValueOvenR(data?.HOT_OVEN_RECHECK);
       setValueAON(data?.OVEN_APROVE_OR_NOT);
+      setValueOptions(data?.OVEN_REPAIRED_OPTIONS);
       if (data?.COSMETICS == undefined) {
         problems.COSMETICS = false;
         problems.ELECTRICALCOMPONENTS = false;
@@ -206,6 +224,7 @@ export const EditHotOven = (props) => {
     HOT_OVEN_D: 213084,
     HOT_OVEN_E: valueE,
     OVEN_APROVE_OR_NOT: valueAON,
+    OVEN_REPAIRED_OPTIONS: valueOptions,
   });
 
   useEffect(() => {
@@ -465,8 +484,7 @@ export const EditHotOven = (props) => {
         </Col>
       </Row>
       <Row justify="center">
-        <Col xs={6}>
-          <Text>APROVED</Text>
+        <Col xs={4}>
           <Form.Item
             name={OVEN_APROVE_OR_NOT}
             rules={[
@@ -477,21 +495,35 @@ export const EditHotOven = (props) => {
             ]}
           >
             <Radio.Group onChange={onChangeAON}>
-              <Radio value={true}>ACC</Radio>
-              <Radio value={false}>NO ACC</Radio>
+              <Radio value={"Aprooved"}>Aprooved</Radio>
+              <Radio value={"Rejected"}>Rejected</Radio>
+              <Radio value={"Repaired"}>Repaired</Radio>
             </Radio.Group>
           </Form.Item>
         </Col>
       </Row>
-      {valueAON == false ? (
-        <ProblemSelection
-          problems={problems}
-          setProblems={setProblems}
-          problemSelected={problemSelected}
-        />
-      ) : (
-        ""
-      )}
+      {valueAON == "Rejected" ? (
+        <ProblemSelection problems={problems} setProblems={setProblems} />
+      ) : valueAON == "Repaired" ? (
+        <Row justify="center">
+          <Col xs={10}>
+            <Form.Item
+              name={"OVEN_REPAIRED_OPTIONS"}
+              rules={[
+                {
+                  required: true,
+                  message: "Finish the inspection before submitting it",
+                },
+              ]}
+            >
+              <Checkbox.Group
+                options={repariedOptions}
+                onChange={repariedChecker}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+      ) : null}
       <br />
       <Row justify="center">
         <Col xs={20} sm={18}>

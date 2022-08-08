@@ -10,6 +10,7 @@ import {
   Upload,
   message,
   Modal,
+  Checkbox,
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import { UploadOutlined } from "@ant-design/icons";
@@ -59,6 +60,23 @@ export const HotOven = (props) => {
     COOCKINGCOMPONENTS: false,
     DOORSYSTEM: false,
   });
+  const repariedChecker = (checkedValues) => {
+    console.log("checked = ", checkedValues);
+  };
+  const repariedOptions = [
+    {
+      label: "Electric",
+      value: "Electric",
+    },
+    {
+      label: "Mechanic",
+      value: "Mechanic",
+    },
+    {
+      label: "Workmanship",
+      value: "Workmanship",
+    },
+  ];
   const navigate = useNavigate();
   const handleOk = () => {
     setModalVisible(false);
@@ -102,7 +120,9 @@ export const HotOven = (props) => {
       const ovenRef = doc(db, "Images", `${props.serial}`);
       await setDoc(ovenRef, { [i]: `${urlRef}` }, { merge: true });
     });
-
+    values.OVEN_REPAIRED_OPTIONS == undefined
+      ? (values.OVEN_REPAIRED_OPTIONS = [])
+      : null;
     await setDoc(doc(db, "HotOvenInspection", `${props.serial}`), {
       HOT_OVEN_B_DOOR: values.HOT_OVEN_B_DOOR,
       HOT_OVEN_B_SIDES: values.HOT_OVEN_B_SIDES,
@@ -115,6 +135,7 @@ export const HotOven = (props) => {
       HOT_OVEN_D: values.HOT_OVEN_D,
       HOT_OVEN_E: values.HOT_OVEN_E,
       OVEN_APROVE_OR_NOT: values.OVEN_APROVE_OR_NOT,
+      OVEN_REPAIRED_OPTIONS: values.OVEN_REPAIRED_OPTIONS,
       COSMETICS: problems.COSMETICS,
       ELECTRICALCOMPONENTS: problems.ELECTRICALCOMPONENTS,
       BLOWERSYSTEM: problems.BLOWERSYSTEM,
@@ -127,24 +148,18 @@ export const HotOven = (props) => {
       COOCKINGCOMPONENTS: problems.COOCKINGCOMPONENTS,
       DOORSYSTEM: problems.DOORSYSTEM,
     })
-      .then(() => {
-        if (OVEN_APROVE_OR_NOT) {
-          const ovenRef = doc(db, "oven", `${props.serial}`);
-          setDoc(ovenRef, { status: "Aprooved" }, { merge: true });
-          setDoc(
-            doc(db, "Excel", `${props.serial}`),
-            { status: "Aprooved" },
-            { merge: true }
-          );
-        } else {
-          const ovenRef = doc(db, "oven", `${props.serial}`);
-          setDoc(ovenRef, { status: "Rejected" }, { merge: true });
-          setDoc(
-            doc(db, "Excel", `${props.serial}`),
-            { status: "Rejected" },
-            { merge: true }
-          );
-        }
+      .then(async () => {
+        const ovenRef = doc(db, "oven", `${props.serial}`);
+        await setDoc(
+          ovenRef,
+          { status: values.OVEN_APROVE_OR_NOT },
+          { merge: true }
+        );
+        await setDoc(
+          doc(db, "Excel", `${props.serial}`),
+          { status: values.OVEN_APROVE_OR_NOT },
+          { merge: true }
+        );
         setLoading(false);
         setButtonDisabled(false);
         setUpLoadDisabled(false);
@@ -454,8 +469,7 @@ export const HotOven = (props) => {
       </Row>
       <br />
       <Row justify="center">
-        <Col xs={6}>
-          <Text>APROVED</Text>
+        <Col xs={4}>
           <Form.Item
             name={OVEN_APROVE_OR_NOT}
             rules={[
@@ -466,17 +480,35 @@ export const HotOven = (props) => {
             ]}
           >
             <Radio.Group onChange={onChangeAON}>
-              <Radio value={true}>ACC</Radio>
-              <Radio value={false}>NO ACC</Radio>
+              <Radio value={"Aprooved"}>Aprooved</Radio>
+              <Radio value={"Rejected"}>Rejected</Radio>
+              <Radio value={"Repaired"}>Repaired</Radio>
             </Radio.Group>
           </Form.Item>
         </Col>
       </Row>
-      {valueAON == false ? (
+      {valueAON == "Rejected" ? (
         <ProblemSelection problems={problems} setProblems={setProblems} />
-      ) : (
-        ""
-      )}
+      ) : valueAON == "Repaired" ? (
+        <Row justify="center">
+          <Col xs={10}>
+            <Form.Item
+              name={"OVEN_REPAIRED_OPTIONS"}
+              rules={[
+                {
+                  required: true,
+                  message: "Finish the inspection before submitting it",
+                },
+              ]}
+            >
+              <Checkbox.Group
+                options={repariedOptions}
+                onChange={repariedChecker}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+      ) : null}
       <br />
       <Row justify="center">
         <Col xs={20} sm={18}>

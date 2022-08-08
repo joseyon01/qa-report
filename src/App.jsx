@@ -6,6 +6,7 @@ import { Register } from "./components/register/Register";
 import { EditPage } from "./components/Edit/EditPage";
 import { Search } from "./components/search/Search";
 import { PrivateRoute } from "./components/privateRoute/PrivateRoute";
+import { Grafics } from "./components/grafics/Grafics";
 export default function App() {
   return (
     <>
@@ -25,6 +26,14 @@ export default function App() {
             element={
               <PrivateRoute>
                 <Register />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/statistics/*"
+            element={
+              <PrivateRoute>
+                <Grafics />
               </PrivateRoute>
             }
           />

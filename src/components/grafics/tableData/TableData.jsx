@@ -1,50 +1,27 @@
-import { Button, DatePicker, Input, message, Modal, Space, Table } from "antd";
-import { AiFillDelete, AiFillEdit } from "react-icons/ai";
-import { SearchOutlined, FilePdfOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
-import moment from "moment";
-import { useNavigate, Link } from "react-router-dom";
-import firebaseApp from "../../../../Credentials";
-import { getStorage, ref, deleteObject } from "firebase/storage";
+import { Button, DatePicker, Input, Modal, Space, Table } from "antd";
 import {
-  getFirestore,
-  doc,
-  getDoc,
-  deleteDoc,
-  getDocs,
-  collection,
-  query,
-  where,
-} from "firebase/firestore";
-import { getAuth } from "firebase/auth";
-import { I3Pdf } from "../../pdf/I3Pdf";
-import { I1Pdf } from "../../pdf/I1Pdf";
-import { HHDPdf } from "../../pdf/HHDPdf";
-import { ENCPdf } from "../../pdf/ENCPdf";
+  SearchOutlined,
+  FilePdfOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import { ECONewPdf } from "../../pdf/ECONewPdf";
 import { ECOSTPdf } from "../../pdf/ECOSTPdf";
-const storage = getStorage(firebaseApp);
-const db = getFirestore(firebaseApp);
+import { ENCPdf } from "../../pdf/ENCPdf";
+import { HHDPdf } from "../../pdf/HHDPdf";
+import { I1Pdf } from "../../pdf/I1Pdf";
+import { I3Pdf } from "../../pdf/I3Pdf";
 
-export const SearchTable = (props) => {
-  const dataSource = props.data;
-  const setDataSource = props.setData;
-  const [loading, setLoading] = useState(false);
+export const TableData = (props) => {
+  const data = props.data;
+  let filterData = [];
   const [ovenType, setOvenType] = useState({
     type: null,
     serial: null,
   });
-  const [arrayOvens, setArrayOvens] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [disabled, setDisabled] = useState(false);
-
+  const graficsData = props.graficsData;
   const [pdf, setPdf] = useState(null);
-  const navigate = useNavigate();
-  const ovenRef = collection(db, "oven");
-  function navigateEdit(serial, oven) {
-    navigate(`/edit/${serial}/${oven}`);
-  }
-
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const showModal = (o, s) => {
     setIsModalVisible(true);
 
@@ -80,6 +57,7 @@ export const SearchTable = (props) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
   const columns = [
     {
       title: "Serial Number",
@@ -158,6 +136,10 @@ export const SearchTable = (props) => {
           text: "In Progress",
           value: "In Progress",
         },
+        {
+          text: "Repaired",
+          value: "Repaired",
+        },
       ],
       filterIcon: () => {
         return <SearchOutlined />;
@@ -173,59 +155,6 @@ export const SearchTable = (props) => {
           size="middle"
           style={{ display: "flex", justifyContent: "center" }}
         >
-          <Button
-            style={{ borderRadius: "6px" }}
-            loading={loading}
-            onClick={async () => {
-              setLoading(true);
-              let getData = [];
-              const docRef = doc(db, "Images", `${record.serial}`);
-              const docSnap = await getDoc(docRef).catch((error) => {});
-              const data = docSnap.data();
-
-              if (data) {
-                getData = Object.keys(data);
-                getData.forEach(async (e) => {
-                  const storageRef = ref(
-                    storage,
-                    `${record.serial}/image-${e}`
-                  );
-                  await deleteObject(storageRef).catch((error) => {});
-                });
-              }
-              await deleteDoc(doc(db, "Images", record.serial));
-              await deleteDoc(doc(db, "Excel", record.serial));
-              await deleteDoc(doc(db, "VisualInspection", `${record.serial}`));
-              await deleteDoc(
-                doc(db, "OperationalInspection", `${record.serial}`)
-              );
-              await deleteDoc(doc(db, "HotOvenInspection", `${record.serial}`));
-              await deleteDoc(doc(db, "FinalInspection", `${record.serial}`));
-              await deleteDoc(doc(db, "oven", record.serial));
-
-              const newArrayOvens = [];
-              dataSource.forEach((e) => {
-                if (e.serial !== record.serial) {
-                  newArrayOvens.push(e);
-                }
-              });
-              setDataSource(newArrayOvens);
-              message.success("Report deleted successfully");
-              setLoading(false);
-            }}
-          >
-            <a>{loading ? "" : <AiFillDelete style={{ color: "red" }} />}</a>
-          </Button>
-          <Button
-            style={{ borderRadius: "6px" }}
-            onClick={async () => {
-              navigateEdit(record.serial, record.oven);
-            }}
-          >
-            <a>
-              <AiFillEdit style={{ color: "green" }} />
-            </a>
-          </Button>
           {record.status == "In Progress" ? (
             ""
           ) : (
@@ -258,11 +187,21 @@ export const SearchTable = (props) => {
       ),
     },
   ];
-  useEffect(() => {}, [dataSource]);
+
+  useEffect(() => {
+    filterData = data.map((oven) => {
+      if (oven.status == graficsData[3]) {
+        if (oven.oven == graficsData[2]) {
+          filterData.push(oven);
+        }
+      }
+    });
+  }, [data]);
+  console.log(filterData);
   return (
     <Table
       columns={columns}
-      dataSource={dataSource}
+      dataSource={filterData}
       pagination={{ pageSize: 6 }}
       rowClassName={(record, index) =>
         index % 2 === 0 ? "table-row-light" : "table-row-dark"
