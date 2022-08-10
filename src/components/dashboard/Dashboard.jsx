@@ -174,6 +174,10 @@ export const Dashboard = () => {
           text: "In Progress",
           value: "In Progress",
         },
+        {
+          text: "Repaired",
+          value: "Repaired",
+        },
       ],
       filterIcon: () => {
         return <SearchOutlined />;

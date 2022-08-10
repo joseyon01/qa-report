@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Input, Modal, Space, Table } from "antd";
-import {
-  SearchOutlined,
-  FilePdfOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { SearchOutlined, FilePdfOutlined } from "@ant-design/icons";
 import { ECONewPdf } from "../../pdf/ECONewPdf";
 import { ECOSTPdf } from "../../pdf/ECOSTPdf";
 import { ENCPdf } from "../../pdf/ENCPdf";
@@ -14,14 +10,35 @@ import { I3Pdf } from "../../pdf/I3Pdf";
 
 export const TableData = (props) => {
   const data = props.data;
-  let filterData = [];
+  const graficsData = props.graficsData;
+  const filterdata = (data, param) => {
+    return data.filter((elem) => {
+      if (elem.status == param[3]) {
+        if (elem.oven == param[2]) {
+          if (elem.name == param[4]) {
+            return elem;
+          }
+          if (param[4] == "All") {
+            return elem;
+          }
+        }
+      }
+    });
+  };
+  console.log(filterdata(data, graficsData));
+  const [pdf, setPdf] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [ovenType, setOvenType] = useState({
     type: null,
     serial: null,
   });
-  const graficsData = props.graficsData;
-  const [pdf, setPdf] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
   const showModal = (o, s) => {
     setIsModalVisible(true);
 
@@ -48,14 +65,6 @@ export const TableData = (props) => {
         console.log("Error");
         break;
     }
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
   };
 
   const columns = [
@@ -175,37 +184,29 @@ export const TableData = (props) => {
               </a>
             </Button>
           )}
-          <Modal
-            title={ovenType.type + ovenType.serial + ".pdf"}
-            visible={isModalVisible}
-            onOk={handleOk}
-            onCancel={handleCancel}
-          >
-            {pdf}
-          </Modal>
         </Space>
       ),
     },
   ];
-
-  useEffect(() => {
-    filterData = data.map((oven) => {
-      if (oven.status == graficsData[3]) {
-        if (oven.oven == graficsData[2]) {
-          filterData.push(oven);
-        }
-      }
-    });
-  }, [data]);
-  console.log(filterData);
+  useEffect(() => {}, []);
   return (
-    <Table
-      columns={columns}
-      dataSource={filterData}
-      pagination={{ pageSize: 6 }}
-      rowClassName={(record, index) =>
-        index % 2 === 0 ? "table-row-light" : "table-row-dark"
-      }
-    />
+    <>
+      <Table
+        columns={columns}
+        dataSource={filterdata(data, graficsData)}
+        pagination={{ pageSize: 6 }}
+        rowClassName={(record, index) =>
+          index % 2 === 0 ? "table-row-light" : "table-row-dark"
+        }
+      />
+      <Modal
+        title={ovenType.type + ovenType.serial + ".pdf"}
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        {pdf}
+      </Modal>
+    </>
   );
 };

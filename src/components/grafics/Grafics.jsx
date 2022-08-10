@@ -21,13 +21,15 @@ export const Grafics = () => {
   const [graficsData, setGraficsData] = useState([]);
   const [loading, setLoading] = useState(true);
   let allOvens = [];
+  let newFilterData = [];
+
   const [data, setData] = useState([]);
+  const [filterData, setFilterData] = useState([]);
 
   const onFinish = async (values) => {
     setLoading(true);
     const day1 = new Date(values.Range[0].format("MM/DD/YY")).getTime();
     const day2 = new Date(values.Range[1].format("MM/DD/YY")).getTime();
-    console.log(values);
     setGraficsData([
       day1,
       day2 + 86400000,
@@ -43,14 +45,25 @@ export const Grafics = () => {
     const querySnapshot = await getDocs(q);
     querySnapshot?.forEach((doc) => {
       allOvens.push(doc.data());
+      allOvens.forEach((doc) => {
+        if (doc.status == graficsData[3]) {
+          if (doc.oven == graficsData[2]) {
+            newFilterData.push(doc);
+          }
+        }
+      });
     });
+    setFilterData(newFilterData);
+    console.log(allOvens);
+    newFilterData = [];
     setData(allOvens);
     setLoading(false);
   };
   const onFinishFailed = (error) => {
     console.log(error.values);
   };
-  useEffect(() => {}, [graficsData, data, setData]);
+
+  useEffect(() => {}, [data]);
   return (
     <Layout>
       <Header />

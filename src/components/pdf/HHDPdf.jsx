@@ -56,6 +56,7 @@ export const HHDPdf = (props) => {
   const [valueO, setvalueO] = useState("");
   const [valueP, setvalueP] = useState("");
   const [valueNOTE, setvalueNOTE] = useState("");
+  const [valueRepairedStatus, setvalueRepairedStatus] = useState([]);
   const [valuePON, setvaluePON] = useState("");
 
   const getOperational = async () => {
@@ -88,6 +89,7 @@ export const HHDPdf = (props) => {
         setvalueO(data?.OPERATIONAL_O);
         setvalueP(data?.OPERATIONAL_P);
         setvalueNOTE(data?.OPERATIONAL_NOTE);
+        setvalueRepairedStatus(data?.OVEN_REPAIRED_OPTIONS);
         setvaluePON(data?.OPERATIONAL_PON);
       }
       setIsDisabled(false);
@@ -380,8 +382,17 @@ export const HHDPdf = (props) => {
     );
     doc.text(`${valueP ? "ACC" : "NO ACC"}`, 370, 435);
     doc.text(`NOTES: ${valueNOTE}`, 15, 450, { maxWidth: 400 });
-
-    doc.text(`APROOVED: ${valuePON ? "YES" : "NO"}`, 170, 600);
+    if (valueRepairedStatus.length > 0) {
+      doc.text(`Repair reasons: `, 100, 580);
+      for (let i = 0; i < valueRepairedStatus.length; i++) {
+        doc.text(`${valueRepairedStatus[i]}`, 160 + i * 40, 580);
+      }
+    }
+    {
+      typeof valuePON == "string"
+        ? doc.text(`${valuePON}`, 170, 600)
+        : doc.text(`APROOVED: ${valuePON ? "YES" : "NO"}`, 170, 600);
+    }
     doc.save(`${o + s}.pdf`);
   };
   return (

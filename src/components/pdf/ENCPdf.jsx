@@ -63,6 +63,7 @@ export const ENCPdf = (props) => {
   const [value_C_H, setvalue_C_H] = useState("");
   const [value_D_H, setvalue_D_H] = useState("");
   const [value_E_H, setvalue_E_H] = useState("");
+  const [valueRepairedStatus, setvalueRepairedStatus] = useState([]);
   const [valueAON, setvalueAON] = useState("");
 
   const getDataOven = async () => {
@@ -168,6 +169,7 @@ export const ENCPdf = (props) => {
       setvalue_D_H(data?.HOT_OVEN_D);
       setvalue_E_H(data?.HOT_OVEN_E);
       setvalueOvenR(data?.HOT_OVEN_RECHECK);
+      setvalueRepairedStatus(data?.OVEN_REPAIRED_OPTIONS);
       setvalueAON(data?.OVEN_APROVE_OR_NOT);
       setIsDisabled(false);
       setLoading(false);
@@ -499,7 +501,17 @@ export const ENCPdf = (props) => {
     doc.text(`Cook time count: ${value_C_H}`, 15, 550);
     doc.text(`Survey meter#: ${value_D_H}`, 15, 560);
     doc.text(`Clear cook time foults: ${value_E_H}`, 15, 570);
-    doc.text(`APROOVED: ${valueAON ? "YES" : "NO"}`, 170, 600);
+    if (valueRepairedStatus.length > 0) {
+      doc.text(`Repair reasons: `, 100, 590);
+      for (let i = 0; i < valueRepairedStatus.length; i++) {
+        doc.text(`${valueRepairedStatus[i]}`, 160 + i * 40, 590);
+      }
+    }
+    {
+      typeof valueAON == "string"
+        ? doc.text(`${valueAON}`, 170, 600)
+        : doc.text(`APROOVED: ${valueAON ? "YES" : "NO"}`, 170, 600);
+    }
 
     doc.save(`${o + s}.pdf`);
   };
