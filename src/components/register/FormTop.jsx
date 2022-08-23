@@ -112,7 +112,6 @@ export const FormTop = (props) => {
   };
   form.setFieldsValue({
     NAME: userName,
-    DATE: moment(),
   });
 
   useEffect(() => {
@@ -154,9 +153,10 @@ export const FormTop = (props) => {
           <Form.Item label="Date" name={DATE} required>
             <DatePicker
               style={{ width: "100%" }}
+              value={props.date}
+              onChange={props.onChangeDate}
               size="large"
               format="MM/DD/YY"
-              disabled={true}
               required
             />
           </Form.Item>
