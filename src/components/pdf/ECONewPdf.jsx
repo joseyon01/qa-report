@@ -418,7 +418,9 @@ export const ECONewPdf = (props) => {
       25,
       160
     );
+    doc.setTextColor(0, 0.61, 0.67, 0.09);
     doc.text(`NOTES: ${operational_NOTE}`, 15, 175, { maxWidth: 400 });
+    doc.setTextColor(0, 0, 0, 1);
     doc.text("J) Is there actuator rotation if door closed slowly?", 15, 205);
     doc.text(`${valueJ ? "YES" : "NO"}`, 370, 205);
     doc.text(

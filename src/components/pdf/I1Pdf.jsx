@@ -382,8 +382,9 @@ export const I1Pdf = (props) => {
       25,
       130
     );
+    doc.setTextColor(0, 0.61, 0.67, 0.09);
     doc.text(`NOTES: ${operational_NOTE}`, 15, 145, { maxWidth: 400 });
-
+    doc.setTextColor(0, 0, 0, 1);
     doc.text(
       `I) Is there actuator rotation if door is closed slowly? -- ${
         value_I ? "YES" : "NO"

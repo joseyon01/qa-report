@@ -381,7 +381,9 @@ export const HHDPdf = (props) => {
       435
     );
     doc.text(`${valueP ? "ACC" : "NO ACC"}`, 370, 435);
+    doc.setTextColor(0, 0.61, 0.67, 0.09);
     doc.text(`NOTES: ${valueNOTE}`, 15, 450, { maxWidth: 400 });
+    doc.setTextColor(0, 0, 0, 1);
     if (valueRepairedStatus.length > 0) {
       doc.text(`Repair reasons: `, 100, 580);
       for (let i = 0; i < valueRepairedStatus.length; i++) {

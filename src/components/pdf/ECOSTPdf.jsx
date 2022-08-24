@@ -380,7 +380,9 @@ export const ECOSTPdf = (props) => {
       25,
       250
     );
+    doc.setTextColor(0, 0.61, 0.67, 0.09);
     doc.text(`NOTES: ${operational_NOTE}`, 15, 265, { maxWidth: 400 });
+    doc.setTextColor(0, 0, 0, 1);
     doc.text(
       `Slowly opening the Door, the order of the indicators are ${operational_OPENING}`,
       15,
