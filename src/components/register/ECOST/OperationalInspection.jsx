@@ -17,10 +17,6 @@ const { Text, Title } = Typography;
 const { TextArea } = Input;
 import {
   OPERATIONAL_B_I_I,
-  OPERATIONAL_B_I_II,
-  OPERATIONAL_B_I_III,
-  OPERATIONAL_B_I_IV,
-  OPERATIONAL_B_I_V,
   OPERATIONAL_C,
   OPERATIONAL_D_I,
   OPERATIONAL_D_II,
@@ -81,10 +77,6 @@ export const OperationalInspection = (props) => {
     values.OPERATIONAL_NOTE === undefined ? (values.OPERATIONAL_NOTE = "") : "";
     await setDoc(doc(db, "OperationalInspection", `${props.serial}`), {
       OPERATIONAL_B_I_I: values.OPERATIONAL_B_I_I,
-      OPERATIONAL_B_I_II: values.OPERATIONAL_B_I_II,
-      OPERATIONAL_B_I_III: values.OPERATIONAL_B_I_III,
-      OPERATIONAL_B_I_IV: values.OPERATIONAL_B_I_IV,
-      OPERATIONAL_B_I_V: values.OPERATIONAL_B_I_V,
       OPERATIONAL_C: values.OPERATIONAL_C,
       OPERATIONAL_D_I: values.OPERATIONAL_D_I,
       OPERATIONAL_D_II: values.OPERATIONAL_D_II,
@@ -174,70 +166,6 @@ export const OperationalInspection = (props) => {
                 <Col xs={23}>
                   <Form.Item
                     name={OPERATIONAL_B_I_I}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                  >
-                    <Input style={{ width: 150 }} size="small" />
-                  </Form.Item>
-                </Col>
-                <Col xs={23}>
-                  <Text>ii) L1 & Ground:</Text>
-                </Col>
-                <Col xs={23}>
-                  <Form.Item
-                    name={OPERATIONAL_B_I_II}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                  >
-                    <Input style={{ width: 150 }} size="small" />
-                  </Form.Item>
-                </Col>
-                <Col xs={23}>
-                  <Text>iii) L2 & Ground:</Text>
-                </Col>
-                <Col xs={23}>
-                  <Form.Item
-                    name={OPERATIONAL_B_I_III}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                  >
-                    <Input style={{ width: 150 }} size="small" />
-                  </Form.Item>
-                </Col>
-                <Col xs={23}>
-                  <Text>iv) L3 & Ground:</Text>
-                </Col>
-                <Col xs={23}>
-                  <Form.Item
-                    name={OPERATIONAL_B_I_IV}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                  >
-                    <Input style={{ width: 150 }} size="small" />
-                  </Form.Item>
-                </Col>
-                <Col xs={23}>
-                  <Text>V) Neutral (N) & Ground:</Text>
-                </Col>
-                <Col xs={23}>
-                  <Form.Item
-                    name={OPERATIONAL_B_I_V}
                     rules={[
                       {
                         required: true,

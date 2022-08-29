@@ -7,7 +7,6 @@ import {
   Typography,
   Radio,
   Button,
-  Modal,
   message,
 } from "antd";
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
@@ -15,11 +14,6 @@ const db = getFirestore();
 const { Text, Title } = Typography;
 const { TextArea } = Input;
 import {
-  OPERATIONAL_A_I,
-  OPERATIONAL_A_II,
-  OPERATIONAL_A_III,
-  OPERATIONAL_A_IV,
-  OPERATIONAL_A_V,
   OPERATIONAL_B_I_I,
   OPERATIONAL_B_I_II,
   OPERATIONAL_B_II_I,
@@ -50,11 +44,6 @@ export const EditOperationalInspection = (props) => {
   const ovenSerial = props.serial;
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [operational_A_I, setOperational_A_I] = useState(null);
-  const [operational_A_II, setOperational_A_II] = useState(null);
-  const [operational_A_III, setOperational_A_III] = useState(null);
-  const [operational_A_IV, setOperational_A_IV] = useState(null);
-  const [operational_A_V, setOperational_A_V] = useState(null);
   const [operational_B_I_I, setOperational_B_I_I] = useState(null);
   const [operational_B_I_II, setOperational_B_I_II] = useState(null);
   const [operational_B_II_I, setOperational_B_II_I] = useState(null);
@@ -78,11 +67,6 @@ export const EditOperationalInspection = (props) => {
   const [operational_OPENING, setOperational_OPENING] = useState(null);
   const [operational_CLOSING, setOperational_CLOSING] = useState(null);
   const [valueK, setValueK] = useState(null);
-  const onChange_A_I = (e) => setOperational_A_I(e.target.value);
-  const onChange_A_II = (e) => setOperational_A_II(e.target.value);
-  const onChange_A_III = (e) => setOperational_A_III(e.target.value);
-  const onChange_A_IV = (e) => setOperational_A_IV(e.target.value);
-  const onChange_A_V = (e) => setOperational_A_V(e.target.value);
   const onChange_B_I_I = (e) => setOperational_B_I_I(e.target.value);
   const onChange_B_I_II = (e) => setOperational_B_I_II(e.target.value);
   const onChange_B_II_I = (e) => setOperational_B_II_I(e.target.value);
@@ -119,11 +103,6 @@ export const EditOperationalInspection = (props) => {
         : "";
     }
     await setDoc(doc(db, "OperationalInspection", `${props.serial}`), {
-      OPERATIONAL_A_I: values.OPERATIONAL_A_I,
-      OPERATIONAL_A_II: values.OPERATIONAL_A_II,
-      OPERATIONAL_A_III: values.OPERATIONAL_A_III,
-      OPERATIONAL_A_IV: values.OPERATIONAL_A_IV,
-      OPERATIONAL_A_V: values.OPERATIONAL_A_V,
       OPERATIONAL_B_I_I: values.OPERATIONAL_B_I_I,
       OPERATIONAL_B_I_II: values.OPERATIONAL_B_I_II,
       OPERATIONAL_B_II_I: values.OPERATIONAL_B_II_I,
@@ -183,11 +162,6 @@ export const EditOperationalInspection = (props) => {
       const docRef = doc(db, "OperationalInspection", `${ovenSerial}`);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
-      setOperational_A_I(data?.OPERATIONAL_A_I);
-      setOperational_A_II(data?.OPERATIONAL_A_II);
-      setOperational_A_III(data?.OPERATIONAL_A_III);
-      setOperational_A_IV(data?.OPERATIONAL_A_IV);
-      setOperational_A_V(data?.OPERATIONAL_A_V);
       setOperational_B_I_I(data?.OPERATIONAL_B_I_I);
       setOperational_B_I_II(data?.OPERATIONAL_B_I_II);
       setOperational_B_II_I(data?.OPERATIONAL_B_II_I);
@@ -216,11 +190,6 @@ export const EditOperationalInspection = (props) => {
     }
   };
   form.setFieldsValue({
-    OPERATIONAL_A_I: operational_A_I,
-    OPERATIONAL_A_II: operational_A_II,
-    OPERATIONAL_A_III: operational_A_III,
-    OPERATIONAL_A_IV: operational_A_IV,
-    OPERATIONAL_A_V: operational_A_V,
     OPERATIONAL_B_I_I: operational_B_I_I,
     OPERATIONAL_B_I_II: operational_B_I_II,
     OPERATIONAL_B_II_I: operational_B_II_I,
@@ -282,88 +251,6 @@ export const EditOperationalInspection = (props) => {
               <Row justify="center">
                 <Col xs={22}>
                   <Text>i) Frame and the Ground Pin on the plug:</Text>
-                </Col>
-                <Col xs={22}>
-                  <Form.Item
-                    name={OPERATIONAL_A_I}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                    onChange={onChange_A_I}
-                  >
-                    <Input style={{ width: 150 }} size="small" />
-                  </Form.Item>
-                </Col>
-                <Col xs={22}>
-                  <Text>ii) L1 & Ground:</Text>
-                </Col>
-                <Col xs={22}>
-                  <Form.Item
-                    name={OPERATIONAL_A_II}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                    onChange={onChange_A_II}
-                  >
-                    <Input style={{ width: 150 }} size="small" />
-                  </Form.Item>
-                </Col>
-                <Col xs={22}>
-                  <Text>iii) L2 & Ground:</Text>
-                </Col>
-                <Col xs={22}>
-                  <Form.Item
-                    name={OPERATIONAL_A_III}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                    onChange={onChange_A_III}
-                  >
-                    <Input style={{ width: 150 }} size="small" />
-                  </Form.Item>
-                </Col>
-                <Col xs={22}>
-                  <Text>iv) L3 & Ground:</Text>
-                </Col>
-                <Col xs={22}>
-                  <Form.Item
-                    name={OPERATIONAL_A_IV}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                    onChange={onChange_A_IV}
-                  >
-                    <Input style={{ width: 150 }} size="small" />
-                  </Form.Item>
-                </Col>
-                <Col xs={22}>
-                  <Text>V) Neutral (N) & Ground:</Text>
-                </Col>
-                <Col xs={22}>
-                  <Form.Item
-                    name={OPERATIONAL_A_V}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                    onChange={onChange_A_V}
-                  >
-                    <Input style={{ width: 150 }} size="small" />
-                  </Form.Item>
                 </Col>
               </Row>
             </Col>

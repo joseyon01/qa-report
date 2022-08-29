@@ -28,11 +28,6 @@ export const HHDPdf = (props) => {
   const [valueF, setvalueF] = useState("");
   const [valueG, setvalueG] = useState("");
   const [valueH, setvalueH] = useState("");
-  const [valueI_1, setvalueI_1] = useState("");
-  const [valueI_2, setvalueI_2] = useState("");
-  const [valueI_3, setvalueI_3] = useState("");
-  const [valueI_4, setvalueI_4] = useState("");
-  const [valueI_5, setvalueI_5] = useState("");
   const [valueJ, setvalueJ] = useState("");
   const [valueA_I, setvalueA_I] = useState("");
   const [valueA_II, setvalueA_II] = useState("");
@@ -67,7 +62,7 @@ export const HHDPdf = (props) => {
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
       if (valueA_I == "") {
-        setvalueA_I(data?.OPERATIONAL_A_I);
+        setvalueA_I(data?.OPERATIONAL_A_I_I);
         setvalueA_II(data?.OPERATIONAL_A_II);
         setvalueA_III(data?.OPERATIONAL_A_III);
         setvalueB_I(data?.OPERATIONAL_B_I);
@@ -120,11 +115,6 @@ export const HHDPdf = (props) => {
         setvalueF(data?.VISUALQF);
         setvalueG(data?.VISUALQG);
         setvalueH(data?.VISUALQH);
-        setvalueI_1(data?.VISUALQI_1);
-        setvalueI_2(data?.VISUALQI_2);
-        setvalueI_3(data?.VISUALQI_3);
-        setvalueI_4(data?.VISUALQI_4);
-        setvalueI_5(data?.VISUALQI_5);
         setvalueJ(data?.VISUALQJ);
       }
       setIsDisabled(false);
@@ -275,15 +265,7 @@ export const HHDPdf = (props) => {
       15,
       405
     );
-    doc.text(
-      `1) Frame and the Ground on the plug:  ` + `${valueI_1}` + ` OHMS`,
-      20,
-      420
-    );
-    doc.text(`2) L1 and Gnd:  ` + `${valueI_2}` + ` OHMS`, 20, 435);
-    doc.text(`3) L2 and Gnd:  ` + `${valueI_3}` + ` OHMS`, 20, 450);
-    doc.text(`4) L3 and Gnd:  ` + `${valueI_4}` + ` OHMS`, 20, 465);
-    doc.text(`5) Neutral and Gnd:  ` + `${valueI_5}` + ` OHMS`, 20, 480);
+    doc.text(`1) Frame and the Ground on the plug:`, 20, 420);
     doc.text(
       "J) Open Fuse #1, #2 and check rating, should be Class CC ATMR 12",
       15,

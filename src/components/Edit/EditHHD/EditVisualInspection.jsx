@@ -6,7 +6,6 @@ import {
   Typography,
   Radio,
   Button,
-  Modal,
   Input,
   message,
 } from "antd";
@@ -25,11 +24,6 @@ import {
   VISUALQF,
   VISUALQG,
   VISUALQH,
-  VISUALQI_1,
-  VISUALQI_2,
-  VISUALQI_3,
-  VISUALQI_4,
-  VISUALQI_5,
   VISUALQJ,
 } from "../../constants/ConstVisualInspection";
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
@@ -55,11 +49,6 @@ export const EditVisualInspection = (props) => {
   const [valueF, setValueF] = useState(null);
   const [valueG, setValueG] = useState(null);
   const [valueH, setValueH] = useState(null);
-  const [valueI_1, setValueI_1] = useState(null);
-  const [valueI_2, setValueI_2] = useState(null);
-  const [valueI_3, setValueI_3] = useState(null);
-  const [valueI_4, setValueI_4] = useState(null);
-  const [valueI_5, setValueI_5] = useState(null);
   const [valueJ, setValueJ] = useState(null);
   const onChangeA = (e) => setValueA(e.target.value);
   const onChangeB_1 = (e) => setValueB_1(e.target.value);
@@ -75,11 +64,6 @@ export const EditVisualInspection = (props) => {
   const onChangeF = (e) => setValueF(e.target.value);
   const onChangeG = (e) => setValueG(e.target.value);
   const onChangeH = (e) => setValueH(e.target.value);
-  const onChangeI_1 = (e) => setValueI_1(e.target.value);
-  const onChangeI_2 = (e) => setValueI_2(e.target.value);
-  const onChangeI_3 = (e) => setValueI_3(e.target.value);
-  const onChangeI_4 = (e) => setValueI_4(e.target.value);
-  const onChangeI_5 = (e) => setValueI_5(e.target.value);
   const onChangeJ = (e) => setValueJ(e.target.value);
 
   const getDataOven = async () => {
@@ -102,11 +86,6 @@ export const EditVisualInspection = (props) => {
         setValueF(data?.VISUALQF);
         setValueG(data?.VISUALQG);
         setValueH(data?.VISUALQH);
-        setValueI_1(data?.VISUALQI_1);
-        setValueI_2(data?.VISUALQI_2);
-        setValueI_3(data?.VISUALQI_3);
-        setValueI_4(data?.VISUALQI_4);
-        setValueI_5(data?.VISUALQI_5);
         setValueJ(data?.VISUALQJ);
       }
     } catch (error) {
@@ -135,11 +114,6 @@ export const EditVisualInspection = (props) => {
       VISUALQF: values.VISUAL_Q_F,
       VISUALQG: values.VISUAL_Q_G,
       VISUALQH: values.VISUAL_Q_H,
-      VISUALQI_1: values.VISUALQI_1,
-      VISUALQI_2: values.VISUALQI_2,
-      VISUALQI_3: values.VISUALQI_3,
-      VISUALQI_4: values.VISUALQI_4,
-      VISUALQI_5: values.VISUALQI_5,
       VISUALQJ: values.VISUAL_Q_J,
     })
       .then(() => {
@@ -171,11 +145,6 @@ export const EditVisualInspection = (props) => {
     VISUAL_Q_F: valueF,
     VISUAL_Q_G: valueG,
     VISUAL_Q_H: valueH,
-    VISUALQI_1: valueI_1,
-    VISUALQI_2: valueI_2,
-    VISUALQI_3: valueI_3,
-    VISUALQI_4: valueI_4,
-    VISUALQI_5: valueI_5,
     VISUAL_Q_J: valueJ,
   });
   return (
@@ -542,108 +511,6 @@ export const EditVisualInspection = (props) => {
               <Row justify="space-around">
                 <Col xs={23} sm={14}>
                   <Text>1) Frane and the Ground pin on the plug:</Text>
-                </Col>
-                <Col xs={23} sm={5}>
-                  <Form.Item
-                    name={VISUALQI_1}
-                    rules={[
-                      {
-                        required: true,
-                        message: "FINISH THE INSPECTION!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      type="number"
-                      size="small"
-                      style={{ width: 150 }}
-                      onChange={onChangeI_1}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col xs={23} sm={14}>
-                  <Text>2) L1 & Gnd</Text>
-                </Col>
-                <Col xs={23} sm={5}>
-                  <Form.Item
-                    name={VISUALQI_2}
-                    rules={[
-                      {
-                        required: true,
-                        message: "FINISH THE INSPECTION!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      type="number"
-                      size="small"
-                      style={{ width: 150 }}
-                      onChange={onChangeI_2}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col xs={23} sm={14}>
-                  <Text>3) L2 & Gnd</Text>
-                </Col>
-                <Col xs={23} sm={5}>
-                  <Form.Item
-                    name={VISUALQI_3}
-                    rules={[
-                      {
-                        required: true,
-                        message: "FINISH THE INSPECTION!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      type="number"
-                      size="small"
-                      style={{ width: 150 }}
-                      onChange={onChangeI_3}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col xs={23} sm={14}>
-                  <Text>4) L3 & Gnd</Text>
-                </Col>
-                <Col xs={23} sm={5}>
-                  <Form.Item
-                    name={VISUALQI_4}
-                    rules={[
-                      {
-                        required: true,
-                        message: "FINISH THE INSPECTION!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      type="number"
-                      size="small"
-                      style={{ width: 150 }}
-                      onChange={onChangeI_4}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col xs={23} sm={14}>
-                  <Text>5) Neutral & Gnd</Text>
-                </Col>
-                <Col xs={23} sm={5}>
-                  <Form.Item
-                    name={VISUALQI_5}
-                    rules={[
-                      {
-                        required: true,
-                        message: "FINISH THE INSPECTION!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      type="number"
-                      size="small"
-                      style={{ width: 150 }}
-                      onChange={onChangeI_5}
-                    />
-                  </Form.Item>
                 </Col>
               </Row>
             </Col>

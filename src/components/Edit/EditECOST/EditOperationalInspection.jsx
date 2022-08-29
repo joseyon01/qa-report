@@ -16,10 +16,6 @@ const { Text, Title } = Typography;
 const { TextArea } = Input;
 import {
   OPERATIONAL_B_I_I,
-  OPERATIONAL_B_I_II,
-  OPERATIONAL_B_I_III,
-  OPERATIONAL_B_I_IV,
-  OPERATIONAL_B_I_V,
   OPERATIONAL_C,
   OPERATIONAL_D_I,
   OPERATIONAL_D_II,
@@ -48,10 +44,6 @@ export const EditOperationalInspection = (props) => {
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [loading, setLoading] = useState(false);
   const [operational_B_I_I, setOperational_B_I_I] = useState(null);
-  const [operational_B_I_II, setOperational_B_I_II] = useState(null);
-  const [operational_B_I_III, setOperational_B_I_III] = useState(null);
-  const [operational_B_I_IV, setOperational_B_I_IV] = useState(null);
-  const [operational_B_I_V, setOperational_B_I_V] = useState(null);
   const [valueC, setValueC] = useState(null);
   const [operational_D_I, setOperational_D_I] = useState(null);
   const [operational_D_II, setOperational_D_II] = useState(null);
@@ -72,10 +64,6 @@ export const EditOperationalInspection = (props) => {
   const [operational_CLOSING, setOperational_CLOSING] = useState(null);
   const [valueJ, setValueJ] = useState(null);
   const onChange_B_I_I = (e) => setOperational_B_I_I(e.target.value);
-  const onChange_B_I_II = (e) => setOperational_B_I_II(e.target.value);
-  const onChange_B_I_III = (e) => setOperational_B_I_III(e.target.value);
-  const onChange_B_I_IV = (e) => setOperational_B_I_IV(e.target.value);
-  const onChange_B_I_V = (e) => setOperational_B_I_V(e.target.value);
   const onChangeC = (e) => setValueC(e.target.value);
   const onChange_D_I = (e) => setOperational_D_I(e.target.value);
   const onChange_D_II = (e) => setOperational_D_II(e.target.value);
@@ -110,10 +98,6 @@ export const EditOperationalInspection = (props) => {
       doc(db, "OperationalInspection", `${props.serial}`),
       {
         OPERATIONAL_B_I_I: values.OPERATIONAL_B_I_I,
-        OPERATIONAL_B_I_II: values.OPERATIONAL_B_I_II,
-        OPERATIONAL_B_I_III: values.OPERATIONAL_B_I_III,
-        OPERATIONAL_B_I_IV: values.OPERATIONAL_B_I_IV,
-        OPERATIONAL_B_I_V: values.OPERATIONAL_B_I_V,
         OPERATIONAL_C: values.OPERATIONAL_C,
         OPERATIONAL_D_I: values.OPERATIONAL_D_I,
         OPERATIONAL_D_II: values.OPERATIONAL_D_II,
@@ -172,10 +156,6 @@ export const EditOperationalInspection = (props) => {
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
       setOperational_B_I_I(data?.OPERATIONAL_B_I_I);
-      setOperational_B_I_II(data?.OPERATIONAL_B_I_II);
-      setOperational_B_I_III(data?.OPERATIONAL_B_I_III);
-      setOperational_B_I_IV(data?.OPERATIONAL_B_I_IV);
-      setOperational_B_I_V(data?.OPERATIONAL_B_I_V);
       setValueC(data?.OPERATIONAL_C);
       setOperational_D_I(data?.OPERATIONAL_D_I);
       setOperational_D_II(data?.OPERATIONAL_D_II);
@@ -205,10 +185,6 @@ export const EditOperationalInspection = (props) => {
   };
   form.setFieldsValue({
     OPERATIONAL_B_I_I: operational_B_I_I,
-    OPERATIONAL_B_I_II: operational_B_I_II,
-    OPERATIONAL_B_I_III: operational_B_I_III,
-    OPERATIONAL_B_I_IV: operational_B_I_IV,
-    OPERATIONAL_B_I_V: operational_B_I_V,
     OPERATIONAL_C: valueC,
     OPERATIONAL_D_I: operational_D_I,
     OPERATIONAL_D_II: operational_D_II,
@@ -274,74 +250,6 @@ export const EditOperationalInspection = (props) => {
                       },
                     ]}
                     onChange={onChange_B_I_I}
-                  >
-                    <Input style={{ width: 150 }} size="small" />
-                  </Form.Item>
-                </Col>
-                <Col xs={22}>
-                  <Text>ii) L1 & Ground:</Text>
-                </Col>
-                <Col xs={22}>
-                  <Form.Item
-                    name={OPERATIONAL_B_I_II}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                    onChange={onChange_B_I_II}
-                  >
-                    <Input style={{ width: 150 }} size="small" />
-                  </Form.Item>
-                </Col>
-                <Col xs={22}>
-                  <Text>iii) L2 & Ground:</Text>
-                </Col>
-                <Col xs={22}>
-                  <Form.Item
-                    name={OPERATIONAL_B_I_III}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                    onChange={onChange_B_I_III}
-                  >
-                    <Input style={{ width: 150 }} size="small" />
-                  </Form.Item>
-                </Col>
-                <Col xs={22}>
-                  <Text>iv) L3 & Ground:</Text>
-                </Col>
-                <Col xs={22}>
-                  <Form.Item
-                    name={OPERATIONAL_B_I_IV}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                    onChange={onChange_B_I_IV}
-                  >
-                    <Input style={{ width: 150 }} size="small" />
-                  </Form.Item>
-                </Col>
-                <Col xs={22}>
-                  <Text>V) Neutral (N) & Ground:</Text>
-                </Col>
-                <Col xs={22}>
-                  <Form.Item
-                    name={OPERATIONAL_B_I_V}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                    onChange={onChange_B_I_V}
                   >
                     <Input style={{ width: 150 }} size="small" />
                   </Form.Item>

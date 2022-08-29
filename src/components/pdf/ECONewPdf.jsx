@@ -22,11 +22,6 @@ export const ECONewPdf = (props) => {
   const [valueF, setvalueF] = useState("");
   const [valueG, setvalueG] = useState("");
   const [valueH, setvalueH] = useState("");
-  const [operational_A_I, setoperational_A_I] = useState("");
-  const [operational_A_II, setoperational_A_II] = useState("");
-  const [operational_A_III, setoperational_A_III] = useState("");
-  const [operational_A_IV, setoperational_A_IV] = useState("");
-  const [operational_A_V, setoperational_A_V] = useState("");
   const [operational_B_I_I, setoperational_B_I_I] = useState("");
   const [operational_B_I_II, setoperational_B_I_II] = useState("");
   const [operational_B_II_I, setoperational_B_II_I] = useState("");
@@ -95,11 +90,6 @@ export const ECONewPdf = (props) => {
       const data = docSnap.data();
       setIsDisabled(true);
       setLoading(true);
-      setoperational_A_I(data?.OPERATIONAL_A_I);
-      setoperational_A_II(data?.OPERATIONAL_A_II);
-      setoperational_A_III(data?.OPERATIONAL_A_III);
-      setoperational_A_IV(data?.OPERATIONAL_A_IV);
-      setoperational_A_V(data?.OPERATIONAL_A_V);
       setoperational_B_I_I(data?.OPERATIONAL_B_I_I);
       setoperational_B_I_II(data?.OPERATIONAL_B_I_II);
       setoperational_B_II_I(data?.OPERATIONAL_B_II_I);
@@ -265,16 +255,7 @@ export const ECONewPdf = (props) => {
       15,
       300
     );
-    doc.text(
-      `i) Frame and the Ground Pin on the plug: ${operational_A_I} | ii) L1 & Ground: ${operational_A_II}`,
-      25,
-      310
-    );
-    doc.text(
-      `iii) L2 & Ground: ${operational_A_III} | iv) L3 & Ground: ${operational_A_IV} | V) Neutral (N) & Ground: ${operational_A_V}`,
-      25,
-      320
-    );
+    doc.text(`i) Frame and the Ground Pin on the plug`, 25, 310);
     doc.text(
       " B) Remove the fastons from the Primary and the secondary of the of Voltage and the Filament XFMRs. Measure and Record the isolated resistance of the:",
       15,

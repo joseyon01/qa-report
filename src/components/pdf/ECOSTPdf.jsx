@@ -25,10 +25,6 @@ export const ECOSTPdf = (props) => {
   const [valueH, setValueH] = useState(null);
 
   const [operational_B_I_I, setOperational_B_I_I] = useState(null);
-  const [operational_B_I_II, setOperational_B_I_II] = useState(null);
-  const [operational_B_I_III, setOperational_B_I_III] = useState(null);
-  const [operational_B_I_IV, setOperational_B_I_IV] = useState(null);
-  const [operational_B_I_V, setOperational_B_I_V] = useState(null);
   const [valueC_I, setValueC_I] = useState(null);
   const [operational_D_I, setOperational_D_I] = useState(null);
   const [operational_D_II, setOperational_D_II] = useState(null);
@@ -93,10 +89,6 @@ export const ECOSTPdf = (props) => {
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
       setOperational_B_I_I(data?.OPERATIONAL_B_I_I);
-      setOperational_B_I_II(data?.OPERATIONAL_B_I_II);
-      setOperational_B_I_III(data?.OPERATIONAL_B_I_III);
-      setOperational_B_I_IV(data?.OPERATIONAL_B_I_IV);
-      setOperational_B_I_V(data?.OPERATIONAL_B_I_V);
       setValueC_I(data?.OPERATIONAL_C);
       setOperational_D_I(data?.OPERATIONAL_D_I);
       setOperational_D_II(data?.OPERATIONAL_D_II);
@@ -253,14 +245,6 @@ export const ECOSTPdf = (props) => {
     );
     doc.text("i) Frame and the Ground Pin on the plug:", 25, 355);
     doc.text(`${operational_B_I_I}`, 190, 355);
-    doc.text("ii) L1 & Ground:", 230, 355);
-    doc.text(`${operational_B_I_II}`, 295, 355);
-    doc.text("iii) L2 & Ground:", 25, 365);
-    doc.text(`${operational_B_I_III}`, 95, 365);
-    doc.text("iv) L3 & Ground:", 120, 365);
-    doc.text(`${operational_B_I_IV}`, 187, 365);
-    doc.text("V) Neutral (N) & Ground:", 230, 365);
-    doc.text(`${operational_B_I_V}`, 330, 365);
     doc.text(
       "C) Open Fuse #1, #2 and #3 and check rating, Class CC ATMR 12,",
       15,
