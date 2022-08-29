@@ -15,11 +15,6 @@ const db = getFirestore();
 const { Text, Title } = Typography;
 const { TextArea } = Input;
 import {
-  OPERATIONAL_A_I,
-  OPERATIONAL_A_II,
-  OPERATIONAL_A_III,
-  OPERATIONAL_A_IV,
-  OPERATIONAL_A_V,
   OPERATIONAL_B_I_I,
   OPERATIONAL_B_I_II,
   OPERATIONAL_B_II_I,
@@ -90,11 +85,6 @@ export const OperationalInspection = (props) => {
     setButtonDisabled(true);
     setLoading(true);
     await setDoc(doc(db, "OperationalInspection", `${props.serial}`), {
-      OPERATIONAL_A_I: values.OPERATIONAL_A_I,
-      OPERATIONAL_A_II: values.OPERATIONAL_A_II,
-      OPERATIONAL_A_III: values.OPERATIONAL_A_III,
-      OPERATIONAL_A_IV: values.OPERATIONAL_A_IV,
-      OPERATIONAL_A_V: values.OPERATIONAL_A_V,
       OPERATIONAL_B_I_I: values.OPERATIONAL_B_I_I,
       OPERATIONAL_B_I_II: values.OPERATIONAL_B_I_II,
       OPERATIONAL_B_II_I: values.OPERATIONAL_B_II_I,
@@ -183,92 +173,7 @@ export const OperationalInspection = (props) => {
             <Col xs={23}>
               <Row>
                 <Col xs={23}>
-                  <Text>i) Frame and the Ground Pin on the plug:</Text>
-                </Col>
-                <Col xs={23}>
-                  <Form.Item
-                    name={OPERATIONAL_A_I}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                  >
-                    <Input style={{ width: 150 }} size="small" />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={23}>
-                  <Text>ii) L1 & Ground:</Text>
-                </Col>
-                <Col xs={23}>
-                  <Form.Item
-                    name={OPERATIONAL_A_II}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                  >
-                    <Input style={{ width: 150 }} size="small" />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={23}>
-                  <Text>iii) L2 & Ground:</Text>
-                </Col>
-                <Col xs={23}>
-                  <Form.Item
-                    name={OPERATIONAL_A_III}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                  >
-                    <Input style={{ width: 150 }} size="small" />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={23}>
-                  <Text>iv) L3 & Ground:</Text>
-                </Col>
-                <Col xs={23}>
-                  <Form.Item
-                    name={OPERATIONAL_A_IV}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                  >
-                    <Input style={{ width: 150 }} size="small" />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={23}>
-                  <Text>V) Neutral (N) & Ground:</Text>
-                </Col>
-                <Col xs={23}>
-                  <Form.Item
-                    name={OPERATIONAL_A_V}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                  >
-                    <Input style={{ width: 150 }} size="small" />
-                  </Form.Item>
+                  <Text>i) Frame and the Ground Pin on the plug</Text>
                 </Col>
               </Row>
             </Col>

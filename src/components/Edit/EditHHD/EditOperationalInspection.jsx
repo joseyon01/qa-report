@@ -20,7 +20,6 @@ const { Text, Title } = Typography;
 const { TextArea } = Input;
 import {
   OPERATIONAL_A_I_I,
-  OPERATIONAL_A_I_II,
   OPERATIONAL_A_II,
   OPERATIONAL_A_III,
   OPERATIONAL_B_I,
@@ -53,7 +52,6 @@ export const EditOperationalInspection = (props) => {
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [valueA_I_I, setValueA_I_I] = useState(null);
-  const [valueA_I_II, setValueA_I_II] = useState(null);
   const [valueA_II, setValueA_II] = useState(null);
   const [valueA_III, setValueA_III] = useState(null);
   const [valueB_I, setValueB_I] = useState(null);
@@ -110,7 +108,6 @@ export const EditOperationalInspection = (props) => {
   ];
   const showModal2 = () => setModalVisible(true);
   const onChangeA_I_I = (e) => setValueA_I_I(e.target.value);
-  const onChangeA_I_II = (e) => setValueA_I_II(e.target.value);
   const onChangeA_II = (e) => setValueA_II(e.target.value);
   const onChangeA_III = (e) => setValueA_III(e.target.value);
   const onChangeB_I = (e) => setValueB_I(e.target.value);
@@ -151,7 +148,6 @@ export const EditOperationalInspection = (props) => {
       const data = docSnap.data();
       if (valueA_I_I == null) {
         setValueA_I_I(data?.OPERATIONAL_A_I_I);
-        setValueA_I_II(data?.OPERATIONAL_A_I_II);
         setValueA_II(data?.OPERATIONAL_A_II);
         setValueA_III(data?.OPERATIONAL_A_III);
         setValueB_I(data?.OPERATIONAL_B_I);
@@ -244,7 +240,6 @@ export const EditOperationalInspection = (props) => {
       : null;
     await setDoc(doc(db, "OperationalInspection", `${props.serial}`), {
       OPERATIONAL_A_I_I: values.OPERATIONAL_A_I_I,
-      OPERATIONAL_A_I_II: values.OPERATIONAL_A_I_II,
       OPERATIONAL_A_II: values.OPERATIONAL_A_II,
       OPERATIONAL_A_III: values.OPERATIONAL_A_III,
       OPERATIONAL_B_I: values.OPERATIONAL_B_I,
@@ -299,7 +294,6 @@ export const EditOperationalInspection = (props) => {
             ampsA: values.OPERATIONAL_L_I,
             ampsB: values.OPERATIONAL_L_II,
             sageFrimware: values.OPERATIONAL_A_I_I,
-            phoniexFrimware: values.OPERATIONAL_A_I_II,
             notes: values.OPERATIONAL_NOTE,
             actionTaken: "--",
           },
@@ -327,7 +321,6 @@ export const EditOperationalInspection = (props) => {
   };
   form.setFieldsValue({
     OPERATIONAL_A_I_I: valueA_I_I,
-    OPERATIONAL_A_I_II: valueA_I_II,
     OPERATIONAL_A_II: valueA_II,
     OPERATIONAL_A_III: valueA_III,
     OPERATIONAL_B_I: valueB_I,
@@ -396,26 +389,6 @@ export const EditOperationalInspection = (props) => {
                   >
                     <Input
                       placeholder="sage"
-                      style={{ width: 150 }}
-                      size="small"
-                      type="number"
-                    />
-                  </Form.Item>
-                </Col>
-                <Col xs={23}>
-                  <Form.Item
-                    name={OPERATIONAL_A_I_II}
-                    onChange={onChangeA_I_II}
-                    label="Phoniex/HLUI"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                  >
-                    <Input
-                      placeholder="Phoniex/HLUI"
                       style={{ width: 150 }}
                       size="small"
                       type="number"

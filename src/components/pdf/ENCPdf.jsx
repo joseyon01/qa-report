@@ -437,7 +437,9 @@ export const ENCPdf = (props) => {
       25,
       260
     );
+    doc.setTextColor(0, 0.61, 0.67, 0.09);
     doc.text(`NOTES: ${operational_NOTE}`, 15, 275, { maxWidth: 400 });
+    doc.setTextColor(0, 0, 0, 1);
     doc.text("J) Are Switch arms still engaging?", 15, 305);
     doc.text(`${value_J ? "YES" : "NO"}`, 370, 305);
     doc.text(

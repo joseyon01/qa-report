@@ -29,7 +29,6 @@ const { Text, Title } = Typography;
 const { TextArea } = Input;
 import {
   OPERATIONAL_A_I_I,
-  OPERATIONAL_A_I_II,
   OPERATIONAL_A_II,
   OPERATIONAL_A_III,
   OPERATIONAL_B_I,
@@ -59,20 +58,8 @@ export const OperationalInspection = (props) => {
   const [buttonDisabled, setButtonDisabled] = useState(null);
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [valueC, setValueC] = useState(null);
-  const [valueD, setValueD] = useState(null);
-  const [valueE, setValueE] = useState(null);
-  const [valueF, setValueF] = useState(null);
-  const [valueG, setValueG] = useState(null);
-  const [valueH, setValueH] = useState(null);
   const [valueI_I, setValueI_I] = useState(null);
   const [valueI_II, setValueI_II] = useState(null);
-  const [valueJ, setValueJ] = useState(null);
-  const [valueK, setValueK] = useState(null);
-  const [valueM, setValueM] = useState(null);
-  const [valueN, setValueN] = useState(null);
-  const [valueO, setValueO] = useState(null);
-  const [valueP, setValueP] = useState(null);
   const [valuePON, setValuePON] = useState(null);
   const [textC, setTextC] = useState("default");
   const [textD, setTextD] = useState("default");
@@ -88,9 +75,7 @@ export const OperationalInspection = (props) => {
   const [textP, setTextP] = useState("default");
   const [textPON, setTextPON] = useState("default");
   const [upLoadDisabled, setUpLoadDisabled] = useState(false);
-  const [uploading, setUploading] = useState("");
   const [imageLoading, setImageLoading] = useState(false);
-  const [count, setCount] = useState(0);
   const [problems, setProblems] = useState({
     COSMETICS: false,
     ELECTRICALCOMPONENTS: false,
@@ -219,7 +204,6 @@ export const OperationalInspection = (props) => {
       : null;
     await setDoc(doc(db, "OperationalInspection", `${props.serial}`), {
       OPERATIONAL_A_I_I: values.OPERATIONAL_A_I_I,
-      OPERATIONAL_A_I_II: values.OPERATIONAL_A_I_II,
       OPERATIONAL_A_II: values.OPERATIONAL_A_II,
       OPERATIONAL_A_III: values.OPERATIONAL_A_III,
       OPERATIONAL_B_I: values.OPERATIONAL_B_I,
@@ -274,7 +258,6 @@ export const OperationalInspection = (props) => {
             ampsA: values.OPERATIONAL_L_I,
             ampsB: values.OPERATIONAL_L_II,
             sageFrimware: values.OPERATIONAL_A_I_I,
-            phoniexFrimware: values.OPERATIONAL_A_I_II,
             notes: values.OPERATIONAL_NOTE,
             actionTaken: "--",
           },
@@ -342,25 +325,6 @@ export const OperationalInspection = (props) => {
                   >
                     <Input
                       placeholder="sage"
-                      style={{ width: 150 }}
-                      size="small"
-                      type="number"
-                    />
-                  </Form.Item>
-                </Col>
-                <Col xs={23}>
-                  <Form.Item
-                    name={OPERATIONAL_A_I_II}
-                    label="Phoniex/HLUI"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                  >
-                    <Input
-                      placeholder="Phoniex/HLUI"
                       style={{ width: 150 }}
                       size="small"
                       type="number"

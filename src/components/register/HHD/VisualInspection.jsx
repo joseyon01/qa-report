@@ -1,16 +1,6 @@
 import React, { useState } from "react";
-import {
-  Form,
-  Row,
-  Col,
-  Typography,
-  Radio,
-  Button,
-  Modal,
-  Input,
-  message,
-} from "antd";
-const { Text, Title } = Typography;
+import { Form, Row, Col, Typography, Radio, Button, message } from "antd";
+const { Text } = Typography;
 import {
   VISUALQA,
   VISUALQB_1,
@@ -26,11 +16,6 @@ import {
   VISUALQF,
   VISUALQG,
   VISUALQH,
-  VISUALQI_1,
-  VISUALQI_2,
-  VISUALQI_3,
-  VISUALQI_4,
-  VISUALQI_5,
   VISUALQJ,
 } from "../../constants/ConstVisualInspection";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
@@ -53,11 +38,6 @@ export const VisualInspection = (props) => {
   const [valueF, setValueF] = useState(null);
   const [valueG, setValueG] = useState(null);
   const [valueH, setValueH] = useState(null);
-  const [valueI_1, setValueI_1] = useState(null);
-  const [valueI_2, setValueI_2] = useState(null);
-  const [valueI_3, setValueI_3] = useState(null);
-  const [valueI_4, setValueI_4] = useState(null);
-  const [valueI_5, setValueI_5] = useState(null);
   const [valueJ, setValueJ] = useState(null);
   const [textA, setTextA] = useState("default");
   const [textB_1, setTextB_1] = useState("default");
@@ -132,66 +112,10 @@ export const VisualInspection = (props) => {
     setTextH("default");
     setValueH(e.target.value);
   };
-  const onChangeI_1 = (e) => setValueI_1(e.target.value);
-  const onChangeI_2 = (e) => setValueI_2(e.target.value);
-  const onChangeI_3 = (e) => setValueI_3(e.target.value);
-  const onChangeI_4 = (e) => setValueI_4(e.target.value);
-  const onChangeI_5 = (e) => setValueI_5(e.target.value);
   const onChangeJ = (e) => {
     setTextJ("default");
     setValueJ(e.target.value);
   };
-  /* async function onClickF(
-    VISUALQA,
-    VISUALQB_1,
-    VISUALQB_2,
-    VISUALQB_3,
-    VISUALQB_4,
-    VISUALQB_5,
-    VISUALQB_6,
-    VISUALQB_7,
-    VISUALQC,
-    VISUALQD,
-    VISUALQE,
-    VISUALQF,
-    VISUALQG,
-    VISUALQH,
-    VISUALQI_1,
-    VISUALQI_2,
-    VISUALQI_3,
-    VISUALQI_4,
-    VISUALQI_5,
-    VISUALQJ
-  ) {
-    setButtonDisabled(true);
-    setLoading(true);
-    const docRef = await setDoc(
-      doc(db, "VisualInspection", `${props.serial}`),
-      {
-        VISUALQA: VISUALQA,
-        VISUALQB_1: VISUALQB_1,
-        VISUALQB_2: VISUALQB_2,
-        VISUALQB_3: VISUALQB_3,
-        VISUALQB_4: VISUALQB_4,
-        VISUALQB_5: VISUALQB_5,
-        VISUALQB_6: VISUALQB_6,
-        VISUALQB_7: VISUALQB_7,
-        VISUALQC: VISUALQC,
-        VISUALQD: VISUALQD,
-        VISUALQE: VISUALQE,
-        VISUALQF: VISUALQF,
-        VISUALQG: VISUALQG,
-        VISUALQH: VISUALQH,
-        VISUALQI_1: VISUALQI_1,
-        VISUALQI_2: VISUALQI_2,
-        VISUALQI_3: VISUALQI_3,
-        VISUALQI_4: VISUALQI_4,
-        VISUALQI_5: VISUALQI_5,
-        VISUALQJ: VISUALQJ,
-      }
-    );
-    setLoading(false);
-  } */
 
   function onFinishFailed(errorInfo) {
     if (errorInfo.values.VISUAL_Q_A == null) setTextA("danger");
@@ -230,11 +154,6 @@ export const VisualInspection = (props) => {
       VISUALQF: values.VISUAL_Q_F,
       VISUALQG: values.VISUAL_Q_G,
       VISUALQH: values.VISUAL_Q_H,
-      VISUALQI_1: values.VISUALQI_1,
-      VISUALQI_2: values.VISUALQI_2,
-      VISUALQI_3: values.VISUALQI_3,
-      VISUALQI_4: values.VISUALQI_4,
-      VISUALQI_5: values.VISUALQI_5,
       VISUALQJ: values.VISUAL_Q_J,
     })
       .then(() => {
@@ -249,116 +168,6 @@ export const VisualInspection = (props) => {
         setLoading(false);
         message.error("error sending the data");
       });
-    /* const VISUALQA = valueA;
-    const VISUALQB_1 = valueB_1;
-    const VISUALQB_2 = valueB_2;
-    const VISUALQB_3 = valueB_3;
-    const VISUALQB_4 = valueB_4;
-    const VISUALQB_5 = valueB_5;
-    const VISUALQB_6 = valueB_6;
-    const VISUALQB_7 = valueB_7;
-    const VISUALQC = valueC;
-    const VISUALQD = valueD;
-    const VISUALQE = valueE;
-    const VISUALQF = valueF;
-    const VISUALQG = valueG;
-    const VISUALQH = valueH;
-    const VISUALQI_1 = values.VISUALQI_1;
-    const VISUALQI_2 = values.VISUALQI_2;
-    const VISUALQI_3 = values.VISUALQI_3;
-    const VISUALQI_4 = values.VISUALQI_4;
-    const VISUALQI_5 = values.VISUALQI_5;
-    const VISUALQJ = valueJ;
-    if (
-      valueA == null ||
-      valueB_1 == null ||
-      valueB_2 == null ||
-      valueB_3 == null ||
-      valueB_4 == null ||
-      valueB_5 == null ||
-      valueB_6 == null ||
-      valueB_7 == null ||
-      valueC == null ||
-      valueD == null ||
-      valueE == null ||
-      valueF == null ||
-      valueG == null ||
-      valueH == null ||
-      valueJ == null
-    ) {
-      if (valueA == null) {
-        setTextA("danger");
-      }
-      if (valueB_1 == null) {
-        setTextB_1("danger");
-      }
-      if (valueB_2 == null) {
-        setTextB_2("danger");
-      }
-      if (valueB_3 == null) {
-        setTextB_3("danger");
-      }
-      if (valueB_4 == null) {
-        setTextB_4("danger");
-      }
-      if (valueB_5 == null) {
-        setTextB_5("danger");
-      }
-      if (valueB_6 == null) {
-        setTextB_6("danger");
-      }
-      if (valueB_7 == null) {
-        setTextB_7("danger");
-      }
-      if (valueC == null) {
-        setTextC("danger");
-      }
-      if (valueD == null) {
-        setTextD("danger");
-      }
-      if (valueE == null) {
-        setTextE("danger");
-      }
-      if (valueF == null) {
-        setTextF("danger");
-      }
-      if (valueG == null) {
-        setTextG("danger");
-      }
-      if (valueH == null) {
-        setTextH("danger");
-      }
-      if (valueJ == null) {
-        setTextJ("danger");
-      }
-      message.error("Complete all the fields");
-    } else {
-      onClickF(
-        VISUALQA,
-        VISUALQB_1,
-        VISUALQB_2,
-        VISUALQB_3,
-        VISUALQB_4,
-        VISUALQB_5,
-        VISUALQB_6,
-        VISUALQB_7,
-        VISUALQC,
-        VISUALQD,
-        VISUALQE,
-        VISUALQF,
-        VISUALQG,
-        VISUALQH,
-        VISUALQI_1,
-        VISUALQI_2,
-        VISUALQI_3,
-        VISUALQI_4,
-        VISUALQI_5,
-        VISUALQJ
-      );
-      message.success("Visual Inspection Completed");
-      window.scrollTo(0, 0);
-      props.setState("2");
-    } */
   };
   const [form] = Form.useForm();
 
@@ -744,84 +553,7 @@ export const VisualInspection = (props) => {
             <Col xs={23}>
               <Row justify="space-around">
                 <Col xs={22}>
-                  <Text>1) Frane and the Ground pin on the plug:</Text>
-                </Col>
-                <Col xs={22}>
-                  <Form.Item
-                    name={VISUALQI_1}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                  >
-                    <Input type="number" size="small" style={{ width: 150 }} />
-                  </Form.Item>
-                </Col>
-                <Col xs={22}>
-                  <Text>2) L1 & Gnd</Text>
-                </Col>
-                <Col xs={22}>
-                  <Form.Item
-                    name={VISUALQI_2}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                  >
-                    <Input type="number" size="small" style={{ width: 150 }} />
-                  </Form.Item>
-                </Col>
-                <Col xs={22}>
-                  <Text>3) L2 & Gnd</Text>
-                </Col>
-                <Col xs={22}>
-                  <Form.Item
-                    name={VISUALQI_3}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                  >
-                    <Input type="number" size="small" style={{ width: 150 }} />
-                  </Form.Item>
-                </Col>
-                <Col xs={22}>
-                  <Text>4) L3 & Gnd</Text>
-                </Col>
-                <Col xs={22}>
-                  <Form.Item
-                    name={VISUALQI_4}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                  >
-                    <Input type="number" size="small" style={{ width: 150 }} />
-                  </Form.Item>
-                </Col>
-                <Col xs={22}>
-                  <Text>5) Neutral & Gnd</Text>
-                </Col>
-                <Col xs={22}>
-                  <Form.Item
-                    name={VISUALQI_5}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Finish the inspection before submitting it",
-                      },
-                    ]}
-                  >
-                    <Input type="number" size="small" style={{ width: 150 }} />
-                  </Form.Item>
+                  <Text>1) Frame and the Ground pin on the plug:</Text>
                 </Col>
               </Row>
             </Col>
