@@ -40,7 +40,6 @@ export const SearchForm = () => {
   let newOvenArr = [];
 
   function onChange(e) {
-    console.log(e);
     const day1 = new Date(e[0].format("MM/DD/YY")).getTime();
     const day2 = new Date(e[1].format("MM/DD/YY")).getTime();
     const textDay1 = new Date(e[0].format("MM/DD/YY")).toLocaleDateString();

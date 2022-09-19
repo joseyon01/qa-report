@@ -1,9 +1,8 @@
 import { Button, DatePicker, Input, message, Modal, Space, Table } from "antd";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
-import { SearchOutlined, FilePdfOutlined } from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
-import moment from "moment";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import firebaseApp from "../../../../Credentials";
 import { getStorage, ref, deleteObject } from "firebase/storage";
 import {
@@ -11,12 +10,8 @@ import {
   doc,
   getDoc,
   deleteDoc,
-  getDocs,
   collection,
-  query,
-  where,
 } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
 import { I3Pdf } from "../../pdf/I3Pdf";
 import { I1Pdf } from "../../pdf/I1Pdf";
 import { HHDPdf } from "../../pdf/HHDPdf";
@@ -30,56 +25,13 @@ export const SearchTable = (props) => {
   const dataSource = props.data;
   const setDataSource = props.setData;
   const [loading, setLoading] = useState(false);
-  const [ovenType, setOvenType] = useState({
-    type: null,
-    serial: null,
-  });
-  const [arrayOvens, setArrayOvens] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [disabled, setDisabled] = useState(false);
 
-  const [pdf, setPdf] = useState(null);
   const navigate = useNavigate();
   const ovenRef = collection(db, "oven");
   function navigateEdit(serial, oven) {
     navigate(`/edit/${serial}/${oven}`);
   }
 
-  const showModal = (o, s) => {
-    setIsModalVisible(true);
-
-    switch (o) {
-      case "ENC":
-        setPdf(<ENCPdf serial={s} oven={o} />);
-        break;
-      case "I1":
-        setPdf(<I1Pdf serial={s} oven={o} />);
-        break;
-      case "I3":
-        setPdf(<I3Pdf serial={s} oven={o} />);
-        break;
-      case "HHD":
-        setPdf(<HHDPdf serial={s} oven={o} />);
-        break;
-      case "ECOST":
-        setPdf(<ECOSTPdf serial={s} oven={o} />);
-        break;
-      case "ECONew":
-        setPdf(<ECONewPdf serial={s} oven={o} />);
-        break;
-      default:
-        console.log("Error");
-        break;
-    }
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
   const columns = [
     {
       title: "Serial Number",
@@ -229,31 +181,22 @@ export const SearchTable = (props) => {
           {record.status == "In Progress" ? (
             ""
           ) : (
-            <Button
-              style={{ borderRadius: "6px" }}
-              onClick={async () => {
-                setIsModalVisible(true);
-                showModal(record.oven, record.serial);
-                setOvenType({
-                  ...ovenType,
-                  serial: record.serial,
-                  type: record.oven,
-                });
-              }}
-            >
-              <a>
-                <FilePdfOutlined />
-              </a>
+            <Button style={{ borderRadius: "6px" }}>
+              {record.oven == "ENC" ? (
+                <ENCPdf serial={record.serial} oven={record.oven} />
+              ) : record.oven == "I1" ? (
+                <I1Pdf serial={record.serial} oven={record.oven} />
+              ) : record.oven == "I3" ? (
+                <I3Pdf serial={record.serial} oven={record.oven} />
+              ) : record.oven == "HHD" ? (
+                <HHDPdf serial={record.serial} oven={record.oven} />
+              ) : record.oven == "ECOST" ? (
+                <ECOSTPdf serial={record.serial} oven={record.oven} />
+              ) : record.oven == "ECONew" ? (
+                <ECONewPdf serial={record.serial} oven={record.oven} />
+              ) : null}
             </Button>
           )}
-          <Modal
-            title={ovenType.type + ovenType.serial + ".pdf"}
-            visible={isModalVisible}
-            onOk={handleOk}
-            onCancel={handleCancel}
-          >
-            {pdf}
-          </Modal>
         </Space>
       ),
     },

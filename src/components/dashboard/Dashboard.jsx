@@ -9,15 +9,10 @@ import {
   Space,
   Input,
   DatePicker,
-  Modal,
 } from "antd";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import moment from "moment";
-import {
-  SearchOutlined,
-  FilePdfOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import firebaseApp from "../../../Credentials";
 import { Header } from "../layout/Header";
 import { Container } from "../layout/Container";
@@ -47,54 +42,12 @@ const db = getFirestore(firebaseApp);
 export const Dashboard = () => {
   const [arrayOvens, setArrayOvens] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [disabled, setDisabled] = useState(false);
-  const [ovenType, setOvenType] = useState({
-    type: null,
-    serial: null,
-  });
-  const [pdf, setPdf] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const ovenRef = collection(db, "oven");
   function navigateEdit(serial, oven) {
     navigate(`/edit/${serial}/${oven}`);
   }
-
-  const showModal = (o, s) => {
-    setIsModalVisible(true);
-
-    switch (o) {
-      case "ENC":
-        setPdf(<ENCPdf serial={s} oven={o} />);
-        break;
-      case "I1":
-        setPdf(<I1Pdf serial={s} oven={o} />);
-        break;
-      case "I3":
-        setPdf(<I3Pdf serial={s} oven={o} />);
-        break;
-      case "HHD":
-        setPdf(<HHDPdf serial={s} oven={o} />);
-        break;
-      case "ECOST":
-        setPdf(<ECOSTPdf serial={s} oven={o} />);
-        break;
-      case "ECONew":
-        setPdf(<ECONewPdf serial={s} oven={o} />);
-        break;
-      default:
-        console.log("Error");
-        break;
-    }
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
 
   const columns = [
     {
@@ -245,34 +198,6 @@ export const Dashboard = () => {
               <AiFillEdit style={{ color: "green" }} />
             </a>
           </Button>
-          {record.status == "In Progress" ? (
-            ""
-          ) : (
-            <Button
-              style={{ borderRadius: "6px" }}
-              onClick={async () => {
-                setIsModalVisible(true);
-                showModal(record.oven, record.serial);
-                setOvenType({
-                  ...ovenType,
-                  serial: record.serial,
-                  type: record.oven,
-                });
-              }}
-            >
-              <a>
-                <FilePdfOutlined />
-              </a>
-            </Button>
-          )}
-          <Modal
-            title={ovenType.type + ovenType.serial + ".pdf"}
-            visible={isModalVisible}
-            onOk={handleOk}
-            onCancel={handleCancel}
-          >
-            {pdf}
-          </Modal>
         </Space>
       ),
     },
@@ -308,7 +233,6 @@ export const Dashboard = () => {
             _data[i].id = _id[i];
           }
           setArrayOvens(_data);
-          console.log(arrayOvens);
         }
       } catch (error) {
         console.error("error", error);
@@ -318,7 +242,7 @@ export const Dashboard = () => {
 
   useEffect(() => {
     getUser();
-  }, []);
+  }, [isModalVisible]);
   return (
     <Layout className="app-layout">
       <Header dashboard={true} />

@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import jsPDF from "jspdf";
-import { Button, Col, Row } from "antd";
+import { Spin } from "antd";
 import { FilePdfOutlined } from "@ant-design/icons";
 import Logo from "../../assets/img/turboChefLogo.png";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { LoadingOutlined } from "@ant-design/icons";
+
 const db = getFirestore();
 
 export const ECONewPdf = (props) => {
@@ -490,20 +492,14 @@ export const ECONewPdf = (props) => {
     }
     doc.save(`${o + s}.pdf`);
   };
+  const antIcon = <LoadingOutlined style={{ fontSize: 12 }} spin />;
   return (
-    <Row justify="center" style={{ height: 100 }}>
-      <Col xs={12} style={{ height: "100%" }}>
-        <Button
-          disabled={isDisabled}
-          loading={loading}
-          block
-          style={{ width: "100%", height: "100%" }}
-          type={"primary"}
-          onClick={() => jspdfGenerator(ovenSerial, ovenType)}
-        >
-          {loading ? "" : "Generate PDF"} <FilePdfOutlined />
-        </Button>
-      </Col>
-    </Row>
+    <div
+      disabled={isDisabled}
+      style={{ width: "100%", height: "100%" }}
+      onClick={() => jspdfGenerator(ovenSerial, ovenType)}
+    >
+      {isDisabled ? <Spin indicator={antIcon} /> : <FilePdfOutlined />}
+    </div>
   );
 };

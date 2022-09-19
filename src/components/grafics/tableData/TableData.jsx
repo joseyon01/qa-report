@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Button, DatePicker, Input, Modal, Space, Table } from "antd";
-import { SearchOutlined, FilePdfOutlined } from "@ant-design/icons";
+import React, { useEffect } from "react";
+import { Button, DatePicker, Input, Space, Table } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import { ECONewPdf } from "../../pdf/ECONewPdf";
 import { ECOSTPdf } from "../../pdf/ECOSTPdf";
 import { ENCPdf } from "../../pdf/ENCPdf";
@@ -24,47 +24,6 @@ export const TableData = (props) => {
         }
       }
     });
-  };
-  console.log(filterdata(data, graficsData));
-  const [pdf, setPdf] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [ovenType, setOvenType] = useState({
-    type: null,
-    serial: null,
-  });
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-  const showModal = (o, s) => {
-    setIsModalVisible(true);
-
-    switch (o) {
-      case "ENC":
-        setPdf(<ENCPdf serial={s} oven={o} />);
-        break;
-      case "I1":
-        setPdf(<I1Pdf serial={s} oven={o} />);
-        break;
-      case "I3":
-        setPdf(<I3Pdf serial={s} oven={o} />);
-        break;
-      case "HHD":
-        setPdf(<HHDPdf serial={s} oven={o} />);
-        break;
-      case "ECOST":
-        setPdf(<ECOSTPdf serial={s} oven={o} />);
-        break;
-      case "ECONew":
-        setPdf(<ECONewPdf serial={s} oven={o} />);
-        break;
-      default:
-        console.log("Error");
-        break;
-    }
   };
 
   const columns = [
@@ -167,21 +126,20 @@ export const TableData = (props) => {
           {record.status == "In Progress" ? (
             ""
           ) : (
-            <Button
-              style={{ borderRadius: "6px" }}
-              onClick={async () => {
-                setIsModalVisible(true);
-                showModal(record.oven, record.serial);
-                setOvenType({
-                  ...ovenType,
-                  serial: record.serial,
-                  type: record.oven,
-                });
-              }}
-            >
-              <a>
-                <FilePdfOutlined />
-              </a>
+            <Button style={{ borderRadius: "6px" }}>
+              {record.oven == "ENC" ? (
+                <ENCPdf serial={record.serial} oven={record.oven} />
+              ) : record.oven == "I1" ? (
+                <I1Pdf serial={record.serial} oven={record.oven} />
+              ) : record.oven == "I3" ? (
+                <I3Pdf serial={record.serial} oven={record.oven} />
+              ) : record.oven == "HHD" ? (
+                <HHDPdf serial={record.serial} oven={record.oven} />
+              ) : record.oven == "ECOST" ? (
+                <ECOSTPdf serial={record.serial} oven={record.oven} />
+              ) : record.oven == "ECONew" ? (
+                <ECONewPdf serial={record.serial} oven={record.oven} />
+              ) : null}
             </Button>
           )}
         </Space>
@@ -199,14 +157,6 @@ export const TableData = (props) => {
           index % 2 === 0 ? "table-row-light" : "table-row-dark"
         }
       />
-      <Modal
-        title={ovenType.type + ovenType.serial + ".pdf"}
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        {pdf}
-      </Modal>
     </>
   );
 };

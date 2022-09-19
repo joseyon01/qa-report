@@ -54,7 +54,6 @@ export const Grafics = () => {
       });
     });
     setFilterData(newFilterData);
-    console.log(allOvens);
     newFilterData = [];
     setData(allOvens);
     setLoading(false);
