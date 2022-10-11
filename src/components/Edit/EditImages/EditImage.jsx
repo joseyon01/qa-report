@@ -4,8 +4,8 @@ import {
   getStorage,
   ref,
   deleteObject,
-  uploadBytesResumable,
   getDownloadURL,
+  uploadBytesResumable,
 } from "firebase/storage";
 import "./editImage.css";
 import { UploadOutlined } from "@ant-design/icons";
@@ -39,7 +39,7 @@ export const EditImage = (props) => {
 
   const deleteImage = async () => {
     getData?.map(async (e) => {
-      const storageRef = ref(storage, `${props.serial}/image-${e}`);
+      const storageRef = ref(storage, `${props.serial}/image-${e}.jpg`);
       if (indexArr.indexOf(e) == -1) {
         setIndexArr([...indexArr, e]);
       }
@@ -63,6 +63,7 @@ export const EditImage = (props) => {
           <Image
             width={"100%"}
             className={"image-report"}
+            preview={false}
             src={e}
             key={index}
           />

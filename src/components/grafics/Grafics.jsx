@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Header } from "../layout/Header";
 import { Container } from "../layout/Container";
 import "./grafics.css";
-import { BarChart } from "./barChart/BarChart";
 import {
   getFirestore,
   getDocs,
@@ -13,6 +12,8 @@ import {
 } from "firebase/firestore";
 import { Statistics } from "./statistics/Statistics";
 import { TableData } from "./tableData/TableData";
+import { StatisticsPdf } from "../pdf/StatisticsPdf";
+import { StatisticsBarChart } from "./barChart/StatisticsBarChart";
 const db = getFirestore();
 const { Content, Footer } = Layout;
 const { RangePicker } = DatePicker;
@@ -110,7 +111,7 @@ export const Grafics = () => {
                   rules={[
                     {
                       required: true,
-                      message: "Input the date",
+                      message: "Select the oven type",
                     },
                   ]}
                 >
@@ -127,7 +128,7 @@ export const Grafics = () => {
               <Col xs={4}>
                 <Form.Item
                   name="Status"
-                  rules={[{ required: true, message: "Input the date" }]}
+                  rules={[{ required: true, message: "Select the status" }]}
                 >
                   <Select placeholder="Status">
                     <Option value="Aprooved">Aprooved</Option>
@@ -140,7 +141,7 @@ export const Grafics = () => {
               <Col xs={4}>
                 <Form.Item
                   name="Inspector"
-                  rules={[{ required: true, message: "Input the date" }]}
+                  rules={[{ required: true, message: "Select the inspector" }]}
                 >
                   <Select placeholder="Select Inspector">
                     <Option value="All">All</Option>
@@ -158,8 +159,11 @@ export const Grafics = () => {
           </Form>
           {!loading ? (
             <div>
-              <h2>
-                Statistics for - {graficsData[2]} {graficsData[3]} ovens
+              <h2 style={{ display: "flex", justifyContent: "space-between" }}>
+                <spam>
+                  Statistics for - {graficsData[2]} {graficsData[3]} ovens
+                </spam>
+                <StatisticsPdf graficsData={graficsData} data={data} />
               </h2>
               <Statistics graficsData={graficsData} data={data} />
             </div>
@@ -169,7 +173,7 @@ export const Grafics = () => {
               <h2>
                 Daily grafics for - {graficsData[2]} {graficsData[3]} ovens
               </h2>
-              <BarChart graficsData={graficsData} data={data} />
+              <StatisticsBarChart graficsData={graficsData} data={data} />
             </div>
           ) : null}
           {!loading ? (

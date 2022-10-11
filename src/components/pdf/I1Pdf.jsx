@@ -57,6 +57,9 @@ export const I1Pdf = (props) => {
   const [value_E_H, setvalue_E_H] = useState("");
   const [valueAON, setvalueAON] = useState("");
   const [valueRepairedStatus, setvalueRepairedStatus] = useState([]);
+  const [imagesDataBlock, setImagesDataBlock] = useState([]);
+  let imgData = [];
+
   const getDataOven = async () => {
     try {
       setIsDisabled(true);
@@ -161,14 +164,34 @@ export const I1Pdf = (props) => {
       console.error("error", error);
     }
   };
+
+  const getImages = async () => {
+    setIsDisabled(true);
+    setLoading(true);
+    const docRef = doc(db, "Images", `${ovenSerial}`);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap?.data();
+    if (data != null) {
+      const dataUrl = Object.values(data);
+      dataUrl.forEach((url) => {
+        const imageConstructor = new Image();
+        imageConstructor.src = url;
+        imageConstructor.block = true;
+        imgData.push(imageConstructor);
+        setImagesDataBlock(imgData);
+      });
+    }
+  };
+
   useEffect(() => {
     getDataOven();
     getDataVisual();
     getOperational();
     getHotOven();
+    getImages();
   }, []);
 
-  const jspdfGenerator = (s, o) => {
+  const jspdfGenerator = (s, o, img) => {
     let doc = new jsPDF("p", "px", "a4", true);
     doc.addImage(Logo, "PNG", 120, 10, 220, 40);
     doc.setFontSize(13);
@@ -459,17 +482,30 @@ export const I1Pdf = (props) => {
         : doc.text(`APROOVED: ${valueAON ? "YES" : "NO"}`, 170, 600);
     }
 
+    img[0] ? doc.addPage("a4", "p") : null;
+    doc.addImage(Logo, "PNG", 120, 10, 220, 40);
+    img[0] ? doc.addImage(img[0], "JPEG", 15, 100, 200, 150) : null;
+    img[1] ? doc.addImage(img[1], "JPEG", 230, 100, 200, 150) : null;
+    img[2] ? doc.addImage(img[2], "JPEG", 15, 265, 200, 150) : null;
+    img[3] ? doc.addImage(img[3], "JPEG", 230, 265, 200, 150) : null;
+    img[4] ? doc.addImage(img[4], "JPEG", 15, 430, 200, 150) : null;
+
     doc.save(`${o + s}.pdf`);
   };
   const antIcon = <LoadingOutlined style={{ fontSize: 12 }} spin />;
   return (
-    <div
-      disabled={isDisabled}
-      loading={loading}
-      style={{ width: "100%", height: "100%" }}
-      onClick={() => jspdfGenerator(ovenSerial, ovenType)}
-    >
-      {loading ? <Spin indicator={antIcon} /> : <FilePdfOutlined />}
-    </div>
+    <>
+      {loading ? (
+        <Spin indicator={antIcon} />
+      ) : (
+        <div
+          block
+          style={{ width: "100%", height: "100%" }}
+          onClick={() => jspdfGenerator(ovenSerial, ovenType, imagesDataBlock)}
+        >
+          <FilePdfOutlined />
+        </div>
+      )}
+    </>
   );
 };

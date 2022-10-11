@@ -193,7 +193,7 @@ export const OperationalInspection = (props) => {
     imageArr?.map(async (img) => {
       let i = imageArr.indexOf(img);
       const name = `image-${i}`;
-      const storageRef = ref(storage, `${props.serial}/image-${i}`);
+      const storageRef = ref(storage, `${props.serial}/image-${i}.jpg`);
       await uploadBytesResumable(storageRef, img.originFileObj);
       const urlRef = await getDownloadURL(storageRef);
       const ovenRef = doc(db, "Images", `${props.serial}`);
