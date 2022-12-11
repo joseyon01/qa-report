@@ -1,0 +1,138 @@
+.header--logo {
+  background-image: url(../../../images/icons/logo.svg);
+  height: 2rem;
+  min-width: 50px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: left;
+}
+
+.header--navigation-menu--closed,
+.header--navigation-menu {
+  margin: 4rem 0 0 10vw;
+  background-color: rgb(255, 255, 255, 1);
+  height: calc(100vh - 4rem);
+  width: 0vw;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  justify-content: space-between;
+  z-index: 5;
+  top: 0;
+  right: 0;
+  transition: all 350ms;
+  overflow: hidden;
+  box-shadow: 2px 0px 10px 0px rgb(0, 0, 0, 1);
+}
+.header--navigation-menu {
+  width: 20rem;
+}
+.header--navigation-list > li {
+  display: flex;
+  justify-content: center;
+}
+.header--navigation-list,
+.header--navigation-auth {
+  width: 100%;
+}
+.header--navigation-login {
+  height: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header--navigation-btn {
+  width: 10rem;
+  background-color: rgb(255, 255, 255);
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  border-radius: 1.25rem;
+  display: flex;
+  align-items: center;
+  transition: all 150ms;
+}
+.header--navigation-btn > a {
+  width: 100%;
+}
+.header--navigation-btn-text {
+  margin-left: 1rem;
+}
+
+.header--navigation-btn-selected {
+  cursor: pointer;
+  font-weight: 800;
+  transform: scale(1.125);
+}
+.header--navigation-btn:hover {
+  cursor: pointer;
+  font-weight: 800;
+  transform: scale(1.125);
+  background-color: rgb(53, 99, 138);
+}
+
+.register-btn,
+.login-btn {
+  width: 70%;
+  margin: 0 auto;
+  padding: 0.4rem 0;
+}
+.register-btn {
+  border: 1px solid var(--Medium-gray);
+  border-radius: 0.7rem;
+}
+.header--btn-mobile {
+  height: 2rem;
+  padding: 0.25rem 0;
+  width: 2rem;
+  max-width: 2rem;
+  border: none;
+  background-color: #fff;
+  display: flex;
+  z-index: 16;
+}
+.header--navigation-features-btn,
+.header--navigation-company-btn {
+  background-color: #fff;
+  color: var(--Medium-gray);
+  border: none;
+  font-size: 0.85rem;
+  margin: 0.5rem 2.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.header--navigation-features-btn:hover,
+.header--navigation-company-btn:hover {
+  color: var(--almost-black);
+  cursor: pointer;
+  font-weight: 800;
+  border-color: var(--almost-black);
+  transform: scale(1.125);
+}
+.todo-btn,
+.calendar-btn,
+.reminders-btn,
+.planning-btn {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.todo-btn {
+  background-image: var(--features-todo);
+}
+.calendar-btn {
+  background-image: var(--features-calendar);
+}
+.reminders-btn {
+  background-image: var(--features-reminders);
+}
+.planning-btn {
+  background-image: var(--features-planning);
+}

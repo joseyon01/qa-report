@@ -1,0 +1,11 @@
+export const HOT_OVEN_B_DOOR = "HOT_OVEN_B_DOOR";
+export const HOT_OVEN_B_SIDES = "HOT_OVEN_B_SIDES";
+export const HOT_OVEN_TOP_R = "HOT_OVEN_TOP_R";
+export const HOT_OVEN_TOP_L = "HOT_OVEN_TOP_L";
+export const HOT_OVEN_BOT_R = "HOT_OVEN_BOT_R";
+export const HOT_OVEN_BOT_L = "HOT_OVEN_BOT_L";
+export const HOT_OVEN_RECHECK = "HOT_OVEN_RECHECK";
+export const HOT_OVEN_C = "HOT_OVEN_C";
+export const HOT_OVEN_D = "HOT_OVEN_D";
+export const HOT_OVEN_E = "HOT_OVEN_E";
+export const OVEN_APROVE_OR_NOT = "OVEN_APROVE_OR_NOT";

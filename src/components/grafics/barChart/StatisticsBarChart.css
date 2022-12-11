@@ -1,0 +1,55 @@
+.barChart__container {
+  border-radius: 1rem;
+  box-shadow: 5px 5px 20px 1px rgb(0, 7, 15);
+  background-image: url(../../../assets/img/v1043-081a.jpg);
+  background-size: 350px;
+  background-repeat: repeat;
+  background-position: -20px 5px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: 1rem 0 2rem 0;
+}
+
+.barChart__container::before {
+  content: "Ovens Inspected";
+  position: absolute;
+  transform: rotate(-90deg);
+  left: -50px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.barChart__background_container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: end;
+  height: 95%;
+  width: 95%;
+  margin-top: 0.25rem;
+  border-bottom: 2px solid #000;
+  border-left: 2px solid #000;
+}
+
+.barChart__all_bar {
+  width: 2.25rem;
+  border-radius: 0.25rem 0.25rem 0 0;
+  background-color: rgb(253, 37, 37);
+  margin-bottom: 1rem;
+  box-shadow: 1px 1px 5px 1px rgb(253, 37, 37);
+}
+.barChart__text {
+  display: flex;
+  width: 2.25rem;
+  justify-content: center;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+.barChart__days_container {
+  display: flex;
+  justify-content: space-evenly;
+  width: 95%;
+}

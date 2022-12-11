@@ -1,0 +1,10 @@
+.image-report {
+  padding: 0;
+  margin: 0;
+  display: block;
+  border-radius: 2em;
+  object-fit: cover;
+  width: auto;
+  height: auto;
+  margin-bottom: 1em;
+}
