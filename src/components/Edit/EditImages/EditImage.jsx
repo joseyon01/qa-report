@@ -74,6 +74,7 @@ export const EditImage = (props) => {
 
   const fileProps = {
     maxCount: 5,
+    accept: "image/png, image/jpeg, image/jpg",
     onChange({ file, fileList }) {
       file.status = "done";
       file.progres = 100;
@@ -89,6 +90,16 @@ export const EditImage = (props) => {
   const SendImages = async (e) => {
     setImageLoading(true);
     let imageArr = e.image.fileList;
+    const checkImageArr = imageArr;
+    const filterSize = checkImageArr.filter((file) => {
+      if (file && file?.size > 44000) {
+        return file;
+      }
+    });
+    if (filterSize[0]?.size > 44000) {
+      setImageLoading(false);
+      return message.error("Files can't be larger than 350kb");
+    }
     imageArr?.map(async (img) => {
       let i = imageArr.indexOf(img);
       const name = `image-${i}`;
